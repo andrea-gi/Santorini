@@ -9,9 +9,9 @@ public class Game {
     private ArrayList<String> godsList;
 
     public Game(){
-        players = new ArrayList<Player>();
-        board = new Board();
-        currentPlayer = null;
+        this.players = new ArrayList<Player>();
+        this.board = new Board();
+        this.currentPlayer = null;
         // godsList ???
     }
 
@@ -34,14 +34,15 @@ public class Game {
             setCurrentPlayer(player);
         }
     }
-
-    /** Removes a deleted player from the list of players */
-    public void removePlayer(Player player){ // exception ??
-        if(player.getName().equals(currentPlayer.getName()))
+    /* TODO -- Remove???
+    public void removePlayer(Player player) { // exception ??
+        if (player.getName().equals(currentPlayer.getName()))
             setNextPlayer();
         player.remove();
+
         players.remove(player);
     }
+    */
 
     public ArrayList<String> getGodsList(){
         return new ArrayList<>(godsList);
