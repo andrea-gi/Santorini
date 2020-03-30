@@ -3,15 +3,17 @@ package PSP034.model;
 import java.util.ArrayList;
 
 public class Player {
-    private String name;
+    private final String name;
     private String myGod;
-    private ArrayList<Worker> worker;
+    private ArrayList<Worker> myWorkers;
 
 
     public Player(String name) {
         this.name = name;
         myGod = null;
-        worker = new ArrayList<Worker>();
+        myWorkers = new ArrayList<Worker>();
+        myWorkers.add(new Worker('m', name));
+        myWorkers.add(new Worker('f', name));
     }
 
     public String getName() {
@@ -19,15 +21,11 @@ public class Player {
     }
 
     public Worker getWorker(char sex) {
-        for (Worker myWorker : worker) {
+        for (Worker myWorker : myWorkers) {
             if (myWorker.getSex() == sex)
                 return myWorker;
         }
-    }
-
-    public void setWorker(char team) {
-        worker.add(new Worker('m', team));
-        worker.add(new Worker('f', team));
+        return null;    //exception?? Perché devo entrare sempre nell'if
     }
 
     public String getMyGod() {
@@ -37,4 +35,13 @@ public class Player {
     public void setMyGod(String myGod) {
         this.myGod = myGod;
     }
+
+    /*TODO --*/
+    /*
+    public void remove(){
+
+        myWorkers.remove();    //devo toglierli davvero non solo dalla lista
+        myWorkers.remove();
+    }*/
+
 }

@@ -1,37 +1,31 @@
 package PSP034.model;
 
 public class Worker {
-    private char sex, team;     //team necessario??
-    private int x, y;
+    private final char sex;
+    private final String name;
+    private Tile myTile;
 
     /**Builds a worker in a non-valid tile; the player has to set the correct tile in the first turn*/
-    public Worker(char sex, char team) {
+    public Worker(char sex, String name) {
         this.sex = sex;
-        this.team = team;
-        x = 9;      //x e y non validi, prima del posizionamento da parte del player
-        y = 9;
+        this.name = name;
+        myTile = null;
     }
 
-    public int getX() {
-        return x;
-    }
-    public int getY() {
-        return y;
+    public Tile getMyTile(){
+        return myTile;
     }
 
-    public void setX(int x) {
-        this.x = x;     //exception ??? per valore sbagliato
-    }
-    public void setY(int y) {
-        this.y = y;
+    public void setMyTile(Tile tile){   //exception ?? Null?
+        myTile = tile;
     }
 
     public char getSex() {
         return sex;
     }
 
-    public char getTeam() {
-        return team;
+    public String getOwner() {
+        return name;
     }
 
 }
