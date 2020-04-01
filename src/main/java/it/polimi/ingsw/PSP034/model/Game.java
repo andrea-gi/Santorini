@@ -1,9 +1,9 @@
-package PSP034.model;
+package it.polimi.ingsw.PSP034.model;
 
 import java.util.ArrayList;
 
 public class Game {
-    private Board board;
+    private final Board board;
     private ArrayList<Player> players;
     private Player currentPlayer;
     private ArrayList<String> godsList;

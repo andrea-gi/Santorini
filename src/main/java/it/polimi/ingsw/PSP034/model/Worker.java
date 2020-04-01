@@ -1,4 +1,4 @@
-package PSP034.model;
+package it.polimi.ingsw.PSP034.model;
 
 public class Worker {
     private final char sex;
@@ -27,5 +27,4 @@ public class Worker {
     public String getOwner() {
         return name;
     }
-
 }

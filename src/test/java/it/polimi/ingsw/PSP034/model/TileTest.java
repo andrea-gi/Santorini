@@ -1,4 +1,4 @@
-package PSP034.model;
+package it.polimi.ingsw.PSP034.model;
 
 import org.junit.After;
 import org.junit.Before;

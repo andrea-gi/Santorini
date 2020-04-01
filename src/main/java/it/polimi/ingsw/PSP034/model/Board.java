@@ -1,7 +1,7 @@
-package PSP034.model;
+package it.polimi.ingsw.PSP034.model;
 
 public class Board {
-    private Tile[][] tiles;
+    private final Tile[][] tiles;
 
     public Board(){
         tiles  = new Tile[5][5];
