@@ -9,8 +9,8 @@ public class Game {
     private ArrayList<String> godsList;
 
     /**
-     * Creates a new Game class, instantiating a new Board and a structure for Players.
-     * At the time of instantiation, there is no currentPlayer, which has to bet set using {@link this.setCurrentPlayer()}
+     * Creates a new Game class, instantiating a new Board and a structure for Players. 
+     * At the time of instantiation, there is no currentPlayer, which has to bet set using {@link Game#setCurrentPlayer(Player)}
      */
     public Game(){
         this.players = new ArrayList<Player>();
@@ -34,24 +34,17 @@ public class Game {
         return currentPlayer;
     }
 
-    public void addPlayer(Player player){ // exception ???
+    /**
+     * Adds a Player to the structure of active players.
+     * @param player - Existing player to be added to the game.
+     */
+    public void addPlayer(Player player){
+        if(player == null)
+            throw new IllegalArgumentException("The parent path cannot be null!");
         players.add(player);
         if (players.size() == 1){
             setCurrentPlayer(player);
         }
-    }
-    /* TODO -- Remove???
-    public void removePlayer(Player player) { // exception ??
-        if (player.getName().equals(currentPlayer.getName()))
-            setNextPlayer();
-        player.remove();
-
-        players.remove(player);
-    }
-    */
-
-    public ArrayList<String> getGodsList(){
-        return new ArrayList<>(godsList);
     }
 
     /**
