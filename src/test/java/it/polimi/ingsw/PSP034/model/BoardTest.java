@@ -15,11 +15,13 @@ public class BoardTest {
         board = new Board();
     }
 
-
-    /*TODO -- exception*/
     @Test
-    public void getTile_invalidInput_throwsException() {
-        board.getTile(-1, 2);
+    public void getTile_invalidXInput_nullOutput(){
+        assertNull(board.getTile(-1, 2));
     }
 
+    @Test
+    public void getTile_invalidYInput_nullOutput(){
+        assertNull(board.getTile(1, -2));
+    }
 }

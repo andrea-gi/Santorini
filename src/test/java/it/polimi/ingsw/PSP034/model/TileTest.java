@@ -7,14 +7,13 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class TileTest {
-    Tile tile = null;
-    Worker worker1 = null;
-    Worker worker2 = null;
+    private Tile tile = null;
+    private Worker worker1 = null;
+
     @Before
     public void setUp(){
         tile = new Tile(1, 2);
         worker1 = new Worker('m', "Pippo");
-        worker2 = new Worker('m', "Pluto");
     }
 
     @Test
@@ -29,9 +28,8 @@ public class TileTest {
         assertEquals(worker1, tile.getWorker());
     }
 
-    /*TODO -- exception*/
-    @Test
-    public void setWorker_nullInput_throwsException() {
+    @Test (expected = IllegalArgumentException.class)
+    public void setWorker_nullInput_throwsIllegalInputException() {
         tile.setWorker(null);
     }
 
@@ -53,11 +51,9 @@ public class TileTest {
         assertEquals(1, tile.getBuilding());
     }
 
-    /*TODO -- exception*/
-    @Test
-    public void setBuilding_invalidInput_throwsException() {
+    @Test (expected = IllegalArgumentException.class)
+    public void setBuilding_invalidInput_throwsIllegaInputException() {
         tile.setBuilding(-1);
-        assertEquals(-1, tile.getBuilding());
     }
 
     @Test
