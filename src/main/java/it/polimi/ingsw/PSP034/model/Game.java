@@ -4,10 +4,14 @@ import java.util.ArrayList;
 
 public class Game {
     private final Board board;
-    private ArrayList<Player> players;
+    private final ArrayList<Player> players;
     private Player currentPlayer;
     private ArrayList<String> godsList;
 
+    /**
+     * Creates a new Game class, instantiating a new Board and a structure for Players.
+     * At the time of instantiation, there is no currentPlayer, which has to bet set using {@link this.setCurrentPlayer()}
+     */
     public Game(){
         this.players = new ArrayList<Player>();
         this.board = new Board();
@@ -15,7 +19,9 @@ public class Game {
         // godsList ???
     }
 
-    /**Returns the number of ???active??? players*/
+    /**
+     * @return Number of players currently in the game
+     */
     public int getPlayerNumber(){
         return players.size();
     }
@@ -48,12 +54,15 @@ public class Game {
         return new ArrayList<>(godsList);
     }
 
-    /** Sets the next player among ArrayList<Players> players, which is already in the right turn order.*/
+    /**
+     * Sets the next player among the data structure of players, which is already in the right turn order.
+     * */
     public void setNextPlayer(){
         int index = players.indexOf(currentPlayer);
         int nextIndex = ((index + 1) % players.size());
         setCurrentPlayer(players.get(nextIndex));
     }
+
 
     public Board getBoard(){
         return board;
