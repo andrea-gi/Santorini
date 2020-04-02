@@ -7,7 +7,13 @@ public class Player {
     private String myGod;
     private ArrayList<Worker> myWorkers;
 
-
+    /** Creates a new Player class
+     * @param name Player's name
+     * instantiating a structure for Workers and initializing
+     * it with the two Workers (male and female) associated to the Player
+     * At the time of instantiation, there is no myGod associated, which has to bet set using
+     * {@link Player#setMyGod(String)}
+     * */
     public Player(String name) {
         this.name = name;
         myGod = null;
@@ -20,18 +26,25 @@ public class Player {
         return name;
     }
 
+    /**@param sex to select the right Worker
+     * @return the right Worker associated to the Player
+     * The function always satisfies the if condition*/
     public Worker getWorker(char sex) {
+        Worker result = null;
         for (Worker myWorker : myWorkers) {
-            if (myWorker.getSex() == sex)
-                return myWorker;
+            if (myWorker.getSex() == sex) {
+                result = myWorker;
+                break;
+            }
         }
-        return null;    //exception?? Perché devo entrare sempre nell'if
+        return result;
     }
 
     public String getMyGod() {
         return myGod;
     }
 
+    /** @param myGod the first turn a God is associated with the Player, for the entire game*/
     public void setMyGod(String myGod) {
         this.myGod = myGod;
     }

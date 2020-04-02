@@ -40,7 +40,7 @@ public class Game {
      */
     public void addPlayer(Player player){
         if(player == null)
-            throw new IllegalArgumentException("The parent path cannot be null!");
+            throw new IllegalArgumentException("Added player cannot be null!");
         players.add(player);
         if (players.size() == 1){
             setCurrentPlayer(player);
