@@ -1,4 +1,5 @@
 package it.polimi.ingsw.PSP034.model;
+import it.polimi.ingsw.PSP034.constants.*;
 
 public class Tile {
     private Worker worker;
@@ -14,7 +15,7 @@ public class Tile {
      */
     public Tile(int x, int y){
         worker = null;
-        building = 0;
+        building = Constant.GROUND;
         dome = false;
         this.x = x;
         this.y = y;
@@ -50,7 +51,7 @@ public class Tile {
      * @throws IllegalArgumentException If height is not between 0 and 3 the function throws an exception
      */
     public void setBuilding(int height) throws IllegalArgumentException{
-        if(0 <= height  &&  height <= 3)
+        if(Constant.GROUND <= height  &&  height <= Constant.LEVEL_THREE)
             building = height;
         else
             throw new IllegalArgumentException("\n"+height+" is not an acceptable height. Height must be between 0 and 3\n");

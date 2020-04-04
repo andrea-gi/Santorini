@@ -1,4 +1,5 @@
 package it.polimi.ingsw.PSP034.model;
+import it.polimi.ingsw.PSP034.constants.*;
 
 public class Board {
     private final Tile[][] tiles;
@@ -7,9 +8,9 @@ public class Board {
      * Initializes a new board of size 5x5 with tiles that do not have either a worker or a building
      */
     public Board(){
-        tiles  = new Tile[5][5];
-        for(int x=0; x<5; x++){
-            for(int y=0; y<5; y++){
+        tiles  = new Tile[Constant.DIM][Constant.DIM];
+        for(int x=0; x<Constant.DIM; x++){
+            for(int y=0; y<Constant.DIM; y++){
                 tiles[x][y] = new Tile(x, y);
             }
         }
@@ -22,7 +23,7 @@ public class Board {
      * @return reference to the tile with coordinates (x;y), if it exists, otherwise null
      */
     public Tile getTile(int x, int y){
-        if((0 <= x)  &&  (x <= 4)  &&  (0 <= y)  &&  (y <= 4)){
+        if((0 <= x)  &&  (x < Constant.DIM)  &&  (0 <= y)  &&  (y < Constant.DIM)){
             return tiles[x][y];
         }
         return null;

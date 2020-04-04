@@ -1,17 +1,26 @@
 package it.polimi.ingsw.PSP034.model;
+import it.polimi.ingsw.PSP034.constants.*;
 
 public class Worker {
-    private final char sex;
+    private final Sex sex;
+    private final Color color;
     private final String name;
     private Tile myTile;
 
-    /**Builds a worker in a non-valid tile; the player has to set the correct tile in the first turn
+    /**Builds a worker and it places it in a chosen tile
      * @param sex indicates which worker you are building
-     * @param name indicates the Player associated to the Worker*/
-    public Worker(char sex, String name) {
+     * @param name indicates the Player associated to the Worker
+     * @param color indicates the color of my worker
+     * @param myTile indicates where the player sets the worker the first turn */
+    public Worker(Sex sex, String name, Color color, Tile myTile) {
         this.sex = sex;
         this.name = name;
-        myTile = null;
+        this.color = color;
+        this.myTile = myTile;
+    }
+
+    public Color getColor(){
+        return color;
     }
 
     public Tile getMyTile(){
@@ -27,7 +36,7 @@ public class Worker {
         myTile = tile;
     }
 
-    public char getSex() {
+    public Sex getSex() {
         return sex;
     }
 
