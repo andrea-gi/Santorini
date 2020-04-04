@@ -11,7 +11,7 @@ public class Worker {
      * @param sex indicates which worker you are building
      * @param name indicates the Player associated to the Worker
      * @param color indicates the color of my worker
-     * @param myTile indicates where the player sets the worker the first turn */
+     * @param myTile indicates where the player sets the worker the first turn  */
     public Worker(Sex sex, String name, Color color, Tile myTile) {
         this.sex = sex;
         this.name = name;

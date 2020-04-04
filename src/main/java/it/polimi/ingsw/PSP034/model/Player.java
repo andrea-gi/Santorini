@@ -1,4 +1,5 @@
 package it.polimi.ingsw.PSP034.model;
+import it.polimi.ingsw.PSP034.constants.*;
 
 import java.util.ArrayList;
 
@@ -9,8 +10,7 @@ public class Player {
 
     /** Creates a new Player class
      * @param name Player's name
-     * instantiating a structure for Workers and initializing
-     * it with the two Workers (male and female) associated to the Player
+     * instantiating a structure for Workers, that needs to be initialised using {@link Player#setMyWorkers(Color, Tile)}
      * At the time of instantiation, there is no myGod associated, which has to bet set using
      * {@link Player#setMyGod(String)}
      * */
@@ -18,8 +18,15 @@ public class Player {
         this.name = name;
         myGod = null;
         myWorkers = new ArrayList<Worker>();
-        myWorkers.add(new Worker('m', name));
-        myWorkers.add(new Worker('f', name));
+    }
+
+    /** Initialises the structure for the Workers associated to the Player, with his name, a color and a sex. It also
+     * already places the Workers in their first position
+     * @param sex is the sex of the Worker
+     * @param myColor is the color of my Workers
+     * @param myTile is the tile where the Player places the first time his Worker*/
+    public void setMyWorkers(Sex sex, Color myColor, Tile myTile){
+        myWorkers.add(new Worker(sex, name, myColor, myTile));
     }
 
     public String getName() {
@@ -29,7 +36,7 @@ public class Player {
     /**@param sex to select the right Worker
      * @return the right Worker associated to the Player
      * The function always satisfies the if condition*/
-    public Worker getWorker(char sex) {
+    public Worker getWorker(Sex sex) {
         Worker result = null;
         for (Worker myWorker : myWorkers) {
             if (myWorker.getSex() == sex) {
