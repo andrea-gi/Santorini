@@ -64,4 +64,12 @@ public class Player {
         myWorkers.remove();
     }*/
 
+    /**
+     * Check ownership of worker.
+     * @param worker Reference to the worker to be checked.
+     * @return Returns true if player is owner of the given worker, false otherwise.
+     */
+    public boolean isOwner(Worker worker){
+        return worker.getOwner().equals(name);
+    }
 }

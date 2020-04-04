@@ -43,4 +43,13 @@ public class Worker {
     public String getOwner() {
         return name;
     }
+
+    /**
+     * Calculates height difference between given tile and worker. Positive if worker has to move up to reach the tile, negative otherwise.
+     * @param tile Reference to the tile to be checked.
+     * @return integer representing level difference.
+     */
+    public int heightDifference(Tile tile){
+        return tile.getBuilding() - this.myTile.getBuilding();
+    }
 }

@@ -73,4 +73,18 @@ public class Tile {
         return y;
     }
 
+    /**
+     * Checks if two tiles are neighbours (but not the same).
+     * @param tile Reference to the tile to compare to.
+     * @return true only if the given tile is neighbour.
+     */
+    public boolean isNeighbouringTile(Tile tile){
+        int xDistance = Math.abs(x - tile.getX());
+        int yDistance = Math.abs(y - tile.getY());
+        if (xDistance == 0 && yDistance == 0)
+            return false;
+        else
+            return ((xDistance <= 1) && (yDistance <= 1));
+    }
+
 }
