@@ -29,6 +29,10 @@ public class Player {
         myWorkers.add(new Worker(sex, name, myColor, myTile));
     }
 
+    public ArrayList<Worker> getMyWorkers(){
+        return myWorkers;
+    }
+
     public String getName() {
         return name;
     }

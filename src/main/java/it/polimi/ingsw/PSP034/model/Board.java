@@ -14,6 +14,7 @@ public class Board {
                 tiles[x][y] = new Tile(x, y);
             }
         }
+        Tile.setBoard(this);
     }
 
     /**

@@ -2,6 +2,7 @@ package it.polimi.ingsw.PSP034.model;
 
 import org.junit.Before;
 import org.junit.Test;
+import it.polimi.ingsw.PSP034.constants.*;
 
 import static org.junit.Assert.*;
 
@@ -22,18 +23,18 @@ public class PlayerTest {
 
     @Test
     public void getWorker_f() {
-        char sex = 'f';
+        Sex sex = Sex.FEMALE;
         myWorker = test.getWorker(sex);
         assertNotNull(myWorker);
-        assertEquals(myWorker.getSex(), 'f');
+        assertEquals(myWorker.getSex(), sex);
     }
 
     @Test
     public void getWorker_m() {
-        char sex = 'm';
+        Sex sex = Sex.MALE;
         myWorker = test.getWorker(sex);
         assertNotNull(myWorker);
-        assertEquals(myWorker.getSex(), 'm');
+        assertEquals(myWorker.getSex(), sex);
     }
 
 

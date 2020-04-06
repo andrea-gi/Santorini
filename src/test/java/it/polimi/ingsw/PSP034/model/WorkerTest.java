@@ -1,5 +1,7 @@
 package it.polimi.ingsw.PSP034.model;
 
+import it.polimi.ingsw.PSP034.constants.Color;
+import it.polimi.ingsw.PSP034.constants.Sex;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,7 +12,8 @@ public class WorkerTest {
 
     @Before
     public void setUp() throws Exception {
-        test = new Worker('f', "Pippo");
+        Tile myTile = new Tile(2,3);
+        test = new Worker(Sex.FEMALE, "Pippo", Color.BLUE, myTile);
     }
 
     @Test
@@ -31,9 +34,10 @@ public class WorkerTest {
 
     @Test
     public void getSex() {
-        Worker myWorker = new Worker('m',"Pluto");
-        assertEquals(test.getSex(), 'f');
-        assertEquals(myWorker.getSex(), 'm');
+        Tile myTile = new Tile(2,3);
+        Worker myWorker = new Worker(Sex.MALE, "Pippo", Color.GREY, myTile);
+        assertEquals(test.getSex(), Sex.FEMALE);
+        assertEquals(myWorker.getSex(), Sex.MALE);
     }
 
     @Test

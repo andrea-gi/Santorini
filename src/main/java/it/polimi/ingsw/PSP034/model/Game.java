@@ -1,11 +1,14 @@
 package it.polimi.ingsw.PSP034.model;
 
+import it.polimi.ingsw.PSP034.constants.*;
+
 import java.util.ArrayList;
 
 public class Game {
     private final Board board;
     private final ArrayList<Player> players;
     private Player currentPlayer;
+    private GamePhase gamePhase;
     private ArrayList<String> godsList;
 
     /**
@@ -16,6 +19,7 @@ public class Game {
         this.players = new ArrayList<Player>();
         this.board = new Board();
         this.currentPlayer = null;
+        this.gamePhase = GamePhase.SETUP;
         // godsList ???
     }
 
@@ -32,6 +36,10 @@ public class Game {
 
     public Player getCurrentPlayer(){
         return currentPlayer;
+    }
+
+    public ArrayList<Player> getPlayers(){
+        return this.players;
     }
 
     /**
@@ -59,5 +67,13 @@ public class Game {
 
     public Board getBoard(){
         return board;
+    }
+
+    public void setGamePhase(GamePhase gamePhase){
+        this.gamePhase = gamePhase;
+    }
+
+    public GamePhase getGamePhase(){
+        return gamePhase;
     }
 }

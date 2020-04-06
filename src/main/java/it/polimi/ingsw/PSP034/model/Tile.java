@@ -1,11 +1,16 @@
 package it.polimi.ingsw.PSP034.model;
 import it.polimi.ingsw.PSP034.constants.*;
 
+import java.util.ArrayList;
+
+import static it.polimi.ingsw.PSP034.constants.Constant.*;
+
 public class Tile {
     private Worker worker;
     private int building;
     private boolean dome;
     private final int x, y;
+    private static Board board;
 
     /**
      *Initializes a new tile with (x,y) coordinates.
@@ -19,6 +24,10 @@ public class Tile {
         dome = false;
         this.x = x;
         this.y = y;
+    }
+
+    protected static void setBoard(Board board){
+        Tile.board = board;
     }
 
     public Worker getWorker(){
@@ -87,4 +96,15 @@ public class Tile {
             return ((xDistance <= 1) && (yDistance <= 1));
     }
 
+    public ArrayList<Tile> getNeighbouringTiles(){
+        ArrayList<Tile> neighbouringTiles = new ArrayList<Tile>();
+        for (int x = 0; x < DIM; x++){
+            for (int y = 0; y < DIM; y++){
+                if (isNeighbouringTile(board.getTile(x, y))){
+                    neighbouringTiles.add(this);
+                }
+            }
+        }
+        return neighbouringTiles;
+    }
 }
