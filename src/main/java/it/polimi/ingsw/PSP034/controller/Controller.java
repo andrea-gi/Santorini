@@ -86,5 +86,9 @@ public class Controller {
         }
     }
 
+    public void removeGod(String name){
+        //rimuovo la divinità giusta dal decorator
+    }
+
 
 }
