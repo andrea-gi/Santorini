@@ -5,5 +5,7 @@ public enum TurnPhase {
     MOVE,
     BUILD,
     POWER,
+    GAMEOVER,
+    WIN,
     END
 }

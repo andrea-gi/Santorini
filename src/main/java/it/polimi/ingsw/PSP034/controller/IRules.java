@@ -17,9 +17,9 @@ public interface IRules {
 
     public void build(Tile buildTile);
 
-    public boolean validMove(Player player, Worker worker, Tile destinationTile);
+    public boolean validMove(Worker worker, Tile destinationTile);
 
-    public boolean validBuild(Player player, Worker worker, Tile buildingTile);
+    public boolean validBuild(Worker worker, Tile buildingTile);
 
     public boolean checkWin(Worker worker);
 
@@ -27,11 +27,11 @@ public interface IRules {
 
     public void setPreviousTile(Tile tile);
 
-    public boolean anyValidMove(Player player, Worker worker);
+    public boolean anyValidMove(Worker worker);
 
     public boolean checkMoveLost(Player player);
 
-    public boolean anyValidBuild(Player player, Worker worker);
+    public boolean anyValidBuild(Worker worker);
 
     public boolean checkBuildLost(Player player);
 }

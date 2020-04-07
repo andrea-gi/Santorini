@@ -70,16 +70,12 @@ public class DefaultRules implements IRules {
     /**
      * Method checks if a given move is valid, following Default Rules.
      *
-     * @param player          Reference to the player who wants to perform the action.
      * @param worker          Reference to the worker to be moved.
      * @param destinationTile Reference to the destination tile.
      * @return Returns true if move is valid, false otherwise.
      */
     @Override
-    public boolean validMove(Player player, Worker worker, Tile destinationTile) {
-        //Checks ownership of worker
-        if (!player.isOwner(worker))
-            return false;
+    public boolean validMove(Worker worker, Tile destinationTile) {
 
         //Checks valid move up (at most 1 level)
         if (worker.heightDifference(destinationTile) > 1)
@@ -101,17 +97,12 @@ public class DefaultRules implements IRules {
     /**
      * Method checks if a given build is valid, following Default Rules.
      *
-     * @param player       Reference to the player who wants to perform the action.
      * @param worker       Reference to the worker who is building.
      * @param buildingTile Reference to the building tile.
      * @return Returns true if build is valid, false otherwise.
      */
     @Override
-    public boolean validBuild(Player player, Worker worker, Tile buildingTile) {
-        //Checks ownership of worker
-        if (!player.isOwner(worker))
-            return false;
-
+    public boolean validBuild(Worker worker, Tile buildingTile) {
         //Checks if worker is the same used during move
         if (worker.getSex() != getChosenSex())
             return false;
@@ -143,10 +134,10 @@ public class DefaultRules implements IRules {
 
 
     @Override
-    public boolean anyValidMove(Player player, Worker worker) {
+    public boolean anyValidMove(Worker worker) {
         boolean anyMove = false;
         for (Tile neighbour : worker.getMyTile().getNeighbouringTiles()) {
-            boolean valid = validMove(player, worker, neighbour);
+            boolean valid = validMove(worker, neighbour);
             if (valid) {
                 anyMove = true;
                 break;
@@ -160,7 +151,7 @@ public class DefaultRules implements IRules {
         boolean lost = true;
         for (Worker worker :
                 player.getMyWorkers()) {
-            lost = anyValidMove(player, worker);
+            lost = anyValidMove(worker);
             if (!lost) {
                 break;
             }
@@ -169,10 +160,10 @@ public class DefaultRules implements IRules {
     }
 
     @Override
-    public boolean anyValidBuild(Player player, Worker worker) {
+    public boolean anyValidBuild(Worker worker) {
         boolean anyBuild = false;
         for (Tile neighbour : worker.getMyTile().getNeighbouringTiles()) {
-            boolean valid = validBuild(player, worker, neighbour);
+            boolean valid = validBuild(worker, neighbour);
             if (valid) {
                 anyBuild = true;
                 break;
@@ -186,7 +177,7 @@ public class DefaultRules implements IRules {
         boolean lost = true;
         for (Worker worker :
                 player.getMyWorkers()) {
-            lost = anyValidBuild(player, worker);
+            lost = anyValidBuild(worker);
             if (!lost) {
                 break;
             }

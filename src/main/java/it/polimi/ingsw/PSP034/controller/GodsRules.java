@@ -7,29 +7,40 @@ import it.polimi.ingsw.PSP034.model.Tile;
 import it.polimi.ingsw.PSP034.model.Worker;
 
 public class GodsRules implements IRules, ITurnHandler {
+    private final Player player;
     private static DefaultRules defaultRules;
-    private static IRules completeRules;
+    private static GodsRules completeRules;
     private IRules decoratedRules;
 
-    public GodsRules(IRules decoratedRules){
+    public GodsRules(IRules decoratedRules, Player player){
         this.decoratedRules = decoratedRules;
         if (decoratedRules instanceof DefaultRules){ // Core decorated. Has default methods.
             defaultRules = (DefaultRules) decoratedRules;
         }
         completeRules = this;  // whole decorator the last addes
+        this.player = player;
+    }
+    /*-------------------------------*/
+    /*-----God specific methods------*/
+    GodsRules getCompleteRules() {
+        return completeRules;
+    }
+
+    Player getPlayer() {
+        return player;
     }
 
     /*---------------------------*/
     /*-----Strategy methods------*/
     @Override
-    public TurnPhase nextState(){
+    public TurnPhase nextState(TurnPhase currentPhase){
         throw new NullPointerException("There is no default nextState strategy. Wrong method call.");
-    };
+    }
 
     @Override
-    public Boolean executeState(TurnPhase currentPhase, Player player, Worker worker, Tile tile){
+    public Boolean executeState(TurnPhase currentPhase, Worker worker, Tile tile, Boolean choice){
         throw new NullPointerException("There is no default executeState strategy. Wrong method call.");
-    };
+    }
 
     /*---------------------------*/
     /*-----Decorator methods-----*/
@@ -58,44 +69,44 @@ public class GodsRules implements IRules, ITurnHandler {
     @Override
     public void move(Worker worker, Tile destinationTile){
         decoratedRules.move(worker, destinationTile);
-    };
+    }
 
     @Override
     public void build(Tile buildTile){
         decoratedRules.build(buildTile);
-    };
+    }
 
 
     @Override
-    public boolean validMove(Player player, Worker worker, Tile destinationTile){
+    public boolean validMove(Worker worker, Tile destinationTile){
         if ( decoratedRules instanceof DefaultRules ) {
             return true;
         }
         else{
-            return (decoratedRules.validMove(player, worker, destinationTile));
+            return (decoratedRules.validMove(worker, destinationTile));
         }
-    };
+    }
 
     @Override
-    public boolean validBuild(Player player, Worker worker, Tile buildingTile){
+    public boolean validBuild(Worker worker, Tile buildingTile){
         if ( !(decoratedRules instanceof DefaultRules) ) {
             return true;
         }
         else{
-            return (decoratedRules.validBuild(player, worker, buildingTile));
+            return (decoratedRules.validBuild(worker, buildingTile));
         }
-    };
+    }
 
     @Override
     public boolean checkWin(Worker worker){
         return defaultRules.checkWin(worker);
-    };
+    }
 
     @Override
-    public boolean anyValidMove(Player player, Worker worker) {
+    public boolean anyValidMove(Worker worker) {
         boolean anyMove = false;
         for (Tile neighbour : worker.getMyTile().getNeighbouringTiles()) {
-            boolean valid = completeRules.validMove(player, worker, neighbour); //ATTENZIONE, REGOLE COMPLETE; USARE QUESTA!
+            boolean valid = completeRules.validMove(worker, neighbour); //ATTENZIONE, REGOLE COMPLETE; USARE QUESTA!
             if (valid) {
                 anyMove = true;
                 break;
@@ -109,7 +120,7 @@ public class GodsRules implements IRules, ITurnHandler {
         boolean lost = true;
         for (Worker worker :
                 player.getMyWorkers()) {
-            lost = this.anyValidMove(player, worker);
+            lost = this.anyValidMove(worker);
             if (!lost) {
                 break;
             }
@@ -118,10 +129,10 @@ public class GodsRules implements IRules, ITurnHandler {
     }
 
     @Override
-    public boolean anyValidBuild(Player player, Worker worker) {
+    public boolean anyValidBuild(Worker worker) {
         boolean anyBuild = false;
         for (Tile neighbour : worker.getMyTile().getNeighbouringTiles()) {
-            boolean valid = completeRules.validBuild(player, worker, neighbour); //ATTENZIONE, REGOLE COMPLETE; USARE QUESTA!!
+            boolean valid = completeRules.validBuild(worker, neighbour); //ATTENZIONE, REGOLE COMPLETE; USARE QUESTA!!
             if (valid) {
                 anyBuild = true;
                 break;
@@ -135,7 +146,7 @@ public class GodsRules implements IRules, ITurnHandler {
         boolean lost = true;
         for (Worker worker :
                 player.getMyWorkers()) {
-            lost = this.anyValidBuild(player, worker);
+            lost = this.anyValidBuild(worker);
             if (!lost) {
                 break;
             }

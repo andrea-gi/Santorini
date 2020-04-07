@@ -7,6 +7,6 @@ import it.polimi.ingsw.PSP034.model.Tile;
 import it.polimi.ingsw.PSP034.constants.TurnPhase;
 
 public interface ITurnHandler {
-    public TurnPhase nextState();
-    public Boolean executeState(TurnPhase currentPhase, Player player, Worker worker, Tile tile);
+    public TurnPhase nextState(TurnPhase currentPhase);
+    public Boolean executeState(TurnPhase currentPhase, Worker worker, Tile tile, Boolean choice);
 }
