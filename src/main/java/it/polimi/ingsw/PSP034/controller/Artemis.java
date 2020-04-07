@@ -66,6 +66,7 @@ public class Artemis extends GodsRules {
             case END:
                 return null; //TODO -- definire bene return
         }
+        return null;
     }
 
     @Override
@@ -94,6 +95,7 @@ public class Artemis extends GodsRules {
             case END:
                 return true;
         }
+        return false;
     }
 
     @Override
@@ -109,20 +111,17 @@ public class Artemis extends GodsRules {
                 }
             }
         }else{
-            super.validMove(worker, destinationTile);
+            return super.validMove(worker, destinationTile);
         }
     }
 
     @Override
     public boolean validBuild(Worker worker, Tile buildingTile) {
-        if(getPlayer().isOwner(worker)){
-            if(!super.getDefaultRules().validBuild(worker, buildingTile)){
-                return false;
-            }else{
-                return super.validMove(worker, buildingTile);
-            }
-        }else{
-            return super.validBuild(worker, buildingTile);
-        }
+        return super.validBuild(worker, buildingTile);
+    }
+
+    @Override
+    public boolean checkWin(Worker worker){
+        return super.checkWin(worker);
     }
 }

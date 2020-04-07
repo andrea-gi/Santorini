@@ -79,27 +79,42 @@ public class GodsRules implements IRules, ITurnHandler {
 
     @Override
     public boolean validMove(Worker worker, Tile destinationTile){
-        if ( decoratedRules instanceof DefaultRules ) {
-            return true;
+        if (player.isOwner(worker) && !defaultRules.validMove(worker, destinationTile)){
+            return false;
         }
-        else{
-            return (decoratedRules.validMove(worker, destinationTile));
+        else {
+            if (decoratedRules instanceof DefaultRules) {
+                return true;
+            } else {
+                return (decoratedRules.validMove(worker, destinationTile));
+            }
         }
     }
 
     @Override
     public boolean validBuild(Worker worker, Tile buildingTile){
-        if ( !(decoratedRules instanceof DefaultRules) ) {
-            return true;
-        }
-        else{
-            return (decoratedRules.validBuild(worker, buildingTile));
+        if ( player.isOwner(worker) && !defaultRules.validBuild(worker, buildingTile) ){
+            return false;
+        }else {
+            if (decoratedRules instanceof DefaultRules) {
+                return true;
+            } else {
+                return (decoratedRules.validBuild(worker, buildingTile));
+            }
         }
     }
 
     @Override
     public boolean checkWin(Worker worker){
-        return defaultRules.checkWin(worker);
+        if(player.isOwner(worker) && !defaultRules.checkWin(worker)){
+            return false;
+        }
+        else{
+            if ( decoratedRules instanceof DefaultRules )
+                return true;
+            else
+                return decoratedRules.checkWin(worker);
+        }
     }
 
     @Override

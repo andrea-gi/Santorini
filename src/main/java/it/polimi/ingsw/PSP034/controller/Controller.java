@@ -63,26 +63,26 @@ public class Controller {
 
     /**Decorates the turn with the gods, already in order
      * @param name is the name of the god*/
-    public void addGod(String name){
+    public void addGod(String name, Player player){
         switch (name){
             case "Apollo":
-                rules = new Apollo(rules);
+                rules = new Apollo(rules, player);
             case "Artemis":
-                rules = new Artemis(rules);
+                rules = new Artemis(rules, player);
             case "Athena":
-                rules = new Athena(rules);
+                rules = new Athena(rules, player);
             case "Atlas":
-                rules = new Atlas(rules);
+                rules = new Atlas(rules, player);
             case "Demeter":
-                rules = new Demeter(rules);
+                rules = new Demeter(rules, player);
             case "Ephaestus":
-                rules = new Ephaestus(rules);
+                rules = new Ephaestus(rules, player);
             case "Minotaur":
-                rules = new Minotaur(rules);
+                rules = new Minotaur(rules, player);
             case "Pan":
-                rules = new Pan(rules);
+                rules = new Pan(rules, player);
             case "Prometheus":
-                rules = new Prometheus(rules);
+                rules = new Prometheus(rules, player);
         }
     }
 
