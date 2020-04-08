@@ -133,13 +133,17 @@ public class DefaultRules implements IRules {
     }
 
 
+    /**
+     * Checks if a given worker has any valid move available
+     * @param worker Reference to the worker to be checked
+     * @return Returns true if the given worker has at least one available possible move.
+     */
     @Override
     public boolean anyValidMove(Worker worker) {
         boolean anyMove = false;
         for (Tile neighbour : worker.getMyTile().getNeighbouringTiles()) {
-            boolean valid = validMove(worker, neighbour);
-            if (valid) {
-                anyMove = true;
+            anyMove = validMove(worker, neighbour);
+            if (anyMove) {
                 break;
             }
         }
@@ -148,24 +152,28 @@ public class DefaultRules implements IRules {
 
     @Override
     public boolean checkMoveLost(Player player) {
-        boolean lost = true;
+        boolean keepPlaying = false;
         for (Worker worker :
                 player.getMyWorkers()) {
-            lost = anyValidMove(worker);
-            if (!lost) {
+            keepPlaying = anyValidMove(worker);
+            if (keepPlaying) {
                 break;
             }
         }
-        return lost;
+        return !keepPlaying;
     }
 
+    /**
+     * Checks if a given worker has any valid build available
+     * @param worker Reference to the worker to be checked
+     * @return Returns true if the given worker has at least one available possible build.
+     */
     @Override
     public boolean anyValidBuild(Worker worker) {
         boolean anyBuild = false;
         for (Tile neighbour : worker.getMyTile().getNeighbouringTiles()) {
-            boolean valid = validBuild(worker, neighbour);
-            if (valid) {
-                anyBuild = true;
+            anyBuild = validBuild(worker, neighbour);
+            if (anyBuild) {
                 break;
             }
         }
@@ -174,15 +182,18 @@ public class DefaultRules implements IRules {
 
     @Override
     public boolean checkBuildLost(Player player) {
-        boolean lost = true;
-        for (Worker worker :
-                player.getMyWorkers()) {
-            lost = anyValidBuild(worker);
-            if (!lost) {
-                break;
+        boolean keepPlaying = false;
+        Sex savedSex = chosenSex;
+        do{
+            chosenSex = chosenSex.getOppositeSex();
+            for (Worker worker :
+                    player.getMyWorkers()) {
+                keepPlaying = keepPlaying || anyValidBuild(worker);
+                if(keepPlaying)
+                    break;
             }
-        }
-        return lost;
+        }while(chosenSex != savedSex);
+        return !keepPlaying;
     }
 
 }

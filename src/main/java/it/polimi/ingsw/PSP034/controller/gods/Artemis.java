@@ -42,7 +42,7 @@ public class Artemis extends GodsRules {
                         else
                             return TurnPhase.GAMEOVER;
                     } else {
-                        if (!checkMoveLost(this.getPlayer()))
+                        if (super.anyValidMove(this.getPlayer().getWorker(super.getChosenSex())))
                             return TurnPhase.POWER;
                         else if (super.anyValidBuild(this.getPlayer().getWorker(super.getChosenSex())))
                             return TurnPhase.BUILD;
@@ -65,8 +65,6 @@ public class Artemis extends GodsRules {
                 }else {
                     return TurnPhase.END;
                 }
-            case END:
-                return null; //TODO -- definire bene return
         }
         return null;
     }
@@ -105,16 +103,11 @@ public class Artemis extends GodsRules {
         if(getPlayer().isOwner(worker)){
             if(!super.getDefaultRules().validMove(worker, destinationTile)){
                 return false;
-            }else{
-                if(usePower  &&  destinationTile.equals(super.getPreviousTile())  &&  worker.getSex() == super.getChosenSex()){
-                    return false;
-                }else{
-                    return super.validMove(worker, destinationTile);
-                }
+            }else if(usePower  &&  destinationTile.equals(super.getPreviousTile())  &&  worker.getSex() != super.getChosenSex()){
+                return false;
             }
-        }else{
-            return super.validMove(worker, destinationTile);
         }
+        return super.validMove(worker, destinationTile);
     }
 
     @Override
