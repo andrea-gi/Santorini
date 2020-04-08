@@ -22,11 +22,11 @@ public class GodsRules implements IRules, ITurnHandler {
     }
     /*-------------------------------*/
     /*-----God specific methods------*/
-    GodsRules getCompleteRules() {
+    protected GodsRules getCompleteRules() {
         return completeRules;
     }
 
-    Player getPlayer() {
+    protected Player getPlayer() {
         return player;
     }
 
