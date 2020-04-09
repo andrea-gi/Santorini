@@ -107,7 +107,7 @@ public class Ephaestus extends GodsRules {
                 return false;
             }
         }
-        return super.validBuild(worker, buildingTile);
+        return validBuildRecursive(worker, buildingTile);
     }
 
     @Override
