@@ -32,7 +32,7 @@ public class Prometheus extends GodsRules {
                 else
                     return TurnPhase.MOVE;
             case MOVE:
-                if(checkWin(myWorker)){
+                if(getCompleteRules().checkWin(myWorker)){
                     return TurnPhase.WIN;
                 }
                 else if (anyValidBuild(myWorker)) {
@@ -41,7 +41,7 @@ public class Prometheus extends GodsRules {
                 else
                     return TurnPhase.GAMEOVER;
             case BUILD:
-                if(checkWin(myWorker)){
+                if(getCompleteRules().checkWin(myWorker)){
                     return TurnPhase.WIN;
                 }
                 else if (usePower){

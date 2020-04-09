@@ -2,6 +2,7 @@ package it.polimi.ingsw.PSP034.controller.gods;
 
 
 import it.polimi.ingsw.PSP034.constants.TurnPhase;
+import it.polimi.ingsw.PSP034.controller.DefaultRules;
 import it.polimi.ingsw.PSP034.controller.GodsRules;
 import it.polimi.ingsw.PSP034.controller.IRules;
 import it.polimi.ingsw.PSP034.model.Player;
@@ -33,7 +34,7 @@ public class Artemis extends GodsRules {
                     return TurnPhase.GAMEOVER;
                 }
             case MOVE:
-                if(checkWin(this.getPlayer().getWorker(super.getChosenSex()))) {
+                if(getCompleteRules().checkWin(this.getPlayer().getWorker(super.getChosenSex()))) {
                     return TurnPhase.WIN;
                 }else {
                     if (secondMove) {
@@ -60,7 +61,7 @@ public class Artemis extends GodsRules {
                         return TurnPhase.GAMEOVER;
                 }
             case BUILD:
-                if(checkWin(this.getPlayer().getWorker(super.getChosenSex()))) {
+                if(getCompleteRules().checkWin(this.getPlayer().getWorker(super.getChosenSex()))) {
                     return TurnPhase.WIN;
                 }else {
                     return TurnPhase.END;
@@ -107,7 +108,7 @@ public class Artemis extends GodsRules {
                 return false;
             }
         }
-        return super.validMove(worker, destinationTile);
+        return validMoveRecursive(worker, destinationTile);
     }
 
     @Override

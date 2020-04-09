@@ -32,7 +32,7 @@ public class Ephaestus extends GodsRules {
                     return TurnPhase.GAMEOVER;
                 }
             case MOVE:
-                if(checkWin(this.getPlayer().getWorker(super.getChosenSex()))) {
+                if(getCompleteRules().checkWin(this.getPlayer().getWorker(super.getChosenSex()))) {
                     return TurnPhase.WIN;
                 }else {
                         if (super.anyValidBuild(this.getPlayer().getWorker(super.getChosenSex())))
@@ -41,7 +41,7 @@ public class Ephaestus extends GodsRules {
                             return TurnPhase.GAMEOVER;
                     }
             case BUILD:
-                if(checkWin(this.getPlayer().getWorker(super.getChosenSex()))) {
+                if(getCompleteRules().checkWin(this.getPlayer().getWorker(super.getChosenSex()))) {
                     return TurnPhase.WIN;
                 }else {
                     if (usePower) {

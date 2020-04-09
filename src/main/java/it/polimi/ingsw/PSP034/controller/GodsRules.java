@@ -26,6 +26,10 @@ public class GodsRules implements IRules, ITurnHandler {
         return completeRules;
     }
 
+    protected IRules getDecoratedRules(){
+        return decoratedRules;
+    }
+
     protected Player getPlayer() {
         return player;
     }
@@ -33,13 +37,54 @@ public class GodsRules implements IRules, ITurnHandler {
     /*---------------------------*/
     /*-----Strategy methods------*/
     @Override
-    public TurnPhase nextState(TurnPhase currentPhase){
-        throw new NullPointerException("There is no default nextState strategy. Wrong method call.");
+    public TurnPhase nextState(TurnPhase currentPhase) {
+        switch (currentPhase){
+            case START:
+                if (!checkMoveLost(player)) {
+                    return TurnPhase.MOVE;
+                }else{
+                    return TurnPhase.GAMEOVER;
+                }
+            case MOVE:
+                if(completeRules.checkWin(player.getWorker(getChosenSex()))) {
+                    return TurnPhase.WIN;
+                }else {
+                    if (anyValidBuild(player.getWorker(getChosenSex())))
+                        return TurnPhase.BUILD;
+                    else
+                        return TurnPhase.GAMEOVER;
+                }
+            case BUILD:
+                if(completeRules.checkWin(player.getWorker(getChosenSex()))) {
+                    return TurnPhase.WIN;
+                }else {
+                    return TurnPhase.END;
+                }
+        }
+        return null;
     }
 
     @Override
-    public Boolean executeState(TurnPhase currentPhase, Worker worker, Tile tile, Boolean choice){
-        throw new NullPointerException("There is no default executeState strategy. Wrong method call.");
+    public Boolean executeState(TurnPhase currentPhase, Worker worker, Tile tile, Boolean choice) {
+        switch (currentPhase){
+            case START:
+                return true;
+            case MOVE:
+                if(completeRules.validMove(worker, tile)){
+                    move(worker, tile);
+                    return true;
+                } else
+                    return false;
+            case BUILD:
+                if(completeRules.validBuild(worker, tile)){
+                    build(tile);
+                    return true;
+                }else
+                    return false;
+            case END:
+                return true;
+        }
+        return false;
     }
 
     /*---------------------------*/
@@ -68,12 +113,12 @@ public class GodsRules implements IRules, ITurnHandler {
 
     @Override
     public void move(Worker worker, Tile destinationTile){
-        decoratedRules.move(worker, destinationTile);
+        defaultRules.move(worker, destinationTile);
     }
 
     @Override
     public void build(Tile buildTile){
-        decoratedRules.build(buildTile);
+        defaultRules.build(buildTile);
     }
 
 
@@ -83,11 +128,15 @@ public class GodsRules implements IRules, ITurnHandler {
             return false;
         }
         else {
-            if (decoratedRules instanceof DefaultRules) {
-                return true;
-            } else {
-                return (decoratedRules.validMove(worker, destinationTile));
-            }
+            return validBuildRecursive(worker, destinationTile);
+        }
+    }
+
+    protected boolean validMoveRecursive(Worker worker, Tile destinationTile){
+        if (decoratedRules instanceof DefaultRules) {
+            return true;
+        } else {
+            return (decoratedRules.validBuild(worker, destinationTile));
         }
     }
 
@@ -96,11 +145,15 @@ public class GodsRules implements IRules, ITurnHandler {
         if ( player.isOwner(worker) && !defaultRules.validBuild(worker, buildingTile) ){
             return false;
         }else {
-            if (decoratedRules instanceof DefaultRules) {
-                return true;
-            } else {
-                return (decoratedRules.validBuild(worker, buildingTile));
-            }
+            return validBuildRecursive(worker, buildingTile);
+        }
+    }
+
+    protected boolean validBuildRecursive(Worker worker, Tile buildingTile){
+        if (decoratedRules instanceof DefaultRules) {
+            return true;
+        } else {
+            return (decoratedRules.validBuild(worker, buildingTile));
         }
     }
 
@@ -109,12 +162,16 @@ public class GodsRules implements IRules, ITurnHandler {
         if(player.isOwner(worker) && !defaultRules.checkWin(worker)){
             return false;
         }
-        else{
-            if ( decoratedRules instanceof DefaultRules )
-                return true;
-            else
-                return decoratedRules.checkWin(worker);
+        else {
+            return checkWinRecursive(worker);
         }
+    }
+
+    protected boolean checkWinRecursive(Worker worker) {
+        if (decoratedRules instanceof DefaultRules)
+            return true;
+        else
+            return decoratedRules.checkWin(worker);
     }
 
     @Override

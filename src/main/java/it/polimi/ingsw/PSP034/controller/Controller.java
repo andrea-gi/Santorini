@@ -68,22 +68,31 @@ public class Controller {
         switch (name){
             case "Apollo":
                 rules = new Apollo(rules, player);
+                break;
             case "Artemis":
                 rules = new Artemis(rules, player);
+                break;
             case "Athena":
                 rules = new Athena(rules, player);
+                break;
             case "Atlas":
                 rules = new Atlas(rules, player);
+                break;
             case "Demeter":
                 rules = new Demeter(rules, player);
+                break;
             case "Ephaestus":
                 rules = new Ephaestus(rules, player);
+                break;
             case "Minotaur":
                 rules = new Minotaur(rules, player);
+                break;
             case "Pan":
                 rules = new Pan(rules, player);
+                break;
             case "Prometheus":
                 rules = new Prometheus(rules, player);
+                break;
         }
     }
 

@@ -72,7 +72,7 @@ public class DefaultRules implements IRules {
      *
      * @param worker          Reference to the worker to be moved.
      * @param destinationTile Reference to the destination tile.
-     * @return Returns true if move is valid, false otherwise.
+     * @return true if move is valid, false otherwise.
      */
     @Override
     public boolean validMove(Worker worker, Tile destinationTile) {
@@ -99,7 +99,7 @@ public class DefaultRules implements IRules {
      *
      * @param worker       Reference to the worker who is building.
      * @param buildingTile Reference to the building tile.
-     * @return Returns true if build is valid, false otherwise.
+     * @return true if build is valid, false otherwise.
      */
     @Override
     public boolean validBuild(Worker worker, Tile buildingTile) {
@@ -123,7 +123,7 @@ public class DefaultRules implements IRules {
      * Method applies normal winning condition rules.
      *
      * @param worker Reference to the Worker that was moved.
-     * @return Returns true if a Worker actively moved from level TWO to level THREE
+     * @return true if a Worker actively moved from level TWO to level THREE
      */
     @Override
     public boolean checkWin(Worker worker) {
@@ -136,7 +136,7 @@ public class DefaultRules implements IRules {
     /**
      * Checks if a given worker has any valid move available
      * @param worker Reference to the worker to be checked
-     * @return Returns true if the given worker has at least one available possible move.
+     * @return true if the given worker has at least one available possible move.
      */
     @Override
     public boolean anyValidMove(Worker worker) {
@@ -166,7 +166,7 @@ public class DefaultRules implements IRules {
     /**
      * Checks if a given worker has any valid build available
      * @param worker Reference to the worker to be checked
-     * @return Returns true if the given worker has at least one available possible build.
+     * @return true if the given worker has at least one available possible build.
      */
     @Override
     public boolean anyValidBuild(Worker worker) {

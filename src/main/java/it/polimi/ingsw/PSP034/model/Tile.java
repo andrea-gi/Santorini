@@ -36,7 +36,7 @@ public class Tile {
 
     /**
      * Set the worker standing in this tile to newWorker.
-     * @param newWorker Reference to the worker to be positioned in the tile
+     * @param newWorker     Reference to the worker to be positioned in the tile
      * @throws IllegalArgumentException If newWorker is null an exception is thrown. removeWorker should be used instead.
      */
     public void setWorker(Worker newWorker) throws IllegalArgumentException{
@@ -56,14 +56,14 @@ public class Tile {
 
     /**
      * Sets the height of the building on this tile.
-     * @param height the height of the building to set. height must be between 0 and 3
+     * @param height    the height of the building to set. height must be between 0 and 3
      * @throws IllegalArgumentException If height is not between 0 and 3 the function throws an exception
      */
     public void setBuilding(int height) throws IllegalArgumentException{
         if(Constant.GROUND <= height  &&  height <= Constant.LEVEL_THREE)
             building = height;
         else
-            throw new IllegalArgumentException("\n"+height+" is not an acceptable height. Height must be between 0 and 3\n");
+            throw new IllegalArgumentException(height+" is not an acceptable height.");
     }
 
     public boolean hasDome(){
@@ -84,8 +84,8 @@ public class Tile {
 
     /**
      * Checks if two tiles are neighbours (but not the same).
-     * @param tile Reference to the tile to compare to.
-     * @return true only if the given tile is neighbour.
+     * @param tile  Reference to the tile to compare to.
+     * @return      true only if the given tile is neighbour.
      */
     public boolean isNeighbouringTile(Tile tile){
         int xDistance = Math.abs(x - tile.getX());
@@ -96,6 +96,10 @@ public class Tile {
             return ((xDistance <= 1) && (yDistance <= 1));
     }
 
+    /**
+     * Finds neighbouring tiles
+     * @return reference to every neighbouring tile
+     */
     public ArrayList<Tile> getNeighbouringTiles(){
         ArrayList<Tile> neighbouringTiles = new ArrayList<Tile>();
         for (int x = 0; x < DIM; x++){
@@ -106,5 +110,72 @@ public class Tile {
             }
         }
         return neighbouringTiles;
+    }
+
+    /**
+     * Using this method requires that each needed check regarding the existence of the next tile has already been performed.
+     * Only finds next tile in the same direction of the given one.
+     * @param tile  Reference to the tile to be checked. Must be a neighbouring tile.
+     * @return      Reference to the next tile in same direction
+     * @throws IllegalArgumentException if the pre-condition is not met.
+     */
+    public Tile getNextTileSameDirection(Tile tile){
+        if (!existsTileSameDirection(tile))
+            throw new IllegalArgumentException("There is no tile in same direction.");
+        else{
+            int x = sameDirectionCoordinate(tile.getX() - this.x, this.x);
+            int y = sameDirectionCoordinate(tile.getY() - this.y, this.y);
+            return board.getTile(x, y);
+        }
+    }
+
+    /**
+     * Checks if there is a valid tile next to the given one, in the same direction.
+     * @param tile  Reference to the tile to be checked.
+     * @return      true if it exists a neighbouring tile in the same direction
+     */
+    public boolean existsTileSameDirection(Tile tile){
+        if( !this.isNeighbouringTile(tile) )
+            return false;
+
+        int xDistance = tile.getX() - x;
+        int yDistance = tile.getY() - y;
+
+        int resultX = sameDirectionCoordinate(xDistance, this.x);
+        int resultY = sameDirectionCoordinate(yDistance, this.y);
+
+        return validCoordinates(resultX, resultY);
+
+    }
+
+    /**
+     * Finds the theoretical coordinate (one-dimensional) given a tile coordinate and an offset.
+     * @param distance  Integer representing the one-dimensional direction (offset)
+     * @param base      One-dimension coordinate of a tile
+     * @return          Theoretical coordinate of the next tile in the direction represented by the offset, starting from the base.
+     */
+    private int sameDirectionCoordinate(int distance, int base){
+        switch (distance){
+            case 1:
+                base = base + 2;
+            case -1:
+                base = base - 2;
+            case 0:
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + distance);
+        }
+        return base;
+    }
+
+
+    /**
+     * Checks if the given coordinates represent an existing tile
+     * @param x     x coordinate
+     * @param y     y coordinate
+     * @return      true if the coordinates are valid
+     */
+    private boolean validCoordinates(int x, int y){
+        return x >= 0 && x < DIM && y >= 0 && y < DIM;
     }
 }
