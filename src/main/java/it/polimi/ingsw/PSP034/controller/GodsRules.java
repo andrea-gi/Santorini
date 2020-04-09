@@ -128,7 +128,7 @@ public class GodsRules implements IRules, ITurnHandler {
             return false;
         }
         else {
-            return validBuildRecursive(worker, destinationTile);
+            return validMoveRecursive(worker, destinationTile);
         }
     }
 

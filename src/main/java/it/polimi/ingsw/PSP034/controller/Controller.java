@@ -66,6 +66,7 @@ public class Controller {
      * @param name is the name of the god*/
     public void addGod(String name, Player player){
         switch (name){
+            //SIMPLE GODS
             case "Apollo":
                 rules = new Apollo(rules, player);
                 break;
@@ -92,6 +93,14 @@ public class Controller {
                 break;
             case "Prometheus":
                 rules = new Prometheus(rules, player);
+                break;
+
+            //ADVANCED GODS
+            case "Hera":
+                rules = new Hera(rules, player);
+                break;
+            case "Hestia":
+                rules = new Hestia(rules, player);
                 break;
         }
     }

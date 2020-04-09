@@ -178,4 +178,8 @@ public class Tile {
     private boolean validCoordinates(int x, int y){
         return x >= 0 && x < DIM && y >= 0 && y < DIM;
     }
+
+    public boolean isPerimeter(){
+        return x == 0 || x == DIM-1 || y == 0 || y == DIM-1;
+    }
 }

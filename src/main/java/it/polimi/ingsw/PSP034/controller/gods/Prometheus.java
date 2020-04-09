@@ -27,8 +27,10 @@ public class Prometheus extends GodsRules {
                 else
                     return TurnPhase.GAMEOVER;
             case POWER:
-                if(usePower)
+                if(usePower) {
+                    super.setPreviousTile(myWorker.getMyTile()); // REWRITE PreviousTile, NO ACCIDENTAL WIN CONDITION
                     return TurnPhase.BUILD;
+                }
                 else
                     return TurnPhase.MOVE;
             case MOVE:
