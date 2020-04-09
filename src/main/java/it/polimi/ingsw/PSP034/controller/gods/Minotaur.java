@@ -16,6 +16,12 @@ public class Minotaur extends GodsRules {
     }
 
     @Override
+    protected Player getPlayer() {
+        return super.getPlayer();
+    }
+
+
+    @Override
     public TurnPhase nextState(TurnPhase currentPhase){
         return super.nextState(currentPhase);
     }
@@ -96,5 +102,10 @@ public class Minotaur extends GodsRules {
         }
         else
             return false;
+    }
+
+    @Override
+    public boolean checkWin(Worker worker){
+        return super.checkWin(worker);
     }
 }
