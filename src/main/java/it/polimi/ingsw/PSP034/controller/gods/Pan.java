@@ -1,11 +1,14 @@
 package it.polimi.ingsw.PSP034.controller.gods;
 
 import it.polimi.ingsw.PSP034.constants.*;
-import it.polimi.ingsw.PSP034.controller.*;
-import it.polimi.ingsw.PSP034.model.*;
+import it.polimi.ingsw.PSP034.controller.GodsRules;
+import it.polimi.ingsw.PSP034.controller.IRules;
+import it.polimi.ingsw.PSP034.model.Player;
+import it.polimi.ingsw.PSP034.model.Tile;
+import it.polimi.ingsw.PSP034.model.Worker;
 
 
-public class Pan extends GodsRules{
+public class Pan extends GodsRules {
     public Pan(IRules decoratedRules, Player player){
         super(decoratedRules, player);
     }
