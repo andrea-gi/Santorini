@@ -60,7 +60,7 @@ public class Minotaur extends GodsRules {
                 return false;
 
             //Checks if tiles are neighbour
-            if (worker.getMyTile().isNeighbouringTile(destinationTile))
+            if (!worker.getMyTile().isNeighbouringTile(destinationTile))
                 return false;
 
             if (destinationTile.getWorker() != null) {

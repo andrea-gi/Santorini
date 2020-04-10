@@ -108,6 +108,9 @@ public class Controller {
             case "Triton":
                 rules = new Triton(rules, player);
                 break;
+            case "Limus":
+                rules = new Limus(rules, player);
+                break;
         }
     }
 
