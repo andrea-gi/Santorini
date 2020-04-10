@@ -46,6 +46,7 @@ public class Zeus extends GodsRules {
                 return false;
             }
             else
+                //TODO -- spostare in execute state
                 builtUnderMe = true;
         }
         return validBuildRecursive(worker, buildingTile);

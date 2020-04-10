@@ -25,6 +25,7 @@ public class Apollo extends GodsRules {
 
     @Override
     public Boolean executeState(TurnPhase currentPhase, Worker worker, Tile tile, Boolean choice) {
+        //TODO -- Move
         return super.executeState(currentPhase, worker, tile, choice);
     }
 
@@ -42,7 +43,8 @@ public class Apollo extends GodsRules {
     public boolean validMove(Worker worker, Tile destinationTile) {
         if(getPlayer().isOwner(worker)){
             boolean validForApollo = validForApollo(worker, destinationTile);
-            if(!super.validMove(worker, destinationTile)  &&  !validForApollo)
+            //TODO -- logica
+            if(!getDefaultRules().validMove(worker, destinationTile)  &&  !validForApollo)
                 return false;
             else
                 return super.validMoveRecursive(worker, destinationTile);

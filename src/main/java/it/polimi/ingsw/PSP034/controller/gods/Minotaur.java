@@ -93,6 +93,7 @@ public class Minotaur extends GodsRules {
     private boolean validOtherWorkerMove(Worker worker, Tile passingTile){
         Tile destinationTile = worker.getMyTile().getNextTileSameDirection(passingTile);
         if( !destinationTile.hasDome() && destinationTile.getWorker() == null ){
+            //TODO -- spostare nel ...
             movingOtherWorker = true;
             return true;
         }

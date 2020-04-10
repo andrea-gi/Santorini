@@ -24,7 +24,7 @@ public class Board {
      * @return reference to the tile with coordinates (x;y), if it exists, otherwise null
      */
     public Tile getTile(int x, int y){
-        if((0 <= x)  &&  (x < Constant.DIM)  &&  (0 <= y)  &&  (y < Constant.DIM)){
+        if(Tile.validCoordinates(x,y)){
             return tiles[x][y];
         }
         return null;

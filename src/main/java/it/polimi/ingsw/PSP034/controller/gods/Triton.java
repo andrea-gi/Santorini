@@ -30,7 +30,8 @@ public class Triton extends GodsRules {
                 if(getCompleteRules().checkWin(this.getPlayer().getWorker(super.getChosenSex()))) {
                     return TurnPhase.WIN;
                 }else {
-                    if (getPlayer().getWorker(getChosenSex()).getMyTile().isPerimeter() && super.anyValidMove(this.getPlayer().getWorker(super.getChosenSex()))){
+                    if (getPlayer().getWorker(getChosenSex()).getMyTile().isPerimeter() &&
+                            super.anyValidMove(this.getPlayer().getWorker(super.getChosenSex()))){
                         return TurnPhase.POWER;
                     }
                     else if (super.anyValidBuild(this.getPlayer().getWorker(super.getChosenSex())))

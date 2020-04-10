@@ -24,13 +24,14 @@ public class Atlas extends GodsRules {
     public TurnPhase nextState(TurnPhase currentPhase) {
         switch(currentPhase){
             case START:
-                return super.nextState(TurnPhase.MOVE);
+                return super.nextState(TurnPhase.START);
             case MOVE:
+                //TODO -- CHECK
                 return TurnPhase.POWER;
             case POWER:
-                return super.nextState(TurnPhase.BUILD);
+                return TurnPhase.BUILD;
             case BUILD:
-                return super.nextState(TurnPhase.END);
+                return super.nextState(TurnPhase.BUILD);
         }
         return null;
     }
@@ -39,6 +40,7 @@ public class Atlas extends GodsRules {
     public Boolean executeState(TurnPhase currentPhase, Worker worker, Tile tile, Boolean choice) {
         switch(currentPhase){
             case START:
+                usePower = false;
                 return super.executeState(TurnPhase.START, worker, tile, choice);
             case MOVE:
                 return super.executeState(TurnPhase.MOVE, worker, tile, choice);
@@ -48,7 +50,6 @@ public class Atlas extends GodsRules {
             case BUILD:
                 if(getCompleteRules().validBuild(worker, tile)) {
                     if (usePower) {
-
                         buildDome(tile);
                         return true;
                     } else {
@@ -57,6 +58,8 @@ public class Atlas extends GodsRules {
                     }
                 }
                 return false;
+            case END:
+                return true;
         }
         return null;
     }

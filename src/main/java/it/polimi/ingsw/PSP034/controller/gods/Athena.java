@@ -48,10 +48,7 @@ public class Athena extends GodsRules {
     @Override
     public boolean validMove(Worker worker, Tile destinationTile) {
         if(getPlayer().isOwner(worker)){
-            if(!super.validMove(worker, destinationTile))
-                return false;
-            else
-                return super.validMoveRecursive(worker, destinationTile);
+            return super.validMove(worker, destinationTile);
         }else{
             if(movedUp  &&  (worker.heightDifference(destinationTile) >= 1))
                 return false;

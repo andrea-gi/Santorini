@@ -41,7 +41,8 @@ public class Pan extends GodsRules {
     @Override
     public boolean checkWin(Worker worker){
         if(getPlayer().isOwner(worker)) {
-            if (!(getDefaultRules().checkWin(worker) || worker.getMyTile().getBuilding() + 2 <= super.getPreviousTile().getBuilding()))
+            if (!(getDefaultRules().checkWin(worker) ||
+                    worker.getMyTile().getBuilding() + 2 <= super.getPreviousTile().getBuilding()))
                 return false;
         }
         return super.checkWinRecursive(worker);

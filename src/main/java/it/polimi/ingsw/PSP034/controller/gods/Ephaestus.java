@@ -62,11 +62,7 @@ public class Ephaestus extends GodsRules {
                 myFirstBuilding = null;
                 return true;
             case MOVE:
-                if(super.getCompleteRules().validMove(worker, tile)){
-                    super.move(worker, tile);
-                    return true;
-                } else
-                    return false;
+                return super.executeState(TurnPhase.MOVE, worker, tile, choice);
             case BUILD:
                 if(super.getCompleteRules().validBuild(worker, tile)){
                     super.build(tile);

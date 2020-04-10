@@ -138,8 +138,8 @@ public class Tile {
         if( !this.isNeighbouringTile(tile) )
             return false;
 
-        int xDistance = tile.getX() - x;
-        int yDistance = tile.getY() - y;
+        int xDistance = tile.getX() - this.x;
+        int yDistance = tile.getY() - this.y;
 
         int resultX = sameDirectionCoordinate(xDistance, this.x);
         int resultY = sameDirectionCoordinate(yDistance, this.y);
@@ -175,7 +175,7 @@ public class Tile {
      * @param y     y coordinate
      * @return      true if the coordinates are valid
      */
-    private boolean validCoordinates(int x, int y){
+    protected static boolean validCoordinates(int x, int y){
         return x >= 0 && x < DIM && y >= 0 && y < DIM;
     }
 

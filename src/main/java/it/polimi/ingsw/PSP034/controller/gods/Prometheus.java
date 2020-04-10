@@ -99,7 +99,7 @@ public class Prometheus extends GodsRules {
         if(getPlayer().isOwner(worker)){
             if(!getDefaultRules().validMove(worker, destinationTile))
                 return false;
-            else if(usePower && worker.heightDifference(destinationTile) > 0)
+            else if(usePower && worker.heightDifference(destinationTile) > 0  && worker.getSex() == getChosenSex())
                 return false;
         }
         return validMoveRecursive(worker, destinationTile);
