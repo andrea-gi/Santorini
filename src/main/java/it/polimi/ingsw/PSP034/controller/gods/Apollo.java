@@ -14,6 +14,11 @@ public class Apollo extends GodsRules {
     }
 
     @Override
+    protected Player getPlayer() {
+        return super.getPlayer();
+    }
+
+    @Override
     public TurnPhase nextState(TurnPhase currentPhase) {
         return super.nextState(currentPhase);
     }
