@@ -34,6 +34,7 @@ public class Prometheus extends GodsRules {
                 else
                     return TurnPhase.MOVE;
             case MOVE:
+                usePower = false;  // in order to have a correct validBuild check
                 if(getCompleteRules().checkWin(myWorker)){
                     return TurnPhase.WIN;
                 }
@@ -68,19 +69,13 @@ public class Prometheus extends GodsRules {
                 usePower = choice;
                 return true;
             case MOVE:
-                if(getCompleteRules().validMove(worker, tile)){
-                    move(worker, tile);
-                    return true;
-                }
-                else
-                    return false;
+                return super.executeState(TurnPhase.MOVE, worker, tile, choice);
             case BUILD:
                 if(usePower){
                     getDefaultRules().setChosenSex(worker); // Save sex in order to have a reference to the Worker to be used throughout the turn
                 }
                 if(getCompleteRules().validBuild(worker, tile)){
                     build(tile);
-                    usePower = false;
                     return true;
                 }
                 else{
@@ -101,7 +96,13 @@ public class Prometheus extends GodsRules {
 
     @Override
     public boolean validMove(Worker worker, Tile destinationTile){
-        return super.validMove(worker, destinationTile);
+        if(getPlayer().isOwner(worker)){
+            if(!getDefaultRules().validMove(worker, destinationTile))
+                return false;
+            else if(usePower && worker.heightDifference(destinationTile) > 0)
+                return false;
+        }
+        return validMoveRecursive(worker, destinationTile);
     }
 
     @Override

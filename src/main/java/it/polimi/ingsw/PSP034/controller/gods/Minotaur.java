@@ -29,6 +29,7 @@ public class Minotaur extends GodsRules {
     public Boolean executeState(TurnPhase currentPhase, Worker worker, Tile tile, Boolean choice) {
         switch (currentPhase){
             case START:
+                movingOtherWorker = false;
                 return true;
             case MOVE:
                 if(getCompleteRules().validMove(worker, tile)){
@@ -40,11 +41,7 @@ public class Minotaur extends GodsRules {
                 } else
                     return false;
             case BUILD:
-                if(getCompleteRules().validBuild(worker, tile)){
-                    build(tile);
-                    return true;
-                }else
-                    return false;
+                return super.executeState(TurnPhase.BUILD, worker, tile, choice);
             case END:
                 return true;
         }
@@ -88,7 +85,7 @@ public class Minotaur extends GodsRules {
     }
 
     /**
-     * Checks if you can use the Minotaur power (pushing other worker)
+     * Checks if you can use the Minotaur power (pushing other worker). Toggles a boolean which states the activation of the God power.
      * @param worker Reference to the worker that is using the power (and needs to push the opponent's worker)
      * @param passingTile Reference to the neighbouring tile where an opponent's worker is placed.
      * @return true if the opponent's worker can be pushed

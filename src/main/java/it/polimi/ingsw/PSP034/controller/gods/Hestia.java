@@ -1,20 +1,20 @@
 package it.polimi.ingsw.PSP034.controller.gods;
 
-import it.polimi.ingsw.PSP034.constants.*;
+import it.polimi.ingsw.PSP034.constants.Constant;
+import it.polimi.ingsw.PSP034.constants.TurnPhase;
 import it.polimi.ingsw.PSP034.controller.GodsRules;
 import it.polimi.ingsw.PSP034.controller.IRules;
 import it.polimi.ingsw.PSP034.model.Player;
 import it.polimi.ingsw.PSP034.model.Tile;
 import it.polimi.ingsw.PSP034.model.Worker;
 
-public class Ephaestus extends GodsRules {
-    private boolean usePower;
-    private Tile myFirstBuilding;
+public class Hestia extends GodsRules {
 
-    public Ephaestus(IRules decoratedRules, Player player){
+    private boolean usePower;
+
+    public Hestia(IRules decoratedRules, Player player){
         super(decoratedRules, player);
         usePower = false;
-        myFirstBuilding = null;
     }
 
     @Override
@@ -59,21 +59,11 @@ public class Ephaestus extends GodsRules {
         switch (currentPhase){
             case START:
                 usePower = false;
-                myFirstBuilding = null;
                 return true;
             case MOVE:
-                if(super.getCompleteRules().validMove(worker, tile)){
-                    super.move(worker, tile);
-                    return true;
-                } else
-                    return false;
+                return super.executeState(TurnPhase.MOVE, worker, tile, choice);
             case BUILD:
-                if(super.getCompleteRules().validBuild(worker, tile)){
-                    super.build(tile);
-                    myFirstBuilding = tile;
-                    return true;
-                }else
-                    return false;
+                return super.executeState(TurnPhase.BUILD, worker, tile, choice);
             case POWER:
                 usePower = choice;
                 return true;
@@ -93,7 +83,7 @@ public class Ephaestus extends GodsRules {
         if(getPlayer().isOwner(worker)){
             if(!super.getDefaultRules().validBuild(worker, buildingTile)){
                 return false;
-            }else if(usePower  &&  !buildingTile.equals(myFirstBuilding) && buildingTile.getBuilding() == Constant.LEVEL_THREE  &&  worker.getSex() != super.getChosenSex()){
+            }else if(usePower  &&  buildingTile.isPerimeter()){
                 return false;
             }
         }

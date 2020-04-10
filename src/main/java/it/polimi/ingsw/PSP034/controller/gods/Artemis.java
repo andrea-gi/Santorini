@@ -28,11 +28,7 @@ public class Artemis extends GodsRules {
     public TurnPhase nextState(TurnPhase currentPhase) {
         switch (currentPhase){
             case START:
-                if (!checkMoveLost(this.getPlayer())) {
-                    return TurnPhase.MOVE;
-                }else{
-                    return TurnPhase.GAMEOVER;
-                }
+                return super.nextState(TurnPhase.START);
             case MOVE:
                 if(getCompleteRules().checkWin(this.getPlayer().getWorker(super.getChosenSex()))) {
                     return TurnPhase.WIN;
@@ -43,6 +39,7 @@ public class Artemis extends GodsRules {
                         else
                             return TurnPhase.GAMEOVER;
                     } else {
+                        usePower = true; // in order to have a correct validBuild check
                         if (super.anyValidMove(this.getPlayer().getWorker(super.getChosenSex())))
                             return TurnPhase.POWER;
                         else if (super.anyValidBuild(this.getPlayer().getWorker(super.getChosenSex())))
@@ -61,11 +58,7 @@ public class Artemis extends GodsRules {
                         return TurnPhase.GAMEOVER;
                 }
             case BUILD:
-                if(getCompleteRules().checkWin(this.getPlayer().getWorker(super.getChosenSex()))) {
-                    return TurnPhase.WIN;
-                }else {
-                    return TurnPhase.END;
-                }
+                return super.nextState(TurnPhase.BUILD);
         }
         return null;
     }
@@ -85,11 +78,7 @@ public class Artemis extends GodsRules {
                 } else
                     return false;
             case BUILD:
-                if(super.getCompleteRules().validBuild(worker, tile)){
-                    super.build(tile);
-                    return true;
-                }else
-                    return false;
+                return super.executeState(TurnPhase.BUILD, worker, tile, choice);
             case POWER:
                 usePower = choice;
                 return true;
