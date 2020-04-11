@@ -7,12 +7,14 @@ import it.polimi.ingsw.PSP034.model.Player;
 import it.polimi.ingsw.PSP034.model.Tile;
 import it.polimi.ingsw.PSP034.model.Worker;
 
-public class Atlas extends GodsRules {
+public class Demeter extends GodsRules {
     private boolean usePower;
+    private Tile previousBuilding;
 
-    public Atlas(IRules decoratedRules, Player player){
+    public Demeter(IRules decoratedRules, Player player) {
         super(decoratedRules, player);
         usePower = false;
+        previousBuilding = null;
     }
 
     @Override
@@ -22,20 +24,29 @@ public class Atlas extends GodsRules {
 
     @Override
     public TurnPhase nextState(TurnPhase currentPhase) {
-        switch(currentPhase){
+        switch (currentPhase) {
             case START:
                 return super.nextState(TurnPhase.START);
             case MOVE:
-                if(checkWin(getPlayer().getWorker(getChosenSex())))
-                    return TurnPhase.WIN;
-                if(anyValidBuild(getPlayer().getWorker(getChosenSex())))
-                    return TurnPhase.POWER;
-                else
-                    return TurnPhase.GAMEOVER;
-            case POWER:
-                return TurnPhase.BUILD;
+                return super.nextState(TurnPhase.MOVE);
             case BUILD:
-                return super.nextState(TurnPhase.BUILD);
+                if (checkWin(getPlayer().getWorker(getChosenSex())))
+                    return TurnPhase.WIN;
+                if (usePower)
+                    return TurnPhase.END;
+                else {
+                    if (anyValidBuild(getPlayer().getWorker(getChosenSex())))
+                        return TurnPhase.POWER;
+                    else
+                        return TurnPhase.END;
+                }
+            case POWER:
+                if (usePower)
+                    return TurnPhase.BUILD;
+                else
+                    return TurnPhase.END;
+            case END:
+                return null;
         }
         return null;
     }
@@ -48,28 +59,19 @@ public class Atlas extends GodsRules {
                 return super.executeState(TurnPhase.START, worker, tile, choice);
             case MOVE:
                 return super.executeState(TurnPhase.MOVE, worker, tile, choice);
+            case BUILD:
+                if(super.executeState(TurnPhase.BUILD, worker, tile, choice)){
+                    previousBuilding = tile;
+                    return true;
+                }
+                return false;
             case POWER:
                 usePower = choice;
                 return true;
-            case BUILD:
-                if(getCompleteRules().validBuild(worker, tile)) {
-                    if (usePower) {
-                        buildDome(tile);
-                        return true;
-                    } else {
-                        super.build(tile);
-                        return true;
-                    }
-                }
-                return false;
             case END:
                 return true;
         }
-        return null;
-    }
-
-    private void buildDome(Tile buildingTile){
-        buildingTile.setDome(true);
+        return false;
     }
 
     @Override
@@ -79,11 +81,13 @@ public class Atlas extends GodsRules {
 
     @Override
     public boolean validBuild(Worker worker, Tile buildingTile) {
-        return super.validBuild(worker, buildingTile);
-    }
-
-    @Override
-    public boolean checkWin(Worker worker) {
-        return super.checkWin(worker);
+        if(getPlayer().isOwner(worker)){
+            if(!super.getDefaultRules().validBuild(worker, buildingTile)){
+                return false;
+            }else if(usePower  &&  (getChosenSex() != worker.getSex())  ||  buildingTile == previousBuilding){
+                return false;
+            }
+        }
+        return validBuildRecursive(worker, buildingTile);
     }
 }

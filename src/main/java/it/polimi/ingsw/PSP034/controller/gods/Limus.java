@@ -7,6 +7,7 @@ import it.polimi.ingsw.PSP034.controller.IRules;
 import it.polimi.ingsw.PSP034.model.Player;
 import it.polimi.ingsw.PSP034.model.Tile;
 import it.polimi.ingsw.PSP034.model.Worker;
+import it.polimi.ingsw.PSP034.constants.*;
 
 public class Limus extends GodsRules {
     public Limus(IRules decoratedRules, Player player){
@@ -33,7 +34,7 @@ public class Limus extends GodsRules {
         if(getPlayer().isOwner(worker)){
             return super.validBuild(worker, buildingTile);
         }else{
-            if(buildingTile.getBuilding() <= 2) {
+            if(buildingTile.getBuilding() <= Constant.LEVEL_TWO) {
                 if (buildingTile.isNeighbouringTile(getPlayer().getWorker(Sex.MALE).getMyTile()))
                     return false;
                 if (buildingTile.isNeighbouringTile(getPlayer().getWorker(Sex.FEMALE).getMyTile()))
