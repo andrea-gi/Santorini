@@ -50,6 +50,7 @@ public class Minotaur extends GodsRules {
 
     @Override
     public boolean validMove(Worker worker, Tile destinationTile){
+        movingOtherWorker = false;
         if(getPlayer().isOwner(worker)) {
             //Checks valid move up (at most 1 level)
             if (worker.heightDifference(destinationTile) > 1)
@@ -68,11 +69,8 @@ public class Minotaur extends GodsRules {
                     return false;
                 else if (!worker.getMyTile().existsTileSameDirection(destinationTile))
                     return false;
-                else {
-                    return validOtherWorkerMove(worker, destinationTile);
-                }
-            } else {
-                return true;
+                else if (!validOtherWorkerMove(worker, destinationTile))
+                    return false;
             }
         }
         return validMoveRecursive(worker, destinationTile);
@@ -93,7 +91,6 @@ public class Minotaur extends GodsRules {
     private boolean validOtherWorkerMove(Worker worker, Tile passingTile){
         Tile destinationTile = worker.getMyTile().getNextTileSameDirection(passingTile);
         if( !destinationTile.hasDome() && destinationTile.getWorker() == null ){
-            //TODO -- spostare nel ...
             movingOtherWorker = true;
             return true;
         }

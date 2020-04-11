@@ -27,7 +27,12 @@ public class Zeus extends GodsRules {
 
     @Override
     public Boolean executeState(TurnPhase currentPhase, Worker worker, Tile tile, Boolean choice) {
-        return super.executeState(currentPhase, worker, tile, choice);
+        if(currentPhase == TurnPhase.START){
+                builtUnderMe = false;
+                return super.executeState(TurnPhase.START, worker, tile, choice);
+        }
+        else
+            return super.executeState(currentPhase, worker, tile, choice);
     }
 
     @Override
@@ -37,6 +42,7 @@ public class Zeus extends GodsRules {
 
     @Override
     public boolean validBuild(Worker worker, Tile buildingTile) {
+        builtUnderMe = false;
         if(getPlayer().isOwner(worker)){
             if (!buildingTile.equals(worker.getMyTile())){
                 if(!super.getDefaultRules().validBuild(worker, buildingTile)){
@@ -46,7 +52,6 @@ public class Zeus extends GodsRules {
                 return false;
             }
             else
-                //TODO -- spostare in execute state
                 builtUnderMe = true;
         }
         return validBuildRecursive(worker, buildingTile);
