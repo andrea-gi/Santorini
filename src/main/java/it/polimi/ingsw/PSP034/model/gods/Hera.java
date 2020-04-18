@@ -1,15 +1,15 @@
-package it.polimi.ingsw.PSP034.controller.gods;
+package it.polimi.ingsw.PSP034.model.gods;
 
-import it.polimi.ingsw.PSP034.constants.*;
-import it.polimi.ingsw.PSP034.controller.GodsRules;
-import it.polimi.ingsw.PSP034.controller.IRules;
+import it.polimi.ingsw.PSP034.constants.TurnPhase;
+import it.polimi.ingsw.PSP034.model.GodsRules;
+import it.polimi.ingsw.PSP034.model.IRules;
 import it.polimi.ingsw.PSP034.model.Player;
 import it.polimi.ingsw.PSP034.model.Tile;
 import it.polimi.ingsw.PSP034.model.Worker;
 
+public class Hera extends GodsRules {
 
-public class Pan extends GodsRules {
-    public Pan(IRules decoratedRules, Player player){
+    public Hera(IRules decoratedRules, Player player){
         super(decoratedRules, player);
     }
 
@@ -19,12 +19,12 @@ public class Pan extends GodsRules {
     }
 
     @Override
-    public TurnPhase nextState(TurnPhase currentPhase) {
+    public TurnPhase nextState(TurnPhase currentPhase){
         return super.nextState(currentPhase);
     }
 
     @Override
-    public Boolean executeState(TurnPhase currentPhase, Worker worker, Tile tile, Boolean choice) {
+    public Boolean executeState(TurnPhase currentPhase, Worker worker, Tile tile, Boolean choice){
         return super.executeState(currentPhase, worker, tile, choice);
     }
 
@@ -40,9 +40,12 @@ public class Pan extends GodsRules {
 
     @Override
     public boolean checkWin(Worker worker){
-        if(getPlayer().isOwner(worker)) {
-            if (!(getDefaultRules().checkWin(worker) ||
-                    worker.getMyTile().getBuilding() + 2 <= super.getPreviousTile().getBuilding()))
+        if(getPlayer().isOwner(worker)){
+            if(!getDefaultRules().checkWin(worker))
+                return false;
+        }
+        else{
+            if (worker.getMyTile().isPerimeter())
                 return false;
         }
         return super.checkWinRecursive(worker);

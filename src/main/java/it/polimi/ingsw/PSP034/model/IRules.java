@@ -1,9 +1,6 @@
-package it.polimi.ingsw.PSP034.controller;
+package it.polimi.ingsw.PSP034.model;
 
 import it.polimi.ingsw.PSP034.constants.Sex;
-import it.polimi.ingsw.PSP034.model.Player;
-import it.polimi.ingsw.PSP034.model.Tile;
-import it.polimi.ingsw.PSP034.model.Worker;
 
 public interface IRules {
 

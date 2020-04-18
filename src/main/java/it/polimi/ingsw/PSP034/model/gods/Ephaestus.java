@@ -1,20 +1,20 @@
-package it.polimi.ingsw.PSP034.controller.gods;
+package it.polimi.ingsw.PSP034.model.gods;
 
-import it.polimi.ingsw.PSP034.constants.TurnPhase;
-import it.polimi.ingsw.PSP034.controller.GodsRules;
-import it.polimi.ingsw.PSP034.controller.IRules;
+import it.polimi.ingsw.PSP034.constants.*;
+import it.polimi.ingsw.PSP034.model.GodsRules;
+import it.polimi.ingsw.PSP034.model.IRules;
 import it.polimi.ingsw.PSP034.model.Player;
 import it.polimi.ingsw.PSP034.model.Tile;
 import it.polimi.ingsw.PSP034.model.Worker;
 
-public class Demeter extends GodsRules {
+public class Ephaestus extends GodsRules {
     private boolean usePower;
-    private Tile previousBuilding;
+    private Tile myFirstBuilding;
 
-    public Demeter(IRules decoratedRules, Player player) {
+    public Ephaestus(IRules decoratedRules, Player player){
         super(decoratedRules, player);
         usePower = false;
-        previousBuilding = null;
+        myFirstBuilding = null;
     }
 
     @Override
@@ -24,47 +24,52 @@ public class Demeter extends GodsRules {
 
     @Override
     public TurnPhase nextState(TurnPhase currentPhase) {
-        switch (currentPhase) {
+        switch (currentPhase){
             case START:
                 return super.nextState(TurnPhase.START);
             case MOVE:
                 return super.nextState(TurnPhase.MOVE);
             case BUILD:
-                if (checkWin(getPlayer().getWorker(getChosenSex())))
+                if(getCompleteRules().checkWin(this.getPlayer().getWorker(super.getChosenSex()))) {
                     return TurnPhase.WIN;
-                if (usePower)
-                    return TurnPhase.END;
-                else {
-                    if (anyValidBuild(getPlayer().getWorker(getChosenSex())))
-                        return TurnPhase.POWER;
-                    else
+                }else {
+                    if (usePower) {
                         return TurnPhase.END;
+                    } else {
+                        usePower = true; // in order to have a correct validBuild check
+                        if (super.anyValidBuild(this.getPlayer().getWorker(super.getChosenSex())))
+                            return TurnPhase.POWER;
+                        else
+                            return TurnPhase.END;
+                    }
                 }
             case POWER:
-                if (usePower)
-                    return TurnPhase.BUILD;
-                else
+                if(usePower) {
+                    return TurnPhase.BUILD;//the existence of a possible build has already been tested
+                }
+                else{
                     return TurnPhase.END;
-            case END:
-                return null;
+                }
         }
         return null;
     }
 
     @Override
     public Boolean executeState(TurnPhase currentPhase, Worker worker, Tile tile, Boolean choice) {
-        switch(currentPhase){
+        switch (currentPhase){
             case START:
                 usePower = false;
-                return super.executeState(TurnPhase.START, worker, tile, choice);
+                myFirstBuilding = null;
+                return true;
             case MOVE:
                 return super.executeState(TurnPhase.MOVE, worker, tile, choice);
             case BUILD:
-                if(super.executeState(TurnPhase.BUILD, worker, tile, choice)){
-                    previousBuilding = tile;
+                if(super.getCompleteRules().validBuild(worker, tile)){
+                    super.build(tile);
+                    myFirstBuilding = tile;
                     return true;
-                }
-                return false;
+                }else
+                    return false;
             case POWER:
                 usePower = choice;
                 return true;
@@ -84,10 +89,13 @@ public class Demeter extends GodsRules {
         if(getPlayer().isOwner(worker)){
             if(!super.getDefaultRules().validBuild(worker, buildingTile)){
                 return false;
-            }else if(usePower  &&  (getChosenSex() != worker.getSex()  ||  buildingTile == previousBuilding)){
+            }else if(usePower  &&  !buildingTile.equals(myFirstBuilding) && buildingTile.getBuilding() == Constant.LEVEL_THREE  &&  worker.getSex() != super.getChosenSex()){
                 return false;
             }
         }
         return validBuildRecursive(worker, buildingTile);
     }
+
+    @Override
+    public boolean checkWin(Worker worker){ return super.checkWin(worker);}
 }

@@ -1,17 +1,21 @@
 package it.polimi.ingsw.PSP034.controller;
 
 import it.polimi.ingsw.PSP034.constants.*;
-import it.polimi.ingsw.PSP034.model.*;
+import it.polimi.ingsw.PSP034.model.IStateManager;
 
 /**Handles the turn phases for each Player */
 public class TurnHandler {
-    private ITurnHandler currentGod;
-    private Controller controller;
+    private IStateManager currentGod;
+    private final Controller controller;
     private TurnPhase myTurnPhase;
+
+    public TurnHandler(Controller controller){
+        this.controller = controller;
+    }
 
     /**Sets the current God associated to the Player who is playing right now
      * @param currentGod is the God associated to the Player*/
-    public void setCurrentGod(ITurnHandler currentGod) {
+    public void setCurrentGod(IStateManager currentGod) {
         this.currentGod = currentGod;
     }
 

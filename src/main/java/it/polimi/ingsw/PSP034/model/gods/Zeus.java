@@ -1,8 +1,8 @@
-package it.polimi.ingsw.PSP034.controller.gods;
+package it.polimi.ingsw.PSP034.model.gods;
 
 import it.polimi.ingsw.PSP034.constants.*;
-import it.polimi.ingsw.PSP034.controller.GodsRules;
-import it.polimi.ingsw.PSP034.controller.IRules;
+import it.polimi.ingsw.PSP034.model.GodsRules;
+import it.polimi.ingsw.PSP034.model.IRules;
 import it.polimi.ingsw.PSP034.model.Player;
 import it.polimi.ingsw.PSP034.model.Tile;
 import it.polimi.ingsw.PSP034.model.Worker;

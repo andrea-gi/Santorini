@@ -56,6 +56,18 @@ public class Game {
     }
 
     /**
+     * @param name Name of the player to search
+     * @return Reference to the player with that given name
+     */
+    public Player getPlayerByName(String name){
+        for (Player player : players){
+            if(player.getName().equals(name))
+                return player;
+        }
+        return null;
+    }
+
+    /**
      * Sets the next player among the data structure of players, which is already in the right turn order.
      * */
     public void setNextPlayer(){
