@@ -2,6 +2,7 @@ package it.polimi.ingsw.PSP034.controller;
 
 import it.polimi.ingsw.PSP034.constants.*;
 import it.polimi.ingsw.PSP034.messages.NextStateInfo;
+import it.polimi.ingsw.PSP034.messages.toClient.RequestAction;
 import it.polimi.ingsw.PSP034.model.GodsRules;
 import it.polimi.ingsw.PSP034.model.IStateManager;
 import it.polimi.ingsw.PSP034.model.Tile;
@@ -41,8 +42,8 @@ public class TurnHandler {
         NextStateInfo nextStateInfo = currentGod.nextState(myTurnPhase);
         switch (nextStateInfo.getNextPhase()){
             case BUILD:
-                // ArrayList<Tile> malePossibleTiles = GodsRules.availableBuildingTiles(CURRENT PLAYER MALE WORKER);
-                // ArrayList<Tile> femalePossibleTiles = GodsRules.availableBuildingTiles(CURRENT PLAYER FEMALE WORKER);
+            case MOVE:
+                sendToPlayer(player, new RequestAction(nextStateInfo, player));
 
 
         //sendToPlayer(player, Messaggio)

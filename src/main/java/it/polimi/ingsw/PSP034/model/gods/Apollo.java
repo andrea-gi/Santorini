@@ -33,7 +33,7 @@ public class Apollo extends GodsRules {
                 executed = true;
             }else
                 executed = false;
-        return executed;
+            return executed;
         }
         return super.executeState(currentPhase, worker, tile, choice);
     }
