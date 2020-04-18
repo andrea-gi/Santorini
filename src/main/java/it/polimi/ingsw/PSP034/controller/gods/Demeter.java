@@ -84,7 +84,7 @@ public class Demeter extends GodsRules {
         if(getPlayer().isOwner(worker)){
             if(!super.getDefaultRules().validBuild(worker, buildingTile)){
                 return false;
-            }else if(usePower  &&  (getChosenSex() != worker.getSex())  ||  buildingTile == previousBuilding){
+            }else if(usePower  &&  (getChosenSex() != worker.getSex()  ||  buildingTile == previousBuilding)){
                 return false;
             }
         }
