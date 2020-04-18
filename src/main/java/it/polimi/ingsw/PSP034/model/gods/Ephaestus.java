@@ -2,6 +2,7 @@ package it.polimi.ingsw.PSP034.model.gods;
 
 import it.polimi.ingsw.PSP034.constants.*;
 import it.polimi.ingsw.PSP034.messages.NextStateInfo;
+import it.polimi.ingsw.PSP034.messages.RequiredActions;
 import it.polimi.ingsw.PSP034.model.GodsRules;
 import it.polimi.ingsw.PSP034.model.IRules;
 import it.polimi.ingsw.PSP034.model.Player;
@@ -32,24 +33,24 @@ public class Ephaestus extends GodsRules {
                 return super.nextState(TurnPhase.MOVE);
             case BUILD:
                 if(getCompleteRules().checkWin(this.getPlayer().getWorker(super.getChosenSex()))) {
-                    return TurnPhase.WIN;
+                    return new NextStateInfo(TurnPhase.WIN);
                 }else {
                     if (usePower) {
-                        return TurnPhase.END;
+                        return new NextStateInfo(TurnPhase.END);
                     } else {
                         usePower = true; // in order to have a correct validBuild check
                         if (super.anyValidBuild(this.getPlayer().getWorker(super.getChosenSex())))
-                            return TurnPhase.POWER;
+                            return new NextStateInfo(TurnPhase.POWER, RequiredActions.REQUEST_POWER);
                         else
-                            return TurnPhase.END;
+                            return new NextStateInfo(TurnPhase.END);
                     }
                 }
             case POWER:
                 if(usePower) {
-                    return TurnPhase.BUILD;//the existence of a possible build has already been tested
+                    return new NextStateInfo(TurnPhase.BUILD, RequiredActions.getRequiredSex(getChosenSex()), RequiredActions.REQUEST_BUILD);//the existence of a possible build has already been tested
                 }
                 else{
-                    return TurnPhase.END;
+                    return new NextStateInfo(TurnPhase.END);
                 }
         }
         return null;
@@ -57,27 +58,34 @@ public class Ephaestus extends GodsRules {
 
     @Override
     public boolean executeState(TurnPhase currentPhase, Worker worker, Tile tile, Boolean choice) {
+        boolean executed = false;
         switch (currentPhase){
             case START:
                 usePower = false;
                 myFirstBuilding = null;
-                return true;
+                executed = true;
+                break;
             case MOVE:
                 return super.executeState(TurnPhase.MOVE, worker, tile, choice);
             case BUILD:
                 if(super.getCompleteRules().validBuild(worker, tile)){
                     super.build(tile);
                     myFirstBuilding = tile;
-                    return true;
-                }else
-                    return false;
+                    executed = true;
+                    break;
+                }else {
+                    executed = false;
+                    break;
+                }
             case POWER:
                 usePower = choice;
-                return true;
+                executed = true;
+                break;
             case END:
-                return true;
+                executed = true;
+                break;
         }
-        return false;
+        return executed;
     }
 
     @Override

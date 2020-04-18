@@ -3,6 +3,7 @@ package it.polimi.ingsw.PSP034.model.gods;
 
 import it.polimi.ingsw.PSP034.constants.TurnPhase;
 import it.polimi.ingsw.PSP034.messages.NextStateInfo;
+import it.polimi.ingsw.PSP034.messages.RequiredActions;
 import it.polimi.ingsw.PSP034.model.GodsRules;
 import it.polimi.ingsw.PSP034.model.IRules;
 import it.polimi.ingsw.PSP034.model.Player;
@@ -31,31 +32,31 @@ public class Artemis extends GodsRules {
                 return super.nextState(TurnPhase.START);
             case MOVE:
                 if(getCompleteRules().checkWin(this.getPlayer().getWorker(super.getChosenSex()))) {
-                    return TurnPhase.WIN;
+                    return new NextStateInfo(TurnPhase.WIN);
                 }else {
                     if (secondMove) {
                         if (super.anyValidBuild(this.getPlayer().getWorker(super.getChosenSex())))
-                            return TurnPhase.BUILD;
+                            return new NextStateInfo(TurnPhase.BUILD, RequiredActions.getRequiredSex(getChosenSex()), RequiredActions.REQUEST_BUILD);
                         else
-                            return TurnPhase.GAMEOVER;
+                            return new NextStateInfo(TurnPhase.GAMEOVER);
                     } else {
                         usePower = true; // in order to have a correct validBuild check
                         if (super.anyValidMove(this.getPlayer().getWorker(super.getChosenSex())))
-                            return TurnPhase.POWER;
+                            return new NextStateInfo(TurnPhase.POWER, RequiredActions.REQUEST_POWER);
                         else if (super.anyValidBuild(this.getPlayer().getWorker(super.getChosenSex())))
-                            return TurnPhase.BUILD;
+                            return new NextStateInfo(TurnPhase.BUILD, RequiredActions.getRequiredSex(getChosenSex()), RequiredActions.REQUEST_BUILD);
                         else
-                            return TurnPhase.GAMEOVER;
+                            return new NextStateInfo(TurnPhase.GAMEOVER);
                     }
                 }
             case POWER:
                 if(usePower)
-                    return TurnPhase.MOVE; //the existence of a possible move has already been tested
+                    return new NextStateInfo(TurnPhase.MOVE, RequiredActions.getRequiredSex(getChosenSex()), RequiredActions.REQUEST_MOVE); //the existence of a possible move has already been tested
                 else{
                     if(super.anyValidBuild(this.getPlayer().getWorker(super.getChosenSex())))
-                        return TurnPhase.BUILD;
+                        return new NextStateInfo(TurnPhase.BUILD, RequiredActions.getRequiredSex(getChosenSex()), RequiredActions.REQUEST_BUILD);
                     else
-                        return TurnPhase.GAMEOVER;
+                        return new NextStateInfo(TurnPhase.GAMEOVER);
                 }
             case BUILD:
                 return super.nextState(TurnPhase.BUILD);
@@ -65,27 +66,33 @@ public class Artemis extends GodsRules {
 
     @Override
     public boolean executeState(TurnPhase currentPhase, Worker worker, Tile tile, Boolean choice) {
+        boolean executed = false;
         switch (currentPhase){
             case START:
                 usePower = false;
                 secondMove = false;
-                return true;
+                executed = true;
+                break;
             case MOVE:
                 if(super.getCompleteRules().validMove(worker, tile)){
                     super.move(worker, tile);
                     secondMove = true;
-                    return true;
-                } else
-                    return false;
+                    executed = true;
+                } else {
+                    executed = false;
+                }
+                break;
             case BUILD:
                 return super.executeState(TurnPhase.BUILD, worker, tile, choice);
             case POWER:
                 usePower = choice;
-                return true;
+                executed = true;
+                break;
             case END:
-                return true;
+                executed = true;
+                break;
         }
-        return false;
+        return executed;
     }
 
     @Override

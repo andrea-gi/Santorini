@@ -2,6 +2,7 @@ package it.polimi.ingsw.PSP034.model.gods;
 
 import it.polimi.ingsw.PSP034.constants.TurnPhase;
 import it.polimi.ingsw.PSP034.messages.NextStateInfo;
+import it.polimi.ingsw.PSP034.messages.RequiredActions;
 import it.polimi.ingsw.PSP034.model.GodsRules;
 import it.polimi.ingsw.PSP034.model.IRules;
 import it.polimi.ingsw.PSP034.model.Player;
@@ -28,13 +29,13 @@ public class Atlas extends GodsRules {
                 return super.nextState(TurnPhase.START);
             case MOVE:
                 if(checkWin(getPlayer().getWorker(getChosenSex())))
-                    return TurnPhase.WIN;
+                    return new NextStateInfo(TurnPhase.WIN);
                 if(anyValidBuild(getPlayer().getWorker(getChosenSex())))
-                    return TurnPhase.POWER;
+                    return new NextStateInfo(TurnPhase.POWER, RequiredActions.REQUEST_POWER);
                 else
-                    return TurnPhase.GAMEOVER;
+                    return new NextStateInfo(TurnPhase.GAMEOVER);
             case POWER:
-                return TurnPhase.BUILD;
+                return new NextStateInfo(TurnPhase.BUILD, RequiredActions.getRequiredSex(getChosenSex()), RequiredActions.REQUEST_BUILD);
             case BUILD:
                 return super.nextState(TurnPhase.BUILD);
         }
@@ -43,6 +44,7 @@ public class Atlas extends GodsRules {
 
     @Override
     public boolean executeState(TurnPhase currentPhase, Worker worker, Tile tile, Boolean choice) {
+        boolean executed = false;
         switch(currentPhase){
             case START:
                 usePower = false;
@@ -51,22 +53,27 @@ public class Atlas extends GodsRules {
                 return super.executeState(TurnPhase.MOVE, worker, tile, choice);
             case POWER:
                 usePower = choice;
-                return true;
+                executed = true;
+                break;
             case BUILD:
                 if(getCompleteRules().validBuild(worker, tile)) {
                     if (usePower) {
                         buildDome(tile);
-                        return true;
+                        executed = true;
+                        break;
                     } else {
                         super.build(tile);
-                        return true;
+                        executed = true;
+                        break;
                     }
                 }
-                return false;
+                executed = false;
+                break;
             case END:
-                return true;
+                executed = true;
+                break;
         }
-        return null;
+        return executed;
     }
 
     private void buildDome(Tile buildingTile){

@@ -28,22 +28,27 @@ public class Athena extends GodsRules {
 
     @Override
     public boolean executeState(TurnPhase currentPhase, Worker worker, Tile tile, Boolean choice) {
+        boolean executed = false;
         switch (currentPhase){
             case START:
                 movedUp = false;
-                return true;
+                executed = true;
+                break;
             case MOVE:
                 super.move(worker, tile);
                 if(worker.heightDifference(super.getPreviousTile()) == -1)
                     movedUp = true;
-                return true;
+                executed = true;
+                break;
             case BUILD:
                 super.build(tile);
-                return true;
+                executed = true;
+                break;
             case END:
-                return true;
+                executed = true;
+                break;
         }
-        return false;
+        return executed;
     }
 
     @Override

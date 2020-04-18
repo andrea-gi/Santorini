@@ -2,6 +2,7 @@ package it.polimi.ingsw.PSP034.model.gods;
 
 import it.polimi.ingsw.PSP034.constants.TurnPhase;
 import it.polimi.ingsw.PSP034.messages.NextStateInfo;
+import it.polimi.ingsw.PSP034.messages.RequiredActions;
 import it.polimi.ingsw.PSP034.model.GodsRules;
 import it.polimi.ingsw.PSP034.model.IRules;
 import it.polimi.ingsw.PSP034.model.Player;
@@ -22,53 +23,56 @@ public class Prometheus extends GodsRules {
         switch(currentPhase){
             case START:
                 if(!checkBuildLost(this.getPlayer()))
-                    return TurnPhase.POWER;
+                    return new NextStateInfo(TurnPhase.POWER, RequiredActions.REQUEST_POWER);
                 else if (!checkMoveLost(this.getPlayer()))
-                    return TurnPhase.MOVE;
+                    return new NextStateInfo(TurnPhase.MOVE, RequiredActions.REQUEST_WORKER, RequiredActions.REQUEST_MOVE);
                 else
-                    return TurnPhase.GAMEOVER;
+                    return new NextStateInfo(TurnPhase.GAMEOVER);
             case POWER:
                 if(usePower) {
                     super.setPreviousTile(myWorker.getMyTile()); // REWRITE PreviousTile, NO ACCIDENTAL WIN CONDITION
-                    return TurnPhase.BUILD;
+                    return new NextStateInfo(TurnPhase.BUILD, RequiredActions.REQUEST_WORKER, RequiredActions.REQUEST_BUILD);
                 }
                 else
-                    return TurnPhase.MOVE;
+                    return new NextStateInfo(TurnPhase.MOVE, RequiredActions.REQUEST_WORKER, RequiredActions.REQUEST_MOVE);
             case MOVE:
                 usePower = false;  // in order to have a correct validBuild check
                 if(getCompleteRules().checkWin(myWorker)){
-                    return TurnPhase.WIN;
+                    return new NextStateInfo(TurnPhase.WIN);
                 }
                 else if (anyValidBuild(myWorker)) {
-                    return TurnPhase.BUILD;
+                    return new NextStateInfo(TurnPhase.BUILD, RequiredActions.getRequiredSex(getChosenSex()), RequiredActions.REQUEST_BUILD);
                 }
                 else
-                    return TurnPhase.GAMEOVER;
+                    return new NextStateInfo(TurnPhase.GAMEOVER);
             case BUILD:
                 if(getCompleteRules().checkWin(myWorker)){
-                    return TurnPhase.WIN;
+                    return new NextStateInfo(TurnPhase.WIN);
                 }
                 else if (usePower){
                     if (anyValidMove(myWorker))
-                        return TurnPhase.MOVE;
+                        return new NextStateInfo(TurnPhase.MOVE, RequiredActions.getRequiredSex(getChosenSex()), RequiredActions.REQUEST_MOVE);
                     else
-                        return TurnPhase.GAMEOVER;
+                        return new NextStateInfo(TurnPhase.GAMEOVER);
                 }
                 else
-                    return TurnPhase.END;
+                    return new NextStateInfo(TurnPhase.END);
         }
         return null;
     }
 
     @Override
     public boolean executeState(TurnPhase currentPhase, Worker worker, Tile tile, Boolean choice){
+        boolean executed = false;
         switch (currentPhase){
             case START:
                 usePower = false;
-                return true;
+                executed = true;
+                break;
             case POWER:
                 usePower = choice;
-                return true;
+                executed = true;
+                break;
             case MOVE:
                 return super.executeState(TurnPhase.MOVE, worker, tile, choice);
             case BUILD:
@@ -77,15 +81,18 @@ public class Prometheus extends GodsRules {
                 }
                 if(getCompleteRules().validBuild(worker, tile)){
                     build(tile);
-                    return true;
+                    executed = true;
+                    break;
                 }
                 else{
-                    return false;
+                    executed = false;
+                    break;
                 }
             case END:
-                return true;
+                executed = true;
+                break;
         }
-        return false;
+        return executed;
     }
 
 

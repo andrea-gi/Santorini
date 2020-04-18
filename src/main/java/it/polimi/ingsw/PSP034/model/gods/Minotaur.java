@@ -28,25 +28,31 @@ public class Minotaur extends GodsRules {
 
     @Override
     public boolean executeState(TurnPhase currentPhase, Worker worker, Tile tile, Boolean choice) {
+        boolean executed = false;
         switch (currentPhase){
             case START:
                 movingOtherWorker = false;
-                return true;
+                executed = true;
+                break;
             case MOVE:
                 if(getCompleteRules().validMove(worker, tile)){
                     if(movingOtherWorker) {
                         move(tile.getWorker(), worker.getMyTile().getNextTileSameDirection(tile));
                     }
                     move(worker, tile);
-                    return true;
-                } else
-                    return false;
+                    executed = true;
+                    break;
+                } else {
+                    executed = false;
+                    break;
+                }
             case BUILD:
                 return super.executeState(TurnPhase.BUILD, worker, tile, choice);
             case END:
-                return true;
+                executed = true;
+                break;
         }
-        return false;
+        return executed;
     }
 
     @Override
