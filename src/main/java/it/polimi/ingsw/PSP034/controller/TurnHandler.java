@@ -1,13 +1,19 @@
 package it.polimi.ingsw.PSP034.controller;
 
 import it.polimi.ingsw.PSP034.constants.*;
+import it.polimi.ingsw.PSP034.messages.NextStateInfo;
+import it.polimi.ingsw.PSP034.model.GodsRules;
 import it.polimi.ingsw.PSP034.model.IStateManager;
+import it.polimi.ingsw.PSP034.model.Tile;
+import it.polimi.ingsw.PSP034.observer.Observer;
+
+import java.util.ArrayList;
 
 /**Handles the turn phases for each Player */
 public class TurnHandler {
-    private IStateManager currentGod;
+    private IStateManager currentGod; //DA SALVARE NEL MODEL ??
     private final Controller controller;
-    private TurnPhase myTurnPhase;
+    private TurnPhase myTurnPhase; //DA SALVARE NEL MODEL ??
 
     public TurnHandler(Controller controller){
         this.controller = controller;
@@ -31,16 +37,28 @@ public class TurnHandler {
 
     /**Makes the state of the turn change in order, depending on the God associated to the Player */
     public void receivedNextState(){
-        myTurnPhase = currentGod.nextState();
+        //myTurnPhase = currentGod.nextState();
+        NextStateInfo nextStateInfo = currentGod.nextState(myTurnPhase);
+        switch (nextStateInfo.getNextPhase()){
+            case BUILD:
+                // ArrayList<Tile> malePossibleTiles = GodsRules.availableBuildingTiles(CURRENT PLAYER MALE WORKER);
+                // ArrayList<Tile> femalePossibleTiles = GodsRules.availableBuildingTiles(CURRENT PLAYER FEMALE WORKER);
+
+
+        //sendToPlayer(player, Messaggio)
+        }
     }
 
-    /**Executes the actions in the actual turn phase*/
-    public void executeSelectedState(Message fromServer){
+
+
+
+    //**Executes the actions in the actual turn phase*/
+    //public void executeSelectedState(Message fromServer){
         //spacchetto il messaggio
         //TurnPhase turnPhase = fromServer.getTurnPhase();
         //Player player = fromServer.getPlayer();
         //Worker worker = fromServer.getWorker();
         //Tile tile = fromServer.getTile();
-        currentGod.executeState(turnPhase, player, worker, tile);
-        }
+        //currentGod.executeState(turnPhase, player, worker, tile);
+        //}
 }

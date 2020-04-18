@@ -2,19 +2,23 @@ package it.polimi.ingsw.PSP034.model;
 
 import it.polimi.ingsw.PSP034.constants.Sex;
 import it.polimi.ingsw.PSP034.constants.TurnPhase;
+import it.polimi.ingsw.PSP034.messages.NextStateInfo;
+import it.polimi.ingsw.PSP034.messages.RequiredActions;
+
+import java.util.ArrayList;
 
 public class GodsRules implements IRules, IStateManager {
     private final Player player;
     private static DefaultRules defaultRules;
     private static GodsRules completeRules;
-    private IRules decoratedRules;
+    private final IRules decoratedRules;
 
     public GodsRules(IRules decoratedRules, Player player){
         this.decoratedRules = decoratedRules;
         if (decoratedRules instanceof DefaultRules){ // Core decorated. Has default methods.
             defaultRules = (DefaultRules) decoratedRules;
         }
-        completeRules = this;  // whole decorator the last addes
+        completeRules = this;  // whole decorator is the latest
         this.player = player;
     }
     /*-------------------------------*/
@@ -34,54 +38,60 @@ public class GodsRules implements IRules, IStateManager {
     /*---------------------------*/
     /*-----Strategy methods------*/
     @Override
-    public TurnPhase nextState(TurnPhase currentPhase) {
+    public NextStateInfo nextState(TurnPhase currentPhase) {
         switch (currentPhase){
             case START:
                 if (!checkMoveLost(player)) {
-                    return TurnPhase.MOVE;
+                    return new NextStateInfo(TurnPhase.MOVE, RequiredActions.REQUEST_WORKER, RequiredActions.REQUEST_MOVE);
                 }else{
-                    return TurnPhase.GAMEOVER;
+                    return new NextStateInfo(TurnPhase.GAMEOVER);
                 }
             case MOVE:
                 if(completeRules.checkWin(player.getWorker(getChosenSex()))) {
-                    return TurnPhase.WIN;
+                    return new NextStateInfo(TurnPhase.WIN);
                 }else {
                     if (anyValidBuild(player.getWorker(getChosenSex())))
-                        return TurnPhase.BUILD;
+                        return new NextStateInfo(TurnPhase.BUILD, RequiredActions.getRequiredSex(getChosenSex()), RequiredActions.REQUEST_BUILD);
                     else
-                        return TurnPhase.GAMEOVER;
+                        return new NextStateInfo(TurnPhase.GAMEOVER);
                 }
             case BUILD:
                 if(completeRules.checkWin(player.getWorker(getChosenSex()))) {
-                    return TurnPhase.WIN;
+                    return new NextStateInfo(TurnPhase.WIN);
                 }else {
-                    return TurnPhase.END;
+                    return new NextStateInfo(TurnPhase.END);
                 }
         }
         return null;
     }
 
     @Override
-    public Boolean executeState(TurnPhase currentPhase, Worker worker, Tile tile, Boolean choice) {
+    public boolean executeState(TurnPhase currentPhase, Worker worker, Tile tile, Boolean choice) {
+        boolean executed = false;
         switch (currentPhase){
             case START:
-                return true;
+                executed = true;
+                break;
             case MOVE:
                 if(completeRules.validMove(worker, tile)){
                     move(worker, tile);
-                    return true;
+                    executed = true;
                 } else
-                    return false;
+                    executed = false;
+                break;
             case BUILD:
                 if(completeRules.validBuild(worker, tile)){
                     build(tile);
-                    return true;
+                    executed = true;
                 }else
-                    return false;
+                    executed = false;
+                break;
             case END:
-                return true;
+                executed = true;
+                break;
         }
-        return false;
+        // notify
+        return executed;
     }
 
     /*---------------------------*/
@@ -129,7 +139,7 @@ public class GodsRules implements IRules, IStateManager {
         }
     }
 
-    protected boolean validMoveRecursive(Worker worker, Tile destinationTile){
+    protected final boolean validMoveRecursive(Worker worker, Tile destinationTile){
         if (decoratedRules instanceof DefaultRules) {
             return true;
         } else {
@@ -146,7 +156,7 @@ public class GodsRules implements IRules, IStateManager {
         }
     }
 
-    protected boolean validBuildRecursive(Worker worker, Tile buildingTile){
+    protected final boolean validBuildRecursive(Worker worker, Tile buildingTile){
         if (decoratedRules instanceof DefaultRules) {
             return true;
         } else {
@@ -164,7 +174,7 @@ public class GodsRules implements IRules, IStateManager {
         }
     }
 
-    protected boolean checkWinRecursive(Worker worker) {
+    protected final boolean checkWinRecursive(Worker worker) {
         if (decoratedRules instanceof DefaultRules)
             return true;
         else
@@ -172,7 +182,7 @@ public class GodsRules implements IRules, IStateManager {
     }
 
     @Override
-    public boolean anyValidMove(Worker worker) {
+    public final boolean anyValidMove(Worker worker) {
         boolean anyMove = false;
         for (Tile neighbour : worker.getMyTile().getNeighbouringTiles()) {
             boolean valid = completeRules.validMove(worker, neighbour); //ATTENZIONE, REGOLE COMPLETE; USARE QUESTA!
@@ -184,8 +194,19 @@ public class GodsRules implements IRules, IStateManager {
         return anyMove;
     }
 
+    public static ArrayList<Tile> availableMovingTiles(Worker worker){
+        ArrayList<Tile> resultTiles = new ArrayList<>();
+        for (Tile neighbour : worker.getMyTile().getNeighbouringTiles()) {
+            boolean valid = completeRules.validMove(worker, neighbour);
+            if (valid) {
+                resultTiles.add(neighbour);
+            }
+        }
+        return resultTiles;
+    }
+
     @Override
-    public boolean checkMoveLost(Player player) {
+    public final boolean checkMoveLost(Player player) {
         boolean lost = true;
         for (Worker worker :
                 player.getMyWorkers()) {
@@ -198,7 +219,7 @@ public class GodsRules implements IRules, IStateManager {
     }
 
     @Override
-    public boolean anyValidBuild(Worker worker) {
+    public final boolean anyValidBuild(Worker worker) {
         boolean anyBuild = false;
         for (Tile neighbour : worker.getMyTile().getNeighbouringTiles()) {
             boolean valid = completeRules.validBuild(worker, neighbour); //ATTENZIONE, REGOLE COMPLETE; USARE QUESTA!!
@@ -210,8 +231,19 @@ public class GodsRules implements IRules, IStateManager {
         return anyBuild;
     }
 
+    public static ArrayList<Tile> availableBuildingTiles(Worker worker){
+        ArrayList<Tile> resultTiles = new ArrayList<>();
+        for (Tile neighbour : worker.getMyTile().getNeighbouringTiles()) {
+            boolean valid = completeRules.validBuild(worker, neighbour);
+            if (valid) {
+                resultTiles.add(neighbour);
+            }
+        }
+        return resultTiles;
+    }
+
     @Override
-    public boolean checkBuildLost(Player player) {
+    public final boolean checkBuildLost(Player player) {
         boolean lost = true;
         for (Worker worker :
                 player.getMyWorkers()) {

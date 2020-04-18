@@ -1,6 +1,7 @@
 package it.polimi.ingsw.PSP034.model.gods;
 
 import it.polimi.ingsw.PSP034.constants.TurnPhase;
+import it.polimi.ingsw.PSP034.messages.NextStateInfo;
 import it.polimi.ingsw.PSP034.model.GodsRules;
 import it.polimi.ingsw.PSP034.model.IRules;
 import it.polimi.ingsw.PSP034.model.Player;
@@ -16,7 +17,7 @@ public class Prometheus extends GodsRules {
     }
 
     @Override
-    public TurnPhase nextState(TurnPhase currentPhase){
+    public NextStateInfo nextState(TurnPhase currentPhase){
         Worker myWorker = this.getPlayer().getWorker(super.getChosenSex());
         switch(currentPhase){
             case START:
@@ -60,7 +61,7 @@ public class Prometheus extends GodsRules {
     }
 
     @Override
-    public Boolean executeState(TurnPhase currentPhase, Worker worker, Tile tile, Boolean choice){
+    public boolean executeState(TurnPhase currentPhase, Worker worker, Tile tile, Boolean choice){
         switch (currentPhase){
             case START:
                 usePower = false;

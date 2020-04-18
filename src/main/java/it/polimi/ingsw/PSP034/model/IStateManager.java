@@ -1,8 +1,9 @@
 package it.polimi.ingsw.PSP034.model;
 
 import it.polimi.ingsw.PSP034.constants.TurnPhase;
+import it.polimi.ingsw.PSP034.messages.NextStateInfo;
 
 public interface IStateManager {
-    public TurnPhase nextState(TurnPhase currentPhase);
-    public Boolean executeState(TurnPhase currentPhase, Worker worker, Tile tile, Boolean choice);
+    public NextStateInfo nextState(TurnPhase currentPhase);
+    public boolean executeState(TurnPhase currentPhase, Worker worker, Tile tile, Boolean choice);
 }

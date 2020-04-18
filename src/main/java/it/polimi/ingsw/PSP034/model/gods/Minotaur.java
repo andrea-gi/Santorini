@@ -1,6 +1,7 @@
 package it.polimi.ingsw.PSP034.model.gods;
 
 import it.polimi.ingsw.PSP034.constants.TurnPhase;
+import it.polimi.ingsw.PSP034.messages.NextStateInfo;
 import it.polimi.ingsw.PSP034.model.GodsRules;
 import it.polimi.ingsw.PSP034.model.IRules;
 import it.polimi.ingsw.PSP034.model.Player;
@@ -21,12 +22,12 @@ public class Minotaur extends GodsRules {
     }
 
     @Override
-    public TurnPhase nextState(TurnPhase currentPhase){
+    public NextStateInfo nextState(TurnPhase currentPhase){
         return super.nextState(currentPhase);
     }
 
     @Override
-    public Boolean executeState(TurnPhase currentPhase, Worker worker, Tile tile, Boolean choice) {
+    public boolean executeState(TurnPhase currentPhase, Worker worker, Tile tile, Boolean choice) {
         switch (currentPhase){
             case START:
                 movingOtherWorker = false;
