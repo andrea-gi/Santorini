@@ -1,7 +1,6 @@
 package it.polimi.ingsw.PSP034.observer;
 
 import it.polimi.ingsw.PSP034.messages.ModelUpdate;
-import it.polimi.ingsw.PSP034.messages.SlimBoard;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;

@@ -30,7 +30,6 @@ public class Prometheus extends GodsRules {
                     return new NextStateInfo(TurnPhase.GAMEOVER);
             case POWER:
                 if(usePower) {
-                    super.setPreviousTile(myWorker.getMyTile()); // REWRITE PreviousTile, NO ACCIDENTAL WIN CONDITION
                     return new NextStateInfo(TurnPhase.BUILD, RequiredActions.REQUEST_WORKER, RequiredActions.REQUEST_BUILD);
                 }
                 else
@@ -66,7 +65,7 @@ public class Prometheus extends GodsRules {
         boolean executed = false;
         switch (currentPhase){
             case START:
-                usePower = false;
+                usePower = true; // To have a correct validBuild (and checkBuildLost)
                 executed = true;
                 break;
             case POWER:
@@ -78,6 +77,7 @@ public class Prometheus extends GodsRules {
             case BUILD:
                 if(usePower){
                     getDefaultRules().setChosenSex(worker); // Save sex in order to have a reference to the Worker to be used throughout the turn
+                    super.setPreviousTile(worker.getMyTile()); // REWRITE PreviousTile, NO ACCIDENTAL WIN CONDITION
                 }
                 if(getCompleteRules().validBuild(worker, tile)){
                     build(tile);
@@ -115,6 +115,23 @@ public class Prometheus extends GodsRules {
 
     @Override
     public boolean validBuild(Worker worker, Tile buildingTile){
-        return super.validBuild(worker, buildingTile);
+        if(usePower){
+            //Checks if tile is unoccupied
+            if (buildingTile.getWorker() != null)
+                return false;
+
+            //Checks if tile does not have already a dome
+            if (buildingTile.hasDome())
+                return false;
+
+            //Checks if tiles are neighbour
+            if (!worker.getMyTile().isNeighbouringTile(buildingTile))
+                return false;
+
+            return super.validBuildRecursive(worker, buildingTile);
+        }
+        else {
+            return super.validBuild(worker, buildingTile);
+        }
     }
 }

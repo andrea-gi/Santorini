@@ -16,6 +16,8 @@ public class TurnHandler {
 
     public TurnHandler(Controller controller){
         this.controller = controller;
+        this.myTurnPhase = TurnPhase.START;
+        this.previousTurnPhase = TurnPhase.START;
     }
 
     /**Sets the current God associated to the Player who is playing right now
@@ -93,7 +95,7 @@ public class TurnHandler {
         switch(myTurnPhase){
             case START:
                 if(message instanceof AnswerStart) {
-                    currentGod.executeState(TurnPhase.START, null, null, false);
+                    validMessage = currentGod.executeState(TurnPhase.START, null, null, false);
                 }
                 else
                     validMessage = false;
@@ -104,14 +106,14 @@ public class TurnHandler {
                     AnswerAction action = (AnswerAction) message;
                     Worker myWorker = controller.getCurrentPlayer().getWorker(action.getWorkerSex());
                     Tile myTile = myWorker.getMyTile().neighbouringTileByDirection(action.getDirection());
-                    currentGod.executeState(myTurnPhase, myWorker, myTile, false);
+                    validMessage = currentGod.executeState(myTurnPhase, myWorker, myTile, false); // if error, not valid
                 }
                 else
                     validMessage = false;
                 break;
             case POWER:
                 if(message instanceof AnswerBooleanChoice){
-                    currentGod.executeState(TurnPhase.POWER, null, null, ((AnswerBooleanChoice) message).getChoice());
+                    validMessage = currentGod.executeState(TurnPhase.POWER, null, null, ((AnswerBooleanChoice) message).getChoice());
                 }
                 else
                     validMessage = false;

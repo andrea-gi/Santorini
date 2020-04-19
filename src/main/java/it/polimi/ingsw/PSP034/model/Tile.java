@@ -100,11 +100,11 @@ public class Tile {
      * @return reference to every neighbouring tile
      */
     public ArrayList<Tile> getNeighbouringTiles() {
-        ArrayList<Tile> neighbouringTiles = new ArrayList<Tile>();
-        for (int x = 0; x < DIM; x++) {
-            for (int y = 0; y < DIM; y++) {
-                if (isNeighbouringTile(board.getTile(x, y))) {
-                    neighbouringTiles.add(this);
+        ArrayList<Tile> neighbouringTiles = new ArrayList<>();
+        for (int i = 0; i < DIM; i++) {
+            for (int j = 0; j < DIM; j++) {
+                if (isNeighbouringTile(board.getTile(i, j))) {
+                    neighbouringTiles.add(board.getTile(i, j));
                 }
             }
         }

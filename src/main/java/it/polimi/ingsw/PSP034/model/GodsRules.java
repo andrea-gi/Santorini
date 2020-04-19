@@ -4,7 +4,6 @@ import it.polimi.ingsw.PSP034.constants.Sex;
 import it.polimi.ingsw.PSP034.constants.TurnPhase;
 import it.polimi.ingsw.PSP034.messages.PlayPhase.NextStateInfo;
 import it.polimi.ingsw.PSP034.messages.PlayPhase.RequiredActions;
-import it.polimi.ingsw.PSP034.messages.SlimBoard;
 
 import java.util.ArrayList;
 
@@ -150,7 +149,7 @@ public class GodsRules implements IRules, IStateManager {
         if (decoratedRules instanceof DefaultRules) {
             return true;
         } else {
-            return (decoratedRules.validBuild(worker, destinationTile));
+            return (decoratedRules.validMove(worker, destinationTile));
         }
     }
 
@@ -214,15 +213,15 @@ public class GodsRules implements IRules, IStateManager {
 
     @Override
     public final boolean checkMoveLost(Player player) {
-        boolean lost = true;
+        boolean keepPlaying = false;
         for (Worker worker :
                 player.getMyWorkers()) {
-            lost = this.anyValidMove(worker);
-            if (!lost) {
+            keepPlaying = this.anyValidMove(worker);
+            if (keepPlaying) {
                 break;
             }
         }
-        return lost;
+        return !keepPlaying;
     }
 
     @Override
@@ -251,14 +250,18 @@ public class GodsRules implements IRules, IStateManager {
 
     @Override
     public final boolean checkBuildLost(Player player) {
-        boolean lost = true;
-        for (Worker worker :
-                player.getMyWorkers()) {
-            lost = this.anyValidBuild(worker);
-            if (!lost) {
-                break;
+        boolean keepPlaying = false;
+        Sex firstSex = Sex.MALE; // Checks both Workers, used only with REQUEST_WORKER, REQUEST_BUILD (e.g. Prometheus)
+        Sex secondSex = firstSex;
+        do{
+            firstSex = firstSex.getOppositeSex();
+            for (Worker worker :
+                    player.getMyWorkers()) {
+                keepPlaying = keepPlaying || this.anyValidBuild(worker);
+                if(keepPlaying)
+                    break;
             }
-        }
-        return lost;
+        }while(firstSex != secondSex);
+        return !keepPlaying;
     }
 }

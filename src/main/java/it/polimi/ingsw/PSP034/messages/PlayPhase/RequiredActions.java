@@ -17,5 +17,5 @@ public enum RequiredActions {
             return REQUIRED_FEMALE;
         else
             throw new IllegalArgumentException("Sex must be MALE or FEMALE");
-    };
+    }
 }
