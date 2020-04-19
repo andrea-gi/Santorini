@@ -10,4 +10,11 @@ public enum Sex {
         else
             return MALE;
     }
+
+    public String toString(){
+        if (this == MALE)
+            return "M";
+        else
+            return "F";
+    }
 }
