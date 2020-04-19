@@ -10,5 +10,6 @@ public class GameOverPhase {
     public boolean startGameOver(){
         //checkWin restituisce il worker?
         //true se tutto ok
+        return true;
     }
 }

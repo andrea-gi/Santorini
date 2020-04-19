@@ -2,8 +2,9 @@ package it.polimi.ingsw.PSP034.model;
 
 import it.polimi.ingsw.PSP034.constants.Sex;
 import it.polimi.ingsw.PSP034.constants.TurnPhase;
-import it.polimi.ingsw.PSP034.messages.NextStateInfo;
-import it.polimi.ingsw.PSP034.messages.RequiredActions;
+import it.polimi.ingsw.PSP034.messages.PlayPhase.NextStateInfo;
+import it.polimi.ingsw.PSP034.messages.PlayPhase.RequiredActions;
+import it.polimi.ingsw.PSP034.messages.SlimBoard;
 
 import java.util.ArrayList;
 
@@ -11,7 +12,7 @@ public class GodsRules implements IRules, IStateManager {
     private final Player player;
     private static DefaultRules defaultRules;
     private static GodsRules completeRules;
-    private final IRules decoratedRules;
+    private IRules decoratedRules;
 
     public GodsRules(IRules decoratedRules, Player player){
         this.decoratedRules = decoratedRules;
@@ -23,6 +24,15 @@ public class GodsRules implements IRules, IStateManager {
     }
     /*-------------------------------*/
     /*-----God specific methods------*/
+
+    protected static void setCompleteRules(GodsRules completeRules) {
+        GodsRules.completeRules = completeRules;
+    }
+
+    protected void setDecoratedRules(IRules decoratedRules) {
+        this.decoratedRules = decoratedRules;
+    }
+
     protected GodsRules getCompleteRules() {
         return completeRules;
     }
@@ -66,7 +76,7 @@ public class GodsRules implements IRules, IStateManager {
     }
 
     @Override
-    public boolean executeState(TurnPhase currentPhase, Worker worker, Tile tile, Boolean choice) {
+    public boolean executeState(TurnPhase currentPhase, Worker worker, Tile tile, boolean choice) {
         boolean executed = false;
         switch (currentPhase){
             case START:
@@ -86,11 +96,8 @@ public class GodsRules implements IRules, IStateManager {
                 }else
                     executed = false;
                 break;
-            case END:
-                executed = true;
-                break;
         }
-        // notify
+        // TODO -- chiamare notify delle DefaultRules che chiama quella del Game
         return executed;
     }
 

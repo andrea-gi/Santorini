@@ -5,19 +5,39 @@ import java.util.ArrayList;
 
 public class Player {
     private final String name;
-    private String myGod;
+    private GodsRules myGod;
     private ArrayList<Worker> myWorkers;
+    private boolean hasWon;
+    private boolean hasLost;
 
     /** Creates a new Player class
      * @param name Player's name
      * instantiating a structure for Workers, that needs to be initialised using {@link Player#setMyWorkers(Color, Tile)}
      * At the time of instantiation, there is no myGod associated, which has to bet set using
-     * {@link Player#setMyGod(String)}
+     * {@link Player#setMyGod(GodsRules)}
      * */
     public Player(String name) {
         this.name = name;
         myGod = null;
-        myWorkers = new ArrayList<Worker>();
+        myWorkers = new ArrayList<>();
+        hasWon = false;
+        hasLost = false;
+    }
+
+    public boolean hasWon() {
+        return hasWon;
+    }
+
+    public boolean hasLost() {
+        return hasLost;
+    }
+
+    public void setHasLost(boolean hasLost) {
+        this.hasLost = hasLost;
+    }
+
+    public void setHasWon(boolean hasWon) {
+        this.hasWon = hasWon;
     }
 
     /** Initialises the structure for the Workers associated to the Player, with his name, a color and a sex. It also
@@ -51,12 +71,12 @@ public class Player {
         return result;
     }
 
-    public String getMyGod() {
+    public GodsRules getMyGod() {
         return myGod;
     }
 
     /** @param myGod the first turn a God is associated with the Player, for the entire game*/
-    public void setMyGod(String myGod) {
+    public void setMyGod(GodsRules myGod) {
         this.myGod = myGod;
     }
 

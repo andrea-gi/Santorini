@@ -1,6 +1,6 @@
 package it.polimi.ingsw.PSP034.controller;
 import it.polimi.ingsw.PSP034.constants.GamePhase;
-import it.polimi.ingsw.PSP034.model.gods.*;
+import it.polimi.ingsw.PSP034.messages.PlayPhase.PlayRequest;
 import it.polimi.ingsw.PSP034.model.*;
 
 /**It controls the unfolding of the game, checking the GamePhase, giving control of the TurnPhase to the TurnHandler
@@ -8,28 +8,30 @@ import it.polimi.ingsw.PSP034.model.*;
 public class Controller {
     private final Game currentGame;
     private final TurnHandler turnHandler;
-    private final SetupPhase setup;
+    private final SetupHandler setup;
     private final GameOverPhase gameOver;
-    private IRules rules;
+    private final MessageManager messageManager;
 
     /**Creates the controller associated to a Game. It builds itself the SetupPhase, the TurnHandler and the GameOverPhase
      * It creates also the DefaultRules in order to have ready all the Gods cards
      * @param currentGame is the link to the Game*/
     public Controller(Game currentGame) {
         this.currentGame = currentGame;
-        this.turnHandler = new TurnHandler();
-        this.setup = new SetupPhase(this);
+        this.turnHandler = new TurnHandler(this);
+        this.setup = new SetupHandler(this);
         this.gameOver = new GameOverPhase(this);
-        this.rules = new DefaultRules();
+        this.messageManager = new MessageManager(this);
     }
 
     public Game getCurrentGame(){
         return currentGame;
     }
 
-    public IRules getRules(){
-        return rules;
+    public void sendToPlayer(Player player, PlayRequest message){
+        messageManager.sendToPlayer(player, message);
     }
+
+    public void sendToAll();
 
     /**Sets the next game phase, in order*/
     public void nextGamePhase(){
@@ -48,13 +50,13 @@ public class Controller {
         boolean validPhase = false;
         switch (currentGame.getGamePhase()) {
             case SETUP:
-                validPhase = setup.startSetup();
+                //validPhase = setup.startSetup();
             case PLAY:
                 //turnHandler alla prima mossa della prima persona
-                if(!turnHandler.gotWinner())
-                    validPhase = turnHandler.startTurnHandler();
+                //if(!turnHandler.gotWinner())
+                //    validPhase = turnHandler.startTurnHandler();
             case GAMEOVER:
-                validPhase = gameOver.startGameOver();
+                //validPhase = gameOver.startGameOver();
         }
 
         if (validPhase)
@@ -62,61 +64,30 @@ public class Controller {
         return validPhase;
     }
 
-    /**Decorates the turn with the gods, already in order
-     * @param name is the name of the god*/
-    public void addGod(String name, Player player){
-        switch (name){
-            //SIMPLE GODS
-            case "Apollo":
-                rules = new Apollo(rules, player);
-                break;
-            case "Artemis":
-                rules = new Artemis(rules, player);
-                break;
-            case "Athena":
-                rules = new Athena(rules, player);
-                break;
-            case "Atlas":
-                rules = new Atlas(rules, player);
-                break;
-            case "Demeter":
-                rules = new Demeter(rules, player);
-                break;
-            case "Ephaestus":
-                rules = new Ephaestus(rules, player);
-                break;
-            case "Minotaur":
-                rules = new Minotaur(rules, player);
-                break;
-            case "Pan":
-                rules = new Pan(rules, player);
-                break;
-            case "Prometheus":
-                rules = new Prometheus(rules, player);
-                break;
+    public void setNextPlayer(){
+        currentGame.setNextPlayer();
+    }
 
-            //ADVANCED GODS
-            case "Hera":
-                rules = new Hera(rules, player);
-                break;
-            case "Hestia":
-                rules = new Hestia(rules, player);
-                break;
-            case "Zeus":
-                rules = new Zeus(rules, player);
-                break;
-            case "Triton":
-                rules = new Triton(rules, player);
-                break;
-            case "Limus":
-                rules = new Limus(rules, player);
-                break;
+    public Player getCurrentPlayer(){
+        return currentGame.getCurrentPlayer();
+    }
+
+    public boolean isGameOver(){
+        Player toBeDeletedPlayer = null;
+        for(Player player : currentGame.getPlayers()){
+            if(player.hasLost()){
+                toBeDeletedPlayer = player;
+            }
         }
+        if(toBeDeletedPlayer != null) {
+            if (currentGame.getPlayers().size() == 2){
+                return true;
+            }
+            else{
+                currentGame.removePlayer(toBeDeletedPlayer);
+            }
+        }
+
+        return false;
     }
-
-    public void removeGod(String name){
-        //rimuovo la divinità giusta dal decorator
-    }
-
-
 }

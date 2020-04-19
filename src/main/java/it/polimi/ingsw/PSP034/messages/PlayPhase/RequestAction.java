@@ -1,10 +1,8 @@
-package it.polimi.ingsw.PSP034.messages.toClient;
+package it.polimi.ingsw.PSP034.messages.PlayPhase;
 
 import it.polimi.ingsw.PSP034.constants.Directions;
 import it.polimi.ingsw.PSP034.constants.Sex;
 import it.polimi.ingsw.PSP034.constants.TurnPhase;
-import it.polimi.ingsw.PSP034.messages.NextStateInfo;
-import it.polimi.ingsw.PSP034.messages.RequiredActions;
 import it.polimi.ingsw.PSP034.model.GodsRules;
 import it.polimi.ingsw.PSP034.model.Player;
 import it.polimi.ingsw.PSP034.model.Tile;
@@ -12,13 +10,13 @@ import it.polimi.ingsw.PSP034.model.Worker;
 
 import java.util.ArrayList;
 
-public class RequestAction extends ToClientMessage {
+public class RequestAction extends PlayRequest {
 
-    private final NextStateInfo actionInfo;
     private final Directions[] possibleMaleDirections;
     private final Directions[] possibleFemaleDirections;
 
     public RequestAction(NextStateInfo info, Player player){
+        super(info);
         Worker male = player.getWorker(Sex.MALE);
         Worker female = player.getWorker(Sex.FEMALE);
 
@@ -39,7 +37,6 @@ public class RequestAction extends ToClientMessage {
         else
             throw new IllegalArgumentException("Action must be MOVE or BUILD");
 
-        this.actionInfo = info;
         this.possibleMaleDirections = new Directions[malePossibleTiles.size()];
         this.possibleFemaleDirections = new Directions[femalePossibleTiles.size()];
 
@@ -62,11 +59,13 @@ public class RequestAction extends ToClientMessage {
         return possibleMaleDirections;
     }
 
+    @Override
     public TurnPhase getNextPhase() {
-        return actionInfo.getNextPhase();
+        return super.getNextPhase();
     }
 
+    @Override
     public RequiredActions[] getRequiredActions(){
-        return actionInfo.getRequiredActions();
+        return super.getRequiredActions();
     }
 }

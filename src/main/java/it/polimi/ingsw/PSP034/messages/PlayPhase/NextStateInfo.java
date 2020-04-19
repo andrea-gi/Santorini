@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP034.messages;
+package it.polimi.ingsw.PSP034.messages.PlayPhase;
 
 import it.polimi.ingsw.PSP034.constants.TurnPhase;
 

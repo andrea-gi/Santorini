@@ -2,8 +2,8 @@ package it.polimi.ingsw.PSP034.model.gods;
 
 
 import it.polimi.ingsw.PSP034.constants.TurnPhase;
-import it.polimi.ingsw.PSP034.messages.NextStateInfo;
-import it.polimi.ingsw.PSP034.messages.RequiredActions;
+import it.polimi.ingsw.PSP034.messages.PlayPhase.NextStateInfo;
+import it.polimi.ingsw.PSP034.messages.PlayPhase.RequiredActions;
 import it.polimi.ingsw.PSP034.model.GodsRules;
 import it.polimi.ingsw.PSP034.model.IRules;
 import it.polimi.ingsw.PSP034.model.Player;
@@ -65,7 +65,7 @@ public class Artemis extends GodsRules {
     }
 
     @Override
-    public boolean executeState(TurnPhase currentPhase, Worker worker, Tile tile, Boolean choice) {
+    public boolean executeState(TurnPhase currentPhase, Worker worker, Tile tile, boolean choice) {
         boolean executed = false;
         switch (currentPhase){
             case START:

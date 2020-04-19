@@ -1,26 +1,56 @@
 package it.polimi.ingsw.PSP034.model;
 
 import it.polimi.ingsw.PSP034.constants.*;
+import it.polimi.ingsw.PSP034.messages.ModelUpdate;
+import it.polimi.ingsw.PSP034.messages.SlimBoard;
+import it.polimi.ingsw.PSP034.model.gods.*;
+import it.polimi.ingsw.PSP034.observer.ModelObservable;
+import it.polimi.ingsw.PSP034.observer.ModelObserver;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class Game {
+public class Game extends ModelObservable {
     private final Board board;
     private final ArrayList<Player> players;
     private Player currentPlayer;
     private GamePhase gamePhase;
-    private ArrayList<String> godsList;
+    private IRules rules;
+
 
     /**
      * Creates a new Game class, instantiating a new Board and a structure for Players. 
      * At the time of instantiation, there is no currentPlayer, which has to bet set using {@link Game#setCurrentPlayer(Player)}
      */
     public Game(){
-        this.players = new ArrayList<Player>();
+        this.players = new ArrayList<>();
         this.board = new Board();
         this.currentPlayer = null;
         this.gamePhase = GamePhase.SETUP;
-        // godsList ???
+        this.rules = new DefaultRules(this);
+    }
+
+    @Override
+    public void addObserver(@NotNull ModelObserver observer) {
+        super.addObserver(observer);
+    }
+
+    @Override
+    public void notifyObservers(ModelUpdate message) {
+        super.notifyObservers(message);
+    }
+
+    @Override
+    public void removeObserver(@NotNull ModelObserver observer) {
+        super.removeObserver(observer);
+    }
+
+    public IRules getRules() {
+        return rules;
+    }
+
+    public void setRules(IRules rules) {
+        this.rules = rules;
     }
 
     /**
@@ -76,6 +106,16 @@ public class Game {
         setCurrentPlayer(players.get(nextIndex));
     }
 
+    public void removePlayer(Player player){
+        if(player == currentPlayer)
+            setNextPlayer();
+        player.getWorker(Sex.MALE).getMyTile().setWorker(null);
+        player.getWorker(Sex.FEMALE).getMyTile().setWorker(null);
+        //TODO -- chiudere la connessione e cose
+        players.remove(player);
+        notifyObservers(new SlimBoard(board)); // Notify all model observers
+    }
+
 
     public Board getBoard(){
         return board;
@@ -87,5 +127,85 @@ public class Game {
 
     public GamePhase getGamePhase(){
         return gamePhase;
+    }
+
+    /**Decorates the turn with the gods, already in order
+     * @param name is the name of the god*/
+    public void addGod(String name, Player player){
+        switch (name){
+            //SIMPLE GODS
+            case "Apollo":
+                rules = new Apollo(rules, player);
+                break;
+            case "Artemis":
+                rules = new Artemis(rules, player);
+                break;
+            case "Athena":
+                rules = new Athena(rules, player);
+                break;
+            case "Atlas":
+                rules = new Atlas(rules, player);
+                break;
+            case "Demeter":
+                rules = new Demeter(rules, player);
+                break;
+            case "Ephaestus":
+                rules = new Ephaestus(rules, player);
+                break;
+            case "Minotaur":
+                rules = new Minotaur(rules, player);
+                break;
+            case "Pan":
+                rules = new Pan(rules, player);
+                break;
+            case "Prometheus":
+                rules = new Prometheus(rules, player);
+                break;
+
+            //ADVANCED GODS
+            case "Hera":
+                rules = new Hera(rules, player);
+                break;
+            case "Hestia":
+                rules = new Hestia(rules, player);
+                break;
+            case "Zeus":
+                rules = new Zeus(rules, player);
+                break;
+            case "Triton":
+                rules = new Triton(rules, player);
+                break;
+            case "Limus":
+                rules = new Limus(rules, player);
+                break;
+        }
+        player.setMyGod((GodsRules) rules);
+    }
+
+    public void removeGod(String playerName){
+        if(getPlayerByName(playerName) == null)
+            return;
+
+        GodsRules current = (GodsRules) rules;
+        GodsRules previous = current;
+        int godNumber = 0;
+
+        while(godNumber < players.size() - 1) {
+            if (current.getPlayer().getName().equals(playerName))
+                break;
+            else {
+                previous = current;
+                current = (GodsRules) current.getDecoratedRules();
+                godNumber++;
+            }
+        }
+
+        if(godNumber == 0){
+            rules = ((GodsRules) rules).getDecoratedRules();
+            GodsRules.setCompleteRules((GodsRules) rules);
+        }
+        else {
+            previous.setDecoratedRules(current.getDecoratedRules());
+        }
     }
 }

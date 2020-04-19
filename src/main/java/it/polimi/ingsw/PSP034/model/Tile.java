@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP034.model;
 import it.polimi.ingsw.PSP034.constants.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -185,10 +186,17 @@ public class Tile {
         return x == 0 || x == DIM - 1 || y == 0 || y == DIM - 1;
     }
 
-    public Directions directionCalculator(Tile tile) {
+    public Directions directionCalculator(@NotNull Tile tile) {
         int xOffset = tile.getX() - this.x;
         int yOffset = tile.getY() - this.y;
 
         return Directions.offsetToDirection(xOffset, yOffset);
+    }
+
+    public Tile neighbouringTileByDirection(Directions direction){
+        int xOffset = Directions.directionToXOffset(direction);
+        int yOffset = Directions.directionToYOffset(direction);
+
+        return board.getTile(x + xOffset, y + yOffset );
     }
 }

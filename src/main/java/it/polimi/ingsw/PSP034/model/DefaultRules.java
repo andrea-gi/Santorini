@@ -7,8 +7,15 @@ import it.polimi.ingsw.PSP034.constants.Sex;
  * Contains default action rules used in the game.
  */
 public class DefaultRules implements IRules {
+    private final Game game;
     private Sex chosenSex;
     private Tile previousTile;
+
+    public DefaultRules(Game game){
+        this.game = game;
+        this.chosenSex = null;
+        this.previousTile = null;
+    }
 
 
     public Sex getChosenSex() {

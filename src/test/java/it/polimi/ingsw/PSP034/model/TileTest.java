@@ -11,10 +11,10 @@ public class TileTest {
     private Worker worker1 = null;
 
     @Before
-    public void setUp(){
-        tile = new Tile(1, 2);
-        worker1 = new Worker('m', "Pippo");
-    }
+    //public void setUp(){
+        //tile = new Tile(1, 2);
+        //worker1 = new Worker('m', "Pippo");
+    //}
 
     @Test
     public void getWorker_correctInput_correctOutput() {
