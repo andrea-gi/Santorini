@@ -3,6 +3,8 @@ import it.polimi.ingsw.PSP034.constants.GamePhase;
 import it.polimi.ingsw.PSP034.messages.PlayPhase.PlayRequest;
 import it.polimi.ingsw.PSP034.model.*;
 
+import java.util.ArrayList;
+
 /**It controls the unfolding of the game, checking the GamePhase, giving control of the TurnPhase to the TurnHandler
  * and decorating the Gods in the right order, choosing their right moves*/
 public class Controller {
@@ -23,15 +25,40 @@ public class Controller {
         this.messageManager = new MessageManager(this);
     }
 
-    public Game getCurrentGame(){
-        return currentGame;
+    public ArrayList<String> getRemainingGods() {
+        return currentGame.getRemainingGods();
+    }
+
+    public void removeRemainingGod(String god) {
+        this.currentGame.removeRemainingGod(god);
+    }
+
+    public void addRemainingGod(String god){
+        this.currentGame.addRemainingGod(god);
+    }
+
+    public int getPlayerNumber(){
+        return this.currentGame.getPlayerNumber();
+    }
+
+    public ArrayList<String> getPlayersName(){
+        return this.currentGame.getPlayersName();
+    }
+
+    public void firstPlayerSetUp(String name){
+        Player player = currentGame.getPlayerByName(name);
+        currentGame.setCurrentPlayer(player);
+    }
+
+    public Tile getTile(int x, int y){
+        return currentGame.getBoard().getTile(x, y);
     }
 
     public void sendToPlayer(Player player, PlayRequest message){
         messageManager.sendToPlayer(player, message);
     }
 
-    public void sendToAll();
+    public void sendToAll(){};
 
     /**Sets the next game phase, in order*/
     public void nextGamePhase(){
@@ -89,5 +116,9 @@ public class Controller {
         }
 
         return false;
+    }
+
+    public void addGod(String name, Player player){
+        this.currentGame.addGod(name, player);
     }
 }

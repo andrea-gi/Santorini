@@ -9,19 +9,21 @@ public class Player {
     private ArrayList<Worker> myWorkers;
     private boolean hasWon;
     private boolean hasLost;
+    private final Color color;
 
     /** Creates a new Player class
      * @param name Player's name
-     * instantiating a structure for Workers, that needs to be initialised using {@link Player#addWorker(Sex, Color, Tile)}
+     * instantiating a structure for Workers, that needs to be initialised using {@link Player#addWorker(Sex, Tile)}
      * At the time of instantiation, there is no myGod associated, which has to bet set using
      * {@link Player#setMyGod(GodsRules)}
      * */
-    public Player(String name) {
+    public Player(String name, Color color) {
         this.name = name;
         myGod = null;
         myWorkers = new ArrayList<>();
         hasWon = false;
         hasLost = false;
+        this.color = color;
     }
 
     public boolean hasWon() {
@@ -43,10 +45,9 @@ public class Player {
     /** Initialises the structure for the Workers associated to the Player, with his name, a color and a sex. It also
      * already places the Workers in their first position
      * @param sex is the sex of the Worker
-     * @param myColor is the color of my Workers
      * @param myTile is the tile where the Player places the first time his Worker*/
-    public void addWorker(Sex sex, Color myColor, Tile myTile){
-        Worker newWorker = new Worker(sex, name, myColor, myTile);
+    public void addWorker(Sex sex, Tile myTile){
+        Worker newWorker = new Worker(sex, name, this.color, myTile);
         myWorkers.add(newWorker);
         myTile.setWorker(newWorker);
     }

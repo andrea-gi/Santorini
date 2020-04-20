@@ -8,6 +8,7 @@ import it.polimi.ingsw.PSP034.observer.ModelObservable;
 import it.polimi.ingsw.PSP034.observer.ModelObserver;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Game extends ModelObservable {
@@ -16,6 +17,7 @@ public class Game extends ModelObservable {
     private Player currentPlayer;
     private GamePhase gamePhase;
     private IRules rules;
+    private ArrayList<String> remainingGods;
 
 
     /**
@@ -28,6 +30,7 @@ public class Game extends ModelObservable {
         this.currentPlayer = null;
         this.gamePhase = GamePhase.SETUP;
         this.rules = new DefaultRules(this);
+        this.remainingGods = new ArrayList<>();
     }
 
     @Override
@@ -45,6 +48,18 @@ public class Game extends ModelObservable {
         super.removeObserver(observer);
     }
 
+    public ArrayList<String> getRemainingGods() {
+        return new ArrayList<>(this.remainingGods);
+    }
+
+    public void removeRemainingGod(String god) {
+        this.remainingGods.remove(god);
+    }
+
+    public void addRemainingGod(String god){
+        this.remainingGods.add(god);
+    }
+
     public IRules getRules() {
         return rules;
     }
@@ -60,7 +75,7 @@ public class Game extends ModelObservable {
         return players.size();
     }
 
-    private void setCurrentPlayer(Player player){
+    public void setCurrentPlayer(Player player){
         currentPlayer = player;
     }
 
@@ -68,8 +83,12 @@ public class Game extends ModelObservable {
         return currentPlayer;
     }
 
-    public ArrayList<Player> getPlayers(){
-        return this.players;
+    public ArrayList<String> getPlayersName(){
+        ArrayList<String> names = new ArrayList<>();
+        for (Player player : players) {
+            names.add(player.getName());
+        }
+        return names;
     }
 
     /**
