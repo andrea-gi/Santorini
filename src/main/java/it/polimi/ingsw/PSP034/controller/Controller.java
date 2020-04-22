@@ -1,7 +1,12 @@
 package it.polimi.ingsw.PSP034.controller;
 import it.polimi.ingsw.PSP034.constants.GamePhase;
-import it.polimi.ingsw.PSP034.messages.PlayPhase.PlayRequest;
+import it.polimi.ingsw.PSP034.constants.TurnPhase;
+import it.polimi.ingsw.PSP034.messages.PlayPhase.NextStateInfo;
+import it.polimi.ingsw.PSP034.messages.PlayPhase.RequestStart;
+import it.polimi.ingsw.PSP034.messages.Request;
+import it.polimi.ingsw.PSP034.messages.SetupPhase.RequestCardsChoice;
 import it.polimi.ingsw.PSP034.model.*;
+import it.polimi.ingsw.PSP034.server.MessageManager;
 
 import java.util.ArrayList;
 
@@ -54,60 +59,58 @@ public class Controller {
         return currentGame.getBoard().getTile(x, y);
     }
 
-    public void sendToPlayer(Player player, PlayRequest message){
+    public void sendToPlayer(Player player, Request message){
         messageManager.sendToPlayer(player, message);
     }
 
     public void sendToAll(){};
 
-    /**Sets the next game phase, in order*/
-    public void nextGamePhase(){
+    /**Sets the next game phase, in order
+     * Sends the first request message*/
+    public void handleGamePhase(){
         switch (currentGame.getGamePhase()) {
             case SETUP:
-                currentGame.setGamePhase(GamePhase.PLAY);
+                sendToPlayer(this.getCurrentPlayer(), new RequestCardsChoice(getPlayerNumber()));
+                break;
             case PLAY:
-                currentGame.setGamePhase(GamePhase.GAMEOVER);
+                sendToPlayer(this.getCurrentPlayer(), new RequestStart(new NextStateInfo(TurnPhase.START)));
             case GAMEOVER:
                 //chiama chi gestisce la partita
         }
-    }
-
-    /**Executes the right game phase*/
-    public boolean startGamePhase(){
-        boolean validPhase = false;
-        switch (currentGame.getGamePhase()) {
-            case SETUP:
-                //validPhase = setup.startSetup();
-            case PLAY:
-                //turnHandler alla prima mossa della prima persona
-                //if(!turnHandler.gotWinner())
-                //    validPhase = turnHandler.startTurnHandler();
-            case GAMEOVER:
-                //validPhase = gameOver.startGameOver();
-        }
-
-        if (validPhase)
-            nextGamePhase();
-        return validPhase;
     }
 
     public void setNextPlayer(){
         currentGame.setNextPlayer();
     }
 
+    public void setNextGamePhase(){
+        GamePhase myPhase = currentGame.getGamePhase();
+        switch (myPhase){
+            case SETUP:
+                currentGame.setGamePhase(GamePhase.PLAY);
+                break;
+            case PLAY:
+                currentGame.setGamePhase(GamePhase.GAMEOVER);
+                break;
+        }
+    }
+
+    public GamePhase getGamePhase(){
+        return currentGame.getGamePhase();
+    }
+
     public Player getCurrentPlayer(){
         return currentGame.getCurrentPlayer();
     }
 
+    public TurnHandler getTurnHandler(){
+        return this.turnHandler;
+    }
+
     public boolean isGameOver(){
-        Player toBeDeletedPlayer = null;
-        for(Player player : currentGame.getPlayers()){
-            if(player.hasLost()){
-                toBeDeletedPlayer = player;
-            }
-        }
+        Player toBeDeletedPlayer = currentGame.loser();
         if(toBeDeletedPlayer != null) {
-            if (currentGame.getPlayers().size() == 2){
+            if (currentGame.getPlayerNumber() == 2){
                 return true;
             }
             else{

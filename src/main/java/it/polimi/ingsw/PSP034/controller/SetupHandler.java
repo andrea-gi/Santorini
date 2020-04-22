@@ -9,7 +9,7 @@ public class SetupHandler {
     private final Controller controller;
     private SetupPhase currentSetupPhase;
     private boolean firstWorker = false;
-    private int playerNumber;
+    private int playerNumber = 0;
 
     /**It creates the class, already associated with the controller
      * @param controller is the controller that handles this game*/
@@ -45,7 +45,9 @@ public class SetupHandler {
                     controller.getCurrentPlayer().addWorker(sex, controller.getTile(x, y));
                     if (!firstWorker){
                         controller.setNextPlayer();
-                        currentSetupPhase = SetupPhase.PERSONAL_GOD_CHOICE;
+                        playerNumber++;
+                        if (playerNumber < controller.getPlayerNumber())
+                            currentSetupPhase = SetupPhase.PERSONAL_GOD_CHOICE;
                     }
                 }
                 break;
@@ -73,7 +75,7 @@ public class SetupHandler {
                     controller.sendToPlayer(player, new RequestPlaceWorker(Sex.MALE));
                     firstWorker = true;
                 }
-                break;
+                break; //TODO -- invia notifica agli altri giocatori
             case PLACE_WORKERS:
                 if (firstWorker){
                     controller.sendToPlayer(player, new RequestPlaceWorker(Sex.FEMALE));
@@ -84,7 +86,8 @@ public class SetupHandler {
                 }
                 break;
             case CHOOSE_FIRST_PLAYER:
-
+                controller.setNextGamePhase();
+                controller.handleGamePhase();
         }
 
     }
