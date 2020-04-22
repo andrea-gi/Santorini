@@ -8,7 +8,6 @@ import it.polimi.ingsw.PSP034.observer.ModelObservable;
 import it.polimi.ingsw.PSP034.observer.ModelObserver;
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Game extends ModelObservable {

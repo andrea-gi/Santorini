@@ -26,7 +26,7 @@ public class Apollo extends GodsRules {
 
     @Override
     public boolean executeState(TurnPhase currentPhase, Worker worker, Tile tile, boolean choice) {
-        boolean executed = false;
+        boolean executed;
         if (currentPhase == TurnPhase.MOVE){
             if(getCompleteRules().validMove(worker, tile)) {
                 this.move(worker, tile);

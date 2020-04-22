@@ -8,6 +8,6 @@ public class AnswerBooleanChoice extends PlayAnswer {
     }
 
     public boolean getChoice() {
-        return choice;
+        return this.choice;
     }
 }

@@ -1,7 +1,5 @@
 package it.polimi.ingsw.PSP034.messages.SetupPhase;
 
-import it.polimi.ingsw.PSP034.model.Player;
-
 import java.util.ArrayList;
 
 public class RequestFirstPlayer extends SetupRequest {
@@ -12,5 +10,9 @@ public class RequestFirstPlayer extends SetupRequest {
         for (int i = 0; i < players.size(); i++){
             this.players[i] = players.get(i);
         }
+    }
+
+    public String[] getPlayers() {
+        return players;
     }
 }

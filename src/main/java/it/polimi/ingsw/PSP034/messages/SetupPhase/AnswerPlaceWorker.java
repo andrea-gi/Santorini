@@ -1,6 +1,5 @@
 package it.polimi.ingsw.PSP034.messages.SetupPhase;
 
-import it.polimi.ingsw.PSP034.constants.Directions;
 import it.polimi.ingsw.PSP034.constants.Sex;
 
 public class AnswerPlaceWorker extends SetupAnswer{

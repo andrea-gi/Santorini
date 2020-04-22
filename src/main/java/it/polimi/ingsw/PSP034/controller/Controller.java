@@ -2,9 +2,11 @@ package it.polimi.ingsw.PSP034.controller;
 import it.polimi.ingsw.PSP034.constants.GamePhase;
 import it.polimi.ingsw.PSP034.constants.TurnPhase;
 import it.polimi.ingsw.PSP034.messages.PlayPhase.NextStateInfo;
+import it.polimi.ingsw.PSP034.messages.PlayPhase.PlayAnswer;
 import it.polimi.ingsw.PSP034.messages.PlayPhase.RequestStart;
 import it.polimi.ingsw.PSP034.messages.Request;
 import it.polimi.ingsw.PSP034.messages.SetupPhase.RequestCardsChoice;
+import it.polimi.ingsw.PSP034.messages.SetupPhase.SetupAnswer;
 import it.polimi.ingsw.PSP034.model.*;
 import it.polimi.ingsw.PSP034.server.MessageManager;
 
@@ -63,7 +65,15 @@ public class Controller {
         messageManager.sendToPlayer(player, message);
     }
 
-    public void sendToAll(){};
+    public void sendToAll(){}
+
+    public void executeSelectedState(PlayAnswer message){
+        turnHandler.executeSelectedState(message);
+    }
+
+    public void executeSelectedState(SetupAnswer message){
+        setup.executeSelectedState(message);
+    }
 
     /**Sets the next game phase, in order
      * Sends the first request message*/
@@ -73,7 +83,9 @@ public class Controller {
                 sendToPlayer(this.getCurrentPlayer(), new RequestCardsChoice(getPlayerNumber()));
                 break;
             case PLAY:
+                turnHandler.setCurrentGod(getCurrentPlayer().getMyGod());
                 sendToPlayer(this.getCurrentPlayer(), new RequestStart(new NextStateInfo(TurnPhase.START)));
+                break;
             case GAMEOVER:
                 //chiama chi gestisce la partita
         }
@@ -103,9 +115,6 @@ public class Controller {
         return currentGame.getCurrentPlayer();
     }
 
-    public TurnHandler getTurnHandler(){
-        return this.turnHandler;
-    }
 
     public boolean isGameOver(){
         Player toBeDeletedPlayer = currentGame.loser();

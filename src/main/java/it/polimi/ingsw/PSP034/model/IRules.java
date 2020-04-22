@@ -4,31 +4,31 @@ import it.polimi.ingsw.PSP034.constants.Sex;
 
 public interface IRules {
 
-    public Tile getPreviousTile();
+    Tile getPreviousTile();
 
-    public Sex getChosenSex();
+    Sex getChosenSex();
 
-    public DefaultRules getDefaultRules();
+    DefaultRules getDefaultRules();
 
-    public void move(Worker worker, Tile destinationTile);
+    void move(Worker worker, Tile destinationTile);
 
-    public void build(Tile buildTile);
+    void build(Tile buildTile);
 
-    public boolean validMove(Worker worker, Tile destinationTile);
+    boolean validMove(Worker worker, Tile destinationTile);
 
-    public boolean validBuild(Worker worker, Tile buildingTile);
+    boolean validBuild(Worker worker, Tile buildingTile);
 
-    public boolean checkWin(Worker worker);
+    boolean checkWin(Worker worker);
 
-    public void setChosenSex(Worker chosenWorker);
+    void setChosenSex(Worker chosenWorker);
 
-    public void setPreviousTile(Tile tile);
+    void setPreviousTile(Tile tile);
 
-    public boolean anyValidMove(Worker worker);
+    boolean anyValidMove(Worker worker);
 
-    public boolean checkMoveLost(Player player);
+    boolean checkMoveLost(Player player);
 
-    public boolean anyValidBuild(Worker worker);
+    boolean anyValidBuild(Worker worker);
 
-    public boolean checkBuildLost(Player player);
+    boolean checkBuildLost(Player player);
 }

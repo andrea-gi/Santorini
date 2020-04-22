@@ -6,4 +6,8 @@ public class RequestCardsChoice extends SetupRequest{
     public RequestCardsChoice(int playerNumber){
         this.playerNumber = playerNumber;
     }
+
+    public int getPlayerNumber() {
+        return playerNumber;
+    }
 }

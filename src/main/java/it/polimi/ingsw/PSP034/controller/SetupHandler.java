@@ -24,19 +24,28 @@ public class SetupHandler {
             case CARDS_CHOICE:
                 if (message instanceof AnswerCardsChoice){
                     String[] choice = ((AnswerCardsChoice) message).getChoice();
-                    for(int i = 0; i < choice.length; i++){
-                        controller.addRemainingGod(choice[i]);
+                    for (String s : choice) {
+                        controller.addRemainingGod(s);
                     }
                     controller.setNextPlayer();
                 }
                 break;
+
             case PERSONAL_GOD_CHOICE:
                 if (message instanceof AnswerPersonalGod){
                     controller.addGod(((AnswerPersonalGod) message).getMyGod(), controller.getCurrentPlayer());
                     controller.removeRemainingGod(((AnswerPersonalGod) message).getMyGod());
-                    controller.setNextPlayer();
+                    if (controller.getRemainingGods().size() > 0)
+                        controller.setNextPlayer();
                 }
                 break;
+
+            case CHOOSE_FIRST_PLAYER:
+                if (message instanceof AnswerFirstPlayer){
+                    controller.firstPlayerSetUp(((AnswerFirstPlayer) message).getFirstPlayer());
+                }
+                break;
+
             case PLACE_WORKERS:
                 if (message instanceof AnswerPlaceWorker){
                     int x = ((AnswerPlaceWorker) message).getX();
@@ -47,14 +56,8 @@ public class SetupHandler {
                         controller.setNextPlayer();
                         playerNumber++;
                         if (playerNumber < controller.getPlayerNumber())
-                            currentSetupPhase = SetupPhase.PERSONAL_GOD_CHOICE;
+                            currentSetupPhase = SetupPhase.CHOOSE_FIRST_PLAYER;
                     }
-                }
-                break;
-
-            case CHOOSE_FIRST_PLAYER:
-                if (message instanceof AnswerFirstPlayer){
-                    controller.firstPlayerSetUp(((AnswerFirstPlayer) message).getFirstPlayer());
                 }
                 break;
         }
@@ -65,29 +68,36 @@ public class SetupHandler {
         Player player = controller.getCurrentPlayer();
         switch(currentSetupPhase){
             case CARDS_CHOICE:
+                currentSetupPhase = SetupPhase.PERSONAL_GOD_CHOICE;
                 controller.sendToPlayer(player, new RequestPersonalGod(controller.getRemainingGods())); //new sendto per setup??
                 break;
+
             case PERSONAL_GOD_CHOICE:
                 if (controller.getRemainingGods().size() > 0){
                     controller.sendToPlayer(player, new RequestPersonalGod(controller.getRemainingGods()));
                 }
                 else {
-                    controller.sendToPlayer(player, new RequestPlaceWorker(Sex.MALE));
-                    firstWorker = true;
+                    currentSetupPhase = SetupPhase.CHOOSE_FIRST_PLAYER;
+                    controller.sendToPlayer(player, new RequestFirstPlayer(controller.getPlayersName()));
                 }
                 break; //TODO -- invia notifica agli altri giocatori
+
+            case CHOOSE_FIRST_PLAYER:
+                currentSetupPhase = SetupPhase.PLACE_WORKERS;
+                controller.sendToPlayer(player, new RequestPlaceWorker(Sex.MALE));
+                firstWorker = true;
+                break;
+
             case PLACE_WORKERS:
                 if (firstWorker){
                     controller.sendToPlayer(player, new RequestPlaceWorker(Sex.FEMALE));
                     firstWorker = false;
                 }
                 else {
-                    controller.sendToPlayer(player, new RequestFirstPlayer(controller.getPlayersName()));
+                    controller.setNextGamePhase();
+                    controller.handleGamePhase();
                 }
                 break;
-            case CHOOSE_FIRST_PLAYER:
-                controller.setNextGamePhase();
-                controller.handleGamePhase();
         }
 
     }
