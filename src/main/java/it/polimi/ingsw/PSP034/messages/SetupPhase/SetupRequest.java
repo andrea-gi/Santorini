@@ -1,5 +1,7 @@
 package it.polimi.ingsw.PSP034.messages.SetupPhase;
 
-public abstract class SetupRequest {
+import it.polimi.ingsw.PSP034.messages.Request;
+
+public abstract class SetupRequest extends Request {
 
 }

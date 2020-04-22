@@ -1,4 +1,6 @@
 package it.polimi.ingsw.PSP034.messages.SetupPhase;
 
-public abstract class SetupAnswer {
+import it.polimi.ingsw.PSP034.messages.Answer;
+
+public abstract class SetupAnswer extends Answer {
 }

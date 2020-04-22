@@ -68,6 +68,14 @@ public class Game extends ModelObservable {
         this.rules = rules;
     }
 
+    public Player loser(){
+        for(Player player : players){
+            if(player.hasLost())
+                return player;
+        }
+        return null;
+    }
+
     /**
      * @return Number of players currently in the game
      */
