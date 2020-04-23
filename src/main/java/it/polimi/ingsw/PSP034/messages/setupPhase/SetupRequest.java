@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP034.messages.SetupPhase;
+package it.polimi.ingsw.PSP034.messages.setupPhase;
 
 import it.polimi.ingsw.PSP034.messages.Request;
 

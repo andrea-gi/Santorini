@@ -2,8 +2,8 @@ package it.polimi.ingsw.PSP034.model;
 
 import it.polimi.ingsw.PSP034.constants.Sex;
 import it.polimi.ingsw.PSP034.constants.TurnPhase;
-import it.polimi.ingsw.PSP034.messages.PlayPhase.NextStateInfo;
-import it.polimi.ingsw.PSP034.messages.PlayPhase.RequiredActions;
+import it.polimi.ingsw.PSP034.messages.playPhase.NextStateInfo;
+import it.polimi.ingsw.PSP034.messages.playPhase.RequiredActions;
 
 import java.util.ArrayList;
 

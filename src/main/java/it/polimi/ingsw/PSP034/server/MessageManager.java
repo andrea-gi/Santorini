@@ -3,11 +3,12 @@ package it.polimi.ingsw.PSP034.server;
 import it.polimi.ingsw.PSP034.constants.GamePhase;
 import it.polimi.ingsw.PSP034.controller.Controller;
 import it.polimi.ingsw.PSP034.messages.Answer;
-import it.polimi.ingsw.PSP034.messages.PlayPhase.PlayAnswer;
-import it.polimi.ingsw.PSP034.messages.PlayPhase.PlayRequest;
+import it.polimi.ingsw.PSP034.messages.gameOverPhase.GameOverAnswer;
+import it.polimi.ingsw.PSP034.messages.playPhase.PlayAnswer;
+import it.polimi.ingsw.PSP034.messages.playPhase.PlayRequest;
 import it.polimi.ingsw.PSP034.messages.Request;
-import it.polimi.ingsw.PSP034.messages.SetupPhase.SetupAnswer;
-import it.polimi.ingsw.PSP034.messages.SetupPhase.SetupRequest;
+import it.polimi.ingsw.PSP034.messages.setupPhase.SetupAnswer;
+import it.polimi.ingsw.PSP034.messages.setupPhase.SetupRequest;
 import it.polimi.ingsw.PSP034.model.Player;
 import it.polimi.ingsw.PSP034.debugGame;
 import it.polimi.ingsw.PSP034.observer.ServerObserver;
@@ -50,12 +51,17 @@ public class MessageManager implements ServerObserver {
             else
                 controller.executeSelectedState((PlayAnswer) message);
         }
-        /* TODO -- else if (message instanceof GameOverAnswer)
+        // TODO -- else if (message instanceof GameOverAnswer)
+        else if (message instanceof GameOverAnswer){
+            if (controller.getGamePhase() != GamePhase.GAMEOVER)
+                validMessage = false;
+            else
+                controller.executeSelectedState((GameOverAnswer) message);
+        }
+        //TODO -- eventuale gestione errori di tipo (?)
 
-        TODO -- eventuale gestione errori di tipo (?)
 
 
-         */
 
     }
 

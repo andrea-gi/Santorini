@@ -2,8 +2,8 @@ package it.polimi.ingsw.PSP034.model.gods;
 
 
 import it.polimi.ingsw.PSP034.constants.TurnPhase;
-import it.polimi.ingsw.PSP034.messages.PlayPhase.NextStateInfo;
-import it.polimi.ingsw.PSP034.messages.PlayPhase.RequiredActions;
+import it.polimi.ingsw.PSP034.messages.playPhase.NextStateInfo;
+import it.polimi.ingsw.PSP034.messages.playPhase.RequiredActions;
 import it.polimi.ingsw.PSP034.model.GodsRules;
 import it.polimi.ingsw.PSP034.model.IRules;
 import it.polimi.ingsw.PSP034.model.Player;

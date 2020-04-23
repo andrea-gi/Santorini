@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP034.messages.SetupPhase;
+package it.polimi.ingsw.PSP034.messages.setupPhase;
 
 public class AnswerPersonalGod extends SetupAnswer{
     private final String myGod;

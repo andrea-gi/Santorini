@@ -1,12 +1,14 @@
 package it.polimi.ingsw.PSP034.controller;
 import it.polimi.ingsw.PSP034.constants.GamePhase;
 import it.polimi.ingsw.PSP034.constants.TurnPhase;
-import it.polimi.ingsw.PSP034.messages.PlayPhase.NextStateInfo;
-import it.polimi.ingsw.PSP034.messages.PlayPhase.PlayAnswer;
-import it.polimi.ingsw.PSP034.messages.PlayPhase.RequestStart;
+import it.polimi.ingsw.PSP034.messages.gameOverPhase.GameOverAnswer;
+import it.polimi.ingsw.PSP034.messages.gameOverPhase.SendGameOver;
+import it.polimi.ingsw.PSP034.messages.playPhase.NextStateInfo;
+import it.polimi.ingsw.PSP034.messages.playPhase.PlayAnswer;
+import it.polimi.ingsw.PSP034.messages.playPhase.RequestStart;
 import it.polimi.ingsw.PSP034.messages.Request;
-import it.polimi.ingsw.PSP034.messages.SetupPhase.RequestCardsChoice;
-import it.polimi.ingsw.PSP034.messages.SetupPhase.SetupAnswer;
+import it.polimi.ingsw.PSP034.messages.setupPhase.RequestCardsChoice;
+import it.polimi.ingsw.PSP034.messages.setupPhase.SetupAnswer;
 import it.polimi.ingsw.PSP034.model.*;
 import it.polimi.ingsw.PSP034.server.MessageManager;
 
@@ -21,14 +23,13 @@ public class Controller {
     private final GameOverPhase gameOver;
     private final MessageManager messageManager;
 
-    /**Creates the controller associated to a Game. It builds itself the SetupPhase, the TurnHandler and the GameOverPhase
-     * It creates also the DefaultRules in order to have ready all the Gods cards
-     * @param currentGame is the link to the Game*/
-    public Controller(Game currentGame) {
-        this.currentGame = currentGame;
+    /**Creates the controller associated to a Game. It builds itself the setupPhase, the TurnHandler and the gameOverPhase
+     * It creates also the DefaultRules in order to have ready all the Gods cards */
+    public Controller() {
+        this.currentGame = new Game();
         this.turnHandler = new TurnHandler(this);
         this.setup = new SetupHandler(this);
-        this.gameOver = new GameOverPhase(this);
+        this.gameOver = new GameOverPhase(this, false);
         this.messageManager = new MessageManager(this);
     }
 
@@ -75,6 +76,10 @@ public class Controller {
         setup.executeSelectedState(message);
     }
 
+    public void executeSelectedState(GameOverAnswer message){
+        gameOver.executeSelectedState(message);
+    }
+
     /**Sets the next game phase, in order
      * Sends the first request message*/
     public void handleGamePhase(){
@@ -87,7 +92,9 @@ public class Controller {
                 sendToPlayer(this.getCurrentPlayer(), new RequestStart(new NextStateInfo(TurnPhase.START)));
                 break;
             case GAMEOVER:
-                //chiama chi gestisce la partita
+                Player loser = this.getCurrentPlayer();
+                sendToPlayer(loser, new SendGameOver(loser));
+                //sendToOthers(others, new SendGameOver(loser));
         }
     }
 
@@ -104,6 +111,8 @@ public class Controller {
             case PLAY:
                 currentGame.setGamePhase(GamePhase.GAMEOVER);
                 break;
+            case GAMEOVER:
+                currentGame.setGamePhase(GamePhase.SETUP);
         }
     }
 

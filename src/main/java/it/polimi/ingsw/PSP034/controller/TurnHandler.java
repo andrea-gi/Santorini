@@ -1,7 +1,7 @@
 package it.polimi.ingsw.PSP034.controller;
 
 import it.polimi.ingsw.PSP034.constants.*;
-import it.polimi.ingsw.PSP034.messages.PlayPhase.*;
+import it.polimi.ingsw.PSP034.messages.playPhase.*;
 import it.polimi.ingsw.PSP034.model.IStateManager;
 import it.polimi.ingsw.PSP034.model.Player;
 import it.polimi.ingsw.PSP034.model.Tile;
@@ -78,6 +78,10 @@ public class TurnHandler {
                     //Next player already set by controller
                     setCurrentGod(controller.getCurrentPlayer().getMyGod());
                     controller.sendToPlayer(controller.getCurrentPlayer(), new RequestStart(new NextStateInfo(TurnPhase.START)));
+                }
+                else{
+                    controller.setNextGamePhase();
+                    controller.handleGamePhase();
                 }
                 break;
 

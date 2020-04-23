@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP034.messages.PlayPhase;
+package it.polimi.ingsw.PSP034.messages.playPhase;
 
 public class AnswerBooleanChoice extends PlayAnswer {
     private final boolean choice;

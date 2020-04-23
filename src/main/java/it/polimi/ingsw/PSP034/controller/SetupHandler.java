@@ -1,7 +1,7 @@
 package it.polimi.ingsw.PSP034.controller;
 
 import it.polimi.ingsw.PSP034.constants.*;
-import it.polimi.ingsw.PSP034.messages.SetupPhase.*;
+import it.polimi.ingsw.PSP034.messages.setupPhase.*;
 import it.polimi.ingsw.PSP034.model.Player;
 
 /**Handles the first phase of the game, initialising the number of Players, their names, their colors and their Gods*/
