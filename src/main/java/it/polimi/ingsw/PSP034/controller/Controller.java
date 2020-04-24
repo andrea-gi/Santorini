@@ -1,4 +1,5 @@
 package it.polimi.ingsw.PSP034.controller;
+import it.polimi.ingsw.PSP034.constants.Color;
 import it.polimi.ingsw.PSP034.constants.GamePhase;
 import it.polimi.ingsw.PSP034.constants.TurnPhase;
 import it.polimi.ingsw.PSP034.messages.gameOverPhase.GameOverAnswer;
@@ -31,6 +32,10 @@ public class Controller {
         this.setup = new SetupHandler(this);
         this.gameOver = new GameOverPhase(this, false);
         this.messageManager = new MessageManager(this);
+    }
+
+    public void addPlayer(String name, Color color){
+        currentGame.addPlayer(new Player(name, color));
     }
 
     public ArrayList<String> getRemainingGods() {
