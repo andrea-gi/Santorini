@@ -132,9 +132,11 @@ public class ViewBoard extends PrintableObject {
             this.color = color;
             this.sex = sex;
 
-            String firstLine = constructionArray.get(0);
-            String secondLine = constructionArray.get(1);
-            String thirdLine = constructionArray.get(2);
+            String baseLine = ANSI.BG_green + ANSI.FG_white + "         " + ANSI.reset;
+
+            constructionArray.add(baseLine);
+            constructionArray.add(baseLine);
+            constructionArray.add(baseLine);
 
             if(building != 0){
                 constructionArray.set(0, constructionArray.get(0) + "\033[9D" + ANSI.BG_white + ANSI.FG_blue + " "+ building + "     " + building +" " + ANSI.reset);

@@ -36,7 +36,7 @@ public class PlayerBox extends PrintableObject{
             end = start + 36;
         }
         if(start <= godPower.length()){
-            constructionArray.add(color.getBG_color()+"║"+ANSI.reset+"                                      "+color.getBG_color()+"║"+ANSI.reset+"\033[38D"+godPower.substring(start, godPower.length()-1));
+            constructionArray.add(color.getBG_color()+"║"+ANSI.reset+"                                      "+color.getBG_color()+"║"+ANSI.reset+"\033[38D"+godPower.substring(start));
         }
         constructionArray.add(color.getBG_color()+"╚══════════════════════════════════════╝"+ANSI.reset);
         super.setObjectSize(constructionArray.size());
