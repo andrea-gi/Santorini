@@ -11,7 +11,8 @@ import it.polimi.ingsw.PSP034.messages.Request;
 import it.polimi.ingsw.PSP034.messages.setupPhase.RequestCardsChoice;
 import it.polimi.ingsw.PSP034.messages.setupPhase.SetupAnswer;
 import it.polimi.ingsw.PSP034.model.*;
-import it.polimi.ingsw.PSP034.server.MessageManager;
+import it.polimi.ingsw.PSP034.observer.ModelObserver;
+import it.polimi.ingsw.PSP034.server.ServerMessageManager;
 
 import java.util.ArrayList;
 
@@ -22,7 +23,7 @@ public class Controller {
     private final TurnHandler turnHandler;
     private final SetupHandler setup;
     private final GameOverPhase gameOver;
-    private final MessageManager messageManager;
+    private final ServerMessageManager messageManager;
 
     /**Creates the controller associated to a Game. It builds itself the setupPhase, the TurnHandler and the gameOverPhase
      * It creates also the DefaultRules in order to have ready all the Gods cards */
@@ -31,7 +32,19 @@ public class Controller {
         this.turnHandler = new TurnHandler(this);
         this.setup = new SetupHandler(this);
         this.gameOver = new GameOverPhase(this, false);
-        this.messageManager = new MessageManager(this);
+        this.messageManager = new ServerMessageManager(this);
+    }
+
+    public ServerMessageManager getMessageManager() {
+        return messageManager;
+    }
+
+    public void addModelObserver(ModelObserver observer){
+        currentGame.addObserver(observer);
+    }
+
+    public void removeModelObserver(ModelObserver observer){
+        currentGame.removeObserver(observer);
     }
 
     public void addPlayer(String name, Color color){

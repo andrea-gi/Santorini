@@ -13,10 +13,10 @@ import it.polimi.ingsw.PSP034.model.Player;
 import it.polimi.ingsw.PSP034.debugGame;
 import it.polimi.ingsw.PSP034.observer.ServerObserver;
 
-public class MessageManager implements ServerObserver {
+public class ServerMessageManager implements ServerObserver {
     private final Controller controller;
 
-    public MessageManager(Controller controller){
+    public ServerMessageManager(Controller controller){
         this.controller = controller;
     }
 

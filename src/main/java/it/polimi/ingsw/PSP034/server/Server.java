@@ -3,6 +3,7 @@ package it.polimi.ingsw.PSP034.server;
 import it.polimi.ingsw.PSP034.constants.Color;
 import it.polimi.ingsw.PSP034.constants.Constant;
 import it.polimi.ingsw.PSP034.controller.Controller;
+import it.polimi.ingsw.PSP034.observer.ModelObserver;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -25,6 +26,8 @@ public class Server {
     private boolean firstConnection = true;
     private boolean startSetup = false;
     private int chosenPlayerNumber = Constant.MAXPLAYERS;
+
+    Controller controller;
 
     public Server(int port){
         try {
@@ -71,21 +74,24 @@ public class Server {
 
     private synchronized void createMatch(){
         gameStarted = true;
-        Controller controller = new Controller();
+        controller = new Controller();
         int playersAdded = 0;
         for(String client : waitingConnections.keySet()) {
+            IClientConnection connection = waitingConnections.get(client);
             if(playersAdded < chosenPlayerNumber) {
                 controller.addPlayer(client, waitingColors.get(client));
-                activeConnections.add(waitingConnections.get(client));
+                activeConnections.add(connection);
+                connection.addObserver(controller.getMessageManager()); //adding message manager to connection observers
+                controller.addModelObserver((ModelObserver) connection); //adding connection to model observers
                 playersAdded++;
             }
             else{
-                IClientConnection connection = waitingConnections.get(client);
                 if(connection != null)
                     // TODO -- inviare messaggio "superato numero massimo di giocatori"
                     connection.closeConnection();
             }
         }
+
         controller.handleGamePhase();
         waitingConnections.clear();
         waitingColors.clear();
@@ -103,6 +109,9 @@ public class Server {
             waitingConnections.remove(name);
             waitingColors.remove(name);
         }
+        // Rimozione observer?
+        controller.removeModelObserver((ModelObserver) connection);
+
         activeConnections.remove(connection);
         if(!startSetup) {
             notifyAll();

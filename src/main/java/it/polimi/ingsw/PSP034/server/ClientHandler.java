@@ -3,10 +3,12 @@ package it.polimi.ingsw.PSP034.server;
 import it.polimi.ingsw.PSP034.constants.Color;
 import it.polimi.ingsw.PSP034.constants.Constant;
 import it.polimi.ingsw.PSP034.messages.Answer;
+import it.polimi.ingsw.PSP034.messages.ModelUpdate;
 import it.polimi.ingsw.PSP034.messages.Request;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.AnswerServerConfig;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.RequestServerConfig;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.RequiredServerConfig;
+import it.polimi.ingsw.PSP034.observer.ModelObserver;
 import it.polimi.ingsw.PSP034.observer.ServerObservable;
 
 import java.io.IOException;
@@ -14,7 +16,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class ClientHandler extends ServerObservable implements IClientConnection, Runnable{
+public class ClientHandler extends ServerObservable implements IClientConnection, ModelObserver, Runnable{
     private final Socket socket;
     private final Server server; // lo userò per chiudere la connessione
     ObjectInputStream in;
@@ -54,6 +56,10 @@ public class ClientHandler extends ServerObservable implements IClientConnection
         } catch (IOException e){
             e.printStackTrace();
         }
+    }
+
+    public void asyncSend(Request message){
+        new Thread(() -> send(message)).start();
     }
 
     @Override
@@ -163,5 +169,10 @@ public class ClientHandler extends ServerObservable implements IClientConnection
         System.out.println("Closing connection with " + player);
         server.removeClient(this);
         System.out.println("Done!");
+    }
+
+    @Override
+    public void update(ModelUpdate message) {
+        asyncSend(message);
     }
 }
