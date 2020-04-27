@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP034.view;
+package it.polimi.ingsw.PSP034.view.printables;
 
 import it.polimi.ingsw.PSP034.constants.Color;
 

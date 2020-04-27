@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP034.view;
+package it.polimi.ingsw.PSP034.view.printables;
 
 
 import it.polimi.ingsw.PSP034.constants.Color;
@@ -134,9 +134,9 @@ public class ViewBoard extends PrintableObject {
 
             String baseLine = ANSI.BG_green + ANSI.FG_white + "         " + ANSI.reset;
 
-            constructionArray.add(baseLine);
-            constructionArray.add(baseLine);
-            constructionArray.add(baseLine);
+            constructionArray.set(0, baseLine);
+            constructionArray.set(1, baseLine);
+            constructionArray.set(2, baseLine);
 
             if(building != 0){
                 constructionArray.set(0, constructionArray.get(0) + "\033[9D" + ANSI.BG_white + ANSI.FG_blue + " "+ building + "     " + building +" " + ANSI.reset);

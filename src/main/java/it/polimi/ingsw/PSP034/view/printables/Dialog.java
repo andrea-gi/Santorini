@@ -1,6 +1,5 @@
-package com.company;
+package it.polimi.ingsw.PSP034.view.printables;
 
-import it.polimi.ingsw.PSP034.view.PrintableObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 

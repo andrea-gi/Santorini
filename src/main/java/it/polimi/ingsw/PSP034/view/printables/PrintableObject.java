@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP034.view;
+package it.polimi.ingsw.PSP034.view.printables;
 
 /**
  * The PrintableObject class creates and handles objects that can be printed in a console. A printable object

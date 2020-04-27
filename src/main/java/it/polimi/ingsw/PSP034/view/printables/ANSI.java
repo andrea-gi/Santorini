@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP034.view;
+package it.polimi.ingsw.PSP034.view.printables;
 
 /**
  * This class makes UNICODE escape characters available through functions and variables that have easy to understand names.

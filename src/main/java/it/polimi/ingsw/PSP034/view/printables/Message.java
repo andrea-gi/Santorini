@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP034.view;
+package it.polimi.ingsw.PSP034.view.printables;
 
 import java.util.ArrayList;
 
