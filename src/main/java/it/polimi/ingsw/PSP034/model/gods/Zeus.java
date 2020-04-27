@@ -29,8 +29,13 @@ public class Zeus extends GodsRules {
     @Override
     public boolean executeState(TurnPhase currentPhase, Worker worker, Tile tile, boolean choice) {
         if(currentPhase == TurnPhase.START){
-                builtUnderMe = false;
-                return super.executeState(TurnPhase.START, worker, tile, choice);
+            builtUnderMe = false;
+            return super.executeState(TurnPhase.START, worker, tile, choice);
+        }
+        else if(currentPhase == TurnPhase.BUILD){
+            if (worker.getMyTile() == tile)
+                builtUnderMe = true;
+            return super.executeState(currentPhase, worker, tile, choice);
         }
         else
             return super.executeState(currentPhase, worker, tile, choice);
@@ -51,9 +56,8 @@ public class Zeus extends GodsRules {
                 }
             }else if (worker.getMyTile().getBuilding() == Constant.LEVEL_THREE){
                 return false;
-            }
-            else
-                builtUnderMe = true;
+            }else if (getDefaultRules().getChosenSex() != worker.getSex())
+                return false; //when checking possible moves, the worker who did not move, cannot build
         }
         return validBuildRecursive(worker, buildingTile);
     }

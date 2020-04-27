@@ -93,6 +93,11 @@ public class DefaultRules implements IRules {
         if (destinationTile.hasDome())
             return false;
 
+        //Checks if moving tile is the same
+        if(worker.getMyTile().getX() == destinationTile.getX()
+                && worker.getMyTile().getY() == destinationTile.getY())
+            return false;
+
         //Checks if tiles are neighbour
         return worker.getMyTile().isNeighbouringTile(destinationTile);
     }
@@ -117,6 +122,11 @@ public class DefaultRules implements IRules {
 
         //Checks if tile does not have already a dome
         if (buildingTile.hasDome())
+            return false;
+
+        //Checks if building tile is the same
+        if(worker.getMyTile().getX() == buildingTile.getX()
+                && worker.getMyTile().getY() == buildingTile.getY())
             return false;
 
         //Checks if tiles are neighbour

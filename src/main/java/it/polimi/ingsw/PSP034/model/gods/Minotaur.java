@@ -67,6 +67,11 @@ public class Minotaur extends GodsRules {
             if (destinationTile.hasDome())
                 return false;
 
+            //Checks if the tile is different
+            if(worker.getMyTile().getX() == destinationTile.getX()
+                    && worker.getMyTile().getY() == destinationTile.getY())
+                return false;
+
             //Checks if tiles are neighbour
             if (!worker.getMyTile().isNeighbouringTile(destinationTile))
                 return false;

@@ -124,6 +124,11 @@ public class Prometheus extends GodsRules {
             if (buildingTile.hasDome())
                 return false;
 
+            //Checks if the tile is different
+            if(worker.getMyTile().getX() == buildingTile.getX()
+                    && worker.getMyTile().getY() == buildingTile.getY())
+                return false;
+
             //Checks if tiles are neighbour
             if (!worker.getMyTile().isNeighbouringTile(buildingTile))
                 return false;

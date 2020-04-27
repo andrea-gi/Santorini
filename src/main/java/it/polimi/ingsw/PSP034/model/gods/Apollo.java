@@ -68,6 +68,9 @@ public class Apollo extends GodsRules {
                 return false;
             if (!(worker.heightDifference(destinationTile) <= 1))
                 return false;
+            if(worker.getMyTile().getX() == destinationTile.getX()
+                    && worker.getMyTile().getY() == destinationTile.getY())
+                return false;
             return worker.getMyTile().isNeighbouringTile(destinationTile);
         }
         return false;
