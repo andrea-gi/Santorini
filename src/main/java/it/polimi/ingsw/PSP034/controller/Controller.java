@@ -103,6 +103,7 @@ public class Controller {
     public void handleGamePhase(){
         switch (currentGame.getGamePhase()) {
             case SETUP:
+                // TODO -- scelta random primo giocatore
                 sendToPlayer(this.getCurrentPlayer(), new RequestCardsChoice(getPlayerNumber()));
                 break;
             case PLAY:

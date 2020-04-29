@@ -1,4 +1,6 @@
 package it.polimi.ingsw.PSP034.messages;
 
-public abstract class Request {
+import java.io.Serializable;
+
+public abstract class Request implements Serializable {
 }

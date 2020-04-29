@@ -35,7 +35,7 @@ public class Client implements Runnable{
             socket = new Socket(address, socketPort);
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
-            clientGameHandler = new Thread(new ClientGameHandler(requestQueue));
+            clientGameHandler = new Thread(new ClientGameHandler(requestManager, requestQueue));
             clientGameHandler.start();
             return true;
         } catch (IOException e){
@@ -56,7 +56,8 @@ public class Client implements Runnable{
                 Object receivedMessage = in.readObject();
                 if (receivedMessage instanceof Request){
                     requestQueue.add((Request) receivedMessage);
-                } //else PING
+                } //else if PING
+                //else if MESSAGGIO DI CHIUSURA ???
             }
             catch (IOException | ClassNotFoundException e){
                 //cosa devo fare qui?

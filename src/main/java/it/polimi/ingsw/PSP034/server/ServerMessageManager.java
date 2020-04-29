@@ -10,30 +10,37 @@ import it.polimi.ingsw.PSP034.messages.Request;
 import it.polimi.ingsw.PSP034.messages.setupPhase.SetupAnswer;
 import it.polimi.ingsw.PSP034.messages.setupPhase.SetupRequest;
 import it.polimi.ingsw.PSP034.model.Player;
-import it.polimi.ingsw.PSP034.debugGame;
-import it.polimi.ingsw.PSP034.observer.ServerObserver;
+import it.polimi.ingsw.PSP034.debug.debug2P;
 
-public class ServerMessageManager implements ServerObserver {
+public class ServerMessageManager{
     private final Controller controller;
+    private Server server;
+    private boolean mutableServer = true;
 
     public ServerMessageManager(Controller controller){
         this.controller = controller;
     }
 
+    public synchronized void setServer(Server server){
+        if (mutableServer) {
+            this.server = server;
+            mutableServer = false;
+        }
+    }
+
     public void sendToPlayer(Player player, Request message){
         if(message instanceof PlayRequest)
-            debugGame.playRequests.add((PlayRequest) message);
+            debug2P.playRequests.add((PlayRequest) message);
         if(message instanceof SetupRequest)
-            debugGame.setupRequests.add((SetupRequest) message);
-        debugGame.sendingTo.add(player.getName());
+            debug2P.setupRequests.add((SetupRequest) message);
+        debug2P.sendingTo.add(player.getName());
     }
 
     //protected void sendToPlayer(Player player, OtherMessage message){
 
     //}
 
-    @Override
-    public void update(Answer message, String name) {
+    public void handleMessage(Answer message, String name) {
         boolean validMessage = true;
         if (!controller.getCurrentPlayer().getName().equals(name)) {
             validMessage = false;

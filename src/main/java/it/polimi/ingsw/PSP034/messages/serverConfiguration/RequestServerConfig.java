@@ -6,18 +6,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class RequestServerConfig extends Request {
-    private final ArrayList<RequiredServerConfig> configs;
+    private final ServerInfo info;
 
-    public RequestServerConfig(RequiredServerConfig... args){
-        configs = new ArrayList<>();
-        configs.addAll(Arrays.asList(args));
+    public RequestServerConfig(ServerInfo info) {
+        this.info = info;
     }
 
-    public RequiredServerConfig[] getServerConfig(){
-        RequiredServerConfig[] returnActions = new RequiredServerConfig[configs.size()];
-        for(int i = 0; i < configs.size(); i++){
-            returnActions[i] = configs.get(i);
-        }
-        return returnActions;
+    public ServerInfo getInfo() {
+        return info;
     }
 }
