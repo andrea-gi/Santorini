@@ -3,6 +3,7 @@ package it.polimi.ingsw.PSP034.server;
 import it.polimi.ingsw.PSP034.constants.Color;
 import it.polimi.ingsw.PSP034.constants.Constant;
 import it.polimi.ingsw.PSP034.controller.Controller;
+import it.polimi.ingsw.PSP034.controller.IController;
 import it.polimi.ingsw.PSP034.messages.Answer;
 import it.polimi.ingsw.PSP034.messages.gameOverPhase.GameOverAnswer;
 import it.polimi.ingsw.PSP034.messages.playPhase.PlayAnswer;
@@ -49,7 +50,7 @@ public class Server implements Runnable{
     private boolean canStartSetup = false;
     private int chosenPlayerNumber = Constant.MAXPLAYERS;
 
-    private final Controller controller = new Controller();
+    private final IController controller = new Controller();
 
     private BlockingQueue<AnswerEncapsulated> queue = new ArrayBlockingQueue<>(16);
 
@@ -57,7 +58,7 @@ public class Server implements Runnable{
     public Server(int port){
         try {
             this.serverSocket = new ServerSocket(port);
-            controller.getMessageManager().setServer(this);
+            controller.setMessageManager(this);
         } catch (IOException e){
             System.err.println("Cannot open server socket");
             System.exit(1);
@@ -122,6 +123,13 @@ public class Server implements Runnable{
         if(isGameStarted()){
             // TODO -- gestione termine della partita
             // thread del client aggiunge un messaggio di disconnessione al thread del server
+        }
+        else if(!canStartSetup()){
+            if (waitingConnections.indexOf(connection) == 0){
+                // TODO -- rimuovo altre cose / chiudo connessioni se necessario
+                waitingConnections.remove(connection);
+                waitingConnections.get(0).asyncSend(new RequestServerConfig(ServerInfo.REQUEST_PLAYER_NUMBER));
+            }
         }
         else{
             waitingConnections.remove(connection);
@@ -191,7 +199,7 @@ public class Server implements Runnable{
                 registerPlayer(connection, answerNameColor.getName(), answerNameColor.getColor());
             }
         } else if (message instanceof PlayAnswer || message instanceof SetupAnswer || message instanceof GameOverAnswer){
-            controller.getMessageManager().handleMessage(message, connection.getName());
+            controller.handleMessage(message, connection.getName());
         }
     }
 

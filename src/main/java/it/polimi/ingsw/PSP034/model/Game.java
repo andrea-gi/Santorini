@@ -59,14 +59,6 @@ public class Game extends ModelObservable {
         this.remainingGods.add(god);
     }
 
-    public IRules getRules() {
-        return rules;
-    }
-
-    public void setRules(IRules rules) {
-        this.rules = rules;
-    }
-
     public Player loser(){
         for(Player player : players){
             if(player.hasLost())
@@ -82,8 +74,14 @@ public class Game extends ModelObservable {
         return players.size();
     }
 
-    public void setCurrentPlayer(Player player){
+    private void setCurrentPlayer(Player player){
         currentPlayer = player;
+    }
+
+    public void setCurrentPlayerByName(String name){
+        Player player = getPlayerByName(name);
+        if (player != null)
+            setCurrentPlayer(player);
     }
 
     public Player getCurrentPlayer(){
@@ -111,11 +109,15 @@ public class Game extends ModelObservable {
         }
     }
 
+    public void addWorker(Player player, Sex sex, int x, int y){
+        player.addWorker(sex, board.getTile(x,y));
+    }
+
     /**
      * @param name Name of the player to search
      * @return Reference to the player with that given name
      */
-    public Player getPlayerByName(String name){
+    private Player getPlayerByName(String name){
         for (Player player : players){
             if(player.getName().equals(name))
                 return player;
@@ -143,9 +145,7 @@ public class Game extends ModelObservable {
     }
 
 
-    public Board getBoard(){
-        return board;
-    }
+
 
     public void setGamePhase(GamePhase gamePhase){
         this.gamePhase = gamePhase;

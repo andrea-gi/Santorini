@@ -1,7 +1,9 @@
 package it.polimi.ingsw.PSP034.controller;
 import it.polimi.ingsw.PSP034.constants.Color;
 import it.polimi.ingsw.PSP034.constants.GamePhase;
+import it.polimi.ingsw.PSP034.constants.Sex;
 import it.polimi.ingsw.PSP034.constants.TurnPhase;
+import it.polimi.ingsw.PSP034.messages.Answer;
 import it.polimi.ingsw.PSP034.messages.gameOverPhase.GameOverAnswer;
 import it.polimi.ingsw.PSP034.messages.gameOverPhase.SendGameOver;
 import it.polimi.ingsw.PSP034.messages.playPhase.NextStateInfo;
@@ -12,18 +14,18 @@ import it.polimi.ingsw.PSP034.messages.setupPhase.RequestCardsChoice;
 import it.polimi.ingsw.PSP034.messages.setupPhase.SetupAnswer;
 import it.polimi.ingsw.PSP034.model.*;
 import it.polimi.ingsw.PSP034.observer.ModelObserver;
-import it.polimi.ingsw.PSP034.server.ServerMessageManager;
+import it.polimi.ingsw.PSP034.server.Server;
 
 import java.util.ArrayList;
 
 /**It controls the unfolding of the game, checking the GamePhase, giving control of the TurnPhase to the TurnHandler
  * and decorating the Gods in the right order, choosing their right moves*/
-public class Controller {
+public class Controller implements IController{
     private final Game currentGame;
     private final TurnHandler turnHandler;
     private final SetupHandler setup;
     private final GameOverPhase gameOver;
-    private final ServerMessageManager messageManager;
+    private final MessageManager messageManager;
 
     /**Creates the controller associated to a Game. It builds itself the setupPhase, the TurnHandler and the gameOverPhase
      * It creates also the DefaultRules in order to have ready all the Gods cards */
@@ -32,12 +34,9 @@ public class Controller {
         this.turnHandler = new TurnHandler(this);
         this.setup = new SetupHandler(this);
         this.gameOver = new GameOverPhase(this, false);
-        this.messageManager = new ServerMessageManager(this);
+        this.messageManager = new MessageManager(this);
     }
 
-    public ServerMessageManager getMessageManager() {
-        return messageManager;
-    }
 
     public void addModelObserver(ModelObserver observer){
         currentGame.addObserver(observer);
@@ -47,6 +46,12 @@ public class Controller {
         currentGame.removeObserver(observer);
     }
 
+    @Override
+    public void setMessageManager(Server server) {
+        messageManager.setServer(server);
+    }
+
+    @Override
     public void addPlayer(String name, Color color){
         currentGame.addPlayer(new Player(name, color));
     }
@@ -72,34 +77,38 @@ public class Controller {
     }
 
     public void firstPlayerSetUp(String name){
-        Player player = currentGame.getPlayerByName(name);
-        currentGame.setCurrentPlayer(player);
+        currentGame.setCurrentPlayerByName(name);
     }
 
-    public Tile getTile(int x, int y){
-        return currentGame.getBoard().getTile(x, y);
+    void addWorker(Sex sex, int x, int y){
+        currentGame.addWorker(getCurrentPlayer(), sex, x, y);
     }
 
-    public void sendToPlayer(Player player, Request message){
+    void sendToPlayer(Player player, Request message){
         messageManager.sendToPlayer(player, message);
     }
 
-    public void sendToAll(){}
+    void sendToAll(){}
 
-    public void executeSelectedState(PlayAnswer message){
+    public IStateManager getCurrentGod() {
+        return getCurrentPlayer().getMyGod();
+    }
+
+    void executeSelectedState(PlayAnswer message){
         turnHandler.executeSelectedState(message);
     }
 
-    public void executeSelectedState(SetupAnswer message){
+    void executeSelectedState(SetupAnswer message){
         setup.executeSelectedState(message);
     }
 
-    public void executeSelectedState(GameOverAnswer message){
+    void executeSelectedState(GameOverAnswer message){
         gameOver.executeSelectedState(message);
     }
 
     /**Sets the next game phase, in order
      * Sends the first request message*/
+    @Override
     public void handleGamePhase(){
         switch (currentGame.getGamePhase()) {
             case SETUP:
@@ -117,11 +126,16 @@ public class Controller {
         }
     }
 
-    public void setNextPlayer(){
+    @Override
+    public void handleMessage(Answer message, String sender) {
+        messageManager.handleMessage(message, sender);
+    }
+
+    void setNextPlayer(){
         currentGame.setNextPlayer();
     }
 
-    public void setNextGamePhase(){
+    void setNextGamePhase(){
         GamePhase myPhase = currentGame.getGamePhase();
         switch (myPhase){
             case SETUP:
@@ -135,16 +149,16 @@ public class Controller {
         }
     }
 
-    public GamePhase getGamePhase(){
+    GamePhase getGamePhase(){
         return currentGame.getGamePhase();
     }
 
-    public Player getCurrentPlayer(){
+    Player getCurrentPlayer(){
         return currentGame.getCurrentPlayer();
     }
 
 
-    public boolean isGameOver(){
+    boolean isGameOver(){
         Player toBeDeletedPlayer = currentGame.loser();
         if(toBeDeletedPlayer != null) {
             if (currentGame.getPlayerNumber() == 2){
@@ -158,7 +172,7 @@ public class Controller {
         return false;
     }
 
-    public void addGod(String name, Player player){
-        this.currentGame.addGod(name, player);
+    void addGod(String name){
+        this.currentGame.addGod(name, getCurrentPlayer());
     }
 }

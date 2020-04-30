@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP034.server;
+package it.polimi.ingsw.PSP034.controller;
 
 import it.polimi.ingsw.PSP034.constants.GamePhase;
 import it.polimi.ingsw.PSP034.controller.Controller;
@@ -11,13 +11,14 @@ import it.polimi.ingsw.PSP034.messages.setupPhase.SetupAnswer;
 import it.polimi.ingsw.PSP034.messages.setupPhase.SetupRequest;
 import it.polimi.ingsw.PSP034.model.Player;
 import it.polimi.ingsw.PSP034.debug.debug2P;
+import it.polimi.ingsw.PSP034.server.Server;
 
-public class ServerMessageManager{
+public class MessageManager {
     private final Controller controller;
     private Server server;
     private boolean mutableServer = true;
 
-    public ServerMessageManager(Controller controller){
+    public MessageManager(Controller controller){
         this.controller = controller;
     }
 

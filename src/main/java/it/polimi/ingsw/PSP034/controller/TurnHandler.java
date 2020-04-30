@@ -61,7 +61,7 @@ public class TurnHandler {
                 setMyTurnPhase(TurnPhase.START);
                 setPreviousTurnPhase(TurnPhase.START);
                 controller.setNextPlayer();
-                setCurrentGod(controller.getCurrentPlayer().getMyGod());
+                setCurrentGod(controller.getCurrentGod());
                 controller.sendToPlayer(controller.getCurrentPlayer(), new RequestStart(new NextStateInfo(TurnPhase.START)));
                 break;
                 //TODO--WIN & GAMEOVER
@@ -76,7 +76,7 @@ public class TurnHandler {
                     setMyTurnPhase(TurnPhase.START);
                     setPreviousTurnPhase(TurnPhase.START);
                     //Next player already set by controller
-                    setCurrentGod(controller.getCurrentPlayer().getMyGod());
+                    setCurrentGod(controller.getCurrentGod());
                     controller.sendToPlayer(controller.getCurrentPlayer(), new RequestStart(new NextStateInfo(TurnPhase.START)));
                 }
                 else{

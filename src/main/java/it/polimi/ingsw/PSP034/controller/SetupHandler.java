@@ -33,7 +33,7 @@ public class SetupHandler {
 
             case PERSONAL_GOD_CHOICE:
                 if (message instanceof AnswerPersonalGod){
-                    controller.addGod(((AnswerPersonalGod) message).getMyGod(), controller.getCurrentPlayer());
+                    controller.addGod(((AnswerPersonalGod) message).getMyGod());
                     controller.removeRemainingGod(((AnswerPersonalGod) message).getMyGod());
                     if (controller.getRemainingGods().size() > 0)
                         controller.setNextPlayer();
@@ -51,7 +51,7 @@ public class SetupHandler {
                     int x = ((AnswerPlaceWorker) message).getX();
                     int y = ((AnswerPlaceWorker) message).getY();
                     Sex sex = ((AnswerPlaceWorker) message).getSex();
-                    controller.getCurrentPlayer().addWorker(sex, controller.getTile(x, y));
+                    controller.addWorker(sex, x, y);
                     if (!firstWorker){
                         controller.setNextPlayer();
                         playerNumber++;
