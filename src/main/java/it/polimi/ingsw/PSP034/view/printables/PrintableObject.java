@@ -82,4 +82,8 @@ public class PrintableObject {
     public int getHeight() {
         return height;
     }
+
+    public String[] getObject(){
+        return object.clone();
+    }
 }

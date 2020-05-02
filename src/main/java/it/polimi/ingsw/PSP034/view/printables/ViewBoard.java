@@ -11,7 +11,7 @@ public class ViewBoard extends PrintableObject {
     private static final String FG_Sea_light = ANSI.FG_bright_white;
     private static final String FG_Sea_dark = ANSI.FG_cyan;
 
-    private ViewTile[][] viewTiles;
+    private static ViewTile[][] viewTiles;
 
 
     private ArrayList<String> constructionArray;
@@ -98,13 +98,13 @@ public class ViewBoard extends PrintableObject {
         viewTiles[x][y].update(building, hasDome, color, sex);
     }
 
-
+    //TODO -- Ddecidere static o no
     private class ViewTile extends PrintableObject {
         private int building;
         private boolean hasDome;
         private Color color;
         private Sex sex;
-        private ArrayList<String> constructionArray;
+        private final ArrayList<String> constructionArray;
 
         private ViewTile(){
             super();

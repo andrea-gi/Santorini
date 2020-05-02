@@ -4,16 +4,16 @@ import it.polimi.ingsw.PSP034.messages.Answer;
 import it.polimi.ingsw.PSP034.messages.Request;
 
 public class View {
-    private Screen screen;
+    RequestHub requestHub;
 
     public View(){
-        screen = new Screen();
-        screen.start();
+        requestHub = new RequestHub();
+        //TODO
     }
 
-    public Answer produceOnScreen(Request request){
-        return screen.action(request);
+    public Answer HandleRequest(Request request) {
+        requestHub.newRequest(request);
+        return requestHub.
     }
 
-    public void updateBoard(){}
 }
