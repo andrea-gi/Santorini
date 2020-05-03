@@ -12,8 +12,8 @@ public class View {
     }
 
     public Answer HandleRequest(Request request) {
-        requestHub.newRequest(request);
-        return requestHub.
+        Answer answer = requestHub.newRequest(request);
+
     }
 
 }

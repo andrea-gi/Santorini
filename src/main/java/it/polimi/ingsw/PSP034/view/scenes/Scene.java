@@ -2,7 +2,7 @@ package it.polimi.ingsw.PSP034.view.scenes;
 
 import it.polimi.ingsw.PSP034.view.printables.ANSI;
 
-public class Scene {
+public abstract class Scene {
     private final int FRAME_WIDTH = 192;
     private final int FRAME_HEIGHT = 31;
     private final int FRAME_START_LINE = 4;
@@ -27,6 +27,8 @@ public class Scene {
     public void clearFrame(){
         ANSI.clearArea(FRAME_START_LINE, FRAME_START_COLUMN, FRAME_HEIGHT+FRAME_START_LINE, FRAME_WIDTH+FRAME_START_COLUMN);
     }
+
+    public abstract String show();
 }
 
 

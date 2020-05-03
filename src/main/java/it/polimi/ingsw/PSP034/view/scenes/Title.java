@@ -1,6 +1,5 @@
 package it.polimi.ingsw.PSP034.view.scenes;
 
-import it.polimi.ingsw.PSP034.view.AnswerHandler;
 import it.polimi.ingsw.PSP034.view.printables.ANSI;
 import it.polimi.ingsw.PSP034.view.printables.TextBox;
 

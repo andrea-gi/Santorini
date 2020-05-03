@@ -25,8 +25,11 @@ public class Dialog extends PrintableObject {
         int start = 0;
         int end = maxMessageLength;
         while(end < text.length()){
-            while(text.charAt(end) != ' '){
+            while(text.charAt(end) != ' '  &&  end != 0){
                 end--;
+            }
+            if(end == 0){
+                end = start + maxLength;
             }
             constructionArray.add(text.substring(start, end));
             start = end+1;
