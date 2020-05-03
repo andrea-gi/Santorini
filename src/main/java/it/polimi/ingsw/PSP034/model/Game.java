@@ -9,6 +9,7 @@ import it.polimi.ingsw.PSP034.observer.ModelObserver;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Game extends ModelObservable {
     private final Board board;
@@ -111,6 +112,7 @@ public class Game extends ModelObservable {
 
     public void addWorker(Player player, Sex sex, int x, int y){
         player.addWorker(sex, board.getTile(x,y));
+        notifyObservers(new SlimBoard(board));
     }
 
     /**
@@ -134,12 +136,19 @@ public class Game extends ModelObservable {
         setCurrentPlayer(players.get(nextIndex));
     }
 
+    public void setRandomPlayer(){
+        Random randomGen = new Random();
+        int index = randomGen.nextInt(getPlayerNumber());
+        setCurrentPlayer(players.get(index));
+    }
+
     public void removePlayer(Player player){
         if(player == currentPlayer)
             setNextPlayer();
         player.getWorker(Sex.MALE).getMyTile().setWorker(null);
         player.getWorker(Sex.FEMALE).getMyTile().setWorker(null);
         //TODO -- chiudere la connessione e cose
+        removeGod(player);
         players.remove(player);
         notifyObservers(new SlimBoard(board)); // Notify all model observers
     }
@@ -208,16 +217,13 @@ public class Game extends ModelObservable {
         player.setMyGod((GodsRules) rules);
     }
 
-    public void removeGod(String playerName){
-        if(getPlayerByName(playerName) == null)
-            return;
-
+    private void removeGod(Player player){
         GodsRules current = (GodsRules) rules;
         GodsRules previous = current;
         int godNumber = 0;
 
         while(godNumber < players.size() - 1) {
-            if (current.getPlayer().getName().equals(playerName))
+            if (current.getPlayer() == player)
                 break;
             else {
                 previous = current;

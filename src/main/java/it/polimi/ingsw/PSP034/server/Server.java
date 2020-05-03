@@ -5,6 +5,7 @@ import it.polimi.ingsw.PSP034.constants.Constant;
 import it.polimi.ingsw.PSP034.controller.Controller;
 import it.polimi.ingsw.PSP034.controller.IController;
 import it.polimi.ingsw.PSP034.messages.Answer;
+import it.polimi.ingsw.PSP034.messages.Request;
 import it.polimi.ingsw.PSP034.messages.gameOverPhase.GameOverAnswer;
 import it.polimi.ingsw.PSP034.messages.playPhase.PlayAnswer;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.*;
@@ -14,8 +15,6 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
@@ -37,8 +36,6 @@ public class Server implements Runnable{
 
     private final ArrayList<IClientConnection> waitingConnections = new ArrayList<>();
 
-    private final Map<IClientConnection, String> names = new HashMap<>();
-    private final Map<IClientConnection, Color> colors = new HashMap<>();
     private final ArrayList<IClientConnection> activeConnections = new ArrayList<>();
 
     private final ArrayList<Color> chosenColors = new ArrayList<>();
@@ -52,7 +49,7 @@ public class Server implements Runnable{
 
     private final IController controller = new Controller();
 
-    private BlockingQueue<AnswerEncapsulated> queue = new ArrayBlockingQueue<>(16);
+    private final BlockingQueue<AnswerEncapsulated> queue = new ArrayBlockingQueue<>(16);
 
 
     public Server(int port){
@@ -104,9 +101,11 @@ public class Server implements Runnable{
             activeConnections.addAll(waitingConnections.subList(0, chosenPlayerNumber));
 
             for(IClientConnection connection : activeConnections){
-                if (connection.equals(activeConnections.get(0)))
+                if (connection.equals(activeConnections.get(0))) {
+                    controller.addModelObserver(connection);
                     connection.asyncSend(new RequestNameColor(chosenNames.toArray(new String[0]),
                             Color.getRemainingColors(chosenColors.toArray(new Color[0]))));
+                }
                 else
                     connection.asyncSend(new RequestServerConfig(ServerInfo.WELCOME_WAIT));
             }
@@ -200,6 +199,13 @@ public class Server implements Runnable{
             }
         } else if (message instanceof PlayAnswer || message instanceof SetupAnswer || message instanceof GameOverAnswer){
             controller.handleMessage(message, connection.getName());
+        }
+    }
+
+    public synchronized void asyncSendTo(String player, Request message){
+        for (IClientConnection connection : activeConnections){
+            if(connection.getName().equals(player))
+                connection.asyncSend(message);
         }
     }
 

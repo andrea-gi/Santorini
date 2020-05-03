@@ -30,11 +30,7 @@ public class MessageManager {
     }
 
     public void sendToPlayer(Player player, Request message){
-        if(message instanceof PlayRequest)
-            debug2P.playRequests.add((PlayRequest) message);
-        if(message instanceof SetupRequest)
-            debug2P.setupRequests.add((SetupRequest) message);
-        debug2P.sendingTo.add(player.getName());
+
     }
 
     //protected void sendToPlayer(Player player, OtherMessage message){

@@ -21,7 +21,7 @@ public class ClientGameHandler implements Runnable{
         while(true){
             try{
                 Request message = queue.take();
-                requestManager.manageRequest(message);
+                requestManager.handleRequest(message); // TODO -- salvare la risposta
                 // if (message instanceof RequestServerConfig) controllo la tipologia di messaggio ed eventualmente chiudo tutto
             } catch (InterruptedException e) {
                 e.printStackTrace();

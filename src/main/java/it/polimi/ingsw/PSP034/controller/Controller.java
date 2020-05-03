@@ -10,6 +10,7 @@ import it.polimi.ingsw.PSP034.messages.playPhase.NextStateInfo;
 import it.polimi.ingsw.PSP034.messages.playPhase.PlayAnswer;
 import it.polimi.ingsw.PSP034.messages.playPhase.RequestStart;
 import it.polimi.ingsw.PSP034.messages.Request;
+import it.polimi.ingsw.PSP034.messages.serverConfiguration.RequestServerConfig;
 import it.polimi.ingsw.PSP034.messages.setupPhase.RequestCardsChoice;
 import it.polimi.ingsw.PSP034.messages.setupPhase.SetupAnswer;
 import it.polimi.ingsw.PSP034.model.*;
@@ -112,7 +113,7 @@ public class Controller implements IController{
     public void handleGamePhase(){
         switch (currentGame.getGamePhase()) {
             case SETUP:
-                // TODO -- scelta random primo giocatore
+                godLikePlayerChoice();
                 sendToPlayer(this.getCurrentPlayer(), new RequestCardsChoice(getPlayerNumber()));
                 break;
             case PLAY:
@@ -124,6 +125,11 @@ public class Controller implements IController{
                 sendToPlayer(loser, new SendGameOver(loser));
                 //sendToOthers(others, new SendGameOver(loser));
         }
+    }
+
+    private void godLikePlayerChoice(){
+        currentGame.setRandomPlayer();
+        // TODO -- sendToAll(new SetupRequest(GOD LIKE PLAYER CHOSEN))
     }
 
     @Override

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.PSP034.server;
 
 import it.polimi.ingsw.PSP034.messages.Answer;
+import it.polimi.ingsw.PSP034.messages.ModelUpdate;
 import it.polimi.ingsw.PSP034.messages.Request;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.*;
 
@@ -55,7 +56,8 @@ public class ClientHandler implements IClientConnection, Runnable{
     }
 
     public void asyncSend(Request message){
-        new Thread(() -> send(message)).start();
+        if (isActive())
+            new Thread(() -> send(message)).start();
     }
 
     @Override
@@ -98,10 +100,10 @@ public class ClientHandler implements IClientConnection, Runnable{
         } catch (IOException e) {
             System.err.println("Error when closing socket!");
         }
-        active = false;
     }
 
     private void close(){
+        setActive(false);
         closeConnection();
         System.out.println("Deregistering: " + playerName);
         server.deregisterConnection(this);
@@ -116,5 +118,10 @@ public class ClientHandler implements IClientConnection, Runnable{
     @Override
     public synchronized void setName(String name){
         this.playerName = name;
+    }
+
+    @Override
+    public void update(ModelUpdate message) {
+        asyncSend(message);
     }
 }
