@@ -15,22 +15,16 @@ import it.polimi.ingsw.PSP034.server.Server;
 
 public class MessageManager {
     private final Controller controller;
-    private Server server;
-    private boolean mutableServer = true;
+    private final Server server;
 
-    public MessageManager(Controller controller){
+    public MessageManager(Controller controller, Server server){
         this.controller = controller;
+        this.server = server;
     }
 
-    public synchronized void setServer(Server server){
-        if (mutableServer) {
-            this.server = server;
-            mutableServer = false;
-        }
-    }
 
     public void sendToPlayer(Player player, Request message){
-
+        server.asyncSendTo(player.getName(), message);
     }
 
     //protected void sendToPlayer(Player player, OtherMessage message){

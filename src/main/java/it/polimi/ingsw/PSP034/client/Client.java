@@ -17,6 +17,8 @@ public class Client implements Runnable{
     private ObjectOutputStream out;
     private ObjectInputStream in;
 
+    private final RequestManager requestManager;
+
     Thread clientGameHandler;
 
     boolean clientEnded = false;
@@ -24,7 +26,8 @@ public class Client implements Runnable{
     private final BlockingQueue<Request> requestQueue = new ArrayBlockingQueue<>(64);
     private final BlockingQueue<Answer> answerQueue = new ArrayBlockingQueue<>(64);
 
-    public Client(String address, int socketPort){
+    public Client(RequestManager requestManager, String address, int socketPort){
+        this.requestManager = requestManager;
         this.address = address;
         this.socketPort = socketPort;
     }

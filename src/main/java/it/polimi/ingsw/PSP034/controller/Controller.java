@@ -30,12 +30,12 @@ public class Controller implements IController{
 
     /**Creates the controller associated to a Game. It builds itself the setupPhase, the TurnHandler and the gameOverPhase
      * It creates also the DefaultRules in order to have ready all the Gods cards */
-    public Controller() {
+    public Controller(Server server) {
         this.currentGame = new Game();
         this.turnHandler = new TurnHandler(this);
         this.setup = new SetupHandler(this);
         this.gameOver = new GameOverPhase(this, false);
-        this.messageManager = new MessageManager(this);
+        this.messageManager = new MessageManager(this, server);
     }
 
 
@@ -47,10 +47,6 @@ public class Controller implements IController{
         currentGame.removeObserver(observer);
     }
 
-    @Override
-    public void setMessageManager(Server server) {
-        messageManager.setServer(server);
-    }
 
     @Override
     public void addPlayer(String name, Color color){

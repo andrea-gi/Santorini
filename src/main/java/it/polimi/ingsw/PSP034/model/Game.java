@@ -25,6 +25,7 @@ public class Game extends ModelObservable {
      * At the time of instantiation, there is no currentPlayer, which has to bet set using {@link Game#setCurrentPlayer(Player)}
      */
     public Game(){
+        super();
         this.players = new ArrayList<>();
         this.board = new Board();
         this.currentPlayer = null;

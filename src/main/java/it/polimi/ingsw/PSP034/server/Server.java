@@ -20,8 +20,12 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * Class managing the server. Its main thread (started using {@link Server#run()}, creates a new thread
+ * listening to incoming socket connections. Then, it manages the messages received by clients sequentially.
+ */
 public class Server implements Runnable{
-    private class AnswerEncapsulated{
+    private static class AnswerEncapsulated{
         private final Answer message;
         private final IClientConnection connection;
 
@@ -47,25 +51,39 @@ public class Server implements Runnable{
     private boolean canStartSetup = false;
     private int chosenPlayerNumber = Constant.MAXPLAYERS;
 
-    private final IController controller = new Controller();
+    private final IController controller;
 
     private final BlockingQueue<AnswerEncapsulated> queue = new ArrayBlockingQueue<>(16);
 
-
+    /**
+     * Instantiates a new server listening to a given port. It also creates a new {@link Controller}.
+     * @param port A valid port (0 to 65535). For best results, be aware of TCP well-known ports.
+     */
     public Server(int port){
+        IController temporaryController;
         try {
             this.serverSocket = new ServerSocket(port);
-            controller.setMessageManager(this);
+            temporaryController = new Controller(this);
         } catch (IOException e){
+            temporaryController = null;
             System.err.println("Cannot open server socket");
             System.exit(1);
         }
+        controller = temporaryController;
     }
 
-    protected synchronized void setPlayerNumber(final int chosenPlayerNumber){
-        this.chosenPlayerNumber = chosenPlayerNumber;
-        setCanStartSetup(true);
-        checkAndBeginSetup();
+    boolean playerNumberFlag = true;
+    /**
+     * Sets the number of player synchronously. Can be done only once.
+     * @param chosenPlayerNumber Player number chosen by the selected client (2 or 3).
+     */
+    protected synchronized void setPlayerNumber(int chosenPlayerNumber){
+        if (playerNumberFlag) {
+            playerNumberFlag = false;
+            this.chosenPlayerNumber = chosenPlayerNumber;
+            setCanStartSetup(true);
+            checkAndBeginSetup();
+        }
     }
 
     private synchronized boolean canStartSetup() {
@@ -88,6 +106,9 @@ public class Server implements Runnable{
         return this.gameStarted;
     }
 
+    /**
+     * Checks if player number has already been set and, if there are enough players, starts the registration.
+     */
     protected synchronized void checkAndBeginSetup(){
         if (isGameStarted()) {
             deregisterWaitingList();
@@ -114,24 +135,31 @@ public class Server implements Runnable{
         }
     }
 
+    /**
+     * Registers a new connection to the waiting list.
+     * @param connection Reference to the connection being registered.
+     */
     protected synchronized void registerConnection(IClientConnection connection){
         waitingConnections.add(connection);
     }
 
+    /**
+     * Deregisters a connection previously registered using {@link Server#deregisterConnection(IClientConnection)}
+     * @param connection Reference to the connection being deregistered.
+     */
     protected synchronized void deregisterConnection(IClientConnection connection){
         if(isGameStarted()){
             // TODO -- gestione termine della partita
             // thread del client aggiunge un messaggio di disconnessione al thread del server
         }
-        else if(!canStartSetup()){
-            if (waitingConnections.indexOf(connection) == 0){
+        else{
+            if (!canStartSetup() && waitingConnections.indexOf(connection) == 0){
                 // TODO -- rimuovo altre cose / chiudo connessioni se necessario
                 waitingConnections.remove(connection);
                 waitingConnections.get(0).asyncSend(new RequestServerConfig(ServerInfo.REQUEST_PLAYER_NUMBER));
+            } else {
+                waitingConnections.remove(connection);
             }
-        }
-        else{
-            waitingConnections.remove(connection);
         }
     }
 
@@ -166,8 +194,13 @@ public class Server implements Runnable{
         });
     }
 
+    /**
+     * Synchronously adds a message to the {@link BlockingQueue}
+     * @param message Message being added
+     * @param connection Connection that added the message
+     */
     protected synchronized void addMessage(Answer message, IClientConnection connection){
-        queue.add(new AnswerEncapsulated(message, connection));
+        queue.offer(new AnswerEncapsulated(message, connection));
     }
 
     private synchronized void registerPlayer(IClientConnection connection, String name, Color color){
@@ -202,13 +235,23 @@ public class Server implements Runnable{
         }
     }
 
+    /**
+     * Sends a message to a given player. See {@link IClientConnection#asyncSend(Request)} for further information.
+     * Should be executed by the same thread that manages the message.
+     * If either the player does not exists or the message in {@code null}, method does nothing.
+     * @param player Player name
+     * @param message Message being sent
+     */
     public synchronized void asyncSendTo(String player, Request message){
+        if (message == null)
+            return;
         for (IClientConnection connection : activeConnections){
             if(connection.getName().equals(player))
                 connection.asyncSend(message);
         }
     }
-
+    
+    @Override
     public void run() {
         acceptConnections();
         AnswerEncapsulated message;

@@ -6,7 +6,6 @@ import it.polimi.ingsw.PSP034.observer.ModelObserver;
 import it.polimi.ingsw.PSP034.server.Server;
 
 public interface IController {
-    void setMessageManager(Server server);
     void addPlayer(String name, Color color);
     void handleGamePhase();
     void handleMessage(Answer message, String sender);

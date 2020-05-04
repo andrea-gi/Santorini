@@ -10,9 +10,12 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class ClientHandler implements IClientConnection, Runnable{
+/**
+ * Manages the server socket connection to a single client.
+ */
+class ClientHandler implements IClientConnection, Runnable{
     private final Socket socket;
-    private final Server server; // lo userò per chiudere la connessione
+    private final Server server;
     ObjectInputStream in;
     ObjectOutputStream out;
 
@@ -23,7 +26,13 @@ public class ClientHandler implements IClientConnection, Runnable{
     String playerName = "none";
 
 
-
+    /**
+     * Creates a new ClientHandler instance with the given parameters.
+     * The method registers the instance in the {@link Server}.
+     * @param socket Reference to the socket
+     * @param server Reference to the server which instantiates the class
+     * @param firstConnected True if creating the ClientHandler associated to the first player connected.
+     */
     public ClientHandler(Socket socket, Server server, boolean firstConnected){
         this.socket = socket;
         this.server = server;
@@ -32,18 +41,31 @@ public class ClientHandler implements IClientConnection, Runnable{
         server.registerConnection(this);
     }
 
+    /**
+     * Synchronously returns the state of the socket connection.
+     * @return {@code true} if the socket connection is still active and usable, {@code false} otherwise
+     */
     private boolean isActive(){
         synchronized (activeLock) {
             return active;
         }
     }
 
+    /**
+     * Synchronously saves the state of the socket connection.
+     * @param active {@code true} if the socket connection is still active and usable, {@code false} otherwise
+     */
     private void setActive(boolean active){
         synchronized (activeLock){
             this.active = active;
         }
     }
 
+    /**
+     * Sends a synchronous {@link Request} message through the {@link ObjectOutputStream} associated
+     * to the socket.
+     * @param message {@link java.io.Serializable} message being sent
+     */
     private synchronized void send(Request message){
         try{
             out.reset();
@@ -60,9 +82,13 @@ public class ClientHandler implements IClientConnection, Runnable{
             new Thread(() -> send(message)).start();
     }
 
+    /**
+     * Run method (called in a new thread) that creates and manages {@link ObjectInputStream} and {@link ObjectOutputStream}
+     * associated to the socket.
+     * It reads messages from the client and adds them to a {@link Server} {@link java.util.concurrent.BlockingQueue}
+     */
     @Override
     public void run() {
-        //DEVO SALVARE IL NOME DEL PLAYER
         try {
             in = new ObjectInputStream(socket.getInputStream());
             out = new ObjectOutputStream(socket.getOutputStream());
@@ -82,7 +108,6 @@ public class ClientHandler implements IClientConnection, Runnable{
                 Answer message = (Answer) in.readObject();
                 server.addMessage(message, this);
             } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
                 setActive(false);
                 close();
                 // TODO -- disconnetto
