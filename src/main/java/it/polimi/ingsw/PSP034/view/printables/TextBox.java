@@ -1,34 +1,47 @@
 package it.polimi.ingsw.PSP034.view.printables;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Scanner;
 
 public class TextBox extends PrintableObject{
-    public TextBox(){
+    public TextBox(int width){
         super();
-        super.setObjectSize(1);
-        super.setObjectLine(0, " ");
+        super.setObjectSize(2);
+        super.setObjectLine(0, new String(new char[width]).replace('\u0000', ' '));
+        super.setObjectLine(1, new String(new char[width]).replace('\u0000', ' '));
     }
 
-    @Override
-    public void print(int line, int column) {
-        ANSI.moveTo(line, column);
-    }
-
-    public String waitAnswer(String regex){
-        String answer = null;
+    public String waitAnswer(@NotNull RegexCondition...regex){
+        ANSI.moveTo(super.getStartLine()+1, super.getStartColumn());
         Scanner scan = new Scanner(System.in);
-        if (regex != null){
-            do{
-                ANSI.moveTo(super.getStartLine(), super.getStartColumn());
-                answer = scan.nextLine();
-            }while(!answer.matches(regex));
-        }else{
-            try{
-                System.in.read();
-            }catch(Exception e) {
-                e.printStackTrace();
+        scan.nextLine();
+        boolean incorrectInput;
+        String answer;
+        int lastErrorLength = 0;
+        do {
+            incorrectInput = false;
+            answer = scan.nextLine();
+            for (RegexCondition regexCondition : regex) {
+                if (!answer.matches(regexCondition.getRegex())) {
+                    incorrectInput = true;
+                    ANSI.clearLineInterval(super.getStartLine(), super.getStartColumn(), super.getStartColumn()+lastErrorLength);
+                    System.out.print(ANSI.FG_red + regexCondition.getErrorMessage() + ANSI.reset);
+                    lastErrorLength = regexCondition.getErrorMessage().length();
+                    ANSI.clearLineInterval(super.getStartLine() + 1, super.getStartColumn(), super.getStartColumn() + super.getWidth());
+                    break;
+                }
             }
-        }
+        }while (incorrectInput);
+
         return answer;
+    }
+
+    public void waitAnswer(){
+        try{
+            System.in.read();
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 }

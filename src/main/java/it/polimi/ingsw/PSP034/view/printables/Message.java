@@ -9,22 +9,26 @@ public class Message extends PrintableObject{
     public Message(String text, int maxLength){
         super();
         this.text = text;
-        this.maxLength = maxLength;
+        if(maxLength == -1)
+            this.maxLength = text.length();
+        else
+            this.maxLength = maxLength;
+
 
         ArrayList<String> constructionArray = new ArrayList<>();
 
         int start = 0;
-        int end = maxLength;
+        int end = this.maxLength;
         while(end < text.length()){
             while(text.charAt(end) != ' '  &&  end != 0){
                 end--;
             }
             if(end == 0){
-                end = start + maxLength;
+                end = start + this.maxLength;
             }
             constructionArray.add(text.substring(start, end));
             start = end+1;
-            end = start + maxLength;
+            end = start + this.maxLength;
         }
         if(start <= text.length()){
             constructionArray.add(text.substring(start));

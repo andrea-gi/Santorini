@@ -96,4 +96,14 @@ public class HorizontalArrangement extends Arrangement{
             super.setObjectSize(0);
         }
     }
+
+    @Override
+    public void print(int line, int column) {
+        int currColumn = column;
+        for(int i = 0; i < super.getObjects().size(); i++){
+            getObjects().get(i).print(line+(super.getHeight()-getObjects().get(i).getHeight())/2, currColumn);
+            currColumn += getObjects().get(i).getWidth() + getBorder();
+        }
+        super.print(line, column);
+    }
 }

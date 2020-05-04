@@ -1,10 +1,11 @@
-package it.polimi.ingsw.PSP034.view.scenes;
+package it.polimi.ingsw.PSP034.view.scenes.serverConfiguration;
 
 import it.polimi.ingsw.PSP034.constants.Color;
 import it.polimi.ingsw.PSP034.view.printables.*;
 import it.polimi.ingsw.PSP034.view.printables.arrangements.VerticalArrangement;
+import it.polimi.ingsw.PSP034.view.scenes.Scene;
 
-public class ColorChoice extends Scene{
+public class ColorChoice extends Scene {
     private Color[] availableColors;
 
     public ColorChoice(Color[] availableColors){
@@ -21,7 +22,7 @@ public class ColorChoice extends Scene{
             options[i] = availableColors[i].getBG_color()+availableColors[i].name();
         }
         Dialog selectColor = new Dialog("Select the color you want to play with:", title.getWidth(), 1, options);
-        TextBox colorPicker = new TextBox();
+        TextBox colorPicker = new TextBox(title.getWidth());
         va1.addObjects(title, selectColor, colorPicker);
         VerticalArrangement va2 = new VerticalArrangement();
         Spacer spacerUP = new Spacer(super.getFrameWidth(), (super.getFrameHeight()- va1.getHeight())/2);
@@ -30,7 +31,6 @@ public class ColorChoice extends Scene{
         va2.print(super.getFrameStartLine(), super.getFrameStartColumn());
 
 
-        String regex = "^[1-" + availableColors.length + "]+$";
-        return colorPicker.waitAnswer(regex);
+        return colorPicker.waitAnswer(new RegexCondition("^[1-" + availableColors.length + "]$", "Invalid input."));
     }
 }
