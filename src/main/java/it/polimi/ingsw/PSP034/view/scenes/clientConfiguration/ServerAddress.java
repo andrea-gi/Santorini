@@ -11,7 +11,7 @@ public class ServerAddress extends Scene {
         super.clearFrame();
         Font title = new Font("server choice");
         Message enterAddress = new Message("Enter the address of the server you want to join", -1);
-        Message address = new Message("Address (default LocalHost) : ", -1);
+        Message address = new Message("Address (default localhost) : ", -1);
         TextBox addressPicker = new TextBox(enterAddress.getWidth()-address.getWidth());
 
         HorizontalArrangement ha1 = new HorizontalArrangement();

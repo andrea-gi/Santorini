@@ -15,9 +15,9 @@ public class ANSI {
     public static void moveVertical(int lines){
         if(lines < 0) {
             int negLines = -1*lines;
-            System.out.print("\033[<" + negLines + ">A");
+            System.out.print("\033[" + negLines + "A");
         }else {
-            System.out.print("\033[<" + lines + ">B");
+            System.out.print("\033[" + lines + "B");
         }
     }
 
@@ -28,9 +28,9 @@ public class ANSI {
     public static void moveHorizontal(int columns){
         if(columns < 0) {
             int negLines = -1*columns;
-            System.out.print("\033[<" + negLines + ">D");
+            System.out.print("\033[" + negLines + "D");
         }else {
-            System.out.print("\033[<" + columns + ">C");
+            System.out.print("\033[" + columns + "C");
         }
     }
 
@@ -41,7 +41,7 @@ public class ANSI {
      * @param column Column to move to
      */
     public static void moveTo(int line, int column){
-        System.out.print("\033[<" + line + ">;<" + column + ">H");
+        System.out.print("\033[" + line + ";" + column + "H");
     }
 
     /**

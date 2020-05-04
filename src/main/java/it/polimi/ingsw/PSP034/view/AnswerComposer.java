@@ -5,6 +5,7 @@ import it.polimi.ingsw.PSP034.messages.Answer;
 import it.polimi.ingsw.PSP034.messages.Request;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.AnswerIP;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.RequestClientConfig;
+import it.polimi.ingsw.PSP034.messages.clientConfiguration.RequestIP;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.AnswerNameColor;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.AnswerNumber;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.RequestNameColor;
@@ -37,10 +38,9 @@ public class AnswerComposer {
     }
 
     private Answer answerClientConfig(String...params){
-        switch (request.getClass().toString()) {
-            case "RequestIP":
-                String ip = params[0].equals("") ? "LocalHost" : params[0];
-                answer = new AnswerIP(ip, Integer.parseInt(params[1]));
+        if (request instanceof RequestIP){
+            String ip = params[0].equals("") ? "localhost" : params[0];
+            answer = new AnswerIP(ip, Integer.parseInt(params[1]));
         }
         return answer;
     }
@@ -62,26 +62,23 @@ public class AnswerComposer {
     }
 
     private Answer answerSetup(String...params){
-        switch (request.getClass().toString()){
-            case "RequestCardChoice":
-                String[] stringNumbers = params[0].split(",");
-                int[] numbers = new int[((RequestCardsChoice) request).getPlayerNumber()];
-                for (int i = 0; i < ((RequestCardsChoice) request).getPlayerNumber(); i++){
-                    numbers[i] = Integer.parseInt(stringNumbers[i]);
-                }
-                String[] gods = new String[((RequestCardsChoice) request).getPlayerNumber()];
-                for (int i = 0; i < ((RequestCardsChoice) request).getPlayerNumber(); i++){
-                    gods[i] = GodDescription.values()[numbers[i]].getName();
-                }
-                answer = new AnswerCardsChoice(gods);
-                break;
-
-            case "RequestFirstPlayer":
-                break;
-
-            case "RequestPersonalGod":
-                answer = new AnswerPersonalGod(((RequestPersonalGod)request).getPossibleGods()[Integer.parseInt(params[0])]);
-                break;
+        if (request instanceof RequestCardsChoice) {
+            String[] stringNumbers = params[0].split(",");
+            int[] numbers = new int[((RequestCardsChoice) request).getPlayerNumber()];
+            for (int i = 0; i < ((RequestCardsChoice) request).getPlayerNumber(); i++) {
+                numbers[i] = Integer.parseInt(stringNumbers[i]);
+            }
+            String[] gods = new String[((RequestCardsChoice) request).getPlayerNumber()];
+            for (int i = 0; i < ((RequestCardsChoice) request).getPlayerNumber(); i++) {
+                gods[i] = GodDescription.values()[numbers[i]].getName();
+            }
+            answer = new AnswerCardsChoice(gods);
+        }
+        else if (request instanceof RequestFirstPlayer) {
+            // TODO -- gestire first player
+        }
+        else if (request instanceof RequestPersonalGod) {
+            answer = new AnswerPersonalGod(((RequestPersonalGod) request).getPossibleGods()[Integer.parseInt(params[0])]);
         }
         return answer;
     }

@@ -24,7 +24,6 @@ public class Client implements Runnable{
     boolean clientEnded = false;
 
     private final BlockingQueue<Request> requestQueue = new ArrayBlockingQueue<>(64);
-    private final BlockingQueue<Answer> answerQueue = new ArrayBlockingQueue<>(64);
 
     public Client(RequestManager requestManager, String address, int socketPort){
         this.requestManager = requestManager;
@@ -38,7 +37,7 @@ public class Client implements Runnable{
             socket = new Socket(address, socketPort);
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
-            clientGameHandler = new Thread(new ClientGameHandler(requestManager, requestQueue));
+            clientGameHandler = new Thread(new ClientGameHandler(requestManager, requestQueue, out));
             clientGameHandler.start();
             return true;
         } catch (IOException e){
@@ -58,11 +57,11 @@ public class Client implements Runnable{
             try{
                 Object receivedMessage = in.readObject();
                 if (receivedMessage instanceof Request){
-                    requestQueue.add((Request) receivedMessage);
+                    requestQueue.put((Request) receivedMessage);
                 } //else if PING
                 //else if MESSAGGIO DI CHIUSURA ???
             }
-            catch (IOException | ClassNotFoundException e){
+            catch (IOException | ClassNotFoundException | InterruptedException e){
                 //cosa devo fare qui?
             }
             if (clientEnded){
