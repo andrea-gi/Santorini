@@ -1,10 +1,12 @@
-package it.polimi.ingsw.PSP034.view.scenes;
+package it.polimi.ingsw.PSP034.view.scenes.clientConfiguration;
 
 import it.polimi.ingsw.PSP034.view.printables.ANSI;
 import it.polimi.ingsw.PSP034.view.printables.TextBox;
+import it.polimi.ingsw.PSP034.view.scenes.Scene;
 
-public class Title {
+public class Title extends Scene {
 
+    @Override
     public String show(){
         ANSI.clearScreen();
         System.out.print("__________________________________________________________________________________________________________________________________________________________________________________________________________________________________\n" +
@@ -44,9 +46,10 @@ public class Title {
                 " _/__________\\_                                                                                                                                                                                                    _/__________\\_\n" +
                 "|______________|__________________________________________________________________________________________________________________________________________________________________________________________________|______________|");
 
-        TextBox enter = new TextBox();
+        TextBox enter = new TextBox(10);
         enter.print(32, 114);
+        enter.waitAnswer();
 
-        return enter.waitAnswer(null);
+        return null;
     }
 }

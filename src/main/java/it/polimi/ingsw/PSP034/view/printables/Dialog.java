@@ -11,7 +11,11 @@ public class Dialog extends PrintableObject {
     public Dialog(String text, int maxMessageLength, int optionsRows, String... options){
         super();
         this.text = text;
-        this.maxLength = maxMessageLength;
+        if(maxLength == -1)
+            this.maxLength = text.length();
+        else
+            this.maxLength = maxMessageLength;
+
         this.options = new ArrayList<>();
         this.options.addAll(Arrays.asList(options));
         int maxOptionLength = 0;
@@ -23,17 +27,17 @@ public class Dialog extends PrintableObject {
         ArrayList<String> constructionArray = new ArrayList<>();
 
         int start = 0;
-        int end = maxMessageLength;
+        int end = this.maxLength;
         while(end < text.length()){
             while(text.charAt(end) != ' '  &&  end != 0){
                 end--;
             }
             if(end == 0){
-                end = start + maxLength;
+                end = start + this.maxLength;
             }
             constructionArray.add(text.substring(start, end));
             start = end+1;
-            end = start + maxMessageLength;
+            end = start + this.maxLength;
         }
         if(start <= text.length()){
             constructionArray.add(text.substring(start));

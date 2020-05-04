@@ -5,55 +5,55 @@ import it.polimi.ingsw.PSP034.view.printables.PrintableObject;
 import java.util.ArrayList;
 
 public class VerticalArrangement extends Arrangement {
-    public VerticalArrangement(){
+    public VerticalArrangement() {
         super();
     }
 
-    public void setCentreAlignment(){
+    public void setCentreAlignment() {
         super.setAlignment(0);
         updateAlignment();
     }
 
-    public void setLeftAlignment(){
+    public void setLeftAlignment() {
         super.setAlignment(1);
         updateAlignment();
     }
 
-    public void setRightAlignment(){
+    public void setRightAlignment() {
         super.setAlignment(2);
         updateAlignment();
     }
 
     @Override
-    public void updateAlignment(){
+    public void updateAlignment() {
         ArrayList<String> constructorArray = new ArrayList<>();
         int maxWidth = 0;
         int totalHeight = 0;
-        for(PrintableObject object : super.getObjects()){
-            if(object.getHeight() > maxWidth)
-                maxWidth = object.getHeight();
+        for (PrintableObject object : super.getObjects()) {
+            if (object.getWidth() > maxWidth)
+                maxWidth = object.getWidth();
             totalHeight += object.getHeight();
         }
-        if(super.getObjects().size() != 0) {
+        if (super.getObjects().size() != 0) {
             switch (super.getAlignment()) {
                 case 0:
                     for (int index = 0; index < super.getObjects().size(); index++) {
                         PrintableObject currentObject = super.getObjects().get(index);
 
                         if (index != 0) {
-                            for (int j = 1; j < super.getBorder(); j++) {
+                            for (int j = 0; j < super.getBorder(); j++) {
                                 constructorArray.add(new String(new char[maxWidth]).replace('\u0000', ' '));
                             }
                         }
 
                         for (int line = 0; line < currentObject.getHeight(); line++) {
                             String constructorLine = "";
-                            if(currentObject.getWidth() < maxWidth){
-                                constructorLine += new String(new char[(maxWidth-currentObject.getWidth())/2]).replace('\u0000', ' ');
+                            if (currentObject.getWidth() < maxWidth) {
+                                constructorLine += new String(new char[(maxWidth - currentObject.getWidth()) / 2]).replace('\u0000', ' ');
                             }
                             constructorLine += currentObject.getObject()[line];
-                            if(currentObject.getWidth() < maxWidth){
-                                constructorLine += new String(new char[maxWidth-currentObject.getWidth()-(maxWidth-currentObject.getWidth())/2]).replace('\u0000', ' ');
+                            if (currentObject.getWidth() < maxWidth) {
+                                constructorLine += new String(new char[maxWidth - currentObject.getWidth() - (maxWidth - currentObject.getWidth()) / 2]).replace('\u0000', ' ');
                             }
                             constructorArray.add(constructorLine);
                         }
@@ -74,8 +74,8 @@ public class VerticalArrangement extends Arrangement {
 
                             constructorLine += currentObject.getObject()[line];
 
-                            if(currentObject.getWidth() < maxWidth){
-                                constructorLine += new String(new char[maxWidth-currentObject.getWidth()]).replace('\u0000', ' ');
+                            if (currentObject.getWidth() < maxWidth) {
+                                constructorLine += new String(new char[maxWidth - currentObject.getWidth()]).replace('\u0000', ' ');
                             }
                             constructorArray.add(constructorLine);
                         }
@@ -93,8 +93,8 @@ public class VerticalArrangement extends Arrangement {
 
                         for (int line = 0; line < currentObject.getHeight(); line++) {
                             String constructorLine = "";
-                            if(currentObject.getWidth() < maxWidth){
-                                constructorLine += new String(new char[maxWidth-currentObject.getWidth()]).replace('\u0000', ' ');
+                            if (currentObject.getWidth() < maxWidth) {
+                                constructorLine += new String(new char[maxWidth - currentObject.getWidth()]).replace('\u0000', ' ');
                             }
                             constructorLine += currentObject.getObject()[line];
 
@@ -104,11 +104,21 @@ public class VerticalArrangement extends Arrangement {
                     break;
             }
             super.setObjectSize(constructorArray.size());
-            for(int i = 0; i<constructorArray.size(); i++){
+            for (int i = 0; i < constructorArray.size(); i++) {
                 super.setObjectLine(i, constructorArray.get(i));
             }
-        }else{
+        } else {
             super.setObjectSize(0);
         }
+    }
+
+    @Override
+    public void print(int line, int column) {
+        int currLine = line;
+        for (int i = 0; i < super.getObjects().size(); i++) {
+            getObjects().get(i).print(currLine, column + (super.getWidth() - getObjects().get(i).getWidth()) / 2);
+            currLine += getObjects().get(i).getHeight() + getBorder();
+        }
+        super.print(line, column);
     }
 }
