@@ -83,6 +83,10 @@ public class PrintableObject {
         return height;
     }
 
+    /**
+     * Returns the the object in its matrix representation.
+     * @return the object field.
+     */
     public String[] getObject(){
         return object.clone();
     }

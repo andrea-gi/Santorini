@@ -15,7 +15,9 @@ public class TextBox extends PrintableObject{
     public String waitAnswer(@NotNull RegexCondition...regex){
         ANSI.moveTo(super.getStartLine()+1, super.getStartColumn());
         Scanner scan = new Scanner(System.in);
-        scan.nextLine();
+        while(scan.hasNext()) {
+            scan.next();
+        }
         boolean incorrectInput;
         String answer;
         int lastErrorLength = 0;

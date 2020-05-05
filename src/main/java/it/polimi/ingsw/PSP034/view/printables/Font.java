@@ -2,9 +2,16 @@ package it.polimi.ingsw.PSP034.view.printables;
 
 import java.util.ArrayList;
 
+/**
+ * A Font object represents a string written with a special "font" created using the UNICODE box drawing characters.
+ */
 public class Font extends PrintableObject{
     private ArrayList<String[]> formattedString;
 
+    /**
+     *Initializes a Font object
+     * @param string The string to be converted in the new font.
+     */
     public Font(String string){
         super();
         formattedString = new ArrayList<>();
@@ -21,6 +28,10 @@ public class Font extends PrintableObject{
         }
     }
 
+    /**
+     * This function generates the Font symbol for the symbol given in input. If there is no Font symbol for a given symbol a 3x4 rectangle of '#' will be created instead.
+     * @param letter the symbol to be converted.
+     */
     private void formatCharacter(char letter){
         String[] formattedCharacter;
         switch(letter){

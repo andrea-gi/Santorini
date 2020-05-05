@@ -29,8 +29,7 @@ public class ServerPort extends Scene {
 
         mainVA.print(super.getFrameStartLine(), super.getFrameStartColumn());
 
-        RegexCondition regex = new RegexCondition("^([0-65535])?$", "Invalid server port.");
-
+        RegexCondition regex = new RegexCondition("^([0-9]|[1-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9][0-9][0-9]|[1-6][0-4][0-9][0-9][0-9]|65[0-4][0-9][0-9]|655[0-2][0-9]|6553[0-5])?$", "Invalid server port.");
         return portPicker.waitAnswer(regex);
     }
 }
