@@ -27,9 +27,9 @@ public class NameChoice extends Scene {
 
         RegexCondition[] regex = new RegexCondition[2+alreadyChosenNames.length];
         regex[0] = new RegexCondition("^[a-zA-Z0-9_]+$", "Your name can only contain letters, numbers and underscores.");
-        regex[1] = new RegexCondition("^{1,20}", "Your name must contain 1-20 characters.");
+        regex[1] = new RegexCondition("^([a-zA-Z0-9_]){1,20}$", "Your name must contain 1-20 characters.");
         for(int i = 0; i < alreadyChosenNames.length; i++){
-            regex[i+2] = new RegexCondition("^(?!" + alreadyChosenNames[i] + ")", "This name is already been taken.");
+            regex[i+2] = new RegexCondition("^(?!" + alreadyChosenNames[i] + ")([a-zA-Z0-9_]){1,20}$", "This name is already been taken.");
         }
         return namePicker.waitAnswer(regex);
     }

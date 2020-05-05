@@ -11,7 +11,7 @@ public class Dialog extends PrintableObject {
     public Dialog(String text, int maxMessageLength, int optionsRows, String... options){
         super();
         this.text = text;
-        if(maxLength == -1)
+        if(maxMessageLength == -1)
             this.maxLength = text.length();
         else
             this.maxLength = maxMessageLength;

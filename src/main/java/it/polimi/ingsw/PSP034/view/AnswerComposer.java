@@ -70,7 +70,7 @@ public class AnswerComposer {
             }
             String[] gods = new String[((RequestCardsChoice) request).getPlayerNumber()];
             for (int i = 0; i < ((RequestCardsChoice) request).getPlayerNumber(); i++) {
-                gods[i] = GodDescription.values()[numbers[i]].getName();
+                gods[i] = GodDescription.values()[numbers[i]-1].getName();
             }
             answer = new AnswerCardsChoice(gods);
         }
@@ -78,7 +78,7 @@ public class AnswerComposer {
             // TODO -- gestire first player
         }
         else if (request instanceof RequestPersonalGod) {
-            answer = new AnswerPersonalGod(((RequestPersonalGod) request).getPossibleGods()[Integer.parseInt(params[0])]);
+            answer = new AnswerPersonalGod(((RequestPersonalGod) request).getPossibleGods()[Integer.parseInt(params[0])-1]);
         }
         return answer;
     }

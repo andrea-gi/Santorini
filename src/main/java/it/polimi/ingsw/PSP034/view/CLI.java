@@ -26,6 +26,7 @@ public class CLI implements RequestManager, Runnable {
         handleRequest(new TitleRequest());
         AnswerIP ip = (AnswerIP) handleRequest(new RequestIP());
         Client client = new Client(this, ip.getIp(), ip.getPort());
+        client.startConnection();
         Thread runClient = new Thread(client);
         runClient.start();
     }

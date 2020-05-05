@@ -19,7 +19,7 @@ public class ColorChoice extends Scene {
         Font title = new Font("Color choice");
         String[] options = new String[availableColors.length];
         for(int i = 0; i < availableColors.length; i++){
-            options[i] = availableColors[i].getBG_color()+availableColors[i].name();
+            options[i] = availableColors[i].getBG_color()+availableColors[i].name()+ANSI.reset;
         }
         Dialog selectColor = new Dialog("Select the color you want to play with:", title.getWidth(), 1, options);
         TextBox colorPicker = new TextBox(title.getWidth());

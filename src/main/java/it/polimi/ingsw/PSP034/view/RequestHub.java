@@ -120,6 +120,7 @@ public class RequestHub {
         else if (request instanceof RequestPersonalGod) {
             currScene = new PersonalGodChoice(((RequestPersonalGod) request).getPossibleGods());
             answer = currScene.show();
+            answerComposer = new AnswerComposer(request);
             answerComposer.packetAnswer(answer);
             lastRequest = request;
             return answerComposer.packetAnswer(answer);
