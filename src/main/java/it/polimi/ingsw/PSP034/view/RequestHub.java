@@ -11,7 +11,7 @@ import it.polimi.ingsw.PSP034.messages.setupPhase.*;
 import it.polimi.ingsw.PSP034.view.scenes.*;
 import it.polimi.ingsw.PSP034.view.scenes.clientConfiguration.ServerAddress;
 import it.polimi.ingsw.PSP034.view.scenes.clientConfiguration.ServerPort;
-import it.polimi.ingsw.PSP034.view.scenes.clientConfiguration.Title;
+import it.polimi.ingsw.PSP034.view.scenes.clientConfiguration.TitleScene;
 import it.polimi.ingsw.PSP034.view.scenes.serverConfiguration.*;
 import it.polimi.ingsw.PSP034.view.scenes.setupPhase.CardsChoice;
 import it.polimi.ingsw.PSP034.view.scenes.setupPhase.PersonalGodChoice;
@@ -42,7 +42,7 @@ public class RequestHub {
 
     private Answer newRequestClientConfig(RequestClientConfig request){
         if (request instanceof TitleRequest) {
-            currScene = new Title();
+            currScene = new TitleScene();
             currScene.show();
             lastRequest = request;
             return null;

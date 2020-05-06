@@ -38,6 +38,7 @@ public class TextBox extends PrintableObject{
     }
 
     public void waitAnswer(){
+        ANSI.moveTo(super.getStartLine()+1, super.getStartColumn());
         try{
             System.in.read();
         }catch(Exception e) {

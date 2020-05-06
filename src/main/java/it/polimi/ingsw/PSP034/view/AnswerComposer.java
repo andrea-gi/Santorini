@@ -40,7 +40,8 @@ public class AnswerComposer {
     private Answer answerClientConfig(String...params){
         if (request instanceof RequestIP){
             String ip = params[0].equals("") ? "localhost" : params[0];
-            answer = new AnswerIP(ip, Integer.parseInt(params[1]));
+            int port = params[1].equals("") ? 2020 : Integer.parseInt(params[1]);
+            answer = new AnswerIP(ip, port);
         }
         return answer;
     }
