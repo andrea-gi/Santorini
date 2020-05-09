@@ -24,13 +24,8 @@ public class TitleScene extends Scene {
         va2.addObjects(title, va1);
         va2.setBorder(3);
 
-        Spacer spacerUP = new Spacer(super.getFrameWidth(), (super.getFrameHeight()-title.getHeight())/2);
-        Spacer spacerDOWN = new Spacer(super.getFrameWidth(), super.getFrameHeight()-va2.getHeight()-spacerUP.getHeight());
-        VerticalArrangement mainVA = new VerticalArrangement();
-        mainVA.addObjects(spacerUP, va2, spacerDOWN);
-
         frame.print(1,1);
-        mainVA.print(super.getFrameStartLine(), super.getFrameStartColumn());
+        super.printMain(va2);
 
         textBox.waitAnswer();
         return null;

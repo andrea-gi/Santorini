@@ -22,12 +22,7 @@ public class ServerPort extends Scene {
         va1.addObjects(title, enterPort, ha1);
         va1.setCentreAlignment();
 
-        Spacer spacerUP = new Spacer(super.getFrameWidth(), (super.getFrameHeight()-va1.getHeight())/2);
-        Spacer spacerDOWN = new Spacer(super.getFrameWidth(), super.getFrameHeight()-va1.getHeight()-spacerUP.getHeight());
-        VerticalArrangement mainVA = new VerticalArrangement();
-        mainVA.addObjects(spacerUP, va1, spacerDOWN);
-
-        mainVA.print(super.getFrameStartLine(), super.getFrameStartColumn());
+        super.printMain(va1);
 
         RegexCondition regex = new RegexCondition("^([0-9]|[1-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9][0-9][0-9]|[1-6][0-4][0-9][0-9][0-9]|65[0-4][0-9][0-9]|655[0-2][0-9]|6553[0-5])?$", "Invalid server port.");
         return portPicker.waitAnswer(regex);

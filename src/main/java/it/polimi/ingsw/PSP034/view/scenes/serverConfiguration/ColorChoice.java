@@ -6,7 +6,7 @@ import it.polimi.ingsw.PSP034.view.printables.arrangements.VerticalArrangement;
 import it.polimi.ingsw.PSP034.view.scenes.Scene;
 
 public class ColorChoice extends Scene {
-    private Color[] availableColors;
+    private final Color[] availableColors;
 
     public ColorChoice(Color[] availableColors){
         this.availableColors = availableColors;
@@ -15,7 +15,7 @@ public class ColorChoice extends Scene {
     @Override
     public String show(){
         super.clearFrame();
-        VerticalArrangement va1 = new VerticalArrangement();
+
         Font title = new Font("Color choice");
         String[] options = new String[availableColors.length];
         for(int i = 0; i < availableColors.length; i++){
@@ -23,13 +23,11 @@ public class ColorChoice extends Scene {
         }
         Dialog selectColor = new Dialog("Select the color you want to play with:", title.getWidth(), 1, options);
         TextBox colorPicker = new TextBox(title.getWidth());
-        va1.addObjects(title, selectColor, colorPicker);
-        VerticalArrangement va2 = new VerticalArrangement();
-        Spacer spacerUP = new Spacer(super.getFrameWidth(), (super.getFrameHeight()- va1.getHeight())/2);
-        Spacer spacerDown = new Spacer(super.getFrameWidth(), super.getFrameHeight()- va1.getHeight()-spacerUP.getHeight());
-        va2.addObjects(spacerUP, va1, spacerDown);
-        va2.print(super.getFrameStartLine(), super.getFrameStartColumn());
 
+        VerticalArrangement va1 = new VerticalArrangement();
+        va1.addObjects(title, selectColor, colorPicker);
+
+        super.printMain(va1);
 
         return colorPicker.waitAnswer(new RegexCondition("^[1-" + availableColors.length + "]$", "Invalid input."));
     }

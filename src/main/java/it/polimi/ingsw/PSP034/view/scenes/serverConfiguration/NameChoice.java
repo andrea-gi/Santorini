@@ -14,10 +14,12 @@ public class NameChoice extends Scene {
     @Override
     public String show(){
         super.clearFrame();
-        VerticalArrangement va1 = new VerticalArrangement();
+
         Font title = new Font("name choice");
         Message selectName = new Message("Insert the name that will be shown to the other players.", title.getWidth());
         TextBox namePicker = new TextBox(title.getWidth());
+
+        VerticalArrangement va1 = new VerticalArrangement();
         va1.addObjects(title, selectName, namePicker);
         VerticalArrangement va2 = new VerticalArrangement();
         Spacer spacerUP = new Spacer(super.getFrameWidth(), (super.getFrameHeight()- va1.getHeight())/2);
