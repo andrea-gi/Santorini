@@ -5,7 +5,7 @@ import it.polimi.ingsw.PSP034.view.printables.arrangements.VerticalArrangement;
 import it.polimi.ingsw.PSP034.view.scenes.Scene;
 
 public class FirstPlayer extends Scene {
-    private String[] players;
+    private final String[] players;
 
     public FirstPlayer(String[] players){
         this.players = players;

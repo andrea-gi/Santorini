@@ -14,6 +14,7 @@ import it.polimi.ingsw.PSP034.view.scenes.clientConfiguration.ServerPort;
 import it.polimi.ingsw.PSP034.view.scenes.clientConfiguration.TitleScene;
 import it.polimi.ingsw.PSP034.view.scenes.serverConfiguration.*;
 import it.polimi.ingsw.PSP034.view.scenes.setupPhase.CardsChoice;
+import it.polimi.ingsw.PSP034.view.scenes.setupPhase.FirstPlayer;
 import it.polimi.ingsw.PSP034.view.scenes.setupPhase.PersonalGodChoice;
 
 public class RequestHub {
@@ -114,7 +115,10 @@ public class RequestHub {
             return answerComposer.packetAnswer(answer);
         }
         else if (request instanceof RequestFirstPlayer) {
-            //TODO
+            currScene = new FirstPlayer(((RequestFirstPlayer) request).getPlayers());
+            answer = currScene.show();
+            lastRequest = request;
+            return answerComposer.packetAnswer(answer);
         }
 
         else if (request instanceof RequestPersonalGod) {

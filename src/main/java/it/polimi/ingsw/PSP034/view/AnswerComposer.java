@@ -76,7 +76,7 @@ public class AnswerComposer {
             answer = new AnswerCardsChoice(gods);
         }
         else if (request instanceof RequestFirstPlayer) {
-            // TODO -- gestire first player
+            answer = new AnswerFirstPlayer(((RequestFirstPlayer) request).getPlayers()[Integer.parseInt(params[0])-1]);
         }
         else if (request instanceof RequestPersonalGod) {
             answer = new AnswerPersonalGod(((RequestPersonalGod) request).getPossibleGods()[Integer.parseInt(params[0])-1]);
