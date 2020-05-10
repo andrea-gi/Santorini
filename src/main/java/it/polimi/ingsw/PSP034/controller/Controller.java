@@ -10,7 +10,7 @@ import it.polimi.ingsw.PSP034.messages.playPhase.NextStateInfo;
 import it.polimi.ingsw.PSP034.messages.playPhase.PlayAnswer;
 import it.polimi.ingsw.PSP034.messages.playPhase.RequestStart;
 import it.polimi.ingsw.PSP034.messages.Request;
-import it.polimi.ingsw.PSP034.messages.serverConfiguration.RequestServerConfig;
+import it.polimi.ingsw.PSP034.messages.setupPhase.GodLikeInfo;
 import it.polimi.ingsw.PSP034.messages.setupPhase.RequestCardsChoice;
 import it.polimi.ingsw.PSP034.messages.setupPhase.SetupAnswer;
 import it.polimi.ingsw.PSP034.model.*;
@@ -18,6 +18,7 @@ import it.polimi.ingsw.PSP034.observer.ModelObserver;
 import it.polimi.ingsw.PSP034.server.Server;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**It controls the unfolding of the game, checking the GamePhase, giving control of the TurnPhase to the TurnHandler
  * and decorating the Gods in the right order, choosing their right moves*/
@@ -81,11 +82,20 @@ public class Controller implements IController{
         currentGame.addWorker(getCurrentPlayer(), sex, x, y);
     }
 
-    void sendToPlayer(Player player, Request message){
-        messageManager.sendToPlayer(player, message);
+    void sendToPlayer(String player, Request message){
+        messageManager.sendTo(message, player);
     }
 
-    void sendToAll(){}
+    void sendToAll(Request message){
+        String[] players = currentGame.getPlayersName().toArray(new String[0]);
+        messageManager.sendTo(message, players);
+    }
+
+    void sendToAllExcept(String player, Request message){
+        ArrayList<String> playersList = currentGame.getPlayersName();
+        playersList.remove(player);
+        messageManager.sendTo(message, playersList.toArray(new String[0]));
+    }
 
     public IStateManager getCurrentGod() {
         return getCurrentPlayer().getMyGod();
@@ -110,15 +120,17 @@ public class Controller implements IController{
         switch (currentGame.getGamePhase()) {
             case SETUP:
                 godLikePlayerChoice();
-                sendToPlayer(this.getCurrentPlayer(), new RequestCardsChoice(getPlayerNumber()));
+                String name = this.getCurrentPlayer().getName();
+                sendToAllExcept(name, new GodLikeInfo(name));
+                sendToPlayer(name, new RequestCardsChoice(getPlayerNumber()));
                 break;
             case PLAY:
                 turnHandler.setCurrentGod(getCurrentPlayer().getMyGod());
-                sendToPlayer(this.getCurrentPlayer(), new RequestStart(new NextStateInfo(TurnPhase.START)));
+                sendToPlayer(this.getCurrentPlayer().getName(), new RequestStart(new NextStateInfo(TurnPhase.START)));
                 break;
             case GAMEOVER:
                 Player loser = this.getCurrentPlayer();
-                sendToPlayer(loser, new SendGameOver(loser));
+                sendToPlayer(loser.getName(), new SendGameOver(loser));
                 //sendToOthers(others, new SendGameOver(loser));
         }
     }

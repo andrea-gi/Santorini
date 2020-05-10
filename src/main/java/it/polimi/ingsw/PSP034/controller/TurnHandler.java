@@ -52,17 +52,17 @@ public class TurnHandler {
         switch (nextStateInfo.getNextPhase()){
             case BUILD:
             case MOVE:
-                controller.sendToPlayer(player, new RequestAction(nextStateInfo, player));
+                controller.sendToPlayer(player.getName(), new RequestAction(nextStateInfo, player));
                 break;
             case POWER:
-                controller.sendToPlayer(player, new RequestBooleanChoice(nextStateInfo));
+                controller.sendToPlayer(player.getName(), new RequestBooleanChoice(nextStateInfo));
                 break;
             case END:
                 setMyTurnPhase(TurnPhase.START);
                 setPreviousTurnPhase(TurnPhase.START);
                 controller.setNextPlayer();
                 setCurrentGod(controller.getCurrentGod());
-                controller.sendToPlayer(controller.getCurrentPlayer(), new RequestStart(new NextStateInfo(TurnPhase.START)));
+                controller.sendToPlayer(controller.getCurrentPlayer().getName(), new RequestStart(new NextStateInfo(TurnPhase.START)));
                 break;
                 //TODO--WIN & GAMEOVER
             case WIN:
@@ -77,7 +77,7 @@ public class TurnHandler {
                     setPreviousTurnPhase(TurnPhase.START);
                     //Next player already set by controller
                     setCurrentGod(controller.getCurrentGod());
-                    controller.sendToPlayer(controller.getCurrentPlayer(), new RequestStart(new NextStateInfo(TurnPhase.START)));
+                    controller.sendToPlayer(controller.getCurrentPlayer().getName(), new RequestStart(new NextStateInfo(TurnPhase.START)));
                 }
                 else{
                     controller.setNextGamePhase();

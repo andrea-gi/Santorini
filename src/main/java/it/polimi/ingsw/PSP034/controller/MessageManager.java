@@ -16,20 +16,19 @@ import it.polimi.ingsw.PSP034.server.Server;
 public class MessageManager {
     private final Controller controller;
     private final Server server;
+    private Request lastRequest;
 
     public MessageManager(Controller controller, Server server){
         this.controller = controller;
         this.server = server;
     }
 
-
-    public void sendToPlayer(Player player, Request message){
-        server.asyncSendTo(player.getName(), message);
+    public void sendTo(Request message, String... players){
+        if (players == null)
+            return;
+        for (String player : players)
+            server.asyncSendTo(player, message);
     }
-
-    //protected void sendToPlayer(Player player, OtherMessage message){
-
-    //}
 
     public void handleMessage(Answer message, String name) {
         boolean validMessage = true;

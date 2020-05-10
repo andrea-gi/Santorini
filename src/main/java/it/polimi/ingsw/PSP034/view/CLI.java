@@ -24,9 +24,13 @@ public class CLI implements RequestManager, Runnable {
     @Override
     public void run() {
         handleRequest(new TitleRequest());
-        AnswerIP ip = (AnswerIP) handleRequest(new RequestIP());
-        Client client = new Client(this, ip.getIp(), ip.getPort());
-        client.startConnection();
+        Client client;
+        boolean connected;
+        do{
+            AnswerIP ip = (AnswerIP) handleRequest(new RequestIP());
+            client = new Client(this, ip.getIp(), ip.getPort());
+            connected = client.startConnection();
+        } while (!connected);
         Thread runClient = new Thread(client);
         runClient.start();
     }

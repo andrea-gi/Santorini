@@ -4,11 +4,13 @@ import it.polimi.ingsw.PSP034.messages.Answer;
 import it.polimi.ingsw.PSP034.messages.ModelUpdate;
 import it.polimi.ingsw.PSP034.messages.Request;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.*;
+import it.polimi.ingsw.PSP034.view.printables.ANSI;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Random;
 
 /**
  * Manages the server socket connection to a single client.
@@ -16,14 +18,14 @@ import java.net.Socket;
 class ClientHandler implements IClientConnection, Runnable{
     private final Socket socket;
     private final Server server;
-    ObjectInputStream in;
-    ObjectOutputStream out;
+    private ObjectInputStream in;
+    private ObjectOutputStream out;
 
     boolean active;
     private final Object activeLock = new Object();
 
     boolean firstConnected;
-    String playerName = "none";
+    private String playerName;
 
 
     /**
@@ -34,6 +36,8 @@ class ClientHandler implements IClientConnection, Runnable{
      * @param firstConnected True if creating the ClientHandler associated to the first player connected.
      */
     public ClientHandler(Socket socket, Server server, boolean firstConnected){
+        Random randGenID = new Random();
+        this.playerName = String.valueOf(randGenID.nextInt());
         this.socket = socket;
         this.server = server;
         this.firstConnected = firstConnected;
@@ -71,6 +75,8 @@ class ClientHandler implements IClientConnection, Runnable{
             out.reset();
             out.writeObject(message);
             out.flush();
+            server.printInfoConsole(ANSI.FG_bright_green + "Sent message: " + ANSI.reset +
+                    message.getClass().getSimpleName() + " to " + this.playerName);
         } catch (IOException e){
             // TODO -- disconnetto
             e.printStackTrace();
@@ -130,9 +136,9 @@ class ClientHandler implements IClientConnection, Runnable{
     private void close(){
         setActive(false);
         closeConnection();
-        System.out.println("Deregistering: " + playerName);
+        server.printInfoConsole("Deregistering: " + playerName);
         server.deregisterConnection(this);
-        System.out.println("Done!");
+        server.printInfoConsole("Done!");
     }
 
     @Override

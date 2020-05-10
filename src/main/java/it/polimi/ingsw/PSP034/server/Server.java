@@ -10,6 +10,7 @@ import it.polimi.ingsw.PSP034.messages.gameOverPhase.GameOverAnswer;
 import it.polimi.ingsw.PSP034.messages.playPhase.PlayAnswer;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.*;
 import it.polimi.ingsw.PSP034.messages.setupPhase.SetupAnswer;
+import it.polimi.ingsw.PSP034.view.printables.ANSI;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -55,6 +56,8 @@ public class Server implements Runnable{
 
     private final BlockingQueue<AnswerEncapsulated> queue = new ArrayBlockingQueue<>(16);
 
+    private final Object consoleLock = new Object();
+
     /**
      * Instantiates a new server listening to a given port. It also creates a new {@link Controller}.
      * @param port A valid port (0 to 65535). For best results, be aware of TCP well-known ports.
@@ -77,16 +80,22 @@ public class Server implements Runnable{
      * Sets the number of player synchronously. Can be done only once.
      * @param chosenPlayerNumber Player number chosen by the selected client (2 or 3).
      */
-    protected synchronized void setPlayerNumber(int chosenPlayerNumber){
+    protected synchronized boolean setPlayerNumber(int chosenPlayerNumber){
         if (playerNumberFlag) {
             playerNumberFlag = false;
             this.chosenPlayerNumber = chosenPlayerNumber;
             setCanStartSetup(true);
             checkAndBeginSetup();
+            return true;
         }
+        return false;
     }
 
-    private synchronized boolean canStartSetup() {
+    /**
+     * Synchronously checks if player number has already been set and setup can start
+     * @return {@code true} if setup can start, {@code false} otherwise.
+     */
+    protected synchronized boolean canStartSetup() {
         return canStartSetup;
     }
 
@@ -102,7 +111,11 @@ public class Server implements Runnable{
         this.gameStarted = gameStarted;
     }
 
-    private synchronized boolean isGameStarted(){
+    /**
+     * Synchronously checks if game has already started
+     * @return {@code true} if game has started, {@code false} otherwise.
+     */
+    protected synchronized boolean isGameStarted(){
         return this.gameStarted;
     }
 
@@ -185,8 +198,9 @@ public class Server implements Runnable{
                         socketConnection = new ClientHandler(newSocket, this, false);
                     }
                     executor.submit(socketConnection);
+                    printInfoConsole("Added new player, temporary ID is: " + socketConnection.getName());
                 } catch (IOException e) {
-                    System.out.println("Connection Error!");
+                    System.err.println("Connection Error!");
                     e.printStackTrace();
                     break;
                 }
@@ -203,12 +217,14 @@ public class Server implements Runnable{
         queue.offer(new AnswerEncapsulated(message, connection));
     }
 
-    private synchronized void registerPlayer(IClientConnection connection, String name, Color color){
+    private synchronized boolean registerPlayer(IClientConnection connection, String name, Color color){
+        printInfoConsole(connection.getName() + " wants to register as " + name + ", using " + color +" workers.");
         if (!chosenNames.contains(name) && !chosenColors.contains(color)) {
             controller.addPlayer(name, color);
             chosenNames.add(name);
             chosenColors.add(color);
             connection.setName(name);
+            printInfoConsole("Successfully registered "+name+", using "+color+" workers.");
 
             int indexPlayer = activeConnections.indexOf(connection);
             if (indexPlayer < getChosenPlayerNumber() - 1) {
@@ -218,17 +234,41 @@ public class Server implements Runnable{
             } else {
                 controller.handleGamePhase();
             }
+            return true;
         }
+        printInfoConsole("Either the name or color requested were not available.");
+        return false;
     }
 
+    /**
+     * Manages a message received by a client. If the received message is a {@link AnswerServerConfig},
+     * it will be managed directly in this method, otherwise it will call a controller method.
+     * @param message Message to be managed
+     * @param connection Message sender
+     */
     private synchronized void manageMessage(Answer message, IClientConnection connection){
+        printInfoConsole(ANSI.FG_bright_blue + "Received: " + ANSI.reset + message.getClass().getSimpleName()
+                + " by: " + connection.getName());
+
+        boolean validMessage;
         if (message instanceof AnswerServerConfig){
             if (message instanceof AnswerNumber) {
-                setPlayerNumber(((AnswerNumber) message).getPlayerNumber());
+                if(setPlayerNumber(((AnswerNumber) message).getPlayerNumber())){
+                    if (canStartSetup() && !isGameStarted()){
+                        connection.asyncSend(new RequestServerConfig(ServerInfo.WELCOME_WAIT)); //TODO -- messaggio di attesa altri giocatori
+                    }
+                } else{
+                    // TODO -- gestire messaggio player number errato (?) vedi setPlayerNumber
+                }
             }
             else if (message instanceof AnswerNameColor) {
                 AnswerNameColor answerNameColor = (AnswerNameColor) message;
-                registerPlayer(connection, answerNameColor.getName(), answerNameColor.getColor());
+                validMessage = registerPlayer(connection, answerNameColor.getName(), answerNameColor.getColor());
+                if (!validMessage){
+                    // TODO -- come gestisco l'errore? dovrei inviare una notifica di errore
+                    connection.asyncSend(new RequestNameColor(chosenNames.toArray(new String[0]),
+                            Color.getRemainingColors(chosenColors.toArray(new Color[0]))));
+                }
             }
         } else if (message instanceof PlayAnswer || message instanceof SetupAnswer || message instanceof GameOverAnswer){
             controller.handleMessage(message, connection.getName());
@@ -250,7 +290,18 @@ public class Server implements Runnable{
                 connection.asyncSend(message);
         }
     }
-    
+
+    /**
+     * Prints synchronously a debug info in the console.
+     * @param string Info to be printed
+     */
+    protected void printInfoConsole(String string){
+        synchronized (consoleLock){
+            System.out.println(string);
+        }
+    }
+
+
     @Override
     public void run() {
         acceptConnections();
