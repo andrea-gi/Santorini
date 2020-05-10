@@ -30,7 +30,7 @@ public class Game extends ModelObservable {
         this.board = new Board();
         this.currentPlayer = null;
         this.gamePhase = GamePhase.SETUP;
-        this.rules = new DefaultRules(this);
+        this.rules = new DefaultRules();
         this.remainingGods = new ArrayList<>();
     }
 

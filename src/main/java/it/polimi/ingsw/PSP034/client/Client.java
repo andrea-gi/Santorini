@@ -35,6 +35,8 @@ public class Client implements Runnable{
     public boolean startConnection(){
         try {
             socket = new Socket(address, socketPort);
+            if (!socket.isClosed() && !socket.isConnected())
+                return false;
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
             clientGameHandler = new Thread(new ClientGameHandler(requestManager, requestQueue, out));

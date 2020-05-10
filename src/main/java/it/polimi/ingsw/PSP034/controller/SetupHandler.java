@@ -1,6 +1,8 @@
 package it.polimi.ingsw.PSP034.controller;
 
 import it.polimi.ingsw.PSP034.constants.*;
+import it.polimi.ingsw.PSP034.messages.serverConfiguration.RequestServerConfig;
+import it.polimi.ingsw.PSP034.messages.serverConfiguration.ServerInfo;
 import it.polimi.ingsw.PSP034.messages.setupPhase.*;
 import it.polimi.ingsw.PSP034.model.Player;
 
@@ -27,6 +29,7 @@ public class SetupHandler {
                     for (String s : choice) {
                         controller.addRemainingGod(s);
                     }
+                    controller.sendToPlayer(controller.getCurrentPlayer().getName(), new RequestServerConfig(ServerInfo.CARDS_CHOICE_WAIT));
                     controller.setNextPlayer();
                 }
                 break;
@@ -35,14 +38,18 @@ public class SetupHandler {
                 if (message instanceof AnswerPersonalGod){
                     controller.addGod(((AnswerPersonalGod) message).getMyGod());
                     controller.removeRemainingGod(((AnswerPersonalGod) message).getMyGod());
-                    if (controller.getRemainingGods().size() > 0)
+                    if (controller.getRemainingGods().size() > 0) {
+                        controller.sendToPlayer(controller.getCurrentPlayer().getName(), new RequestServerConfig(ServerInfo.CARDS_CHOICE_WAIT));
                         controller.setNextPlayer();
+                    }
                 }
                 break;
 
             case CHOOSE_FIRST_PLAYER:
                 if (message instanceof AnswerFirstPlayer){
                     controller.firstPlayerSetUp(((AnswerFirstPlayer) message).getFirstPlayer());
+                    String firstPlayer = controller.getCurrentPlayer().getName();
+                    controller.sendToAllExcept(firstPlayer, new FirstPlayerInfo(firstPlayer));
                 }
                 break;
 
@@ -69,28 +76,28 @@ public class SetupHandler {
         switch(currentSetupPhase){
             case CARDS_CHOICE:
                 currentSetupPhase = SetupPhase.PERSONAL_GOD_CHOICE;
-                controller.sendToPlayer(player, new RequestPersonalGod(controller.getRemainingGods())); //new sendto per setup??
+                controller.sendToPlayer(player.getName(), new RequestPersonalGod(controller.getRemainingGods())); //new sendto per setup??
                 break;
 
             case PERSONAL_GOD_CHOICE:
                 if (controller.getRemainingGods().size() > 0){
-                    controller.sendToPlayer(player, new RequestPersonalGod(controller.getRemainingGods()));
+                    controller.sendToPlayer(player.getName(), new RequestPersonalGod(controller.getRemainingGods()));
                 }
                 else {
                     currentSetupPhase = SetupPhase.CHOOSE_FIRST_PLAYER;
-                    controller.sendToPlayer(player, new RequestFirstPlayer(controller.getPlayersName()));
+                    controller.sendToPlayer(player.getName(), new RequestFirstPlayer(controller.getPlayersName()));
                 }
-                break; //TODO -- invia notifica agli altri giocatori
+                break;
 
             case CHOOSE_FIRST_PLAYER:
                 currentSetupPhase = SetupPhase.PLACE_WORKERS;
-                controller.sendToPlayer(player, new RequestPlaceWorker(Sex.MALE));
+                controller.sendToPlayer(player.getName(), new RequestPlaceWorker(Sex.MALE));
                 firstWorker = true;
                 break;
 
             case PLACE_WORKERS:
                 if (firstWorker){
-                    controller.sendToPlayer(player, new RequestPlaceWorker(Sex.FEMALE));
+                    controller.sendToPlayer(player.getName(), new RequestPlaceWorker(Sex.FEMALE));
                     firstWorker = false;
                 }
                 else {
