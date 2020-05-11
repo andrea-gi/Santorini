@@ -139,8 +139,8 @@ public class Server implements Runnable{
             waitingConnections.removeAll(activeConnections);
 
             for(IClientConnection connection : activeConnections){
+                controller.addModelObserver(connection);
                 if (connection.equals(activeConnections.get(0))) {
-                    controller.addModelObserver(connection);
                     connection.asyncSend(new RequestNameColor(chosenNames.toArray(new String[0]),
                             Color.getRemainingColors(chosenColors.toArray(new Color[0]))));
                 }

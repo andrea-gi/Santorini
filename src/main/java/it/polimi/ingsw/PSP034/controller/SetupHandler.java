@@ -48,8 +48,10 @@ public class SetupHandler {
             case CHOOSE_FIRST_PLAYER:
                 if (message instanceof AnswerFirstPlayer){
                     controller.firstPlayerSetUp(((AnswerFirstPlayer) message).getFirstPlayer());
-                    String firstPlayer = controller.getCurrentPlayer().getName();
-                    controller.sendToAllExcept(firstPlayer, new FirstPlayerInfo(firstPlayer));
+                    controller.sendToAll(new InitializeBoard(controller.getSlimBoard()));
+                    //TODO -- da decidere
+                    //String firstPlayer = controller.getCurrentPlayer().getName();
+                    //controller.sendToAllExcept(firstPlayer, new FirstPlayerInfo(firstPlayer));
                 }
                 break;
 
@@ -60,6 +62,7 @@ public class SetupHandler {
                     Sex sex = ((AnswerPlaceWorker) message).getSex();
                     controller.addWorker(sex, x, y);
                     if (!firstWorker){
+                        controller.sendToPlayer(controller.getCurrentPlayer().getName(), new ReceivedWorkerChoice());
                         controller.setNextPlayer();
                         playerNumber++;
                         if (playerNumber < controller.getPlayerNumber())

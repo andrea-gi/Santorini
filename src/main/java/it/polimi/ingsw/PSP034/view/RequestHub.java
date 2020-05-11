@@ -41,7 +41,8 @@ public class RequestHub {
         else if(request instanceof PlayRequest){
             return newPlayRequest((PlayRequest) request);
         }else if(request instanceof SlimBoard){
-            ((Table) currScene).updateBoard(((SlimBoard) request).getDome(), ((SlimBoard) request).getBuilding(), ((SlimBoard) request).getColor(), ((SlimBoard) request).getSex(), false);
+            SlimBoard slimBoard = (SlimBoard) request;
+            ((Table) currScene).updateBoard(slimBoard.getDome(), slimBoard.getBuilding(), slimBoard.getColor(), slimBoard.getSex(), false, slimBoard.getCurrentPlayer());
             currScene.show();
             lastRequest = request;
             return null;
@@ -168,14 +169,21 @@ public class RequestHub {
         }
 
         else if (request instanceof RequestPlaceWorker) {
-            SlimBoard slimBoardUpdate = ((RequestPlaceWorker) request).getSlimBoard();
-            currScene = new Table(slimBoardUpdate.getGodsList());
-            ((Table) currScene).updatePlaceWorker(slimBoardUpdate.getDome(), slimBoardUpdate.getBuilding(), slimBoardUpdate.getColor(), slimBoardUpdate.getSex());
+            SlimBoard slimBoard = ((RequestPlaceWorker) request).getSlimBoard();
+            currScene = new Table(slimBoard.getGodsList());
+            currScene.show();
+            ((Table) currScene).updatePlaceWorker(slimBoard.getDome(), slimBoard.getBuilding(), slimBoard.getColor(), slimBoard.getSex(), slimBoard.getCurrentPlayer());
             answer = currScene.show();
             answerComposer = new AnswerComposer(request);
             answerComposer.packetAnswer(answer);
             lastRequest = request;
             return answerComposer.packetAnswer(answer);
+        }
+
+        else if (request instanceof  ReceivedWorkerChoice){
+            ((Table) currScene).updateClearRequest();
+            currScene.show();
+            return null;
         }
         //TODO -- decidere se va bene
         return null;
@@ -238,6 +246,10 @@ public class RequestHub {
             }
         }else if(request instanceof RequestStart){
             ((Table) currScene).updateStart();
+            currScene.show();
+            return new AnswerStart();
+        }else if(request instanceof RequestEnd){
+            ((Table) currScene).updateClearRequest();
             currScene.show();
             return null;
         }

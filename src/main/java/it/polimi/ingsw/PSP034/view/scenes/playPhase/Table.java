@@ -32,6 +32,7 @@ public class Table extends Scene{
 
     public Table(String[] gods){
         board = new ViewBoard();
+        title = new Font("");
 
         cards = new GodCard[gods.length];
         for(int i = 0; i < gods.length; i++){
@@ -90,7 +91,8 @@ public class Table extends Scene{
         }
     }
 
-    public void updateBoard(boolean[][] dome, int[][] building, Color[][] color, Sex[][] sex, boolean showNumbers){
+    public void updateBoard(boolean[][] dome, int[][] building, Color[][] color, Sex[][] sex, boolean showNumbers, String currentPlayer){
+        title = new Font(currentPlayer+"'s turn");
         for(int y = 0; y < Constant.DIM; y++){
             for(int x = 0; x < Constant.DIM; x++){
                 board.updateTile(x, y, building[x][y], dome[x][y], color[x][y], sex[x][y]);
@@ -105,9 +107,9 @@ public class Table extends Scene{
         textBox = null;
     }
 
-    public void updatePlaceWorker(boolean[][] dome, int[][] building, Color[][] color, Sex[][] sex){
+    public void updatePlaceWorker(boolean[][] dome, int[][] building, Color[][] color, Sex[][] sex, String currentPlayer){
         title = new Font("workers setup");
-        updateBoard(dome, building, color, sex, true);
+        updateBoard(dome, building, color, sex, true, currentPlayer);
 
         int freeTiles = 0;
         for(int y = 0; y < Constant.DIM; y++){
@@ -213,8 +215,15 @@ public class Table extends Scene{
         title = new Font("your turn");
 
         question = null;
-        message = new Message("Press Enter to start your turn.", -1);
-        textBox = new TextBox(1);
+        message = null;
+        textBox = null;
+        regex = null;
+    }
+
+    public void updateClearRequest(){
+        question = null;
+        message = null;
+        textBox = null;
         regex = null;
     }
 }

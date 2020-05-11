@@ -58,6 +58,7 @@ public class TurnHandler {
                 controller.sendToPlayer(player.getName(), new RequestBooleanChoice(nextStateInfo));
                 break;
             case END:
+                controller.sendToPlayer(player.getName(), new RequestEnd());
                 setMyTurnPhase(TurnPhase.START);
                 setPreviousTurnPhase(TurnPhase.START);
                 controller.setNextPlayer();
