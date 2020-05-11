@@ -3,9 +3,10 @@ package it.polimi.ingsw.PSP034.messages;
 import it.polimi.ingsw.PSP034.constants.Color;
 import it.polimi.ingsw.PSP034.constants.Constant;
 import it.polimi.ingsw.PSP034.constants.Sex;
+import it.polimi.ingsw.PSP034.messages.ModelUpdate;
 import it.polimi.ingsw.PSP034.model.Board;
 
-public class SlimBoard extends ModelUpdate{
+public class SlimBoard extends ModelUpdate {
     private final boolean[][] dome;
     private final int[][] building;
     private final Color[][] color;

@@ -98,6 +98,26 @@ public class ViewBoard extends PrintableObject {
         viewTiles[x][y].update(building, hasDome, color, sex);
     }
 
+    public void showNumbers(){
+        int num = 1;
+        for(ViewTile[] row : viewTiles) {
+            for (ViewTile tile : row) {
+                if(tile.showNumber(num))
+                    num++;
+            }
+        }
+    }
+
+    public void hideNumbers(){
+        for(ViewTile[] row : viewTiles) {
+            for (ViewTile tile : row) {
+                tile.hideNumber();
+            }
+        }
+    }
+
+
+
     //TODO -- Ddecidere static o no
     private class ViewTile extends PrintableObject {
         private int building;
@@ -153,6 +173,59 @@ public class ViewBoard extends PrintableObject {
             if(sex != null){
                 constructionArray.set(1, constructionArray.get(1) + "\033[9D" + "\033[4C" + color.getBG_color() + sex.toString() + ANSI.reset);
             }
+
+            super.setObjectLine(0, constructionArray.get(0));
+            super.setObjectLine(1, constructionArray.get(1));
+            super.setObjectLine(2, constructionArray.get(2));
+
+            super.print(super.getStartLine(), super.getStartColumn());
+        }
+
+        private boolean showNumber(int number){
+            if(sex == null  &&  !hasDome) {
+                resetTile();
+
+                if(this.building != 0){
+                    constructionArray.set(0, constructionArray.get(0) + "\033[9D" + ANSI.BG_white + ANSI.FG_blue + " "+ this.building + "     " + this.building +" " + ANSI.reset);
+                    constructionArray.set(1, constructionArray.get(1) + "\033[9D" + ANSI.BG_white + ANSI.FG_blue + "         " + ANSI.reset);
+                    constructionArray.set(2, constructionArray.get(2) + "\033[9D" + ANSI.BG_white + ANSI.FG_blue + " "+ this.building + "     " + this.building +" " + ANSI.reset);
+                }
+                String color = building != 0 ? ANSI.BG_white : ANSI.BG_green;
+                constructionArray.set(1, constructionArray.get(1) + "\033[9D" + "\033[4C" + color + number + ANSI.reset + "\033[" + (4-Integer.toString(number).length()) + "C");
+
+                super.setObjectLine(0, constructionArray.get(0));
+                super.setObjectLine(1, constructionArray.get(1));
+                super.setObjectLine(2, constructionArray.get(2));
+
+                return true;
+            }else
+                return false;
+        }
+
+        private void hideNumber(){
+            if(sex == null  &&  !hasDome) {
+                resetTile();
+
+                if(this.building != 0){
+                    constructionArray.set(0, constructionArray.get(0) + "\033[9D" + ANSI.BG_white + ANSI.FG_blue + " "+ this.building + "     " + this.building +" " + ANSI.reset);
+                    constructionArray.set(1, constructionArray.get(1) + "\033[9D" + ANSI.BG_white + ANSI.FG_blue + "         " + ANSI.reset);
+                    constructionArray.set(2, constructionArray.get(2) + "\033[9D" + ANSI.BG_white + ANSI.FG_blue + " "+ this.building + "     " + this.building +" " + ANSI.reset);
+                }
+                String color = building != 0 ? ANSI.BG_white : ANSI.BG_green;
+
+                constructionArray.set(1, constructionArray.get(1) + "\033[9D" + "\033[4C" + color + "  " + ANSI.reset + "\033[3C");
+                super.setObjectLine(0, constructionArray.get(0));
+                super.setObjectLine(1, constructionArray.get(1));
+                super.setObjectLine(2, constructionArray.get(2));
+            }
+        }
+
+        private void resetTile(){
+            String baseLine = ANSI.BG_green + ANSI.FG_white + "         " + ANSI.reset;
+
+            constructionArray.set(0, baseLine);
+            constructionArray.set(1, baseLine);
+            constructionArray.set(2, baseLine);
 
             super.setObjectLine(0, constructionArray.get(0));
             super.setObjectLine(1, constructionArray.get(1));

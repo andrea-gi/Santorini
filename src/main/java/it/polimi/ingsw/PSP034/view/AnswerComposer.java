@@ -1,11 +1,15 @@
 package it.polimi.ingsw.PSP034.view;
 
 import it.polimi.ingsw.PSP034.constants.Color;
+import it.polimi.ingsw.PSP034.constants.Directions;
+import it.polimi.ingsw.PSP034.constants.Sex;
 import it.polimi.ingsw.PSP034.messages.Answer;
 import it.polimi.ingsw.PSP034.messages.Request;
+import it.polimi.ingsw.PSP034.messages.SlimBoard;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.AnswerIP;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.RequestClientConfig;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.RequestIP;
+import it.polimi.ingsw.PSP034.messages.playPhase.*;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.AnswerNameColor;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.AnswerNumber;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.RequestNameColor;
@@ -27,8 +31,10 @@ public class AnswerComposer {
                 return answerClientConfig(params);
             }else if (request instanceof RequestServerConfig) {
                 return answerServerConfig(params);
-            }else if(request instanceof SetupRequest){
+            }else if (request instanceof SetupRequest) {
                 return answerSetup(params);
+            }else if (request instanceof PlayRequest) {
+                return answerPlay(params);
             }else
                 //TODO decidere testo
                 throw new IllegalArgumentException();
@@ -80,7 +86,21 @@ public class AnswerComposer {
         }
         else if (request instanceof RequestPersonalGod) {
             answer = new AnswerPersonalGod(((RequestPersonalGod) request).getPossibleGods()[Integer.parseInt(params[0])-1]);
+        }else if(request instanceof RequestPlaceWorker) {
+            //TODO --  risposta appena ci saranno i parametri
         }
+        return answer;
+    }
+
+    private Answer answerPlay(String...params){
+        if(request instanceof RequestAction){
+            Sex sex = params[0].equals("1") ? Sex.MALE : Sex.FEMALE;
+            Directions[] directions = sex == Sex.MALE ? ((RequestAction) request).getPossibleMaleDirections() : ((RequestAction) request).getPossibleFemaleDirections();
+            Directions direction = directions[Integer.parseInt(params[1])-1];
+            answer = new AnswerAction(sex, direction);
+        }else if(request instanceof RequestBooleanChoice){
+            boolean choice = params[0].equals("1");
+            answer = new AnswerBooleanChoice(choice);
         return answer;
     }
 }

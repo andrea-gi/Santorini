@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Arrangement extends PrintableObject {
-    private ArrayList<PrintableObject> objects;
+    private final ArrayList<PrintableObject> objects;
     private int alignment;
     private int border;
 
@@ -33,9 +33,9 @@ public class Arrangement extends PrintableObject {
         updateAlignment();
     }
 
-    public void updateAlignment(){};
+    public void updateAlignment(){}
 
-    ArrayList<PrintableObject> getObjects() {
+    public ArrayList<PrintableObject> getObjects() {
         return objects;
     }
 
@@ -45,10 +45,6 @@ public class Arrangement extends PrintableObject {
 
     int getBorder() {
         return border;
-    }
-
-    void setObjects(ArrayList<PrintableObject> objects) {
-        this.objects = objects;
     }
 
     void setAlignment(int alignment) {
