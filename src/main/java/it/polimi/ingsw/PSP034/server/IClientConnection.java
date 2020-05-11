@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP034.server;
 
+import it.polimi.ingsw.PSP034.constants.Color;
 import it.polimi.ingsw.PSP034.messages.Request;
 import it.polimi.ingsw.PSP034.observer.ModelObserver;
 
@@ -29,4 +30,16 @@ public interface IClientConnection extends ModelObserver {
      * @param name Player name
      */
     void setName(String name);
+
+    /**
+     * Sets the player's color (ANSI) used for logging
+     * @param color Color chosen
+     */
+    void setDebugColor(Color color);
+
+    /**
+     * Returns the player color (ANSI) for logging
+     * @return Player color
+     */
+    String getDebugColor();
 }

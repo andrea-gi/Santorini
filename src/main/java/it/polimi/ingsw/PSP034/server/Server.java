@@ -51,6 +51,7 @@ public class Server implements Runnable{
     private boolean firstConnection = true;
     private boolean canStartSetup = false;
     private int chosenPlayerNumber = Constant.MAXPLAYERS;
+    private int port;
 
     private final IController controller;
 
@@ -65,6 +66,7 @@ public class Server implements Runnable{
     public Server(int port){
         IController temporaryController;
         try {
+            this.port = port;
             this.serverSocket = new ServerSocket(port);
             temporaryController = new Controller(this);
         } catch (IOException e){
@@ -218,12 +220,14 @@ public class Server implements Runnable{
     }
 
     private synchronized boolean registerPlayer(IClientConnection connection, String name, Color color){
-        printInfoConsole(connection.getName() + " wants to register as " + name + ", using " + color +" workers.");
+        printInfoConsole(connection.getName() + " wants to register as " + name + ", using "
+                + connection.getDebugColor() + color + ANSI.reset +" workers.");
         if (!chosenNames.contains(name) && !chosenColors.contains(color)) {
             controller.addPlayer(name, color);
             chosenNames.add(name);
             chosenColors.add(color);
             connection.setName(name);
+            connection.setDebugColor(color);
             printInfoConsole("Successfully registered "+name+", using "+color+" workers.");
 
             int indexPlayer = activeConnections.indexOf(connection);
@@ -248,14 +252,14 @@ public class Server implements Runnable{
      */
     private synchronized void manageMessage(Answer message, IClientConnection connection){
         printInfoConsole(ANSI.FG_bright_blue + "Received: " + ANSI.reset + message.getClass().getSimpleName()
-                + " by: " + connection.getName());
+                + " by: " + connection.getDebugColor() + connection.getName() + ANSI.reset);
 
         boolean validMessage;
         if (message instanceof AnswerServerConfig){
             if (message instanceof AnswerNumber) {
                 if(setPlayerNumber(((AnswerNumber) message).getPlayerNumber())){
                     if (canStartSetup() && !isGameStarted()){
-                        connection.asyncSend(new RequestServerConfig(ServerInfo.WELCOME_WAIT)); //TODO -- messaggio di attesa altri giocatori
+                        connection.asyncSend(new RequestServerConfig(ServerInfo.LOBBY)); //TODO -- messaggio di attesa altri giocatori
                     }
                 } else{
                     // TODO -- gestire messaggio player number errato (?) vedi setPlayerNumber
@@ -305,6 +309,7 @@ public class Server implements Runnable{
     @Override
     public void run() {
         acceptConnections();
+        printInfoConsole("Server started. Listening to socket connections on port: " + port);
         AnswerEncapsulated message;
         while(true){
             try {
