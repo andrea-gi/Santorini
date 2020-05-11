@@ -74,6 +74,11 @@ class ClientHandler implements IClientConnection, Runnable{
      */
     private synchronized void send(Request message){
         try{
+            if (!isActive()) {
+                server.printInfoConsole("Connection to "+ debugColor + this.playerName+ ANSI.reset +
+                        " has already been closed. Cannot send: " + message.getClass().getSimpleName());
+                return;
+            }
             out.reset();
             out.writeObject(message);
             out.flush();
@@ -86,8 +91,7 @@ class ClientHandler implements IClientConnection, Runnable{
     }
 
     public void asyncSend(Request message){
-        if (isActive())
-            new Thread(() -> send(message)).start();
+        new Thread(() -> send(message)).start();
     }
 
     /**
@@ -128,19 +132,21 @@ class ClientHandler implements IClientConnection, Runnable{
     public synchronized void closeConnection() {
         // TODO -- inviare messaggio chiusura socket
         try {
-            if(!socket.isClosed())
+            if(!socket.isClosed()) {
                 socket.close();
+            }
         } catch (IOException e) {
             System.err.println("Error when closing socket!");
+        } finally{
+            setActive(false);
         }
     }
 
     private void close(){
-        setActive(false);
         closeConnection();
-        server.printInfoConsole("Deregistering: " + playerName);
+        server.printInfoConsole("Deregistering: " + debugColor + playerName + ANSI.reset);
         server.deregisterConnection(this);
-        server.printInfoConsole("Done!");
+        server.printInfoConsole(debugColor + playerName + ANSI.reset + " deregistered successfully.");
     }
 
     @Override

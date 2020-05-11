@@ -76,6 +76,7 @@ public class Triton extends GodsRules {
                 executed = true;
                 break;
         }
+        getDefaultRules().modelUpdated();
         return executed;
     }
 

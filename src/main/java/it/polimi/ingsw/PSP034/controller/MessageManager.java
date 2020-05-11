@@ -18,12 +18,12 @@ public class MessageManager {
     private final Server server;
     private Request lastRequest;
 
-    public MessageManager(Controller controller, Server server){
+    protected MessageManager(Controller controller, Server server){
         this.controller = controller;
         this.server = server;
     }
 
-    public void sendTo(Request message, String... players){
+    protected void sendTo(Request message, String... players){
         if (players == null)
             return;
         for (String player : players)
@@ -61,6 +61,4 @@ public class MessageManager {
 
 
     }
-
-
 }

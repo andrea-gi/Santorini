@@ -2,10 +2,11 @@ package it.polimi.ingsw.PSP034.messages.playPhase;
 
 import it.polimi.ingsw.PSP034.constants.TurnPhase;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class NextStateInfo {
+public class NextStateInfo implements Serializable {
     private final TurnPhase nextPhase;
     private final ArrayList<RequiredActions> actions;
 

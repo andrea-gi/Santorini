@@ -178,7 +178,7 @@ public class ViewBoard extends PrintableObject {
             super.setObjectLine(1, constructionArray.get(1));
             super.setObjectLine(2, constructionArray.get(2));
 
-            super.print(super.getStartLine(), super.getStartColumn());
+            //super.print(super.getStartLine(), super.getStartColumn());
         }
 
         private boolean showNumber(int number){
@@ -231,7 +231,7 @@ public class ViewBoard extends PrintableObject {
             super.setObjectLine(1, constructionArray.get(1));
             super.setObjectLine(2, constructionArray.get(2));
 
-            super.print(super.getStartLine(), super.getStartColumn());
+            //super.print(super.getStartLine(), super.getStartColumn());
         }
     }
 }

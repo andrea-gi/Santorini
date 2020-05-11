@@ -92,6 +92,7 @@ public class Artemis extends GodsRules {
                 executed = true;
                 break;
         }
+        getDefaultRules().modelUpdated();
         return executed;
     }
 

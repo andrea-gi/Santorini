@@ -91,13 +91,13 @@ public class SetupHandler {
 
             case CHOOSE_FIRST_PLAYER:
                 currentSetupPhase = SetupPhase.PLACE_WORKERS;
-                controller.sendToPlayer(player.getName(), new RequestPlaceWorker(Sex.MALE));
+                controller.sendToPlayer(player.getName(), new RequestPlaceWorker(Sex.MALE, controller.getSlimBoard()));
                 firstWorker = true;
                 break;
 
             case PLACE_WORKERS:
                 if (firstWorker){
-                    controller.sendToPlayer(player.getName(), new RequestPlaceWorker(Sex.FEMALE));
+                    controller.sendToPlayer(player.getName(), new RequestPlaceWorker(Sex.FEMALE, controller.getSlimBoard()));
                     firstWorker = false;
                 }
                 else {

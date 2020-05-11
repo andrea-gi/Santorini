@@ -18,6 +18,7 @@ public class Game extends ModelObservable {
     private GamePhase gamePhase;
     private IRules rules;
     private ArrayList<String> remainingGods;
+    private String[] godsList;
 
 
     /**
@@ -30,7 +31,7 @@ public class Game extends ModelObservable {
         this.board = new Board();
         this.currentPlayer = null;
         this.gamePhase = GamePhase.SETUP;
-        this.rules = new DefaultRules();
+        this.rules = new DefaultRules(this);
         this.remainingGods = new ArrayList<>();
     }
 
@@ -59,6 +60,9 @@ public class Game extends ModelObservable {
 
     public void addRemainingGod(String god){
         this.remainingGods.add(god);
+        if (remainingGods.size() == players.size()){
+            godsList = remainingGods.toArray(new String[0]);
+        }
     }
 
     public Player loser(){
@@ -67,6 +71,10 @@ public class Game extends ModelObservable {
                 return player;
         }
         return null;
+    }
+
+    public SlimBoard generateSlimBoard(){
+        return new SlimBoard(board, currentPlayer.getName(), godsList.clone());
     }
 
     /**
@@ -113,7 +121,7 @@ public class Game extends ModelObservable {
 
     public void addWorker(Player player, Sex sex, int x, int y){
         player.addWorker(sex, board.getTile(x,y));
-        notifyObservers(new SlimBoard(board));
+        notifyObservers(generateSlimBoard());
     }
 
     /**
@@ -151,7 +159,7 @@ public class Game extends ModelObservable {
         //TODO -- chiudere la connessione e cose
         removeGod(player);
         players.remove(player);
-        notifyObservers(new SlimBoard(board)); // Notify all model observers
+        notifyObservers(generateSlimBoard()); // Notify all model observers
     }
 
 

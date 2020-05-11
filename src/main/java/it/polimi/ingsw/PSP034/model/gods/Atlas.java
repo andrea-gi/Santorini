@@ -73,6 +73,7 @@ public class Atlas extends GodsRules {
                 executed = true;
                 break;
         }
+        getDefaultRules().modelUpdated();
         return executed;
     }
 

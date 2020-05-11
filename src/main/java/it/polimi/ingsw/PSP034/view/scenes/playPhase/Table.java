@@ -40,10 +40,6 @@ public class Table extends Scene{
 
         cardsQuestionDistance = new Spacer(1, 4);
         answerIndentation = new Spacer(4, 1);
-
-
-
-
     }
 
     @Override
@@ -89,7 +85,7 @@ public class Table extends Scene{
                 textBox.waitAnswer();
                 return null;
             }else{
-                return textBox.waitAnswer((RegexCondition[]) regex.toArray());
+                return textBox.waitAnswer(regex.toArray(new RegexCondition[0]));
             }
         }
     }
@@ -109,7 +105,8 @@ public class Table extends Scene{
         textBox = null;
     }
 
-    public void updatePlaceWorker(boolean[][] dome, int[][] building, Color[][] color, Sex[][] sex, Sex worker){
+    public void updatePlaceWorker(boolean[][] dome, int[][] building, Color[][] color, Sex[][] sex){
+        title = new Font("workers setup");
         updateBoard(dome, building, color, sex, true);
 
         int freeTiles = 0;
@@ -140,7 +137,7 @@ public class Table extends Scene{
             for(x = 19; x < freeTiles; x+=10){
                 rule += "|" + x/10 + "[0-9]";
             }
-            rule += "|" + x/10 + "[0-" + freeTiles%10 + "]";
+            rule += "|" + x/10 + "[0-" + freeTiles%10 + "])$";
         }
 
         regex.add(new RegexCondition(rule, "Invalid selection."));

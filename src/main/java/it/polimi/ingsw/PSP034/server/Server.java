@@ -11,6 +11,7 @@ import it.polimi.ingsw.PSP034.messages.playPhase.PlayAnswer;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.*;
 import it.polimi.ingsw.PSP034.messages.setupPhase.SetupAnswer;
 import it.polimi.ingsw.PSP034.view.printables.ANSI;
+import it.polimi.ingsw.PSP034.view.scenes.serverConfiguration.AlreadyStarted;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -60,7 +61,7 @@ public class Server implements Runnable{
     private final Object consoleLock = new Object();
 
     /**
-     * Instantiates a new server listening to a given port. It also creates a new {@link Controller}.
+     * Instantiates a new server listening to a given port. It also creates a new {@link IController}.
      * @param port A valid port (0 to 65535). For best results, be aware of TCP well-known ports.
      */
     public Server(int port){
@@ -135,6 +136,7 @@ public class Server implements Runnable{
             setGameStarted(true);
 
             activeConnections.addAll(waitingConnections.subList(0, chosenPlayerNumber));
+            waitingConnections.removeAll(activeConnections);
 
             for(IClientConnection connection : activeConnections){
                 if (connection.equals(activeConnections.get(0))) {
@@ -163,26 +165,32 @@ public class Server implements Runnable{
      * @param connection Reference to the connection being deregistered.
      */
     protected synchronized void deregisterConnection(IClientConnection connection){
-        if(isGameStarted()){
-            // TODO -- gestione termine della partita
-            // thread del client aggiunge un messaggio di disconnessione al thread del server
-        }
-        else{
-            if (!canStartSetup() && waitingConnections.indexOf(connection) == 0){
-                // TODO -- rimuovo altre cose / chiudo connessioni se necessario
-                waitingConnections.remove(connection);
-                waitingConnections.get(0).asyncSend(new RequestServerConfig(ServerInfo.REQUEST_PLAYER_NUMBER));
-            } else {
+        if (waitingConnections.contains(connection)){
+            if (isGameStarted()){
+                connection.asyncSend(new RequestServerConfig(ServerInfo.ALREADY_STARTED));
+                connection.closeConnection();
                 waitingConnections.remove(connection);
             }
+            else if (!canStartSetup() && waitingConnections.indexOf(connection) == 0){
+                /*connection.closeConnection();*/
+                waitingConnections.remove(connection);
+                waitingConnections.get(0).asyncSend(new RequestServerConfig(ServerInfo.REQUEST_PLAYER_NUMBER));
+            }
+            else {
+                /*connection.closeConnection();*/
+                waitingConnections.remove(connection);
+            }
+        } else if (activeConnections.contains(connection)){
+            // TODO
         }
     }
 
-    private void deregisterWaitingList(){
+    private synchronized void deregisterWaitingList(){
         for(IClientConnection deregistered : waitingConnections) {
             // TODO -- invio messaggio
             deregisterConnection(deregistered);
         }
+        waitingConnections.clear();
     }
 
 
@@ -254,28 +262,34 @@ public class Server implements Runnable{
         printInfoConsole(ANSI.FG_bright_blue + "Received: " + ANSI.reset + message.getClass().getSimpleName()
                 + " by: " + connection.getDebugColor() + connection.getName() + ANSI.reset);
 
-        boolean validMessage;
         if (message instanceof AnswerServerConfig){
-            if (message instanceof AnswerNumber) {
-                if(setPlayerNumber(((AnswerNumber) message).getPlayerNumber())){
-                    if (canStartSetup() && !isGameStarted()){
-                        connection.asyncSend(new RequestServerConfig(ServerInfo.LOBBY)); //TODO -- messaggio di attesa altri giocatori
-                    }
-                } else{
-                    // TODO -- gestire messaggio player number errato (?) vedi setPlayerNumber
+            manageServerConfig((AnswerServerConfig) message, connection);
+        }
+        else if (message instanceof PlayAnswer || message instanceof SetupAnswer || message instanceof GameOverAnswer){
+            controller.getMessageManager().handleMessage(message, connection.getName());
+        }
+    }
+
+
+    private synchronized void manageServerConfig(AnswerServerConfig message, IClientConnection connection){
+        boolean validMessage;
+        if (message instanceof AnswerNumber) {
+            if(setPlayerNumber(((AnswerNumber) message).getPlayerNumber())){
+                if (canStartSetup() && !isGameStarted()){
+                    connection.asyncSend(new RequestServerConfig(ServerInfo.LOBBY)); //TODO -- messaggio di attesa altri giocatori
                 }
+            } else{
+                // TODO -- gestire messaggio player number errato (?) vedi setPlayerNumber
             }
-            else if (message instanceof AnswerNameColor) {
-                AnswerNameColor answerNameColor = (AnswerNameColor) message;
-                validMessage = registerPlayer(connection, answerNameColor.getName(), answerNameColor.getColor());
-                if (!validMessage){
-                    // TODO -- come gestisco l'errore? dovrei inviare una notifica di errore
-                    connection.asyncSend(new RequestNameColor(chosenNames.toArray(new String[0]),
-                            Color.getRemainingColors(chosenColors.toArray(new Color[0]))));
-                }
+        }
+        else if (message instanceof AnswerNameColor) {
+            AnswerNameColor answerNameColor = (AnswerNameColor) message;
+            validMessage = registerPlayer(connection, answerNameColor.getName(), answerNameColor.getColor());
+            if (!validMessage){
+                // TODO -- come gestisco l'errore? dovrei inviare una notifica di errore
+                connection.asyncSend(new RequestNameColor(chosenNames.toArray(new String[0]),
+                        Color.getRemainingColors(chosenColors.toArray(new Color[0]))));
             }
-        } else if (message instanceof PlayAnswer || message instanceof SetupAnswer || message instanceof GameOverAnswer){
-            controller.handleMessage(message, connection.getName());
         }
     }
 

@@ -9,12 +9,17 @@ import it.polimi.ingsw.PSP034.constants.Sex;
 public class DefaultRules implements IRules {
     private Sex chosenSex;
     private Tile previousTile;
+    private Game game;
 
-    public DefaultRules(){
+    public DefaultRules(Game game){
+        this.game = game;
         this.chosenSex = null;
         this.previousTile = null;
     }
 
+    public void modelUpdated(){
+        game.notifyObservers(game.generateSlimBoard());
+    }
 
     public Sex getChosenSex() {
         return chosenSex;

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.PSP034.view;
 
 import it.polimi.ingsw.PSP034.constants.Color;
+import it.polimi.ingsw.PSP034.constants.Constant;
 import it.polimi.ingsw.PSP034.constants.Directions;
 import it.polimi.ingsw.PSP034.constants.Sex;
 import it.polimi.ingsw.PSP034.messages.Answer;
@@ -87,7 +88,22 @@ public class AnswerComposer {
         else if (request instanceof RequestPersonalGod) {
             answer = new AnswerPersonalGod(((RequestPersonalGod) request).getPossibleGods()[Integer.parseInt(params[0])-1]);
         }else if(request instanceof RequestPlaceWorker) {
-            //TODO --  risposta appena ci saranno i parametri
+            SlimBoard slimBoard = ((RequestPlaceWorker) request).getSlimBoard();
+            int tile = Integer.parseInt(params[0]);
+            int x = 0;
+            int y;
+            int counter = 0;
+            cycle:
+            for (y = 0; y < Constant.DIM; y++){
+                for (x = 0; x < Constant.DIM; x++){
+                    if (!slimBoard.getDome()[x][y] && slimBoard.getSex()[x][y] == null){
+                        counter++;
+                        if (counter == tile)
+                            break cycle;
+                    }
+                }
+            }
+            answer = new AnswerPlaceWorker(((RequestPlaceWorker) request).getSex(), x, y );
         }
         return answer;
     }
@@ -98,9 +114,10 @@ public class AnswerComposer {
             Directions[] directions = sex == Sex.MALE ? ((RequestAction) request).getPossibleMaleDirections() : ((RequestAction) request).getPossibleFemaleDirections();
             Directions direction = directions[Integer.parseInt(params[1])-1];
             answer = new AnswerAction(sex, direction);
-        }else if(request instanceof RequestBooleanChoice){
+        }else if(request instanceof RequestBooleanChoice) {
             boolean choice = params[0].equals("1");
             answer = new AnswerBooleanChoice(choice);
+        }
         return answer;
     }
 }

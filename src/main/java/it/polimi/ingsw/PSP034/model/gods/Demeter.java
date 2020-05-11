@@ -78,6 +78,7 @@ public class Demeter extends GodsRules {
                 executed = true;
                 break;
         }
+        getDefaultRules().modelUpdated();
         return executed;
     }
 

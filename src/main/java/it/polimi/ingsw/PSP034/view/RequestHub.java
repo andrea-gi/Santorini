@@ -18,9 +18,7 @@ import it.polimi.ingsw.PSP034.view.scenes.clientConfiguration.ServerPort;
 import it.polimi.ingsw.PSP034.view.scenes.clientConfiguration.TitleScene;
 import it.polimi.ingsw.PSP034.view.scenes.playPhase.Table;
 import it.polimi.ingsw.PSP034.view.scenes.serverConfiguration.*;
-import it.polimi.ingsw.PSP034.view.scenes.setupPhase.CardsChoice;
-import it.polimi.ingsw.PSP034.view.scenes.setupPhase.FirstPlayer;
-import it.polimi.ingsw.PSP034.view.scenes.setupPhase.PersonalGodChoice;
+import it.polimi.ingsw.PSP034.view.scenes.setupPhase.*;
 
 public class RequestHub {
     private Request lastRequest;
@@ -111,6 +109,18 @@ public class RequestHub {
                 currScene.show();
                 lastRequest = request;
                 return null;
+
+            case CARDS_CHOICE_WAIT:
+                currScene = new CardsChoiceWait();
+                currScene.show();
+                lastRequest = request;
+                return null;
+
+            case ALREADY_STARTED:
+                currScene = new AlreadyStarted();
+                currScene.show();
+                lastRequest = request;
+                return null;
         }
         //TODO -- decidere se va bene
         return null;
@@ -119,19 +129,34 @@ public class RequestHub {
     private Answer newSetupRequest(SetupRequest request){
         String answer;
         String[] answers;
-        if(request instanceof RequestCardsChoice) {
+        if (request instanceof  GodLikeInfo){
+            currScene = new GodLikeChosen(((GodLikeInfo) request).getGodLikePlayer());
+            currScene.show();
+            lastRequest = request;
+            return null;
+        }
+
+        else if(request instanceof RequestCardsChoice) {
             currScene = new CardsChoice(((RequestCardsChoice) request).getPlayerNumber());
             answer = currScene.show();
             answerComposer = new AnswerComposer(request);
             lastRequest = request;
             return answerComposer.packetAnswer(answer);
         }
+
         else if (request instanceof RequestFirstPlayer) {
             currScene = new FirstPlayer(((RequestFirstPlayer) request).getPlayers());
             answer = currScene.show();
             answerComposer = new AnswerComposer(request);
             lastRequest = request;
             return answerComposer.packetAnswer(answer);
+        }
+
+        else if (request instanceof FirstPlayerInfo){
+            currScene = new FirstPlayerChosen(((FirstPlayerInfo) request).getFirstPlayer());
+            currScene.show();
+            lastRequest = request;
+            return null;
         }
 
         else if (request instanceof RequestPersonalGod) {
@@ -141,10 +166,11 @@ public class RequestHub {
             lastRequest = request;
             return answerComposer.packetAnswer(answer);
         }
+
         else if (request instanceof RequestPlaceWorker) {
-                                  //TODO
-            currScene = new Table(/*TODO-- Mettere i parametri quando saranno disponibili*/);
-            ((Table) currScene).updatePlaceWorker(/*TODO-- Mettere i parametri quando saranno disponibili*/);
+            SlimBoard slimBoardUpdate = ((RequestPlaceWorker) request).getSlimBoard();
+            currScene = new Table(slimBoardUpdate.getGodsList());
+            ((Table) currScene).updatePlaceWorker(slimBoardUpdate.getDome(), slimBoardUpdate.getBuilding(), slimBoardUpdate.getColor(), slimBoardUpdate.getSex());
             answer = currScene.show();
             answerComposer = new AnswerComposer(request);
             answerComposer.packetAnswer(answer);

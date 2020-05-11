@@ -96,6 +96,7 @@ public class GodsRules implements IRules, IStateManager {
                     executed = false;
                 break;
         }
+        defaultRules.modelUpdated();
         // TODO -- chiamare notify delle DefaultRules che chiama quella del Game
         return executed;
     }

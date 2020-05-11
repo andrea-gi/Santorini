@@ -4,6 +4,7 @@ import it.polimi.ingsw.PSP034.constants.GamePhase;
 import it.polimi.ingsw.PSP034.constants.Sex;
 import it.polimi.ingsw.PSP034.constants.TurnPhase;
 import it.polimi.ingsw.PSP034.messages.Answer;
+import it.polimi.ingsw.PSP034.messages.SlimBoard;
 import it.polimi.ingsw.PSP034.messages.gameOverPhase.GameOverAnswer;
 import it.polimi.ingsw.PSP034.messages.gameOverPhase.SendGameOver;
 import it.polimi.ingsw.PSP034.messages.playPhase.NextStateInfo;
@@ -39,6 +40,10 @@ public class Controller implements IController{
         this.messageManager = new MessageManager(this, server);
     }
 
+    @Override
+    public MessageManager getMessageManager() {
+        return messageManager;
+    }
 
     public void addModelObserver(ModelObserver observer){
         currentGame.addObserver(observer);
@@ -48,6 +53,9 @@ public class Controller implements IController{
         currentGame.removeObserver(observer);
     }
 
+    SlimBoard getSlimBoard(){
+        return currentGame.generateSlimBoard();
+    }
 
     @Override
     public void addPlayer(String name, Color color){
@@ -137,12 +145,6 @@ public class Controller implements IController{
 
     private void godLikePlayerChoice(){
         currentGame.setRandomPlayer();
-        // TODO -- sendToAll(new SetupRequest(GOD LIKE PLAYER CHOSEN))
-    }
-
-    @Override
-    public void handleMessage(Answer message, String sender) {
-        messageManager.handleMessage(message, sender);
     }
 
     void setNextPlayer(){
