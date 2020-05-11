@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP034.server;
 
+import it.polimi.ingsw.PSP034.constants.Color;
 import it.polimi.ingsw.PSP034.messages.Answer;
 import it.polimi.ingsw.PSP034.messages.ModelUpdate;
 import it.polimi.ingsw.PSP034.messages.Request;
@@ -21,11 +22,12 @@ class ClientHandler implements IClientConnection, Runnable{
     private ObjectInputStream in;
     private ObjectOutputStream out;
 
-    boolean active;
+    private boolean active;
     private final Object activeLock = new Object();
 
-    boolean firstConnected;
+    private boolean firstConnected;
     private String playerName;
+    private String debugColor = ANSI.reset;
 
 
     /**
@@ -76,7 +78,7 @@ class ClientHandler implements IClientConnection, Runnable{
             out.writeObject(message);
             out.flush();
             server.printInfoConsole(ANSI.FG_bright_green + "Sent message: " + ANSI.reset +
-                    message.getClass().getSimpleName() + " to " + this.playerName);
+                    message.getClass().getSimpleName() + " to " + debugColor + this.playerName+ ANSI.reset);
         } catch (IOException e){
             // TODO -- disconnetto
             e.printStackTrace();
@@ -149,6 +151,30 @@ class ClientHandler implements IClientConnection, Runnable{
     @Override
     public synchronized void setName(String name){
         this.playerName = name;
+    }
+
+    @Override
+    public void setDebugColor(Color color) {
+        String colorANSI;
+        switch(color){
+            case WHITE:
+                colorANSI = ANSI.FG_green;
+                break;
+            case BLUE:
+                colorANSI = ANSI.FG_blue;
+                break;
+            case GREY:
+                colorANSI = ANSI.FG_red;
+                break;
+            default:
+                colorANSI = ANSI.reset;
+        }
+        this.debugColor = colorANSI;
+    }
+
+    @Override
+    public String getDebugColor() {
+        return debugColor;
     }
 
     @Override

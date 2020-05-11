@@ -1,23 +1,23 @@
-package it.polimi.ingsw.PSP034.view.scenes.serverConfiguration;
+package it.polimi.ingsw.PSP034.view.scenes.setupPhase;
 
 import it.polimi.ingsw.PSP034.view.printables.Font;
 import it.polimi.ingsw.PSP034.view.printables.Message;
 import it.polimi.ingsw.PSP034.view.printables.Spacer;
-import it.polimi.ingsw.PSP034.view.printables.TextBox;
 import it.polimi.ingsw.PSP034.view.printables.arrangements.VerticalArrangement;
 import it.polimi.ingsw.PSP034.view.scenes.Scene;
 
-public class SuccessfullyAdded extends Scene {
+public class CardsChoiceWait extends Scene {
     @Override
     public String show() {
-        Font title = new Font("successfully added");
-        Message correct = new Message("You have been successfully added to the game.", -1);
+        Font title = new Font("wait");
+        Message waitCardsChoice = new Message( "Your choice has been registered. Wait for the other players to make their choice",
+                -1);
 
         VerticalArrangement va1 = new VerticalArrangement();
-        va1.addObjects(title, correct);
+        va1.addObjects(title, waitCardsChoice);
 
-        Spacer spacerUP = new Spacer(super.getFrameWidth(), (super.getFrameHeight()-va1.getHeight())/2);
-        Spacer spacerDOWN = new Spacer(super.getFrameWidth(), super.getFrameHeight()-va1.getHeight()-spacerUP.getHeight());
+        Spacer spacerUP = new Spacer(super.getFrameWidth(), (super.getFrameHeight() - va1.getHeight()) / 2);
+        Spacer spacerDOWN = new Spacer(super.getFrameWidth(), super.getFrameHeight() - va1.getHeight() - spacerUP.getHeight());
         VerticalArrangement mainVA = new VerticalArrangement();
         mainVA.addObjects(spacerUP, va1, spacerDOWN);
 
