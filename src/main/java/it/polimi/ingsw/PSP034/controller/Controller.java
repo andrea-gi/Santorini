@@ -3,7 +3,6 @@ import it.polimi.ingsw.PSP034.constants.Color;
 import it.polimi.ingsw.PSP034.constants.GamePhase;
 import it.polimi.ingsw.PSP034.constants.Sex;
 import it.polimi.ingsw.PSP034.constants.TurnPhase;
-import it.polimi.ingsw.PSP034.messages.Answer;
 import it.polimi.ingsw.PSP034.messages.SlimBoard;
 import it.polimi.ingsw.PSP034.messages.gameOverPhase.GameOverAnswer;
 import it.polimi.ingsw.PSP034.messages.gameOverPhase.SendGameOver;
@@ -19,7 +18,6 @@ import it.polimi.ingsw.PSP034.observer.ModelObserver;
 import it.polimi.ingsw.PSP034.server.Server;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**It controls the unfolding of the game, checking the GamePhase, giving control of the TurnPhase to the TurnHandler
  * and decorating the Gods in the right order, choosing their right moves*/
@@ -33,7 +31,7 @@ public class Controller implements IController{
     /**Creates the controller associated to a Game. It builds itself the setupPhase, the TurnHandler and the gameOverPhase
      * It creates also the DefaultRules in order to have ready all the Gods cards */
     public Controller(Server server) {
-        this.currentGame = new Game();
+        this.currentGame = new Game(new Board());
         this.turnHandler = new TurnHandler(this);
         this.setup = new SetupHandler(this);
         this.gameOver = new GameOverPhase(this, false);

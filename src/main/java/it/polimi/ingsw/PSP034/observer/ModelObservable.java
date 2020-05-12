@@ -8,7 +8,7 @@ import java.util.ArrayList;
 /**
  * Class extended by each {@link it.polimi.ingsw.PSP034.model} observable
  */
-public class ModelObservable {
+public abstract class ModelObservable {
     private final ArrayList<ModelObserver> modelObservers;
 
     /**

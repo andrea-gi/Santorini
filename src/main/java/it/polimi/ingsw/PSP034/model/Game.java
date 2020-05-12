@@ -18,17 +18,17 @@ public class Game extends ModelObservable {
     private GamePhase gamePhase;
     private IRules rules;
     private ArrayList<String> remainingGods;
-    private String[] godsList;
+    private String[] godsList = {""};
 
 
     /**
      * Creates a new Game class, instantiating a new Board and a structure for Players. 
      * At the time of instantiation, there is no currentPlayer, which has to bet set using {@link Game#setCurrentPlayer(Player)}
      */
-    public Game(){
+    public Game(Board board){
         super();
         this.players = new ArrayList<>();
-        this.board = new Board();
+        this.board = board;
         this.currentPlayer = null;
         this.gamePhase = GamePhase.SETUP;
         this.rules = new DefaultRules(this);

@@ -8,40 +8,36 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class WorkerTest {
-    Worker test = null;
+    private Board board;
+    private Worker myWorker;
+    private int difference;
 
     @Before
-    public void setUp() throws Exception {
-        Tile myTile = new Tile(2,3);
-        test = new Worker(Sex.FEMALE, "Pippo", Color.BLUE, myTile);
+    public void setUp(){
+        board = new Board();
+        myWorker = new Worker(Sex.MALE, "Veronica", Color.BLUE, board.getTile(1,1));
+        board.getTile(1,1).setWorker(myWorker);
     }
 
     @Test
-    public void setMyTile() {
-        Tile myTile = new Tile(2,3);
-        test.setMyTile(myTile);
-        assertEquals(test.getMyTile(), myTile);
+    public void heightDifferenceSameLevel() {
+        difference = myWorker.heightDifference(board.getTile(2,1));
+        assertEquals(difference, 0);
     }
 
     @Test
-    public void getMyTile() {
-        Tile myTile = new Tile(2,3);
-        test.setMyTile(myTile);
-        Tile newTile = test.getMyTile();
-        assertEquals(newTile, myTile);
-    }
-
-
-    @Test
-    public void getSex() {
-        Tile myTile = new Tile(2,3);
-        Worker myWorker = new Worker(Sex.MALE, "Pippo", Color.GREY, myTile);
-        assertEquals(test.getSex(), Sex.FEMALE);
-        assertEquals(myWorker.getSex(), Sex.MALE);
+    public void heightDifferenceUpperLevel() {
+        board.getTile(2,1).setBuilding(2);
+        board.getTile(1,1).setBuilding(1);
+        difference = myWorker.heightDifference(board.getTile(2,1));
+        assertEquals(difference, 1);
     }
 
     @Test
-    public void getOwner() {
-        assertEquals(test.getOwner(), "Pippo");
+    public void heightDifferenceLowerLevel() {
+        board.getTile(2,1).setBuilding(2);
+        board.getTile(1,1).setBuilding(3);
+        difference = myWorker.heightDifference(board.getTile(2,1));
+        assertEquals(difference, -1);
     }
 }

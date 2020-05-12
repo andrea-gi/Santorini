@@ -157,8 +157,10 @@ public class Tile {
         switch (distance) {
             case 1:
                 base = base + 2;
+                break;
             case -1:
                 base = base - 2;
+                break;
             case 0:
                 break;
             default:

@@ -3,7 +3,6 @@ package it.polimi.ingsw.PSP034.view.scenes.serverConfiguration;
 import it.polimi.ingsw.PSP034.view.printables.Font;
 import it.polimi.ingsw.PSP034.view.printables.Message;
 import it.polimi.ingsw.PSP034.view.printables.Spacer;
-import it.polimi.ingsw.PSP034.view.printables.TextBox;
 import it.polimi.ingsw.PSP034.view.printables.arrangements.VerticalArrangement;
 import it.polimi.ingsw.PSP034.view.scenes.Scene;
 

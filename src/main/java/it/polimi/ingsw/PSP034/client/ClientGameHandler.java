@@ -2,7 +2,6 @@ package it.polimi.ingsw.PSP034.client;
 
 import it.polimi.ingsw.PSP034.messages.Answer;
 import it.polimi.ingsw.PSP034.messages.Request;
-import it.polimi.ingsw.PSP034.messages.serverConfiguration.RequestServerConfig;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;

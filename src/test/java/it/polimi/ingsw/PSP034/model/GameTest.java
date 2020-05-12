@@ -1,82 +1,59 @@
 package it.polimi.ingsw.PSP034.model;
 
+import it.polimi.ingsw.PSP034.constants.Color;
+import it.polimi.ingsw.PSP034.constants.Sex;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
 public class GameTest {
-    Game test = null;
-    Player player1, player2, player3;
+    private Game myGame;
+    private Player firstPlayer;
+    private Player secondPlayer;
+    private Board myBoard;
 
     @Before
-    public void setUp() throws Exception {
-        test = new Game();
-        player1 = new Player("Pippo");
-        player2 = new Player("Pluto");
-        player3 = new Player("Paperino");
+    public void setUp() {
+        myBoard = new Board();
+        myGame = new Game(myBoard);
+        firstPlayer = new Player("Veronica", Color.BLUE);
+        secondPlayer = new Player("Sara", Color.GREY);
     }
 
     @Test
-    public void addPlayer_validInput() {
-        test.addPlayer(player1);
-        // assertEquals(test.players, player); ??????????????????????
+    public void addPlayer() {
+        ArrayList<String> names = new ArrayList<>();
+        myGame.addPlayer(firstPlayer);
+        myGame.addPlayer(secondPlayer);
+        names.add(firstPlayer.getName());
+        names.add(secondPlayer.getName());
+        assertEquals(myGame.getPlayerNumber(), 2);
+        assertEquals(myGame.getPlayersName(), names);
     }
 
     @Test
-    public void addPlayer_notValidInput() {
-        test.addPlayer(null);
-        // ??????????????????????
+    public void loser() {
+        myGame.addPlayer(firstPlayer);
+        myGame.addPlayer(secondPlayer);
+        firstPlayer.setHasLost(true);
+        assertEquals(myGame.loser(), firstPlayer);
     }
 
     @Test
-    public void getPlayerNumber_1P() {
-        test.addPlayer(player1);
-        assertEquals(test.getPlayerNumber(), 1);
+    public void addWorker() {
+        myGame.addPlayer(firstPlayer);
+        myGame.addWorker(firstPlayer, Sex.FEMALE, 3, 3);
+        assertEquals(firstPlayer.getWorker(Sex.FEMALE), myBoard.getTile(3,3).getWorker());
     }
 
-    @Test
-    public void getPlayerNumber_2P() {
-        test.addPlayer(player1);
-        test.addPlayer(player2);
-        assertEquals(test.getPlayerNumber(), 2);
-    }
-
-    @Test
-    public void getPlayerNumber_3P() {
-        test.addPlayer(player1);
-        test.addPlayer(player2);
-        test.addPlayer(player3);
-        assertEquals(test.getPlayerNumber(), 3);
-    }
-
-    @Test
-    public void getCurrentPlayer_FirstPlayer() {
-        test.addPlayer(player1);
-        assertEquals(test.getCurrentPlayer(), player1);
-    }
-
-    @Test
-    public void getCurrentPlayer_2Players() {
-        test.addPlayer(player1);
-        test.addPlayer(player2);
-        assertEquals(test.getCurrentPlayer(), player1);
-    }
-
-    @Test
-    public void setNextPlayer_2Players() {
-        test.addPlayer(player1);
-        test.addPlayer(player2);
-        test.setNextPlayer();
-        assertEquals(test.getCurrentPlayer(), player2);
-    }
-
-    @Test
-    public void setNextPlayer_2Players_Twice() {
-        test.addPlayer(player1);
-        test.addPlayer(player2);
-        test.setNextPlayer();
-        test.setNextPlayer();
-        assertEquals(test.getCurrentPlayer(), player1);
+    @After
+    public void tearDown() {
+        myGame = null;
+        firstPlayer = null;
+        secondPlayer = null;
     }
 }

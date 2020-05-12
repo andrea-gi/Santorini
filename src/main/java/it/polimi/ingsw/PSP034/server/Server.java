@@ -11,7 +11,6 @@ import it.polimi.ingsw.PSP034.messages.playPhase.PlayAnswer;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.*;
 import it.polimi.ingsw.PSP034.messages.setupPhase.SetupAnswer;
 import it.polimi.ingsw.PSP034.view.printables.ANSI;
-import it.polimi.ingsw.PSP034.view.scenes.serverConfiguration.AlreadyStarted;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -161,7 +160,7 @@ public class Server implements Runnable{
     }
 
     /**
-     * Deregisters a connection previously registered using {@link Server#deregisterConnection(IClientConnection)}
+     * Deregisters a connection previously registered using {@link Server#registerConnection(IClientConnection)}
      * @param connection Reference to the connection being deregistered.
      */
     protected synchronized void deregisterConnection(IClientConnection connection){

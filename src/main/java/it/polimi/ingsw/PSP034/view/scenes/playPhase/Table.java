@@ -11,7 +11,6 @@ import it.polimi.ingsw.PSP034.view.printables.godcards.GodCard;
 import it.polimi.ingsw.PSP034.view.scenes.Scene;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Table extends Scene{
     Font title;
