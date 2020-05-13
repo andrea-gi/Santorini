@@ -170,8 +170,6 @@ public class RequestHub {
 
         else if (request instanceof RequestPlaceWorker) {
             SlimBoard slimBoard = ((RequestPlaceWorker) request).getSlimBoard();
-            currScene = new Table(slimBoard.getGodsList());
-            currScene.show();
             ((Table) currScene).updatePlaceWorker(slimBoard.getDome(), slimBoard.getBuilding(), slimBoard.getColor(), slimBoard.getSex(), slimBoard.getCurrentPlayer());
             answer = currScene.show();
             answerComposer = new AnswerComposer(request);
@@ -185,6 +183,14 @@ public class RequestHub {
             currScene.show();
             return null;
         }
+
+        else if(request instanceof InitializeBoard){
+            SlimBoard slimBoard = ((InitializeBoard) request).getSlimBoard();
+            currScene = new Table(slimBoard.getGodsList());
+            currScene.show();
+            return null;
+        }
+
         //TODO -- decidere se va bene
         return null;
     }
@@ -233,7 +239,9 @@ public class RequestHub {
                         return answerComposer.packetAnswer(answers);
                 }
             }
-        }else if(request instanceof RequestBooleanChoice){
+        }
+
+        else if(request instanceof RequestBooleanChoice){
             RequiredActions[] actions = request.getRequiredActions();
             for(RequiredActions action : actions){
                 if (action == RequiredActions.REQUEST_POWER) {
@@ -244,15 +252,20 @@ public class RequestHub {
                     return answerComposer.packetAnswer(answer);
                 }
             }
-        }else if(request instanceof RequestStart){
+        }
+
+        else if(request instanceof RequestStart){
             ((Table) currScene).updateStart();
             currScene.show();
             return new AnswerStart();
-        }else if(request instanceof RequestEnd){
+        }
+
+        else if(request instanceof RequestEnd){
             ((Table) currScene).updateClearRequest();
             currScene.show();
             return null;
         }
+
         //TODO -- decidere se va bene
         return null;
     }

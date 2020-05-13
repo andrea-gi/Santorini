@@ -15,6 +15,8 @@ public class GodLikeChosen extends Scene {
 
     @Override
     public String show() {
+        super.clearFrame();
+
         Font title = new Font("god like player");
         Message godLikeMessage = new Message(godLikePlayer+" has been chosen as the most god-like player! Such a lucky player, but don't worry, you will have better luck next time!",
                 title.getWidth());

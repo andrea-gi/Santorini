@@ -1,5 +1,7 @@
 package it.polimi.ingsw.PSP034.view.printables;
 
+import it.polimi.ingsw.PSP034.view.printables.arrangements.Arrangement;
+
 /**
  * The PrintableObject class creates and handles objects that can be printed in a console. A printable object
  * is made of a certain number o lines each represented by a string. The line share the same starting column but can be of different
@@ -9,6 +11,8 @@ public class PrintableObject {
     private int startLine, startColumn;
     private int width, height;
     private String[] object;
+    private boolean visible;
+    private Arrangement parent;
 
     /**
      * A PrintableObject is initialized with invalid values for it's coordinates (set to -1) and with no width nor height (set to 0).
@@ -18,6 +22,7 @@ public class PrintableObject {
         startColumn = -1;
         width = 0;
         height = 0;
+        visible = true;
     }
 
     /**
@@ -89,5 +94,54 @@ public class PrintableObject {
      */
     public String[] getObject(){
         return object.clone();
+    }
+
+    /**
+     * Set the object visibility. If 'visible' is set to false, the object won't be printed or will disappear from the screen.
+     * @param visible Object visibility.
+     */
+    public void setVisible(boolean visible){
+        if(this.visible != visible) {
+            this.visible = visible;
+            if(visible  &&  (startLine != -1  &&  startColumn != -1)){
+                print(startLine, startColumn);
+            }else if(startLine != -1  &&  startColumn != -1){
+                hide();
+            }
+            if(parent != null)
+                parent.updateAlignment();
+        }
+    }
+
+    /**
+     * Hides the object from the screen. The area of the screen occupied by the object is cleared, but the object is still the same. If an object is printed while non visible, the stareLine and Start column fields are still updated.
+     */
+    private void hide(){
+        ANSI.moveTo(startLine, startColumn);
+        for(int i = startLine; i-startLine < object.length; i++){
+            ANSI.moveTo(i, startColumn);
+            System.out.print(new String(new char[getObject()[i-startLine].length()]).replace('\u0000', ' '));
+        }
+    }
+
+    public boolean getVisibility(){
+        return visible;
+    }
+
+    public void setParent(Arrangement parent) {
+        this.parent = parent;
+    }
+
+    public Arrangement getParent() {
+        return parent;
+    }
+
+    protected void setStartLine(int startLine) {
+        this.startLine = startLine;
+
+    }
+
+    protected void setStartColumn(int startColumn) {
+        this.startColumn = startColumn;
     }
 }

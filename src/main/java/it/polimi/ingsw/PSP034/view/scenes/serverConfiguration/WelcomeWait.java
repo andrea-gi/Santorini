@@ -9,6 +9,8 @@ import it.polimi.ingsw.PSP034.view.scenes.Scene;
 public class WelcomeWait extends Scene {
     @Override
     public String show() {
+        super.clearFrame();
+
         Font title = new Font("welcome");
         Message welcomeWait = new Message("Welcome to this new game. Another player is selecting the name and the color he will use during the game. Please wait for him to finish.", title.getWidth());
 

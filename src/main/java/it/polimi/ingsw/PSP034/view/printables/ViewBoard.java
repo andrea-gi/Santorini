@@ -81,16 +81,18 @@ public class ViewBoard extends PrintableObject {
     public void print(int line, int column) {
         super.print(line, column);
 
-        int tileStarLine = super.getStartLine() + 3;
-        int tileStarColumn = super.getStartColumn() + 6;
+        if (super.getVisibility()) {
+            int tileStarLine = super.getStartLine() + 3;
+            int tileStarColumn = super.getStartColumn() + 6;
 
-        for(ViewTile[] tileRow : viewTiles){
-            for(ViewTile tile : tileRow){
-                tile.print(tileStarLine, tileStarColumn);
-                tileStarColumn += 10;
+            for (ViewTile[] tileRow : viewTiles) {
+                for (ViewTile tile : tileRow) {
+                    tile.print(tileStarLine, tileStarColumn);
+                    tileStarColumn += 10;
+                }
+                tileStarColumn = super.getStartColumn() + 6;
+                tileStarLine += 4;
             }
-            tileStarColumn = super.getStartColumn() + 6;
-            tileStarLine += 4;
         }
     }
 

@@ -21,24 +21,28 @@ public class CardsChoice extends Scene {
 
         VerticalArrangement godsVA = new VerticalArrangement();
         for (GodDescription god : GodDescription.values()){
-            Message godMessage = new Message(god.getName() + " - " + god.getPower(), -1);
+            Message godMessage = new Message(ANSI.FG_red + god.getName() + ANSI.reset + " - " + god.getPower(), super.getFrameWidth());
             godsVA.addObjects(godMessage);
         }
         godsVA.setBorder(0);
+        godsVA.setLeftAlignment();
 
         String[] options = new String[GodDescription.values().length];
         for(int i = 0; i < options.length; i++){
             options[i] = GodDescription.values()[i].getName();
         }
-        Dialog chooseGod = new Dialog("Choose the " + playersNumber + " you want to play with (eg: 1,10,5", -1, 2, options);
+        Dialog chooseGod = new Dialog("Choose the " + playersNumber + " you want to play with (eg: 1,10,5)", -1, 2, options);
+
         Message yourChoice = new Message("Your choice :", -1);
+        Spacer spacer = new Spacer(5, 1);
         TextBox choice = new TextBox(10);
         HorizontalArrangement ha1 = new HorizontalArrangement();
-        ha1.addObjects(chooseGod, yourChoice, choice);
+        ha1.addObjects(chooseGod, spacer, yourChoice, choice);
         ha1.setBottomAlignment();
 
         VerticalArrangement va1 = new VerticalArrangement();
         va1.addObjects(godsVA, ha1);
+        va1.setBorder(2);
         va1.setLeftAlignment();
 
         VerticalArrangement va2 = new VerticalArrangement();
@@ -47,7 +51,7 @@ public class CardsChoice extends Scene {
         Spacer spacerUP = new Spacer(super.getFrameWidth(), (super.getFrameHeight()-va2.getHeight())/2);
         Spacer spacerDOWN = new Spacer(super.getFrameWidth(), super.getFrameHeight()-va2.getHeight()- spacerUP.getHeight());
         VerticalArrangement mainVA = new VerticalArrangement();
-        mainVA.addObjects(spacerUP, va1, spacerDOWN);
+        mainVA.addObjects(spacerUP, va2, spacerDOWN);
 
         mainVA.print(super.getFrameStartLine(), super.getFrameStartColumn());
 

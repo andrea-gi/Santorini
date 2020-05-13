@@ -13,6 +13,8 @@ public class FirstPlayer extends Scene {
 
     @Override
     public String show() {
+        super.clearFrame();
+
         Font title = new Font("first player");
         Dialog selectFirst = new Dialog("Select who will be the first player.", -1, 1, players);
         TextBox choice = new TextBox(1);

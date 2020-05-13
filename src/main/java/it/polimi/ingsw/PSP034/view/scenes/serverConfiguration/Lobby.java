@@ -8,6 +8,8 @@ import it.polimi.ingsw.PSP034.view.scenes.Scene;
 public class Lobby extends Scene {
     @Override
     public String show() {
+        super.clearFrame();
+
         Font title = new Font("lobby");
         Message pleaseWait = new Message("A new game is being created. Wait until connection.", -1);
 

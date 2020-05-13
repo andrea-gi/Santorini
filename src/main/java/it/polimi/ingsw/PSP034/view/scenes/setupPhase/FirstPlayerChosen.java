@@ -15,6 +15,8 @@ public class FirstPlayerChosen extends Scene {
 
     @Override
     public String show() {
+        super.clearFrame();
+
         Font title = new Font("first player");
         Message firstPlayerMessage = new Message(firstPlayerChosen + " has been chosen as first player! Is this a good strategy? We'll see...",
                 title.getWidth());

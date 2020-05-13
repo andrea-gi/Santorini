@@ -9,6 +9,8 @@ import it.polimi.ingsw.PSP034.view.scenes.Scene;
 public class CardsChoiceWait extends Scene {
     @Override
     public String show() {
+        super.clearFrame();
+
         Font title = new Font("wait");
         Message waitCardsChoice = new Message( "Your choice has been registered. Wait for the other players to make their choice",
                 -1);

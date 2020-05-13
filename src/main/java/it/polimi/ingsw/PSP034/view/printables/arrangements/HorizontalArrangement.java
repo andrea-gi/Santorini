@@ -38,53 +38,76 @@ public class HorizontalArrangement extends Arrangement{
             switch (super.getAlignment()) {
                 case 0:
                     for (int line = 0; line < maxHeight; line++) {
-                        String constructorLine = "";
+                        StringBuilder constructorLine = new StringBuilder();
                         for (int index = 0; index < super.getObjects().size(); index++) {
                             PrintableObject currentObject = super.getObjects().get(index);
 
-                            if (index != 0)
-                                constructorLine += new String(new char[super.getBorder()]).replace('\u0000', ' ');
+                            if(!currentObject.getVisibility()  ||  currentObject.getWidth() == 0  ||  currentObject.getHeight() == 0)
+                                continue;
 
-                            if ((line < (maxHeight - currentObject.getHeight()) / 2) || (line >= (maxHeight + currentObject.getHeight()) / 2))
-                                constructorLine += new String(new char[currentObject.getWidth()]).replace('\u0000', ' ');
-                            else
-                                constructorLine += currentObject.getObject()[line-(maxHeight - currentObject.getHeight()) / 2];
+                            if (index != 0)
+                                constructorLine.append(new String(new char[super.getBorder()]).replace('\u0000', ' '));
+
+                            int above = (maxHeight - currentObject.getHeight()) / 2;
+                            int under = above + currentObject.getHeight();
+                            if (line < above || line >= under)
+                                constructorLine.append(new String(new char[currentObject.getWidth()]).replace('\u0000', ' '));
+                            else {
+                                if(line - (maxHeight - currentObject.getHeight()) / 2 == 0)
+                                    constructorLine.append("@").append(new String(new char[currentObject.getWidth() - 1]).replace('\u0000', '#'));
+                                else
+                                    constructorLine.append(new String(new char[currentObject.getWidth()]).replace('\u0000', '#'));
+                            }
                         }
-                        constructorArray.add(constructorLine);
+                        constructorArray.add(constructorLine.toString());
                     }
                     break;
                 case 1:
                     for (int line = 0; line < maxHeight; line++) {
-                        String constructorLine = "";
+                        StringBuilder constructorLine = new StringBuilder();
                         for (int index = 0; index < super.getObjects().size(); index++) {
                             PrintableObject currentObject = super.getObjects().get(index);
 
+                            if(!currentObject.getVisibility()  ||  currentObject.getWidth() == 0  ||  currentObject.getHeight() == 0)
+                                continue;
+
                             if (index != 0)
-                                constructorLine += " ";
+                                constructorLine.append(new String(new char[super.getBorder()]).replace('\u0000', ' '));
 
                             if (line >= currentObject.getHeight())
-                                constructorLine += new String(new char[currentObject.getWidth()]).replace('\u0000', ' ');
-                            else
-                                constructorLine += currentObject.getObject()[line];
+                                constructorLine.append(new String(new char[currentObject.getWidth()]).replace('\u0000', ' '));
+                            else {
+                                if(line == 0)
+                                    constructorLine.append("@").append(new String(new char[currentObject.getWidth()-1]).replace('\u0000', '#'));
+                                else
+                                    constructorLine.append(new String(new char[currentObject.getWidth()]).replace('\u0000', '#'));
+                            }
                         }
-                        constructorArray.add(constructorLine);
+                        constructorArray.add(constructorLine.toString());
                     }
                     break;
                 case 2:
                     for (int line = 0; line < maxHeight; line++) {
-                        String constructorLine = "";
+                        StringBuilder constructorLine = new StringBuilder();
                         for (int index = 0; index < super.getObjects().size(); index++) {
                             PrintableObject currentObject = super.getObjects().get(index);
 
+                            if(!currentObject.getVisibility()  ||  currentObject.getWidth() == 0  ||  currentObject.getHeight() == 0)
+                                continue;
+
                             if (index != 0)
-                                constructorLine += " ";
+                                constructorLine.append(new String(new char[super.getBorder()]).replace('\u0000', '#'));
 
                             if (line < maxHeight - currentObject.getHeight())
-                                constructorLine += new String(new char[currentObject.getWidth()]).replace('\u0000', ' ');
-                            else
-                                constructorLine += currentObject.getObject()[line -(maxHeight - currentObject.getHeight())];
+                                constructorLine.append(new String(new char[currentObject.getWidth()]).replace('\u0000', ' '));
+                            else{
+                                if(line -(maxHeight - currentObject.getHeight()) == 0)
+                                    constructorLine.append("@").append(new String(new char[currentObject.getWidth() - 1]).replace('\u0000', '#'));
+                                else
+                                    constructorLine.append(new String(new char[currentObject.getWidth()]).replace('\u0000', '#'));
+                            }
                         }
-                        constructorArray.add(constructorLine);
+                        constructorArray.add(constructorLine.toString());
                     }
                     break;
             }
@@ -95,15 +118,35 @@ public class HorizontalArrangement extends Arrangement{
         }else{
             super.setObjectSize(0);
         }
+        super.updateAlignment();
     }
 
     @Override
     public void print(int line, int column) {
-        int currColumn = column;
-        for(int i = 0; i < super.getObjects().size(); i++){
-            getObjects().get(i).print(line+(super.getHeight()-getObjects().get(i).getHeight())/2, currColumn);
-            currColumn += getObjects().get(i).getWidth() + getBorder();
+        if(super.getVisibility()) {
+            int index = 0;
+            while (super.getObjects().get(index).getHeight() == 0  ||  super.getObjects().get(index).getWidth() == 0){
+                index++;
+            }
+            external:
+            for (int currColumn = 0; currColumn < super.getWidth(); currColumn++) {
+                for (int currLine = 0; currLine < super.getHeight(); currLine++) {
+                    if (super.getObject()[currLine].charAt(currColumn) == '@') {
+                        super.getObjects().get(index).print(line + currLine, column + currColumn);
+                        index++;
+                        if (index >= super.getObjects().size())
+                            break external;
+                        while (super.getObjects().get(index).getHeight() == 0  ||  super.getObjects().get(index).getWidth() == 0){
+                            index++;
+                            if (index >= super.getObjects().size())
+                                break external;
+                        }
+                    }
+                }
+            }
         }
-        super.print(line, column);
+        super.setStartLine(line);
+        super.setStartColumn(column);
+
     }
 }

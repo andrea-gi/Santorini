@@ -15,6 +15,8 @@ public class PersonalGodChoice extends Scene {
 
     @Override
     public String show() {
+        super.clearFrame();
+
         Font title = new Font("god choice");
 
         GodCard[] godCards = new GodCard[possibleGods.length];

@@ -10,6 +10,9 @@ public class Arrangement extends PrintableObject {
     private int alignment;
     private int border;
 
+    //private int startLine;
+    //private int startColumn;
+
     public Arrangement(){
         super();
         this.objects = new ArrayList<>();
@@ -20,6 +23,14 @@ public class Arrangement extends PrintableObject {
 
     public void addObjects(PrintableObject...objects){
         this.objects.addAll(Arrays.asList(objects));
+        for(PrintableObject object : objects){
+            object.setParent(this);
+        }
+        updateAlignment();
+    }
+
+    public void insertObject(int index, PrintableObject object){
+        this.objects.add(index, object);
         updateAlignment();
     }
 
@@ -33,7 +44,10 @@ public class Arrangement extends PrintableObject {
         updateAlignment();
     }
 
-    public void updateAlignment(){}
+    public void updateAlignment(){
+        if(super.getParent() != null)
+            super.getParent().updateAlignment();
+    }
 
     public ArrayList<PrintableObject> getObjects() {
         return objects;
@@ -50,4 +64,6 @@ public class Arrangement extends PrintableObject {
     void setAlignment(int alignment) {
         this.alignment = alignment;
     }
+
+
 }

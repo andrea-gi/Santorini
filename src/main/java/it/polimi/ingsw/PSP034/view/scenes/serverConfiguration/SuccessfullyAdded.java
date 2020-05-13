@@ -9,6 +9,8 @@ import it.polimi.ingsw.PSP034.view.scenes.Scene;
 public class SuccessfullyAdded extends Scene {
     @Override
     public String show() {
+        super.clearFrame();
+
         Font title = new Font("successfully added");
         Message correct = new Message("You have been successfully added to the game.", -1);
 

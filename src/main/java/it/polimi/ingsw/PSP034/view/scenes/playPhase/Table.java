@@ -13,72 +13,89 @@ import it.polimi.ingsw.PSP034.view.scenes.Scene;
 import java.util.ArrayList;
 
 public class Table extends Scene{
+    VerticalArrangement all;
+
     Font title;
+    HorizontalArrangement boardANDRight;
+
     ViewBoard board;
+    VerticalArrangement rightSide;
+
+    HorizontalArrangement alignedCards;
+    VerticalArrangement request;
+
     GodCard[] cards;
-    Spacer cardsQuestionDistance;
+    Spacer spaceThirdCard;
+
     Dialog question;
     Message message;
+    Spacer emptyRequest;
+    HorizontalArrangement textBoxANDAnswer;
+
+    Spacer answerIndentation;
     Message answer;
     TextBox textBox;
     ArrayList<RegexCondition> regex;
-    Spacer answerIndentation;
-    HorizontalArrangement textBoxANDAnswer;
-    HorizontalArrangement alignedCards;
-    VerticalArrangement rightSide;
-    HorizontalArrangement boardANDRight;
-    VerticalArrangement all;
+
 
     public Table(String[] gods){
+        all = new VerticalArrangement();
+
+        title = new Font("   ");
+        boardANDRight = new HorizontalArrangement();
+        all.addObjects(title, boardANDRight);
+        all.setCentreAlignment();
+        all.setBorder(1);
+
         board = new ViewBoard();
-        title = new Font("");
+        rightSide = new VerticalArrangement();
+        boardANDRight.addObjects(board, rightSide);
+        boardANDRight.setTopAlignment();
+
+        alignedCards = new HorizontalArrangement();
+        request = new VerticalArrangement();
+        rightSide.addObjects(alignedCards, request);
+        rightSide.setCentreAlignment();
+        rightSide.setBorder(1);
 
         cards = new GodCard[gods.length];
         for(int i = 0; i < gods.length; i++){
             cards[i] = new GodCard(gods[i]);
         }
+        spaceThirdCard = new Spacer(cards[0].getWidth()/2, 1);
+        if(gods.length == 3)
+            alignedCards.addObjects(cards);
+        else
+            alignedCards.addObjects(spaceThirdCard, cards[0], cards[1], spaceThirdCard);
+        alignedCards.setTopAlignment();
+        alignedCards.setBorder(1);
 
-        cardsQuestionDistance = new Spacer(1, 4);
-        answerIndentation = new Spacer(4, 1);
+        message = new Message("", -1);
+        message.setVisible(false);
+        question = new Dialog("", -1,1, "");
+        question.setVisible(false);
+        emptyRequest = new Spacer(alignedCards.getWidth(), board.getHeight()-alignedCards.getHeight());
+        textBoxANDAnswer = new HorizontalArrangement();
+        textBoxANDAnswer.setVisible(false);
+        request.addObjects(message, question, emptyRequest, textBoxANDAnswer);
+
+        answerIndentation = new Spacer(5, 1);
+        answer = new Message("", -1);
+        textBox = new TextBox(1);
+        textBoxANDAnswer.addObjects(answerIndentation, answer, textBox);
+
+        boardANDRight.setBorder(super.getFrameWidth()-board.getWidth()-rightSide.getWidth());
+
+        regex = null;
     }
 
     @Override
     public String show() {
-        PrintableObject[] objectsToAdd;
-
-        textBoxANDAnswer = new HorizontalArrangement();
-        if(textBox != null)
-            textBoxANDAnswer.addObjects(answerIndentation, answer, textBox);
-        textBoxANDAnswer.setBottomAlignment();
-
-        alignedCards = new HorizontalArrangement();
-        alignedCards.addObjects(cards);
-        alignedCards.setTopAlignment();
-        alignedCards.setBorder(3);
-
-        rightSide = new VerticalArrangement();
-        if(message != null)
-            objectsToAdd = new PrintableObject[] {alignedCards, cardsQuestionDistance, message, textBoxANDAnswer};
-        else if(question != null)
-            objectsToAdd = new PrintableObject[] {alignedCards, cardsQuestionDistance, question, textBoxANDAnswer};
-        else
-            objectsToAdd = new PrintableObject[] {alignedCards, cardsQuestionDistance};
-        rightSide.addObjects(objectsToAdd);
-        rightSide.setCentreAlignment();
-
-        boardANDRight = new HorizontalArrangement();
-        boardANDRight.addObjects(board, rightSide);
-        boardANDRight.setBorder(5);
-        boardANDRight.setTopAlignment();
-
-        all = new VerticalArrangement();
-        all.addObjects(title, boardANDRight);
-        all.setBorder(2);
-        all.setCentreAlignment();
+        super.clearFrame();
 
         super.printMain(all);
 
-        if(textBox == null){
+        if(!textBox.getVisibility()){
             return null;
         }else{
             if(regex == null){
@@ -91,7 +108,12 @@ public class Table extends Scene{
     }
 
     public void updateBoard(boolean[][] dome, int[][] building, Color[][] color, Sex[][] sex, boolean showNumbers, String currentPlayer){
-        title = new Font(currentPlayer+"'s turn");
+        if(currentPlayer != null) {
+            all.removeObjects(title);
+            title = new Font(currentPlayer + "'s turn");
+            all.insertObject(0, title);
+        }
+
         for(int y = 0; y < Constant.DIM; y++){
             for(int x = 0; x < Constant.DIM; x++){
                 board.updateTile(x, y, building[x][y], dome[x][y], color[x][y], sex[x][y]);
@@ -103,12 +125,13 @@ public class Table extends Scene{
         else
             board.hideNumbers();
 
-        textBox = null;
     }
 
     public void updatePlaceWorker(boolean[][] dome, int[][] building, Color[][] color, Sex[][] sex, String currentPlayer){
+        all.removeObjects(title);
         title = new Font("workers setup");
-        updateBoard(dome, building, color, sex, true, currentPlayer);
+        all.insertObject(0, title);
+        updateBoard(dome, building, color, sex, true, null);
 
         int freeTiles = 0;
         for(int y = 0; y < Constant.DIM; y++){
@@ -118,15 +141,30 @@ public class Table extends Scene{
             }
         }
 
-        message = null;
         String[] options = new String[freeTiles];
         for (int n = 1; n<=freeTiles; n++){
             options[n-1] = Integer.toString(n);
         }
-        question = new Dialog("Select the tiles your worker will start from:", -1,5, options);
 
+        ArrayList<PrintableObject> objectsRequest = request.getObjects();
+        int pos = objectsRequest.indexOf(question);
+        request.removeObjects(question);
+        question = new Dialog("Select the tiles your worker will start from:", -1,5, options);
+        question.setVisible(true);
+        request.insertObject(pos, question);
+        emptyRequest.setVisible(false);
+        message.setVisible(false);
+
+        ArrayList<PrintableObject> objectsAnswer = textBoxANDAnswer.getObjects();
+        pos = objectsAnswer.indexOf(answer);
+        textBoxANDAnswer.removeObjects(answer);
         answer = new Message("Male Worker :", -1);
+        textBoxANDAnswer.insertObject(pos, answer);
+
+        pos = objectsAnswer.indexOf(textBox);
+        textBoxANDAnswer.removeObjects(textBox);
         textBox = new TextBox(question.getWidth()-answer.getWidth());
+        textBoxANDAnswer.insertObject(pos, textBox);
 
         regex = new ArrayList<>();
         String rule;

@@ -39,21 +39,25 @@ public abstract class Scene {
      * Organizes all the objects given in input in the mainVA vertical arrangement. To do so, two spacers are created to center vertically the objects.
      * @param objects Objects to be organized.
      */
-    protected void printMain(PrintableObject...objects){
+    protected void printMain(PrintableObject...objects) throws NegativeArraySizeException{
         int totalHeight = 0;
         for(PrintableObject object : objects){
             totalHeight += object.getHeight();
         }
         mainVA = new VerticalArrangement();
-        Spacer spacerUP = new Spacer(getFrameWidth(), (getFrameHeight()-totalHeight)/2);
-        Spacer spacerDOWN = new Spacer(getFrameWidth(), getFrameHeight()-totalHeight-spacerUP.getHeight());
-        mainVA.addObjects(spacerUP);
-        for(PrintableObject object : objects){
-            mainVA.addObjects(object);
-        }
-        mainVA.addObjects(spacerDOWN);
+        if(getFrameHeight()-totalHeight >= 0) {
+            Spacer spacerUP = new Spacer(getFrameWidth(), (getFrameHeight() - totalHeight) / 2);
+            Spacer spacerDOWN = new Spacer(getFrameWidth(), getFrameHeight() - totalHeight - spacerUP.getHeight());
+            mainVA.addObjects(spacerUP);
+            for(PrintableObject object : objects){
+                mainVA.addObjects(object);
+            }
+            mainVA.addObjects(spacerDOWN);
+            mainVA.setBorder(0);
 
-        mainVA.print(getFrameStartLine(), getFrameStartColumn());
+            mainVA.print(getFrameStartLine(), getFrameStartColumn());
+        }else
+            throw new NegativeArraySizeException("The scene is bigger than the frame.");
     };
 
     /**
