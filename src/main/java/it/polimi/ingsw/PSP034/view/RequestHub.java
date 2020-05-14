@@ -226,9 +226,10 @@ public class RequestHub {
                         Directions[] moveDirections = requiredSex == Sex.MALE ? ((RequestAction) request).getPossibleMaleDirections() : ((RequestAction) request).getPossibleFemaleDirections();
                         ((Table) currScene).updateMove(requiredSex, moveDirections, hasChoice);
                         answers[1] = currScene.show();
-                        if(Integer.parseInt(answers[1]) > moveDirections.length)
+                        if(Integer.parseInt(answers[1]) > moveDirections.length) {
                             actionIndex = actionIndex - 2;
-                        else {
+                            break;
+                        }else {
                             answerComposer = new AnswerComposer(request);
                             lastRequest = request;
                             return answerComposer.packetAnswer(answers);
@@ -237,9 +238,10 @@ public class RequestHub {
                         Directions[] buildDirections = requiredSex == Sex.MALE ? ((RequestAction) request).getPossibleMaleDirections() : ((RequestAction) request).getPossibleFemaleDirections();
                         ((Table) currScene).updateBuild(requiredSex, buildDirections, hasChoice);
                         answers[1] = currScene.show();
-                        if(Integer.parseInt(answers[1]) > buildDirections.length)
+                        if(Integer.parseInt(answers[1]) > buildDirections.length) {
                             actionIndex = actionIndex - 2;
-                        else {
+                            break;
+                        }else {
                             answerComposer = new AnswerComposer(request);
                             lastRequest = request;
                             return answerComposer.packetAnswer(answers);
