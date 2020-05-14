@@ -173,7 +173,6 @@ public class RequestHub {
             ((Table) currScene).updatePlaceWorker(slimBoard.getDome(), slimBoard.getBuilding(), slimBoard.getColor(), slimBoard.getSex(), ((RequestPlaceWorker) request).getSex());
             answer = currScene.show();
             answerComposer = new AnswerComposer(request);
-            answerComposer.packetAnswer(answer);
             lastRequest = request;
             return answerComposer.packetAnswer(answer);
         }

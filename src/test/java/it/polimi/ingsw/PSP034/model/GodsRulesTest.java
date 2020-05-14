@@ -18,9 +18,9 @@ public class GodsRulesTest {
     public void setUp() {
         myBoard = new Board();
         myGame = new Game(myBoard);
-        firstPlayer = new Player("Veronica", Color.WHITE);
-        secondPlayer = new Player("Andrea", Color.BLUE);
-        thirdPlayer = new Player("Lorenzo", Color.GREY);
+        firstPlayer = new Player("Veronica", Color.RED);
+        secondPlayer = new Player("Andrea", Color.YELLOW);
+        thirdPlayer = new Player("Lorenzo", Color.MAGENTA);
         myGame.addPlayer(firstPlayer);
         myGame.addPlayer(secondPlayer);
         myGame.addPlayer(thirdPlayer);

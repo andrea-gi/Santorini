@@ -103,7 +103,7 @@ public class AnswerComposer {
                     }
                 }
             }
-            answer = new AnswerPlaceWorker(((RequestPlaceWorker) request).getSex(), x, y );
+            answer = new AnswerPlaceWorker(((RequestPlaceWorker) request).getSex(), x, Constant.DIM - 1 - y );
         }
         return answer;
     }

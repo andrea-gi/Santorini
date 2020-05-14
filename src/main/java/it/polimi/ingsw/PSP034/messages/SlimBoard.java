@@ -24,15 +24,15 @@ public class SlimBoard extends ModelUpdate {
 
         for(int i = 0; i < Constant.DIM; i++){
             for(int j = 0; j < Constant.DIM; j++){
-                building[i][j] = board.getTile(i,j).getBuilding();
-                dome[i][j] = board.getTile(i,j).hasDome();
+                building[i][Constant.DIM - 1 - j] = board.getTile(i,j).getBuilding();
+                dome[i][Constant.DIM - 1 - j] = board.getTile(i,j).hasDome();
                 if(board.getTile(i,j).getWorker() == null) {
-                    color[i][j] = null;
-                    sex[i][j] = null;
+                    color[i][Constant.DIM - 1 - j] = null;
+                    sex[i][Constant.DIM - 1 - j] = null;
                 }
                 else{
-                    color[i][j] = board.getTile(i,j).getWorker().getColor();
-                    sex[i][j] = board.getTile(i,j).getWorker().getSex();
+                    color[i][Constant.DIM - 1 - j] = board.getTile(i,j).getWorker().getColor();
+                    sex[i][Constant.DIM - 1 - j] = board.getTile(i,j).getWorker().getSex();
                 }
             }
         }

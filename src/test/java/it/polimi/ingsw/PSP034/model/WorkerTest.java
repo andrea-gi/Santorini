@@ -15,7 +15,7 @@ public class WorkerTest {
     @Before
     public void setUp(){
         board = new Board();
-        myWorker = new Worker(Sex.MALE, "Veronica", Color.BLUE, board.getTile(1,1));
+        myWorker = new Worker(Sex.MALE, "Veronica", Color.MAGENTA, board.getTile(1,1));
         board.getTile(1,1).setWorker(myWorker);
     }
 

@@ -2,6 +2,7 @@ package it.polimi.ingsw.PSP034.view.printables;
 
 
 import it.polimi.ingsw.PSP034.constants.Color;
+import it.polimi.ingsw.PSP034.constants.Constant;
 import it.polimi.ingsw.PSP034.constants.Sex;
 
 import java.util.ArrayList;
@@ -85,9 +86,9 @@ public class ViewBoard extends PrintableObject {
             int tileStarLine = super.getStartLine() + 3;
             int tileStarColumn = super.getStartColumn() + 6;
 
-            for (ViewTile[] tileRow : viewTiles) {
-                for (ViewTile tile : tileRow) {
-                    tile.print(tileStarLine, tileStarColumn);
+            for (int y = 0; y < Constant.DIM; y++) {
+                for (int x = 0; x < Constant.DIM; x++){
+                    viewTiles[x][y].print(tileStarLine, tileStarColumn);
                     tileStarColumn += 10;
                 }
                 tileStarColumn = super.getStartColumn() + 6;
@@ -102,18 +103,18 @@ public class ViewBoard extends PrintableObject {
 
     public void showNumbers(){
         int num = 1;
-        for(ViewTile[] row : viewTiles) {
-            for (ViewTile tile : row) {
-                if(tile.showNumber(num))
+        for (int y = 0; y < Constant.DIM; y++) {
+            for (int x = 0; x < Constant.DIM; x++){
+                if(viewTiles[x][y].showNumber(num))
                     num++;
             }
         }
     }
 
     public void hideNumbers(){
-        for(ViewTile[] row : viewTiles) {
-            for (ViewTile tile : row) {
-                tile.hideNumber();
+        for (int y = 0; y < Constant.DIM; y++) {
+            for (int x = 0; x < Constant.DIM; x++){
+                viewTiles[x][y].hideNumber();
             }
         }
     }

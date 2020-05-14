@@ -20,8 +20,8 @@ public class GameTest {
     public void setUp() {
         myBoard = new Board();
         myGame = new Game(myBoard);
-        firstPlayer = new Player("Veronica", Color.BLUE);
-        secondPlayer = new Player("Sara", Color.GREY);
+        firstPlayer = new Player("Veronica", Color.MAGENTA);
+        secondPlayer = new Player("Sara", Color.RED);
     }
 
     @Test

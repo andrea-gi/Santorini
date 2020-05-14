@@ -40,6 +40,7 @@ public class Server implements Runnable{
     private final ExecutorService executor = Executors.newFixedThreadPool(12);
 
     private final ArrayList<IClientConnection> waitingConnections = new ArrayList<>();
+    private IClientConnection firstPlayerConnected;
 
     private final ArrayList<IClientConnection> activeConnections = new ArrayList<>();
 
@@ -58,6 +59,7 @@ public class Server implements Runnable{
     private final BlockingQueue<AnswerEncapsulated> queue = new ArrayBlockingQueue<>(16);
 
     private final Object consoleLock = new Object();
+    private final Object firstConnectionLock = new Object();
 
     /**
      * Instantiates a new server listening to a given port. It also creates a new {@link IController}.
@@ -170,10 +172,16 @@ public class Server implements Runnable{
                 connection.closeConnection();
                 waitingConnections.remove(connection);
             }
-            else if (!canStartSetup() && waitingConnections.indexOf(connection) == 0){
+            else if (!canStartSetup() && connection == firstPlayerConnected){
                 /*connection.closeConnection();*/
                 waitingConnections.remove(connection);
-                waitingConnections.get(0).asyncSend(new RequestServerConfig(ServerInfo.REQUEST_PLAYER_NUMBER));
+                synchronized (firstConnectionLock) {
+                    if (!waitingConnections.isEmpty()) {
+                        waitingConnections.get(0).asyncSend(new RequestServerConfig(ServerInfo.REQUEST_PLAYER_NUMBER));
+                        firstPlayerConnected = waitingConnections.get(0);
+                    } else
+                        firstConnection = true;
+                }
             }
             else {
                 /*connection.closeConnection();*/
@@ -200,11 +208,14 @@ public class Server implements Runnable{
                     Socket newSocket = serverSocket.accept();
                     // TODO -- gestire connessioni in eccesso
                     ClientHandler socketConnection;
-                    if (firstConnection) {
-                        socketConnection = new ClientHandler(newSocket, this, true);
-                        firstConnection = false;
-                    } else {
-                        socketConnection = new ClientHandler(newSocket, this, false);
+                    synchronized (firstConnectionLock) {
+                        if (firstConnection) {
+                            socketConnection = new ClientHandler(newSocket, this, true);
+                            firstPlayerConnected = socketConnection;
+                            firstConnection = false;
+                        } else {
+                            socketConnection = new ClientHandler(newSocket, this, false);
+                        }
                     }
                     executor.submit(socketConnection);
                     printInfoConsole("Added new player, temporary ID is: " + socketConnection.getName());
@@ -253,7 +264,8 @@ public class Server implements Runnable{
 
     /**
      * Manages a message received by a client. If the received message is a {@link AnswerServerConfig},
-     * it will be managed directly in this method, otherwise it will call a controller method.
+     * it will be managed directly in class by {@link Server#manageServerConfig(AnswerServerConfig, IClientConnection)},
+     * otherwise it will call a controller method.
      * @param message Message to be managed
      * @param connection Message sender
      */

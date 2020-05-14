@@ -106,8 +106,7 @@ class ClientHandler implements IClientConnection, Runnable{
             out = new ObjectOutputStream(socket.getOutputStream());
         } catch (IOException e) {
             System.err.println("Cannot open input/output stream.");
-            // TODO -- disconnetto
-            e.printStackTrace();
+            close();
         }
         if (firstConnected)
             send(new RequestServerConfig(ServerInfo.REQUEST_PLAYER_NUMBER));
