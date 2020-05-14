@@ -64,8 +64,8 @@ public class Controller implements IController{
         return currentGame.getRemainingGods();
     }
 
-    public void removeRemainingGod(String god) {
-        this.currentGame.removeRemainingGod(god);
+    public ArrayList<String> getAlreadyChosenGods(){
+        return currentGame.getAlreadyChosenGods();
     }
 
     public void addRemainingGod(String god){

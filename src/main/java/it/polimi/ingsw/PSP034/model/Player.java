@@ -99,4 +99,8 @@ public class Player {
     public boolean isOwner(Worker worker){
         return worker.getOwner().equals(name);
     }
+
+    public Color getColor() {
+        return color;
+    }
 }

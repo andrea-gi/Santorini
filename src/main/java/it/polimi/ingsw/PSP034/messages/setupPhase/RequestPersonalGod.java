@@ -4,15 +4,18 @@ import java.util.ArrayList;
 
 public class RequestPersonalGod extends SetupRequest{
     private final String[] possibleGods;
+    private final String[] alreadyChosenGods;
 
-    public RequestPersonalGod(ArrayList<String> possibleGods){
-        this.possibleGods = new String[possibleGods.size()];
-        for (int i = 0; i < possibleGods.size(); i++){
-            this.possibleGods[i] = possibleGods.get(i);
-        }
+    public RequestPersonalGod(ArrayList<String> possibleGods, ArrayList<String> alreadyChosenGods){
+        this.possibleGods = possibleGods.toArray(new String[0]);
+        this.alreadyChosenGods = possibleGods.toArray(new String [0]);
     }
 
     public String[] getPossibleGods() {
         return possibleGods;
+    }
+
+    public String[] getAlreadyChosenGods() {
+        return alreadyChosenGods;
     }
 }

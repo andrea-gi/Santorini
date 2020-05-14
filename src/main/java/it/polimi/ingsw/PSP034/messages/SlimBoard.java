@@ -10,13 +10,15 @@ public class SlimBoard extends ModelUpdate {
     private final String currentPlayer;
     private final String[] godsList;
     private final String[] playersList;
+    private final Color[] colorsList;
     private final boolean[][] dome;
     private final int[][] building;
     private final Color[][] color;
     private final Sex[][] sex;
 
-    public SlimBoard(Board board, String currentPlayer, String[] godsList, String[] playersList){
+    public SlimBoard(Board board, String currentPlayer, String[] godsList, String[] playersList, Color[] colorsList){
         this.currentPlayer = currentPlayer;
+        this.colorsList = colorsList;
         this.godsList = godsList;
         this.playersList = playersList;
         dome = new boolean[Constant.DIM][Constant.DIM];
@@ -66,5 +68,9 @@ public class SlimBoard extends ModelUpdate {
 
     public String[] getPlayersList() {
         return playersList;
+    }
+
+    public Color[] getColorsList() {
+        return colorsList;
     }
 }

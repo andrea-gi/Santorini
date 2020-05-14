@@ -37,7 +37,6 @@ public class SetupHandler {
             case PERSONAL_GOD_CHOICE:
                 if (message instanceof AnswerPersonalGod){
                     controller.addGod(((AnswerPersonalGod) message).getMyGod());
-                    controller.removeRemainingGod(((AnswerPersonalGod) message).getMyGod());
                     if (controller.getRemainingGods().size() > 0) {
                         controller.sendToPlayer(controller.getCurrentPlayer().getName(), new RequestServerConfig(ServerInfo.CARDS_CHOICE_WAIT));
                         controller.setNextPlayer();
@@ -79,12 +78,12 @@ public class SetupHandler {
         switch(currentSetupPhase){
             case CARDS_CHOICE:
                 currentSetupPhase = SetupPhase.PERSONAL_GOD_CHOICE;
-                controller.sendToPlayer(player.getName(), new RequestPersonalGod(controller.getRemainingGods())); //new sendto per setup??
+                controller.sendToPlayer(player.getName(), new RequestPersonalGod(controller.getRemainingGods(), controller.getAlreadyChosenGods())); //new sendto per setup??
                 break;
 
             case PERSONAL_GOD_CHOICE:
                 if (controller.getRemainingGods().size() > 0){
-                    controller.sendToPlayer(player.getName(), new RequestPersonalGod(controller.getRemainingGods()));
+                    controller.sendToPlayer(player.getName(), new RequestPersonalGod(controller.getRemainingGods(), controller.getAlreadyChosenGods()));
                 }
                 else {
                     currentSetupPhase = SetupPhase.CHOOSE_FIRST_PLAYER;

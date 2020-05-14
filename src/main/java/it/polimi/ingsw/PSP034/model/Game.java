@@ -17,9 +17,9 @@ public class Game extends ModelObservable {
     private Player currentPlayer;
     private GamePhase gamePhase;
     private IRules rules;
-    private ArrayList<String> remainingGods;
     private String[] godsList = {""};
-
+    private ArrayList<String> remainingGods;
+    private ArrayList<String> alreadyChosenGods;
 
     /**
      * Creates a new Game class, instantiating a new Board and a structure for Players. 
@@ -33,6 +33,7 @@ public class Game extends ModelObservable {
         this.gamePhase = GamePhase.SETUP;
         this.rules = new DefaultRules(this);
         this.remainingGods = new ArrayList<>();
+        this.alreadyChosenGods = new ArrayList<>();
     }
 
     @Override
@@ -54,8 +55,8 @@ public class Game extends ModelObservable {
         return new ArrayList<>(this.remainingGods);
     }
 
-    public void removeRemainingGod(String god) {
-        this.remainingGods.remove(god);
+    public ArrayList<String> getAlreadyChosenGods() {
+        return new ArrayList<>(this.alreadyChosenGods);
     }
 
     public void addRemainingGod(String god){
@@ -77,8 +78,10 @@ public class Game extends ModelObservable {
         int playersSize = players.size();
         String[] finalGodsList = new String[playersSize];
         String[] playersList = new String[playersSize];
+        Color[] colorsList = new Color[playersSize];
         for (int i = 0; i < playersSize; i++) {
             playersList[i] = players.get(i).getName();
+            colorsList[i] = players.get(i).getColor();
             if (remainingGods.size() == 0){
                 finalGodsList[i] = players.get(i).getMyGod().getClass().getSimpleName();
             }
@@ -87,7 +90,7 @@ public class Game extends ModelObservable {
         {
             finalGodsList = godsList.clone();
         }
-        return new SlimBoard(board, currentPlayer.getName(), finalGodsList, playersList);
+        return new SlimBoard(board, currentPlayer.getName(), finalGodsList, playersList, colorsList);
     }
 
     /**
@@ -237,6 +240,14 @@ public class Game extends ModelObservable {
                 break;
         }
         player.setMyGod((GodsRules) rules);
+        int index;
+        for(index = 0; index < remainingGods.size(); index++) {
+            if (name.equals(remainingGods.get(index))){
+                break;
+            }
+        }
+        this.remainingGods.remove(index);
+        this.alreadyChosenGods.add(name);
     }
 
     private void removeGod(Player player){
