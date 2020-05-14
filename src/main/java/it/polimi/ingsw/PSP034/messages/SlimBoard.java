@@ -9,14 +9,16 @@ import it.polimi.ingsw.PSP034.model.Board;
 public class SlimBoard extends ModelUpdate {
     private final String currentPlayer;
     private final String[] godsList;
+    private final String[] playersList;
     private final boolean[][] dome;
     private final int[][] building;
     private final Color[][] color;
     private final Sex[][] sex;
 
-    public SlimBoard(Board board, String currentPlayer, String[] godsList){
+    public SlimBoard(Board board, String currentPlayer, String[] godsList, String[] playersList){
         this.currentPlayer = currentPlayer;
         this.godsList = godsList;
+        this.playersList = playersList;
         dome = new boolean[Constant.DIM][Constant.DIM];
         building = new int[Constant.DIM][Constant.DIM];
         color = new Color[Constant.DIM][Constant.DIM];
@@ -60,5 +62,9 @@ public class SlimBoard extends ModelUpdate {
 
     public String getCurrentPlayer() {
         return currentPlayer;
+    }
+
+    public String[] getPlayersList() {
+        return playersList;
     }
 }

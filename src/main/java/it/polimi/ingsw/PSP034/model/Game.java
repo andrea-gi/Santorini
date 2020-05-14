@@ -74,7 +74,20 @@ public class Game extends ModelObservable {
     }
 
     public SlimBoard generateSlimBoard(){
-        return new SlimBoard(board, currentPlayer.getName(), godsList.clone());
+        int playersSize = players.size();
+        String[] finalGodsList = new String[playersSize];
+        String[] playersList = new String[playersSize];
+        for (int i = 0; i < playersSize; i++) {
+            playersList[i] = players.get(i).getName();
+            if (remainingGods.size() == 0){
+                finalGodsList[i] = players.get(i).getMyGod().getClass().getSimpleName();
+            }
+        }
+        if (remainingGods.size() > 0)
+        {
+            finalGodsList = godsList.clone();
+        }
+        return new SlimBoard(board, currentPlayer.getName(), finalGodsList, playersList);
     }
 
     /**
@@ -193,8 +206,8 @@ public class Game extends ModelObservable {
             case "Demeter":
                 rules = new Demeter(rules, player);
                 break;
-            case "Ephaestus":
-                rules = new Ephaestus(rules, player);
+            case "Hephaestus":
+                rules = new Hephaestus(rules, player);
                 break;
             case "Minotaur":
                 rules = new Minotaur(rules, player);

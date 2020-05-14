@@ -9,11 +9,11 @@ import it.polimi.ingsw.PSP034.model.Player;
 import it.polimi.ingsw.PSP034.model.Tile;
 import it.polimi.ingsw.PSP034.model.Worker;
 
-public class Ephaestus extends GodsRules {
+public class Hephaestus extends GodsRules {
     private boolean usePower;
     private Tile myFirstBuilding;
 
-    public Ephaestus(IRules decoratedRules, Player player){
+    public Hephaestus(IRules decoratedRules, Player player){
         super(decoratedRules, player);
         usePower = false;
         myFirstBuilding = null;
@@ -99,7 +99,7 @@ public class Ephaestus extends GodsRules {
         if(getPlayer().isOwner(worker)){
             if(!super.getDefaultRules().validBuild(worker, buildingTile)){
                 return false;
-            }else if(usePower  &&  !buildingTile.equals(myFirstBuilding) && buildingTile.getBuilding() == Constant.LEVEL_THREE  &&  worker.getSex() != super.getChosenSex()){
+            }else if(usePower  && ( !buildingTile.equals(myFirstBuilding) || buildingTile.getBuilding() == Constant.LEVEL_THREE )){
                 return false;
             }
         }
