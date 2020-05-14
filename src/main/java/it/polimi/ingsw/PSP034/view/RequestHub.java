@@ -227,7 +227,7 @@ public class RequestHub {
                         ((Table) currScene).updateMove(requiredSex, moveDirections, hasChoice);
                         answers[1] = currScene.show();
                         if(Integer.parseInt(answers[1]) > moveDirections.length)
-                            actionIndex--;
+                            actionIndex = actionIndex - 2;
                         else {
                             answerComposer = new AnswerComposer(request);
                             lastRequest = request;
@@ -238,7 +238,7 @@ public class RequestHub {
                         ((Table) currScene).updateBuild(requiredSex, buildDirections, hasChoice);
                         answers[1] = currScene.show();
                         if(Integer.parseInt(answers[1]) > buildDirections.length)
-                            actionIndex--;
+                            actionIndex = actionIndex - 2;
                         else {
                             answerComposer = new AnswerComposer(request);
                             lastRequest = request;

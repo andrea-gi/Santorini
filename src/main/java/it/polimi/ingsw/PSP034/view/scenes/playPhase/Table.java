@@ -220,11 +220,11 @@ public class Table extends Scene{
     public void updateMove(Sex sex, Directions[] possibleDirections, boolean hasChoice){
         String[] options;
         if(hasChoice) {
-            options = new String[possibleDirections.length];
+            options = new String[possibleDirections.length + 1];
             for (int i = 0; i < possibleDirections.length; i++) {
                 options[i] = possibleDirections[i].name();
             }
-            options[possibleDirections.length - 1] = "Back";
+            options[options.length - 1] = "Back";
         }else{
             options = new String[possibleDirections.length];
             for (int i = 0; i < possibleDirections.length; i++) {
@@ -260,11 +260,11 @@ public class Table extends Scene{
     public void updateBuild(Sex sex, Directions[] possibleDirections, boolean hasChoice){
         String[] options;
         if(hasChoice) {
-            options = new String[possibleDirections.length];
+            options = new String[possibleDirections.length + 1];
             for (int i = 0; i < possibleDirections.length; i++) {
                 options[i] = possibleDirections[i].name();
             }
-            options[possibleDirections.length - 1] = "Back";
+            options[options.length - 1] = "Back";
         }else{
             options = new String[possibleDirections.length];
             for (int i = 0; i < possibleDirections.length; i++) {
