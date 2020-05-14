@@ -141,7 +141,7 @@ public class VerticalArrangement extends Arrangement {
     public void print(int line, int column) {
         if(super.getVisibility()) {
             int index = 0;
-            while (super.getObjects().get(index).getHeight() == 0  ||  super.getObjects().get(index).getWidth() == 0){
+            while (super.getObjects().get(index).getHeight() == 0  ||  super.getObjects().get(index).getWidth() == 0  ||  !super.getObjects().get(index).getVisibility()){
                 index++;
             }
             external:
@@ -152,7 +152,7 @@ public class VerticalArrangement extends Arrangement {
                         index++;
                         if (index >= super.getObjects().size())
                             break external;
-                        while (super.getObjects().get(index).getHeight() == 0  ||  super.getObjects().get(index).getWidth() == 0){
+                        while (super.getObjects().get(index).getHeight() == 0  ||  super.getObjects().get(index).getWidth() == 0  ||  !super.getObjects().get(index).getVisibility()){
                             index++;
                             if (index >= super.getObjects().size())
                                 break external;

@@ -7,7 +7,7 @@ import it.polimi.ingsw.PSP034.view.printables.arrangements.Arrangement;
  * is made of a certain number o lines each represented by a string. The line share the same starting column but can be of different
  * length. the printable object has the same width as it's longest line length.
  */
-public class PrintableObject {
+public class PrintableObject{
     private int startLine, startColumn;
     private int width, height;
     private String[] object;
@@ -138,7 +138,6 @@ public class PrintableObject {
 
     protected void setStartLine(int startLine) {
         this.startLine = startLine;
-
     }
 
     protected void setStartColumn(int startColumn) {

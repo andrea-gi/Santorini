@@ -170,7 +170,7 @@ public class RequestHub {
 
         else if (request instanceof RequestPlaceWorker) {
             SlimBoard slimBoard = ((RequestPlaceWorker) request).getSlimBoard();
-            ((Table) currScene).updatePlaceWorker(slimBoard.getDome(), slimBoard.getBuilding(), slimBoard.getColor(), slimBoard.getSex(), slimBoard.getCurrentPlayer());
+            ((Table) currScene).updatePlaceWorker(slimBoard.getDome(), slimBoard.getBuilding(), slimBoard.getColor(), slimBoard.getSex(), ((RequestPlaceWorker) request).getSex());
             answer = currScene.show();
             answerComposer = new AnswerComposer(request);
             answerComposer.packetAnswer(answer);
@@ -202,8 +202,8 @@ public class RequestHub {
             RequiredActions[] actions = request.getRequiredActions();
             Sex requiredSex = null;
             boolean hasChoice = false;
-            for (RequiredActions action : actions) {
-                switch (action) {
+            for (int actionIndex = 0; actionIndex < actions.length; actionIndex++) {
+                switch (actions[actionIndex]) {
                     case REQUEST_WORKER:
                         ((Table) currScene).updateSelectWorker();
                         answers[0] = currScene.show();
@@ -227,16 +227,24 @@ public class RequestHub {
                         Directions[] moveDirections = requiredSex == Sex.MALE ? ((RequestAction) request).getPossibleMaleDirections() : ((RequestAction) request).getPossibleFemaleDirections();
                         ((Table) currScene).updateMove(requiredSex, moveDirections, hasChoice);
                         answers[1] = currScene.show();
-                        answerComposer = new AnswerComposer(request);
-                        lastRequest = request;
-                        return answerComposer.packetAnswer(answers);
+                        if(Integer.parseInt(answers[1]) > moveDirections.length)
+                            actionIndex--;
+                        else {
+                            answerComposer = new AnswerComposer(request);
+                            lastRequest = request;
+                            return answerComposer.packetAnswer(answers);
+                        }
                     case REQUEST_BUILD:
                         Directions[] buildDirections = requiredSex == Sex.MALE ? ((RequestAction) request).getPossibleMaleDirections() : ((RequestAction) request).getPossibleFemaleDirections();
                         ((Table) currScene).updateBuild(requiredSex, buildDirections, hasChoice);
                         answers[1] = currScene.show();
-                        answerComposer = new AnswerComposer(request);
-                        lastRequest = request;
-                        return answerComposer.packetAnswer(answers);
+                        if(Integer.parseInt(answers[1]) > buildDirections.length)
+                            actionIndex--;
+                        else {
+                            answerComposer = new AnswerComposer(request);
+                            lastRequest = request;
+                            return answerComposer.packetAnswer(answers);
+                        }
                 }
             }
         }

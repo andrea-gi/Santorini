@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public enum Color {
-    GREY(ANSI.FG_black, ANSI.BG_black),
-    BLUE(ANSI.FG_blue, ANSI.BG_blue),
-    WHITE(ANSI.FG_white, ANSI.BG_white);
+    RED(ANSI.FG_red, ANSI.BG_red),
+    YELLOW(ANSI.FG_bright_yellow, ANSI.BG_bright_yellow),
+    MAGENTA(ANSI.FG_magenta, ANSI.BG_magenta);
 
     String FG_color;
     String BG_color;
@@ -27,7 +27,7 @@ public enum Color {
 
     public static Color[] getRemainingColors(Color... args){
         Color[] remainingColors = new Color[3 - args.length];
-        ArrayList<Color> everyColor = new ArrayList<>(Arrays.asList(Color.GREY, Color.BLUE, Color.WHITE));
+        ArrayList<Color> everyColor = new ArrayList<>(Arrays.asList(Color.RED, Color.YELLOW, Color.MAGENTA));
         for(Color color : args){
             everyColor.remove(color);
         }

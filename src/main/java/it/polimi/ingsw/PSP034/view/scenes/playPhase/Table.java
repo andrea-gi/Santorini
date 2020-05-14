@@ -36,6 +36,7 @@ public class Table extends Scene{
     Message answer;
     TextBox textBox;
     ArrayList<RegexCondition> regex;
+    boolean requiredAnswer;
 
 
     public Table(String[] gods){
@@ -83,10 +84,13 @@ public class Table extends Scene{
         answer = new Message("", -1);
         textBox = new TextBox(1);
         textBoxANDAnswer.addObjects(answerIndentation, answer, textBox);
+        textBoxANDAnswer.setBottomAlignment();
 
         boardANDRight.setBorder(super.getFrameWidth()-board.getWidth()-rightSide.getWidth());
 
         regex = null;
+
+        requiredAnswer = false;
     }
 
     @Override
@@ -95,7 +99,7 @@ public class Table extends Scene{
 
         super.printMain(all);
 
-        if(!textBox.getVisibility()){
+        if(!requiredAnswer){
             return null;
         }else{
             if(regex == null){
@@ -109,9 +113,10 @@ public class Table extends Scene{
 
     public void updateBoard(boolean[][] dome, int[][] building, Color[][] color, Sex[][] sex, boolean showNumbers, String currentPlayer){
         if(currentPlayer != null) {
+            int pos = all.getObjects().indexOf(title);
             all.removeObjects(title);
             title = new Font(currentPlayer + "'s turn");
-            all.insertObject(0, title);
+            all.insertObject(pos, title);
         }
 
         for(int y = 0; y < Constant.DIM; y++){
@@ -125,12 +130,15 @@ public class Table extends Scene{
         else
             board.hideNumbers();
 
+        requiredAnswer = false;
+
     }
 
-    public void updatePlaceWorker(boolean[][] dome, int[][] building, Color[][] color, Sex[][] sex, String currentPlayer){
+    public void updatePlaceWorker(boolean[][] dome, int[][] building, Color[][] color, Sex[][] sex, Sex worker){
+        int pos = all.getObjects().indexOf(title);
         all.removeObjects(title);
         title = new Font("workers setup");
-        all.insertObject(0, title);
+        all.insertObject(pos, title);
         updateBoard(dome, building, color, sex, true, null);
 
         int freeTiles = 0;
@@ -146,8 +154,7 @@ public class Table extends Scene{
             options[n-1] = Integer.toString(n);
         }
 
-        ArrayList<PrintableObject> objectsRequest = request.getObjects();
-        int pos = objectsRequest.indexOf(question);
+        pos = request.getObjects().indexOf(question);
         request.removeObjects(question);
         question = new Dialog("Select the tiles your worker will start from:", -1,5, options);
         question.setVisible(true);
@@ -155,16 +162,18 @@ public class Table extends Scene{
         emptyRequest.setVisible(false);
         message.setVisible(false);
 
-        ArrayList<PrintableObject> objectsAnswer = textBoxANDAnswer.getObjects();
-        pos = objectsAnswer.indexOf(answer);
+        pos = textBoxANDAnswer.getObjects().indexOf(answer);
         textBoxANDAnswer.removeObjects(answer);
-        answer = new Message("Male Worker :", -1);
+        answer = new Message( worker.name() + " Worker :", -1);
         textBoxANDAnswer.insertObject(pos, answer);
 
-        pos = objectsAnswer.indexOf(textBox);
+        pos = textBoxANDAnswer.getObjects().indexOf(textBox);
         textBoxANDAnswer.removeObjects(textBox);
         textBox = new TextBox(question.getWidth()-answer.getWidth());
         textBoxANDAnswer.insertObject(pos, textBox);
+        textBoxANDAnswer.setVisible(true);
+
+        requiredAnswer = true;
 
         regex = new ArrayList<>();
         String rule;
@@ -183,17 +192,32 @@ public class Table extends Scene{
     }
 
     public void updateSelectWorker() {
-        message = null;
+        int pos = request.getObjects().indexOf(question);
+        request.removeObjects(question);
         question = new Dialog("Select which Worker you want to move:", -1, 1, "Male (" + Sex.MALE.toString() + ")", "Female (" + Sex.FEMALE.toString() + ")");
+        question.setVisible(true);
+        request.insertObject(pos, question);
+        emptyRequest.setVisible(false);
+        message.setVisible(false);
+
+        pos = textBoxANDAnswer.getObjects().indexOf(answer);
+        textBoxANDAnswer.removeObjects(answer);
         answer = new Message("Your choice :", -1);
-        textBox = new TextBox(question.getWidth() - answer.getWidth());
+        textBoxANDAnswer.insertObject(pos, answer);
+
+        pos = textBoxANDAnswer.getObjects().indexOf(textBox);
+        textBoxANDAnswer.removeObjects(textBox);
+        textBox = new TextBox(question.getWidth()-answer.getWidth());
+        textBoxANDAnswer.insertObject(pos, textBox);
+        textBoxANDAnswer.setVisible(true);
+
+        requiredAnswer = true;
 
         regex = new ArrayList<>();
         regex.add(new RegexCondition("^[1-2]$", "Invalid selection."));
     }
 
     public void updateMove(Sex sex, Directions[] possibleDirections, boolean hasChoice){
-        message = null;
         String[] options;
         if(hasChoice) {
             options = new String[possibleDirections.length];
@@ -207,16 +231,33 @@ public class Table extends Scene{
                 options[i] = possibleDirections[i].name();
             }
         }
+
+        int pos = request.getObjects().indexOf(question);
+        request.removeObjects(question);
         question = new Dialog("Where do you want to move your " + sex.name().toLowerCase() + " (" + sex.toString() + ") Worker?", -1, 3, options);
+        question.setVisible(true);
+        request.insertObject(pos, question);
+        emptyRequest.setVisible(false);
+        message.setVisible(false);
+
+        pos = textBoxANDAnswer.getObjects().indexOf(answer);
+        textBoxANDAnswer.removeObjects(answer);
         answer = new Message("Your move :", -1);
-        textBox = new TextBox(question.getWidth() - answer.getWidth());
+        textBoxANDAnswer.insertObject(pos, answer);
+
+        pos = textBoxANDAnswer.getObjects().indexOf(textBox);
+        textBoxANDAnswer.removeObjects(textBox);
+        textBox = new TextBox(question.getWidth()-answer.getWidth());
+        textBoxANDAnswer.insertObject(pos, textBox);
+        textBoxANDAnswer.setVisible(true);
+
+        requiredAnswer = true;
 
         regex = new ArrayList<>();
         regex.add(new RegexCondition("^[1-" + (possibleDirections.length+1) + "]$", "Invalid selection."));
     }
 
     public void updateBuild(Sex sex, Directions[] possibleDirections, boolean hasChoice){
-        message = null;
         String[] options;
         if(hasChoice) {
             options = new String[possibleDirections.length];
@@ -230,37 +271,74 @@ public class Table extends Scene{
                 options[i] = possibleDirections[i].name();
             }
         }
+
+        int pos = request.getObjects().indexOf(question);
+        request.removeObjects(question);
         question = new Dialog("Where do you want to build with your " + sex.name().toLowerCase() + " (" + sex.toString() + ") Worker?", -1, 3, options);
+        question.setVisible(true);
+        request.insertObject(pos, question);
+        emptyRequest.setVisible(false);
+        message.setVisible(false);
+
+        pos = textBoxANDAnswer.getObjects().indexOf(answer);
+        textBoxANDAnswer.removeObjects(answer);
         answer = new Message("Your build :", -1);
-        textBox = new TextBox(question.getWidth() - answer.getWidth());
+        textBoxANDAnswer.insertObject(pos, answer);
+
+        pos = textBoxANDAnswer.getObjects().indexOf(textBox);
+        textBoxANDAnswer.removeObjects(textBox);
+        textBox = new TextBox(question.getWidth()-answer.getWidth());
+        textBoxANDAnswer.insertObject(pos, textBox);
+        textBoxANDAnswer.setVisible(true);
+
+        requiredAnswer = true;
 
         regex = new ArrayList<>();
         regex.add(new RegexCondition("^[1-" + (possibleDirections.length+1) + "]$", "Invalid selection."));
     }
 
     public void updatePower(){
-        message = null;
+        int pos = request.getObjects().indexOf(question);
+        request.removeObjects(question);
         question = new Dialog("Do you want to use your god's power?", -1, 1, "Yes", "No");
+        question.setVisible(true);
+        request.insertObject(pos, question);
+        emptyRequest.setVisible(false);
+        message.setVisible(false);
+
+        pos = textBoxANDAnswer.getObjects().indexOf(answer);
+        textBoxANDAnswer.removeObjects(answer);
         answer = new Message("Your choice :", -1);
-        textBox = new TextBox(question.getWidth() - answer.getWidth());
+        textBoxANDAnswer.insertObject(pos, answer);
+
+        pos = textBoxANDAnswer.getObjects().indexOf(textBox);
+        textBoxANDAnswer.removeObjects(textBox);
+        textBox = new TextBox(question.getWidth()-answer.getWidth());
+        textBoxANDAnswer.insertObject(pos, textBox);
+        textBoxANDAnswer.setVisible(true);
+
+        requiredAnswer = true;
 
         regex = new ArrayList<>();
         regex.add(new RegexCondition("^[1-2]$", "Invalid selection."));
     }
 
     public void updateStart(){
+        int pos = all.getObjects().indexOf(title);
+        all.removeObjects(title);
         title = new Font("your turn");
+        all.insertObject(pos, title);
 
-        question = null;
-        message = null;
-        textBox = null;
-        regex = null;
+        updateClearRequest();
     }
 
     public void updateClearRequest(){
-        question = null;
-        message = null;
-        textBox = null;
-        regex = null;
+        emptyRequest.setVisible(true);
+        message.setVisible(false);
+        question.setVisible(false);
+
+        textBoxANDAnswer.setVisible(false);
+
+        requiredAnswer = false;
     }
 }

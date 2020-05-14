@@ -163,13 +163,13 @@ class ClientHandler implements IClientConnection, Runnable{
     public void setDebugColor(Color color) {
         String colorANSI;
         switch(color){
-            case WHITE:
+            case MAGENTA:
                 colorANSI = ANSI.FG_green;
                 break;
-            case BLUE:
+            case YELLOW:
                 colorANSI = ANSI.FG_blue;
                 break;
-            case GREY:
+            case RED:
                 colorANSI = ANSI.FG_red;
                 break;
             default:
