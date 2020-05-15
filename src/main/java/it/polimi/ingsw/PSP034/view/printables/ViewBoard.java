@@ -168,20 +168,18 @@ public class ViewBoard extends PrintableObject {
             }
 
             if(hasDome){
-                constructionArray.set(0, constructionArray.get(0) + "\033[9D" + "\033[3C" + ANSI.BG_blue + "   " + ANSI.reset);
-                constructionArray.set(1, constructionArray.get(1) + "\033[9D" + "\033[2C" + ANSI.BG_blue + "     " + ANSI.reset);
-                constructionArray.set(2, constructionArray.get(2) + "\033[9D" + "\033[3C" + ANSI.BG_blue + "   " + ANSI.reset);
+                constructionArray.set(0, constructionArray.get(0) + "\033[9D" + "\033[3C" + ANSI.BG_blue + "   " + ANSI.reset + "\033[3C");
+                constructionArray.set(1, constructionArray.get(1) + "\033[9D" + "\033[2C" + ANSI.BG_blue + "     " + ANSI.reset + "\033[2C");
+                constructionArray.set(2, constructionArray.get(2) + "\033[9D" + "\033[3C" + ANSI.BG_blue + "   " + ANSI.reset + "\033[3C");
             }
 
             if(sex != null){
-                constructionArray.set(1, constructionArray.get(1) + "\033[9D" + "\033[4C" + color.getBG_color() + sex.toString() + ANSI.reset);
+                constructionArray.set(1, constructionArray.get(1) + "\033[9D" + "\033[3C" + color.getBG_color() + " " + sex.toString() + " " + ANSI.reset + "\033[3C");
             }
 
             super.setObjectLine(0, constructionArray.get(0));
             super.setObjectLine(1, constructionArray.get(1));
             super.setObjectLine(2, constructionArray.get(2));
-
-            //super.print(super.getStartLine(), super.getStartColumn());
         }
 
         private boolean showNumber(int number){

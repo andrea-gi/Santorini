@@ -8,7 +8,7 @@ public class RequestPersonalGod extends SetupRequest{
 
     public RequestPersonalGod(ArrayList<String> possibleGods, ArrayList<String> alreadyChosenGods){
         this.possibleGods = possibleGods.toArray(new String[0]);
-        this.alreadyChosenGods = possibleGods.toArray(new String [0]);
+        this.alreadyChosenGods = alreadyChosenGods.toArray(new String [0]);
     }
 
     public String[] getPossibleGods() {

@@ -7,10 +7,12 @@ import it.polimi.ingsw.PSP034.view.printables.godcards.GodCard;
 import it.polimi.ingsw.PSP034.view.scenes.Scene;
 
 public class PersonalGodChoice extends Scene {
-    private String[] possibleGods;
+    private final String[] possibleGods;
+    private final String[] alreadyChosenGods;
 
-    public PersonalGodChoice(String[] possibleGods){
+    public PersonalGodChoice(String[] possibleGods, String[] alreadyChosenGods){
         this.possibleGods = possibleGods;
+        this.alreadyChosenGods = alreadyChosenGods;
     }
 
     @Override
@@ -23,7 +25,13 @@ public class PersonalGodChoice extends Scene {
         for(int i = 0; i < possibleGods.length; i++){
             godCards[i] = new GodCard(possibleGods[i]);
         }
+
+        GodCard[] takenCards = new GodCard[alreadyChosenGods.length];
+        for(int i = 0; i < alreadyChosenGods.length; i++){
+            takenCards[i] = new GodCard(alreadyChosenGods[i], ANSI.FG_red);
+        }
         HorizontalArrangement godsHA = new HorizontalArrangement();
+        godsHA.addObjects(takenCards);
         godsHA.addObjects(godCards);
         godsHA.setTopAlignment();
 

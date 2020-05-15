@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP034.view;
 
+import it.polimi.ingsw.PSP034.constants.Color;
 import it.polimi.ingsw.PSP034.constants.Directions;
 import it.polimi.ingsw.PSP034.constants.Sex;
 import it.polimi.ingsw.PSP034.messages.Answer;
@@ -21,12 +22,10 @@ import it.polimi.ingsw.PSP034.view.scenes.serverConfiguration.*;
 import it.polimi.ingsw.PSP034.view.scenes.setupPhase.*;
 
 public class RequestHub {
-    private Request lastRequest;
     private Scene currScene;
     private AnswerComposer answerComposer;
 
     public RequestHub(){
-        lastRequest = null;
         currScene = null;
         answerComposer = null;
     }
@@ -44,7 +43,6 @@ public class RequestHub {
             SlimBoard slimBoard = (SlimBoard) request;
             ((Table) currScene).updateBoard(slimBoard.getDome(), slimBoard.getBuilding(), slimBoard.getColor(), slimBoard.getSex(), false, slimBoard.getCurrentPlayer());
             currScene.show();
-            lastRequest = request;
             return null;
         }else{
             //TODO -- decidere se va bene
@@ -56,7 +54,6 @@ public class RequestHub {
         if (request instanceof TitleRequest) {
             currScene = new TitleScene();
             currScene.show();
-            lastRequest = request;
             return null;
         }
         else if (request instanceof RequestIP){
@@ -66,7 +63,6 @@ public class RequestHub {
             currScene = new ServerPort();
             answers[1] = currScene.show();
             answerComposer = new AnswerComposer(request);
-            lastRequest = request;
             return answerComposer.packetAnswer(answers);
         }
         //TODO -- decidere se va bene
@@ -83,44 +79,37 @@ public class RequestHub {
                 currScene = new ColorChoice(castRequest.getAvailableColors());
                 answers[1] = currScene.show();
                 answerComposer = new AnswerComposer(castRequest);
-                lastRequest = request;
                 return answerComposer.packetAnswer(answers);
 
             case REQUEST_PLAYER_NUMBER:
                 currScene = new PlayerNumber();
                 String answer = currScene.show();
                 answerComposer = new AnswerComposer(request);
-                lastRequest = request;
                 return answerComposer.packetAnswer(answer);
 
             case LOBBY:
                 currScene = new Lobby();
                 currScene.show();
-                lastRequest = request;
                 return null;
 
             case WELCOME_WAIT:
                 currScene = new WelcomeWait();
                 currScene.show();
-                lastRequest = request;
                 return null;
 
             case SUCCESSFULLY_ADDED:
                 currScene = new SuccessfullyAdded();
                 currScene.show();
-                lastRequest = request;
                 return null;
 
             case CARDS_CHOICE_WAIT:
                 currScene = new CardsChoiceWait();
                 currScene.show();
-                lastRequest = request;
                 return null;
 
             case ALREADY_STARTED:
                 currScene = new AlreadyStarted();
                 currScene.show();
-                lastRequest = request;
                 return null;
         }
         //TODO -- decidere se va bene
@@ -129,11 +118,9 @@ public class RequestHub {
 
     private Answer newSetupRequest(SetupRequest request){
         String answer;
-        String[] answers;
         if (request instanceof  GodLikeInfo){
             currScene = new GodLikeChosen(((GodLikeInfo) request).getGodLikePlayer());
             currScene.show();
-            lastRequest = request;
             return null;
         }
 
@@ -141,7 +128,6 @@ public class RequestHub {
             currScene = new CardsChoice(((RequestCardsChoice) request).getPlayerNumber());
             answer = currScene.show();
             answerComposer = new AnswerComposer(request);
-            lastRequest = request;
             return answerComposer.packetAnswer(answer);
         }
 
@@ -149,22 +135,20 @@ public class RequestHub {
             currScene = new FirstPlayer(((RequestFirstPlayer) request).getPlayers());
             answer = currScene.show();
             answerComposer = new AnswerComposer(request);
-            lastRequest = request;
             return answerComposer.packetAnswer(answer);
         }
 
         else if (request instanceof FirstPlayerInfo){
             currScene = new FirstPlayerChosen(((FirstPlayerInfo) request).getFirstPlayer());
             currScene.show();
-            lastRequest = request;
             return null;
         }
 
         else if (request instanceof RequestPersonalGod) {
-            currScene = new PersonalGodChoice(((RequestPersonalGod) request).getPossibleGods());
+            RequestPersonalGod castRequest = (RequestPersonalGod) request;
+            currScene = new PersonalGodChoice(castRequest.getPossibleGods(), castRequest.getAlreadyChosenGods());
             answer = currScene.show();
             answerComposer = new AnswerComposer(request);
-            lastRequest = request;
             return answerComposer.packetAnswer(answer);
         }
 
@@ -173,7 +157,6 @@ public class RequestHub {
             ((Table) currScene).updatePlaceWorker(slimBoard.getDome(), slimBoard.getBuilding(), slimBoard.getColor(), slimBoard.getSex(), ((RequestPlaceWorker) request).getSex());
             answer = currScene.show();
             answerComposer = new AnswerComposer(request);
-            lastRequest = request;
             return answerComposer.packetAnswer(answer);
         }
 
@@ -185,7 +168,7 @@ public class RequestHub {
 
         else if(request instanceof InitializeBoard){
             SlimBoard slimBoard = ((InitializeBoard) request).getSlimBoard();
-            currScene = new Table(slimBoard.getGodsList());
+            currScene = new Table(slimBoard.getGodsList(), slimBoard.getPlayersList(), slimBoard.getColorsList());
             currScene.show();
             return null;
         }
@@ -206,7 +189,6 @@ public class RequestHub {
                     case REQUEST_WORKER:
                         ((Table) currScene).updateSelectWorker();
                         answers[0] = currScene.show();
-                        lastRequest = request;
                         requiredSex = answers[0].equals("1") ? Sex.MALE : Sex.FEMALE;
                         hasChoice = true;
                         break;
@@ -214,13 +196,11 @@ public class RequestHub {
                         requiredSex = Sex.MALE;
                         answers[0] = "1";
                         hasChoice = false;
-                        lastRequest = request;
                         break;
                     case REQUIRED_FEMALE:
                         requiredSex = Sex.FEMALE;
                         answers[0] = "2";
                         hasChoice = false;
-                        lastRequest = request;
                         break;
                     case REQUEST_MOVE:
                         Directions[] moveDirections = requiredSex == Sex.MALE ? ((RequestAction) request).getPossibleMaleDirections() : ((RequestAction) request).getPossibleFemaleDirections();
@@ -231,7 +211,6 @@ public class RequestHub {
                             break;
                         }else {
                             answerComposer = new AnswerComposer(request);
-                            lastRequest = request;
                             return answerComposer.packetAnswer(answers);
                         }
                     case REQUEST_BUILD:
@@ -243,7 +222,6 @@ public class RequestHub {
                             break;
                         }else {
                             answerComposer = new AnswerComposer(request);
-                            lastRequest = request;
                             return answerComposer.packetAnswer(answers);
                         }
                 }
@@ -257,7 +235,6 @@ public class RequestHub {
                     ((Table) currScene).updatePower();
                     answer = currScene.show();
                     answerComposer = new AnswerComposer(request);
-                    lastRequest = request;
                     return answerComposer.packetAnswer(answer);
                 }
             }

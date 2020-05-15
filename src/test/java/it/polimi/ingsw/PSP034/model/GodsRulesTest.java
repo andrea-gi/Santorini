@@ -19,12 +19,13 @@ public class GodsRulesTest {
         myBoard = new Board();
         myGame = new Game(myBoard);
         firstPlayer = new Player("Veronica", Color.RED);
-        secondPlayer = new Player("Andrea", Color.YELLOW);
+        secondPlayer = new Player("Andrea", Color.BLUE);
         thirdPlayer = new Player("Lorenzo", Color.MAGENTA);
         myGame.addPlayer(firstPlayer);
         myGame.addPlayer(secondPlayer);
         myGame.addPlayer(thirdPlayer);
         myGame.setCurrentPlayerByName("Veronica");
+        myGame.addRemainingGod("Apollo");
         myGame.addWorker(firstPlayer, Sex.MALE, 0,0);
         myGame.addWorker(firstPlayer, Sex.FEMALE, 1,1);
         myGame.addWorker(secondPlayer, Sex.MALE, 2,2);

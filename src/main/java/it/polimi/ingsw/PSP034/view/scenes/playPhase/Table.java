@@ -24,7 +24,7 @@ public class Table extends Scene{
     HorizontalArrangement alignedCards;
     VerticalArrangement request;
 
-    GodCard[] cards;
+    PlayerBox[] cards;
     Spacer spaceThirdCard;
 
     Dialog question;
@@ -39,7 +39,7 @@ public class Table extends Scene{
     boolean requiredAnswer;
 
 
-    public Table(String[] gods){
+    public Table(String[] gods, String[] players, Color[] colors){
         all = new VerticalArrangement();
 
         title = new Font("   ");
@@ -59,9 +59,9 @@ public class Table extends Scene{
         rightSide.setCentreAlignment();
         rightSide.setBorder(1);
 
-        cards = new GodCard[gods.length];
+        cards = new PlayerBox[gods.length];
         for(int i = 0; i < gods.length; i++){
-            cards[i] = new GodCard(gods[i]);
+            cards[i] = new PlayerBox(players[i], gods[i],colors[i]);
         }
         spaceThirdCard = new Spacer(cards[0].getWidth()/2, 1);
         if(gods.length == 3)
@@ -113,10 +113,8 @@ public class Table extends Scene{
 
     public void updateBoard(boolean[][] dome, int[][] building, Color[][] color, Sex[][] sex, boolean showNumbers, String currentPlayer){
         if(currentPlayer != null) {
-            int pos = all.getObjects().indexOf(title);
-            all.removeObjects(title);
-            title = new Font(currentPlayer + "'s turn");
-            all.insertObject(pos, title);
+            if(!title.equals(new Font("your turn")))
+                setTitle(currentPlayer + "'s turn");
         }
 
         for(int y = 0; y < Constant.DIM; y++){
@@ -135,10 +133,8 @@ public class Table extends Scene{
     }
 
     public void updatePlaceWorker(boolean[][] dome, int[][] building, Color[][] color, Sex[][] sex, Sex worker){
-        int pos = all.getObjects().indexOf(title);
-        all.removeObjects(title);
-        title = new Font("workers setup");
-        all.insertObject(pos, title);
+        setTitle("workers setup");
+
         updateBoard(dome, building, color, sex, true, null);
 
         int freeTiles = 0;
@@ -154,144 +150,55 @@ public class Table extends Scene{
             options[n-1] = Integer.toString(n);
         }
 
-        pos = request.getObjects().indexOf(question);
-        request.removeObjects(question);
-        question = new Dialog("Select the tiles your worker will start from:", -1,5, options);
-        question.setVisible(true);
-        request.insertObject(pos, question);
-        emptyRequest.setVisible(false);
-        message.setVisible(false);
 
-        pos = textBoxANDAnswer.getObjects().indexOf(answer);
-        textBoxANDAnswer.removeObjects(answer);
-        answer = new Message( worker.name() + " Worker :", -1);
-        textBoxANDAnswer.insertObject(pos, answer);
+        setQuestion(new Dialog("Select the tiles your worker will start from:", -1,5, options));
 
-        pos = textBoxANDAnswer.getObjects().indexOf(textBox);
-        textBoxANDAnswer.removeObjects(textBox);
-        textBox = new TextBox(question.getWidth()-answer.getWidth());
-        textBoxANDAnswer.insertObject(pos, textBox);
-        textBoxANDAnswer.setVisible(true);
-
-        requiredAnswer = true;
+        String workerSex = worker.name().substring(0,0).toUpperCase() + worker.name().substring(1).toLowerCase();
+        setAnswer(new Message( workerSex + "Worker :" , -1));
 
         regex = new ArrayList<>();
-        String rule;
+        StringBuilder rule;
         if(freeTiles <= 9)
-            rule = "^[1-" + freeTiles + "]$";
+            rule = new StringBuilder("^[1-" + freeTiles + "]$");
         else{
-            rule = "^([1-9]";
+            rule = new StringBuilder("^([1-9]");
             int x;
             for(x = 19; x < freeTiles; x+=10){
-                rule += "|" + x/10 + "[0-9]";
+                rule.append("|").append(x / 10).append("[0-9]");
             }
-            rule += "|" + x/10 + "[0-" + freeTiles%10 + "])$";
+            rule.append("|").append(x / 10).append("[0-").append(freeTiles % 10).append("])$");
         }
 
-        regex.add(new RegexCondition(rule, "Invalid selection."));
+
+        regex.add(new RegexCondition(rule.toString(), "Invalid selection."));
     }
 
     public void updateSelectWorker() {
-        int pos = request.getObjects().indexOf(question);
-        request.removeObjects(question);
-        question = new Dialog("Select which Worker you want to move:", -1, 1, "Male (" + Sex.MALE.toString() + ")", "Female (" + Sex.FEMALE.toString() + ")");
-        question.setVisible(true);
-        request.insertObject(pos, question);
-        emptyRequest.setVisible(false);
-        message.setVisible(false);
+        setQuestion(new Dialog("Select which Worker you want to move:", -1, 1, "Male (" + Sex.MALE.toString() + ")", "Female (" + Sex.FEMALE.toString() + ")"));
 
-        pos = textBoxANDAnswer.getObjects().indexOf(answer);
-        textBoxANDAnswer.removeObjects(answer);
-        answer = new Message("Your choice :", -1);
-        textBoxANDAnswer.insertObject(pos, answer);
-
-        pos = textBoxANDAnswer.getObjects().indexOf(textBox);
-        textBoxANDAnswer.removeObjects(textBox);
-        textBox = new TextBox(question.getWidth()-answer.getWidth());
-        textBoxANDAnswer.insertObject(pos, textBox);
-        textBoxANDAnswer.setVisible(true);
-
-        requiredAnswer = true;
+        setAnswer(new Message("Your choice :", -1));
 
         regex = new ArrayList<>();
         regex.add(new RegexCondition("^[1-2]$", "Invalid selection."));
     }
 
     public void updateMove(Sex sex, Directions[] possibleDirections, boolean hasChoice){
-        String[] options;
-        if(hasChoice) {
-            options = new String[possibleDirections.length + 1];
-            for (int i = 0; i < possibleDirections.length; i++) {
-                options[i] = possibleDirections[i].name();
-            }
-            options[options.length - 1] = "Back";
-        }else{
-            options = new String[possibleDirections.length];
-            for (int i = 0; i < possibleDirections.length; i++) {
-                options[i] = possibleDirections[i].name();
-            }
-        }
+        String[] options = directionsToOptions(possibleDirections, hasChoice);
 
-        int pos = request.getObjects().indexOf(question);
-        request.removeObjects(question);
-        question = new Dialog("Where do you want to move your " + sex.name().toLowerCase() + " (" + sex.toString() + ") Worker?", -1, 3, options);
-        question.setVisible(true);
-        request.insertObject(pos, question);
-        emptyRequest.setVisible(false);
-        message.setVisible(false);
+        setQuestion(new Dialog("Where do you want to move your " + sex.name().toLowerCase() + " (" + sex.toString() + ") Worker?", -1, 3, options));
 
-        pos = textBoxANDAnswer.getObjects().indexOf(answer);
-        textBoxANDAnswer.removeObjects(answer);
-        answer = new Message("Your move :", -1);
-        textBoxANDAnswer.insertObject(pos, answer);
-
-        pos = textBoxANDAnswer.getObjects().indexOf(textBox);
-        textBoxANDAnswer.removeObjects(textBox);
-        textBox = new TextBox(question.getWidth()-answer.getWidth());
-        textBoxANDAnswer.insertObject(pos, textBox);
-        textBoxANDAnswer.setVisible(true);
-
-        requiredAnswer = true;
+        setAnswer(new Message("Your move :", -1));
 
         regex = new ArrayList<>();
         regex.add(new RegexCondition("^[1-" + (possibleDirections.length+1) + "]$", "Invalid selection."));
     }
 
     public void updateBuild(Sex sex, Directions[] possibleDirections, boolean hasChoice){
-        String[] options;
-        if(hasChoice) {
-            options = new String[possibleDirections.length + 1];
-            for (int i = 0; i < possibleDirections.length; i++) {
-                options[i] = possibleDirections[i].name();
-            }
-            options[options.length - 1] = "Back";
-        }else{
-            options = new String[possibleDirections.length];
-            for (int i = 0; i < possibleDirections.length; i++) {
-                options[i] = possibleDirections[i].name();
-            }
-        }
+        String[] options = directionsToOptions(possibleDirections, hasChoice);
 
-        int pos = request.getObjects().indexOf(question);
-        request.removeObjects(question);
-        question = new Dialog("Where do you want to build with your " + sex.name().toLowerCase() + " (" + sex.toString() + ") Worker?", -1, 3, options);
-        question.setVisible(true);
-        request.insertObject(pos, question);
-        emptyRequest.setVisible(false);
-        message.setVisible(false);
+        setQuestion(new Dialog("Where do you want to build with your " + sex.name().toLowerCase() + " (" + sex.toString() + ") Worker?", -1, 3, options));
 
-        pos = textBoxANDAnswer.getObjects().indexOf(answer);
-        textBoxANDAnswer.removeObjects(answer);
-        answer = new Message("Your build :", -1);
-        textBoxANDAnswer.insertObject(pos, answer);
-
-        pos = textBoxANDAnswer.getObjects().indexOf(textBox);
-        textBoxANDAnswer.removeObjects(textBox);
-        textBox = new TextBox(question.getWidth()-answer.getWidth());
-        textBoxANDAnswer.insertObject(pos, textBox);
-        textBoxANDAnswer.setVisible(true);
-
-        requiredAnswer = true;
+        setAnswer(new Message("Your build :", -1));
 
         regex = new ArrayList<>();
         regex.add(new RegexCondition("^[1-" + (possibleDirections.length+1) + "]$", "Invalid selection."));
@@ -324,15 +231,49 @@ public class Table extends Scene{
     }
 
     public void updateStart(){
-        int pos = all.getObjects().indexOf(title);
-        all.removeObjects(title);
-        title = new Font("your turn");
-        all.insertObject(pos, title);
+        setTitle("your turn");
 
-        updateClearRequest();
+        setEmptyRequest();
+    }
+
+    public void updateEnd(){
+        setTitle("Your turn ended");
+
+        setEmptyRequest();
     }
 
     public void updateClearRequest(){
+        setEmptyRequest();
+    }
+
+    private void setTitle(String newTitle){
+        int pos = all.getObjects().indexOf(title);
+        all.removeObjects(title);
+        title = new Font(newTitle);
+        all.insertObject(pos, title);
+    }
+
+    private void setQuestion(Dialog newQuestion){
+        int pos = request.getObjects().indexOf(question);
+        request.removeObjects(question);
+        question = newQuestion;
+        question.setVisible(true);
+        request.insertObject(pos, question);
+        emptyRequest.setVisible(false);
+        message.setVisible(false);
+    }
+
+    private void setMessage(Message newMessage){
+        int pos = request.getObjects().indexOf(message);
+        request.removeObjects(message);
+        message = newMessage;
+        message.setVisible(true);
+        request.insertObject(pos, message);
+        emptyRequest.setVisible(false);
+        request.setVisible(false);
+    }
+
+    private void setEmptyRequest(){
         emptyRequest.setVisible(true);
         message.setVisible(false);
         question.setVisible(false);
@@ -340,5 +281,37 @@ public class Table extends Scene{
         textBoxANDAnswer.setVisible(false);
 
         requiredAnswer = false;
+    }
+
+    private void setAnswer(Message newAnswer){
+        int pos = textBoxANDAnswer.getObjects().indexOf(answer);
+        textBoxANDAnswer.removeObjects(answer);
+        answer = newAnswer;
+        textBoxANDAnswer.insertObject(pos, answer);
+
+        pos = textBoxANDAnswer.getObjects().indexOf(textBox);
+        textBoxANDAnswer.removeObjects(textBox);
+        textBox = new TextBox(question.getWidth()-answerIndentation.getWidth()-answer.getWidth());
+        textBoxANDAnswer.insertObject(pos, textBox);
+        textBoxANDAnswer.setVisible(true);
+
+        requiredAnswer = true;
+    }
+
+    private String[] directionsToOptions(Directions[] possibleDirections, boolean hasChoice) {
+        String[] options;
+        if(hasChoice) {
+            options = new String[possibleDirections.length + 1];
+            for (int i = 0; i < possibleDirections.length; i++) {
+                options[i] = possibleDirections[i].name();
+            }
+            options[options.length - 1] = "Back";
+        }else{
+            options = new String[possibleDirections.length];
+            for (int i = 0; i < possibleDirections.length; i++) {
+                options[i] = possibleDirections[i].name();
+            }
+        }
+        return options;
     }
 }

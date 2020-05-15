@@ -126,7 +126,6 @@ public class ANSI {
     //RESET                                                  //
     ///////////////////////////////////////////////////////////
     public static final String reset = "\033[0m";
-    public static final String underlineOff = "\033[24";
 
     ///////////////////////////////////////////////////////////
     //4-BIT COLORS                                           //
@@ -186,7 +185,28 @@ public class ANSI {
 
 
     ///////////////////////////////////////////////////////////
+    //24-BIT COLORS                                           //
+    ///////////////////////////////////////////////////////////
+    public static String FG_rgbColor(int r, int g, int b){
+        return "\033[38;2;" + r + ";" + g + ";" + b + "m";
+    }
+
+    public static String BG_rgbColor(int r, int g, int b){
+        return "\033[48;2;" + r + ";" + g + ";" + b + "m";
+    }
+
+
+
+
+    ///////////////////////////////////////////////////////////
     //FONT OPTIONS                                           //
     ///////////////////////////////////////////////////////////
-
+    public static final String bold = "\033[1m";
+    public static final String italic = "\033[3m";
+    public static final String underline = "\033[4m";
+    public static final String crossedOut = "\033[9m";
+    public static final String boldOff = "\033[21m";
+    public static final String italicOff = "\033[23m";
+    public static final String underlineOff = "\033[24m";
+    public static final String crossedOutOff = "\033[29";
 }

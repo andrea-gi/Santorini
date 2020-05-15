@@ -165,7 +165,7 @@ class ClientHandler implements IClientConnection, Runnable{
             case MAGENTA:
                 colorANSI = ANSI.FG_green;
                 break;
-            case YELLOW:
+            case BLUE:
                 colorANSI = ANSI.FG_blue;
                 break;
             case RED:
