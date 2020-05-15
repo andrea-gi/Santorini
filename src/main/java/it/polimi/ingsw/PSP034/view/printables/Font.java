@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * A Font object represents a string written with a special "font" created using the UNICODE box drawing characters.
  */
 public class Font extends PrintableObject{
-    private ArrayList<String[]> formattedString;
+    private final ArrayList<String[]> formattedString;
 
     /**
      *Initializes a Font object
@@ -20,11 +20,11 @@ public class Font extends PrintableObject{
         }
         super.setObjectSize(3);
         for(int line = 0; line < 3; line++){
-            String text = "";
+            StringBuilder text = new StringBuilder();
             for(String[] formattedLetter : formattedString){
-                text = text + " " + formattedLetter[line];
+                text.append(" ").append(formattedLetter[line]);
             }
-            super.setObjectLine(line, text);
+            super.setObjectLine(line, text.toString());
         }
     }
 
@@ -155,9 +155,54 @@ public class Font extends PrintableObject{
                 formattedCharacter = new String[]{"╦ ╦","╚╦╝"," ╩ "};
                 formattedString.add(formattedCharacter);
                 break;
+            case 'X':
+            case 'x':
+                formattedCharacter = new String[]{"╗ ╔"," ╬ ","╝ ╚"};
+                formattedString.add(formattedCharacter);
+                break;
             case 'Z':
             case 'z':
                 formattedCharacter = new String[]{"═══╗","╔══╝","╚═══"};
+                formattedString.add(formattedCharacter);
+                break;
+            case '0':
+                formattedCharacter = new String[]{"╔═╗","║ ║","╚═╝"};
+                formattedString.add(formattedCharacter);
+                break;
+            case '1':
+                formattedCharacter = new String[]{"╔╗ "," ║ ","═╩═"};
+                formattedString.add(formattedCharacter);
+                break;
+            case '2':
+                formattedCharacter = new String[]{"╔═╗","╔═╝","╚══"};
+                formattedString.add(formattedCharacter);
+                break;
+            case '3':
+                formattedCharacter = new String[]{"══╗"," ═╣","══╝"};
+                formattedString.add(formattedCharacter);
+                break;
+            case '4':
+                formattedCharacter = new String[]{"╦ ╦","╚═╣","  ╩"};
+                formattedString.add(formattedCharacter);
+                break;
+            case '5':
+                formattedCharacter = new String[]{"╔═╗","╚═╗","══╝"};
+                formattedString.add(formattedCharacter);
+                break;
+            case '6':
+                formattedCharacter = new String[]{"╔═╗","╠═╗","╚═╝"};
+                formattedString.add(formattedCharacter);
+                break;
+            case '7':
+                formattedCharacter = new String[]{"╔═╗","  ║","  ╩"};
+                formattedString.add(formattedCharacter);
+                break;
+            case '8':
+                formattedCharacter = new String[]{"╔═╗","╠═╣","╚═╝"};
+                formattedString.add(formattedCharacter);
+                break;
+            case '9':
+                formattedCharacter = new String[]{"╔═╗","╚═╣","══╝"};
                 formattedString.add(formattedCharacter);
                 break;
             case '!':
@@ -178,6 +223,10 @@ public class Font extends PrintableObject{
                 break;
             case '.':
                 formattedCharacter = new String[]{" "," ","╦"};
+                formattedString.add(formattedCharacter);
+                break;
+            case '_':
+                formattedCharacter = new String[]{"  ","  ","══"};
                 formattedString.add(formattedCharacter);
                 break;
             case ' ':
