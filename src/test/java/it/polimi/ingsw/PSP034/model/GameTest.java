@@ -22,6 +22,7 @@ public class GameTest {
         myGame = new Game(myBoard);
         firstPlayer = new Player("Veronica", Color.MAGENTA);
         secondPlayer = new Player("Sara", Color.RED);
+        myGame.addRemainingGod("Apollo");
     }
 
     @Test
