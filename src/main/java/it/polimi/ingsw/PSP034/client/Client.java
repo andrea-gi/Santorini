@@ -1,6 +1,7 @@
 package it.polimi.ingsw.PSP034.client;
 
 import it.polimi.ingsw.PSP034.messages.Request;
+import it.polimi.ingsw.PSP034.messages.clientConfiguration.AutoClose;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -51,6 +52,13 @@ public class Client implements Runnable{
         this.clientEnded = value;
     }
 
+    private void closeStreams(){
+        try {
+            in.close();
+            requestQueue.put(new AutoClose());
+        } catch (IOException | InterruptedException ignored){
+        }
+    }
 
     @Override
     public void run() {
@@ -60,10 +68,12 @@ public class Client implements Runnable{
                 if (receivedMessage instanceof Request){
                     requestQueue.put((Request) receivedMessage);
                 } //else if PING
-                //else if MESSAGGIO DI CHIUSURA ???
+                //else if MESSAGGIO DI CHIUSURA
             }
             catch (IOException | ClassNotFoundException | InterruptedException e){
                 //cosa devo fare qui?
+                // TODO -- requestQueue.put(new ConnectionError)
+                // gestisco la chiusura della connessione con un "inside message"
             }
             if (clientEnded){
                 return;

@@ -35,6 +35,7 @@ public class Apollo extends GodsRules {
                 executed = false;
             return executed;
         }
+        getDefaultRules().modelUpdated();
         return super.executeState(currentPhase, worker, tile, choice);
     }
 
