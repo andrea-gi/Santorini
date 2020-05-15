@@ -1,0 +1,61 @@
+.root{
+    -fx-font-size: 17pt;
+    -fx-font-family: "Agency FB";
+    -fx-background-image: url("/images/fg_panel2.png");
+    -fx-background-size: cover;
+    -fx-background-color: rgb(186, 182, 178);
+}
+
+.button{
+    -fx-background-image: url("/images/btn_blue.png");
+    -fx-background-size: cover;
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-text-fill: rgb(255, 255, 255);
+}
+
+.button:pressed{
+    -fx-background-image: url("/images/btn_blue_pressed.png");
+    -fx-background-size: cover;
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-text-fill: rgb(255, 255, 255);
+}
+
+.buttonPlay{
+    -fx-background-image: url("/images/button_play_normal.png");
+    -fx-background-size: cover;
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+.buttonPlay:pressed{
+    -fx-background-image: url("/images/button-play-down.png");
+    -fx-background-size: cover;
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+.choice-box{
+    -fx-font-size: 13pt;
+    -fx-font-family: "Agency FB";
+    -fx-background-image: url("/images/clp_skip_btn.png");
+    -fx-background-color: transparent;
+
+}
+
+.choice-box .context-menu {
+    -fx-background-color: rgba(146, 128, 113, 0.65);
+}
+
+.choice-box .menu-item:focused {
+    -fx-background-color: rgba(81,73,68, 0.8);
+}
+
+.choice-box .menu-item:focused > .label { -fx-text-fill: white; }
+
+.choice-box > .label { -fx-text-fill: white; }
