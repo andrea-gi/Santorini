@@ -11,6 +11,7 @@ import it.polimi.ingsw.PSP034.model.Worker;
 import java.util.ArrayList;
 
 public class RequestAction extends PlayRequest {
+    static final long serialVersionUID = 760277991L;
 
     private final Directions[] possibleMaleDirections;
     private final Directions[] possibleFemaleDirections;

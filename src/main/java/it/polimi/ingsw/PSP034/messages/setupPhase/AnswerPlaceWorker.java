@@ -3,6 +3,8 @@ package it.polimi.ingsw.PSP034.messages.setupPhase;
 import it.polimi.ingsw.PSP034.constants.Sex;
 
 public class AnswerPlaceWorker extends SetupAnswer{
+    static final long serialVersionUID = 909494736165L;
+
     private final int x, y;
     private final Sex sex;
 

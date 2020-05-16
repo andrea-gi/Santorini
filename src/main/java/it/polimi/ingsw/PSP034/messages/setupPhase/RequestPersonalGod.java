@@ -3,6 +3,8 @@ package it.polimi.ingsw.PSP034.messages.setupPhase;
 import java.util.ArrayList;
 
 public class RequestPersonalGod extends SetupRequest{
+    static final long serialVersionUID = 102272495201L;
+
     private final String[] possibleGods;
     private final String[] alreadyChosenGods;
 

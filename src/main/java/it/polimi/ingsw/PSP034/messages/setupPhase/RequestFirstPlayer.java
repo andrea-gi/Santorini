@@ -3,6 +3,8 @@ package it.polimi.ingsw.PSP034.messages.setupPhase;
 import java.util.ArrayList;
 
 public class RequestFirstPlayer extends SetupRequest {
+    static final long serialVersionUID = 50627748491L;
+
     private final String[] players;
 
     public RequestFirstPlayer(ArrayList<String> players){

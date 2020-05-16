@@ -4,6 +4,8 @@ import it.polimi.ingsw.PSP034.constants.Sex;
 import it.polimi.ingsw.PSP034.messages.SlimBoard;
 
 public class RequestPlaceWorker extends SetupRequest{
+    static final long serialVersionUID = 4320999485103L;
+
     private final Sex sex;
     private final SlimBoard slimBoard;
 

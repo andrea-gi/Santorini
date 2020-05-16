@@ -5,6 +5,8 @@ import it.polimi.ingsw.PSP034.constants.Sex;
 import org.jetbrains.annotations.NotNull;
 
 public class AnswerAction extends PlayAnswer{
+    static final long serialVersionUID = 491908580L;
+
     private final Sex workerSex;
     private final Directions direction;
 

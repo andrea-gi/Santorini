@@ -7,6 +7,8 @@ import it.polimi.ingsw.PSP034.messages.ModelUpdate;
 import it.polimi.ingsw.PSP034.model.Board;
 
 public class SlimBoard extends ModelUpdate {
+    static final long serialVersionUID = 357212198304L;
+    
     private final String currentPlayer;
     private final String[] godsList;
     private final String[] playersList;

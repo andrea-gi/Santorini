@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class NextStateInfo implements Serializable {
+    static final long serialVersionUID = 305121031L;
+
     private final TurnPhase nextPhase;
     private final ArrayList<RequiredActions> actions;
 

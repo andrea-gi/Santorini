@@ -3,6 +3,8 @@ package it.polimi.ingsw.PSP034.messages.serverConfiguration;
 import it.polimi.ingsw.PSP034.constants.Color;
 
 public class RequestNameColor extends RequestServerConfig{
+    static final long serialVersionUID = 67577775623L;
+
     private final String[] alreadyChosenNames;
     private final Color[] availableColors;
 
