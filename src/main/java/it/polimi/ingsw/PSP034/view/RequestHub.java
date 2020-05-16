@@ -9,6 +9,10 @@ import it.polimi.ingsw.PSP034.messages.SlimBoard;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.RequestClientConfig;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.RequestIP;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.TitleRequest;
+import it.polimi.ingsw.PSP034.messages.gameOverPhase.GameOverRequest;
+import it.polimi.ingsw.PSP034.messages.gameOverPhase.PersonalDefeatRequest;
+import it.polimi.ingsw.PSP034.messages.gameOverPhase.SingleLoserInfo;
+import it.polimi.ingsw.PSP034.messages.gameOverPhase.WinnerRequest;
 import it.polimi.ingsw.PSP034.messages.playPhase.*;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.RequestNameColor;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.RequestServerConfig;
@@ -39,6 +43,8 @@ public class RequestHub {
             return newSetupRequest((SetupRequest) request);
         else if(request instanceof PlayRequest){
             return newPlayRequest((PlayRequest) request);
+        }else if(request instanceof GameOverRequest) {
+            return newGameOverRequest((GameOverRequest) request);
         }else if(request instanceof SlimBoard){
             SlimBoard slimBoard = (SlimBoard) request;
             ((Table) currScene).updateBoard(slimBoard.getDome(), slimBoard.getBuilding(), slimBoard.getColor(), slimBoard.getSex(), false, slimBoard.getCurrentPlayer());
@@ -255,5 +261,31 @@ public class RequestHub {
 
         //TODO -- decidere se va bene
         return null;
+    }
+
+    private Answer newGameOverRequest(GameOverRequest request){
+        if(request instanceof PersonalDefeatRequest){
+            ((Table) currScene).updateDefeat(((PersonalDefeatRequest) request).getWinner());
+            currScene.show();
+            return null;
+        }
+
+        else if(request instanceof SingleLoserInfo) {
+            ((Table) currScene).updateRemovePlayer(((SingleLoserInfo) request).getLoser());
+            currScene.show();
+            return null;
+        }
+
+        else if(request instanceof WinnerRequest){
+            ((Table) currScene).updateWin(((WinnerRequest) request).getLoser());
+            currScene.show();
+            return null;
+        }
+
+        else{
+        //TODO -- decidere se va bene
+            return null;
+        }
+
     }
 }

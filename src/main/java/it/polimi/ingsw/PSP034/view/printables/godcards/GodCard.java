@@ -24,7 +24,8 @@ public class GodCard extends PrintableObject {
         String godPower = "";
         for(GodDescription god : GodDescription.values()){
             if (godName.equals(god.getName())){
-                godPower = god.getPower();
+                String powerText = god.getPower();
+                godPower = ANSI.bold + powerText.substring(0, powerText.indexOf(':')) + ANSI.reset + powerText.substring(powerText.indexOf(':'));
                 break;
             }
         }
@@ -36,7 +37,8 @@ public class GodCard extends PrintableObject {
 
         int start = 0;
         int end = 36;
-        while(end < godPower.length()){
+        int actualLength = godPower.replaceAll("\033\\[[0-9;]+D.*", "").replaceAll("\033\\[[0-9;]+[a-zA-Z]", "").length();
+        while(end < actualLength){
             while(godPower.charAt(end) != ' '){
                 end--;
             }
@@ -44,7 +46,7 @@ public class GodCard extends PrintableObject {
             start = end+1;
             end = start + 36;
         }
-        if(start <= godPower.length()){
+        if(start <= actualLength){
             constructionArray.add(frameColor + "║" + ANSI.reset + "                                      " + frameColor + "║"+ANSI.reset+"\033[38D"+godPower.substring(start));
         }
         constructionArray.add(frameColor + "╚══════════════════════════════════════╝" + ANSI.reset);

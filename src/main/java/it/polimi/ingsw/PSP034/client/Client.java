@@ -55,8 +55,8 @@ public class Client implements Runnable{
     private void closeStreams(){
         try {
             in.close();
-            requestQueue.put(new AutoClose());
-        } catch (IOException | InterruptedException ignored){
+            //requestQueue.put(new AutoClose());
+        } catch (IOException /*| InterruptedException*/ ignored){
         }
     }
 

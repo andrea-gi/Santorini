@@ -56,11 +56,11 @@ public class ClientGameHandler implements Runnable{
         while(true){
             try{
                 Request message = queue.take();
-                if (message instanceof AutoClose) {
+                Answer answer = requestManager.handleRequest(message);
+                if (answer instanceof AutoClose) {
                     setActive(false);
                     closeStream();
                 }
-                Answer answer = requestManager.handleRequest(message);
                 if (answer != null)
                     sendAnswer(answer);
                 // if (message instanceof RequestServerConfig) controllo la tipologia di messaggio ed eventualmente chiudo tutto

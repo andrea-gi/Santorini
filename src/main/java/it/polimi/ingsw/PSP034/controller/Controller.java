@@ -134,8 +134,8 @@ public class Controller implements IController{
                 sendToPlayer(this.getCurrentPlayer().getName(), new RequestStart(new NextStateInfo(TurnPhase.START)));
                 break;
             case GAMEOVER:
-                Player loser = this.getCurrentPlayer();
-                sendToPlayer(loser.getName(), new SendGameOver(loser));
+                //Player loser = this.getCurrentPlayer();
+                //sendToPlayer(loser.getName(), new SendGameOver(loser));
                 //sendToOthers(others, new SendGameOver(loser));
         }
     }

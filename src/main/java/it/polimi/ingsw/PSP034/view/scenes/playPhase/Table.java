@@ -261,6 +261,26 @@ public class Table extends Scene{
         setEmptyRequest();
     }
 
+    public void updateDefeat(String winnerName){
+        //TODO -- scelta tra seguire e non
+        if(winnerName.equals("")){
+            setMessage(new Message("Oh, no! You lost...", -1));
+            requiredAnswer = false;
+        }
+    }
+
+    public void updateRemovePlayer(String loser){
+        //TODO -- colore carta e enter
+        setMessage(new Message(loser + " lost! You are one step closer to victory", -1));
+        requiredAnswer = false;
+    }
+
+    public void updateWin(String loserName){
+        setMessage(new Message("You win!", -1));
+        requiredAnswer = false;
+    }
+
+
     public void updateClearRequest(){
         setEmptyRequest();
     }
