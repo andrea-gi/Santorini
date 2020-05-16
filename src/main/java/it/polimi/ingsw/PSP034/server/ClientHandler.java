@@ -4,6 +4,7 @@ import it.polimi.ingsw.PSP034.constants.Color;
 import it.polimi.ingsw.PSP034.messages.Answer;
 import it.polimi.ingsw.PSP034.messages.ModelUpdate;
 import it.polimi.ingsw.PSP034.messages.Request;
+import it.polimi.ingsw.PSP034.messages.gameOverPhase.PersonalDefeatRequest;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.*;
 import it.polimi.ingsw.PSP034.view.printables.ANSI;
 
@@ -32,6 +33,8 @@ class ClientHandler implements IClientConnection, Runnable{
     private String debugColor = ANSI.reset;
 
     private final BlockingQueue<Request> sendQueue = new ArrayBlockingQueue<>(60);
+
+    private boolean externalViewer = false;
 
 
     /**
@@ -72,6 +75,15 @@ class ClientHandler implements IClientConnection, Runnable{
     }
 
     /**
+     * Synchronously tells if a player is an external viewer of the game (player who has already lost).
+     * @return {@code true} if player is an external viewer
+     */
+    @Override
+    public synchronized boolean isExternalViewer() {
+        return externalViewer;
+    }
+
+    /**
      * Sends a synchronous {@link Request} message through the {@link ObjectOutputStream} associated
      * to the socket.
      */
@@ -98,6 +110,11 @@ class ClientHandler implements IClientConnection, Runnable{
 
     public void asyncSend(Request message){
         sendQueue.offer(message);
+        if (message instanceof PersonalDefeatRequest){
+            synchronized (this){
+                externalViewer = true;
+            }
+        }
     }
 
     /**

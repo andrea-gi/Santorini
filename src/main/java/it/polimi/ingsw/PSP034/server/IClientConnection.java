@@ -42,4 +42,10 @@ public interface IClientConnection extends ModelObserver {
      * @return Player color
      */
     String getDebugColor();
+
+    /**
+     * Synchronously tells if a player is an external viewer of the game (player who has already lost).
+     * @return {@code true} if player is an external viewer
+     */
+    boolean isExternalViewer();
 }

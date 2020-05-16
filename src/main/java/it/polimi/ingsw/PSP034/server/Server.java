@@ -188,7 +188,11 @@ public class Server implements Runnable{
                 waitingConnections.remove(connection);
             }
         } else if (activeConnections.contains(connection)){
-            // TODO
+            if (connection.isExternalViewer())
+                connection.closeConnection();
+            else{
+                //TODO
+            }
         }
     }
 

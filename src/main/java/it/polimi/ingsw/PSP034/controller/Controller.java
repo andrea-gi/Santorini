@@ -4,8 +4,7 @@ import it.polimi.ingsw.PSP034.constants.GamePhase;
 import it.polimi.ingsw.PSP034.constants.Sex;
 import it.polimi.ingsw.PSP034.constants.TurnPhase;
 import it.polimi.ingsw.PSP034.messages.SlimBoard;
-import it.polimi.ingsw.PSP034.messages.gameOverPhase.GameOverAnswer;
-import it.polimi.ingsw.PSP034.messages.gameOverPhase.SendGameOver;
+import it.polimi.ingsw.PSP034.messages.gameOverPhase.*;
 import it.polimi.ingsw.PSP034.messages.playPhase.NextStateInfo;
 import it.polimi.ingsw.PSP034.messages.playPhase.PlayAnswer;
 import it.polimi.ingsw.PSP034.messages.playPhase.RequestStart;
@@ -172,13 +171,22 @@ public class Controller implements IController{
     }
 
 
+
     boolean isGameOver(){
         Player toBeDeletedPlayer = currentGame.loser();
         if(toBeDeletedPlayer != null) {
             if (currentGame.getPlayerNumber() == 2){
+                String loser = toBeDeletedPlayer.getName();
+                int indexLoser = currentGame.getPlayersName().indexOf(toBeDeletedPlayer.getName());
+                String winner = currentGame.getPlayersName().get((indexLoser + 1)% 2);
+
+                sendToPlayer(loser, new PersonalDefeatRequest(winner));
+                sendToPlayer(winner, new WinnerRequest(loser));
                 return true;
             }
             else{
+                sendToPlayer(toBeDeletedPlayer.getName(), new PersonalDefeatRequest("")); // empty string --> no winner
+                sendToAllExcept(toBeDeletedPlayer.getName(), new SingleLoserInfo(toBeDeletedPlayer.getName(), toBeDeletedPlayer.getColor()));
                 currentGame.removePlayer(toBeDeletedPlayer);
             }
         }

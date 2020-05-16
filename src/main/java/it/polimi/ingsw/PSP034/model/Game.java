@@ -172,7 +172,6 @@ public class Game extends ModelObservable {
             setNextPlayer();
         player.getWorker(Sex.MALE).getMyTile().setWorker(null);
         player.getWorker(Sex.FEMALE).getMyTile().setWorker(null);
-        //TODO -- chiudere la connessione e cose
         removeGod(player);
         players.remove(player);
         notifyObservers(generateSlimBoard()); // Notify all model observers

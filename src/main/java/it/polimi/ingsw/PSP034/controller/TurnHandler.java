@@ -1,6 +1,8 @@
 package it.polimi.ingsw.PSP034.controller;
 
 import it.polimi.ingsw.PSP034.constants.*;
+import it.polimi.ingsw.PSP034.messages.gameOverPhase.PersonalDefeatRequest;
+import it.polimi.ingsw.PSP034.messages.gameOverPhase.WinnerRequest;
 import it.polimi.ingsw.PSP034.messages.playPhase.*;
 import it.polimi.ingsw.PSP034.model.IStateManager;
 import it.polimi.ingsw.PSP034.model.Player;
@@ -67,8 +69,8 @@ public class TurnHandler {
                 break;
                 //TODO--WIN & GAMEOVER
             case WIN:
-                player.setHasWon(true);
-                // TODO -- GESTIONE AL CONTROLLER
+                controller.sendToPlayer(player.getName(), new WinnerRequest(""));
+                controller.sendToAllExcept(player.getName(), new PersonalDefeatRequest(player.getName()));
                 break;
             case GAMEOVER:
                 player.setHasLost(true);
@@ -78,6 +80,7 @@ public class TurnHandler {
                     setPreviousTurnPhase(TurnPhase.START);
                     //Next player already set by controller
                     setCurrentGod(controller.getCurrentGod());
+
                     controller.sendToPlayer(controller.getCurrentPlayer().getName(), new RequestStart(new NextStateInfo(TurnPhase.START)));
                 }
                 else{
@@ -85,9 +88,6 @@ public class TurnHandler {
                     controller.handleGamePhase();
                 }
                 break;
-
-        // TODO -- Invia a tutti il turno corrente (chi sta giocando ecc)
-        //sendToPlayer(player, Messaggio)
         }
     }
 
