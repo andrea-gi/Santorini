@@ -173,7 +173,7 @@ public class Table extends Scene{
         setQuestion(new Dialog("Select the tiles your worker will start from:", -1,5, options));
 
         String workerSex = worker.name().substring(0,1).toUpperCase() + worker.name().substring(1).toLowerCase();
-        setAnswer(new Message( workerSex + "Worker :" , -1));
+        setAnswer(new Message( workerSex + " Worker :" , -1));
 
         regex = new ArrayList<>();
         StringBuilder rule;
@@ -265,6 +265,9 @@ public class Table extends Scene{
         //TODO -- scelta tra seguire e non
         if(winnerName.equals("")){
             setMessage(new Message("Oh, no! You lost...", -1));
+            requiredAnswer = false;
+        }else{
+            setMessage(new Message("Oh, no! " + winnerName + " won...", -1));
             requiredAnswer = false;
         }
     }
