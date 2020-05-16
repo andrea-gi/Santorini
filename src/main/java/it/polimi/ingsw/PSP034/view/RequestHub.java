@@ -187,7 +187,8 @@ public class RequestHub {
             for (int actionIndex = 0; actionIndex < actions.length; actionIndex++) {
                 switch (actions[actionIndex]) {
                     case REQUEST_WORKER:
-                        ((Table) currScene).updateSelectWorker();
+                        String nextAction = actions[actionIndex] == RequiredActions.REQUEST_MOVE ? "move" : "build";
+                        ((Table) currScene).updateSelectWorker(nextAction);
                         answers[0] = currScene.show();
                         requiredSex = answers[0].equals("1") ? Sex.MALE : Sex.FEMALE;
                         hasChoice = true;

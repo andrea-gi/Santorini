@@ -50,7 +50,7 @@ public class Dialog extends PrintableObject {
             optionColumns = this.options.size()/optionsRows;
 
 
-        for(int row = 1; row <= optionsRows; row++){
+        for(int row = 1; row <= Math.min(optionsRows, options.length); row++){
             String line = "";
             int index = row;
             line += index + " - " + this.options.get(index - 1);

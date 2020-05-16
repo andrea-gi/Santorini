@@ -173,8 +173,8 @@ public class Table extends Scene{
         regex.add(new RegexCondition(rule.toString(), "Invalid selection."));
     }
 
-    public void updateSelectWorker() {
-        setQuestion(new Dialog("Select which Worker you want to move:", -1, 1, "Male (" + Sex.MALE.toString() + ")", "Female (" + Sex.FEMALE.toString() + ")"));
+    public void updateSelectWorker(String action) {
+        setQuestion(new Dialog("Select which Worker you want to " + action + ":", -1, 1, "Male (" + Sex.MALE.toString() + ")", "Female (" + Sex.FEMALE.toString() + ")"));
 
         setAnswer(new Message("Your choice :", -1));
 
