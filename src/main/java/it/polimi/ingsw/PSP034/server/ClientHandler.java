@@ -12,6 +12,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Random;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 /**
  * Manages the server socket connection to a single client.
@@ -28,6 +30,8 @@ class ClientHandler implements IClientConnection, Runnable{
     private boolean firstConnected;
     private String playerName;
     private String debugColor = ANSI.reset;
+
+    private final BlockingQueue<Request> sendQueue = new ArrayBlockingQueue<>(60);
 
 
     /**
@@ -70,28 +74,30 @@ class ClientHandler implements IClientConnection, Runnable{
     /**
      * Sends a synchronous {@link Request} message through the {@link ObjectOutputStream} associated
      * to the socket.
-     * @param message {@link java.io.Serializable} message being sent
      */
-    private synchronized void send(Request message){
-        try{
-            if (!isActive()) {
-                server.printInfoConsole("Connection to "+ debugColor + this.playerName+ ANSI.reset +
-                        " has already been closed. Cannot send: " + message.getClass().getSimpleName());
-                return;
+    private void send(){
+        while (isActive()) {
+            try {
+                Request message = sendQueue.take();
+                if (!isActive()) {
+                    server.printInfoConsole("Connection to " + debugColor + this.playerName + ANSI.reset +
+                            " has already been closed. Cannot send: " + message.getClass().getSimpleName());
+                    return;
+                }
+                out.reset();
+                out.writeObject(message);
+                out.flush();
+                server.printInfoConsole(ANSI.FG_bright_green + "Sent message: " + ANSI.reset +
+                        message.getClass().getSimpleName() + " to " + debugColor + this.playerName + ANSI.reset);
+            } catch (IOException | InterruptedException e) {
+                // TODO -- disconnetto
+                close();
             }
-            out.reset();
-            out.writeObject(message);
-            out.flush();
-            server.printInfoConsole(ANSI.FG_bright_green + "Sent message: " + ANSI.reset +
-                    message.getClass().getSimpleName() + " to " + debugColor + this.playerName+ ANSI.reset);
-        } catch (IOException e){
-            // TODO -- disconnetto
-            e.printStackTrace();
         }
     }
 
     public void asyncSend(Request message){
-        new Thread(() -> send(message)).start();
+        sendQueue.offer(message);
     }
 
     /**
@@ -104,14 +110,15 @@ class ClientHandler implements IClientConnection, Runnable{
         try {
             in = new ObjectInputStream(socket.getInputStream());
             out = new ObjectOutputStream(socket.getOutputStream());
+            new Thread(this::send).start();
         } catch (IOException e) {
             System.err.println("Cannot open input/output stream.");
             close();
         }
         if (firstConnected)
-            send(new RequestServerConfig(ServerInfo.REQUEST_PLAYER_NUMBER));
+            sendQueue.offer(new RequestServerConfig(ServerInfo.REQUEST_PLAYER_NUMBER));
         else {
-            send(new RequestServerConfig(ServerInfo.LOBBY));
+            sendQueue.offer(new RequestServerConfig(ServerInfo.LOBBY));
             server.checkAndBeginSetup();
         }
         while(isActive()){
