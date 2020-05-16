@@ -7,6 +7,7 @@ import java.util.ArrayList;
  */
 public class Font extends PrintableObject{
     private final ArrayList<String[]> formattedString;
+    private final String text;
 
     /**
      *Initializes a Font object
@@ -14,6 +15,7 @@ public class Font extends PrintableObject{
      */
     public Font(String string){
         super();
+        text = string;
         formattedString = new ArrayList<>();
         for(int i = 0; i < string.length(); i++){
             formatCharacter(string.charAt(i));
@@ -26,6 +28,10 @@ public class Font extends PrintableObject{
             }
             super.setObjectLine(line, text.toString());
         }
+    }
+
+    public String getText(){
+        return text;
     }
 
     /**

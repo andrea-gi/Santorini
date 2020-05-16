@@ -39,7 +39,7 @@ public class Table extends Scene{
     boolean requiredAnswer;
 
 
-    public Table(String[] gods, String[] players, Color[] colors){
+    public Table(String[] gods, String[] players, Color[] colors, String currentPlayer){
         all = new VerticalArrangement();
 
         title = new Font("   ");
@@ -91,7 +91,26 @@ public class Table extends Scene{
         regex = null;
 
         requiredAnswer = false;
+
+
+
+
+        initializeWorkersSetup(currentPlayer);
     }
+
+
+    private void initializeWorkersSetup(String currentPlayer){
+        setTitle("Workers setup");
+        String message = currentPlayer + " is placing his workers";
+        setMessage(new Message(message, -1));
+    }
+
+
+
+
+
+
+
 
     @Override
     public String show() {
@@ -113,7 +132,7 @@ public class Table extends Scene{
 
     public void updateBoard(boolean[][] dome, int[][] building, Color[][] color, Sex[][] sex, boolean showNumbers, String currentPlayer){
         if(currentPlayer != null) {
-            if(!title.equals(new Font("your turn")))
+            if(!title.getText().equals("your turn"))
                 setTitle(currentPlayer + "'s turn");
         }
 

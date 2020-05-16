@@ -168,7 +168,7 @@ public class RequestHub {
 
         else if(request instanceof InitializeBoard){
             SlimBoard slimBoard = ((InitializeBoard) request).getSlimBoard();
-            currScene = new Table(slimBoard.getGodsList(), slimBoard.getPlayersList(), slimBoard.getColorsList());
+            currScene = new Table(slimBoard.getGodsList(), slimBoard.getPlayersList(), slimBoard.getColorsList(), slimBoard.getCurrentPlayer());
             currScene.show();
             return null;
         }
@@ -248,7 +248,7 @@ public class RequestHub {
         }
 
         else if(request instanceof RequestEnd){
-            ((Table) currScene).updateClearRequest();
+            ((Table) currScene).updateEnd();
             currScene.show();
             return null;
         }
