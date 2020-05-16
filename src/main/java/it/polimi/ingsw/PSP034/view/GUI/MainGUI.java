@@ -10,12 +10,14 @@ public class MainGUI extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("/login.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/title.fxml"));
+
         primaryStage.setTitle("Santorini");
+        primaryStage.setResizable(false);
 
         primaryStage.setScene(new Scene(root));
+        root.getStylesheets().add("/style.css");
         primaryStage.show();
-
     }
 
 

@@ -12,14 +12,16 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.stage.Screen;
 
 import java.io.File;
 
 
 public class LoginController {
-    File file = new File("..\\ing-sw-2020-giarduz-grosso-guerrieri\\src\\main\\santorini.jpg");
+    File file = new File("src\\main\\resources\\images\\santorini.jpg");
     Image image = new Image(file.toURI().toString());
     ObservableList<String> colorChoices = FXCollections.observableArrayList("White", "Grey", "Blue");
+    ImageView imageViewBackground = new ImageView();
 
     @FXML
     private Pane pane;
@@ -54,6 +56,8 @@ public class LoginController {
 
     @FXML
     private void initialize(){
+        imageViewBackground.setFitWidth(Screen.getPrimary().getVisualBounds().getWidth());
+        imageViewBackground.setFitHeight(Screen.getPrimary().getVisualBounds().getHeight());
         notValid = true;
         chooseColor.setValue("");
         chooseColor.setItems(colorChoices);
@@ -77,6 +81,8 @@ public class LoginController {
     public void setSubmit(ActionEvent e){
         System.out.println(getEnterName());
         System.out.println(chooseColor.getValue());
+        submit.setDisable(true);
+        submit.setText("SUBMITTED!");
     }
 
 }

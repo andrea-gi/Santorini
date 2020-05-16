@@ -5,7 +5,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="629.0" style="-fx-background-color: #12c5fc;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="629.0" style="-fx-background-color: #12c5fc;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP034.view.GUI.TitleController">
    <children>
       <ImageView fitHeight="400.0" fitWidth="273.0" layoutX="-117.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -17,21 +17,21 @@
             <Image url="@../../../../../../Downloads/bg_panelEdgeLeftRight.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="126.0" fitWidth="299.0" layoutX="158.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="126.0" fitWidth="299.0" layoutX="158.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/ps_unlock_all.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="205.0" fitWidth="188.0" layoutX="217.0" layoutY="63.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="205.0" fitWidth="188.0" layoutX="217.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/title_island.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="96.0" fitWidth="229.0" layoutX="193.0" layoutY="223.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="santoriniLogo" fitHeight="96.0" fitWidth="229.0" layoutX="193.0" layoutY="164.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/santorini.jpg" />
          </image>
       </ImageView>
-      <Button fx:id="buttonPlay" layoutX="289.0" layoutY="327.0" mnemonicParsing="false" text="Button" />
+      <Button fx:id="play" layoutX="246.0" layoutY="243.0" mnemonicParsing="false" onAction="#setPlay" prefHeight="151.0" prefWidth="134.0" />
    </children>
 </AnchorPane>

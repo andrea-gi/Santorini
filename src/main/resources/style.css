@@ -6,6 +6,12 @@
     -fx-background-color: rgb(186, 182, 178);
 }
 
+.label {
+    -fx-font-size: 17pt;
+    -fx-font-family: "Agency FB";
+    -fx-font-weight: bold;
+}
+
 .button{
     -fx-background-image: url("/images/btn_blue.png");
     -fx-background-size: cover;
@@ -24,7 +30,7 @@
     -fx-text-fill: rgb(255, 255, 255);
 }
 
-.buttonPlay{
+#buttonPlay{
     -fx-background-image: url("/images/button_play_normal.png");
     -fx-background-size: cover;
     -fx-background-color: transparent;
@@ -32,8 +38,8 @@
     -fx-background-position: center;
 }
 
-.buttonPlay:pressed{
-    -fx-background-image: url("/images/button-play-down.png");
+#buttonPlay:pressed{
+    -fx-background-image: url("/images/button_play_down.png");
     -fx-background-size: cover;
     -fx-background-color: transparent;
     -fx-background-repeat: no-repeat;
