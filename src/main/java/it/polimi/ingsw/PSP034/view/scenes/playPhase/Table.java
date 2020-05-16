@@ -289,7 +289,7 @@ public class Table extends Scene{
         message.setVisible(true);
         request.insertObject(pos, message);
         emptyRequest.setVisible(false);
-        request.setVisible(false);
+        question.setVisible(false);
     }
 
     private void setEmptyRequest(){
