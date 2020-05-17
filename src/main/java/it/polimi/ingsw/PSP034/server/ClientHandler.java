@@ -36,6 +36,8 @@ class ClientHandler implements IClientConnection, Runnable{
 
     private boolean externalViewer = false;
 
+    private final static ServerLogger logger = ServerLogger.getInstance();
+
 
     /**
      * Creates a new ClientHandler instance with the given parameters.
@@ -46,7 +48,7 @@ class ClientHandler implements IClientConnection, Runnable{
      */
     public ClientHandler(Socket socket, Server server, boolean firstConnected){
         Random randGenID = new Random();
-        this.playerName = String.valueOf(randGenID.nextInt());
+        this.playerName = String.valueOf(randGenID.nextInt(Integer.MAX_VALUE));
         this.socket = socket;
         this.server = server;
         this.firstConnected = firstConnected;
@@ -92,15 +94,14 @@ class ClientHandler implements IClientConnection, Runnable{
             try {
                 Request message = sendQueue.take();
                 if (!isActive()) {
-                    server.printInfoConsole("Connection to " + debugColor + this.playerName + ANSI.reset +
+                    logger.printString("Connection to " + debugColor + this.playerName + ANSI.reset +
                             " has already been closed. Cannot send: " + message.getClass().getSimpleName());
                     return;
                 }
                 out.reset();
                 out.writeObject(message);
                 out.flush();
-                server.printInfoConsole(ANSI.FG_bright_green + "Sent message: " + ANSI.reset +
-                        message.getClass().getSimpleName() + " to " + debugColor + this.playerName + ANSI.reset);
+                logger.printRequestMessage(message, this.playerName, this.debugColor);
             } catch (IOException | InterruptedException e) {
                 // TODO -- disconnetto
                 close();
@@ -167,9 +168,9 @@ class ClientHandler implements IClientConnection, Runnable{
 
     private void close(){
         closeConnection();
-        server.printInfoConsole("Deregistering: " + debugColor + playerName + ANSI.reset);
+        logger.printString("Deregistering: " + debugColor + playerName + ANSI.reset);
         server.deregisterConnection(this);
-        server.printInfoConsole(debugColor + playerName + ANSI.reset + " deregistered successfully.");
+        logger.printString(debugColor + playerName + ANSI.reset + " deregistered successfully.");
     }
 
     @Override
@@ -184,21 +185,7 @@ class ClientHandler implements IClientConnection, Runnable{
 
     @Override
     public void setDebugColor(Color color) {
-        String colorANSI;
-        switch(color){
-            case MAGENTA:
-                colorANSI = ANSI.FG_green;
-                break;
-            case BLUE:
-                colorANSI = ANSI.FG_blue;
-                break;
-            case RED:
-                colorANSI = ANSI.FG_red;
-                break;
-            default:
-                colorANSI = ANSI.reset;
-        }
-        this.debugColor = colorANSI;
+        this.debugColor = color.getFG_color();
     }
 
     @Override

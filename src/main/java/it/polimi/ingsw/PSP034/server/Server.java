@@ -56,10 +56,11 @@ public class Server implements Runnable{
 
     private final IController controller;
 
-    private final BlockingQueue<AnswerEncapsulated> queue = new ArrayBlockingQueue<>(16);
+    private final BlockingQueue<AnswerEncapsulated> queue = new ArrayBlockingQueue<>(60);
 
-    private final Object consoleLock = new Object();
     private final Object firstConnectionLock = new Object();
+
+    private final ServerLogger logger = ServerLogger.getInstance();
 
     /**
      * Instantiates a new server listening to a given port. It also creates a new {@link IController}.
@@ -67,6 +68,7 @@ public class Server implements Runnable{
      */
     public Server(int port){
         IController temporaryController;
+        this.logger.setPrintStreams(System.out);
         try {
             this.port = port;
             this.serverSocket = new ServerSocket(port);
@@ -222,7 +224,7 @@ public class Server implements Runnable{
                         }
                     }
                     executor.submit(socketConnection);
-                    printInfoConsole("Added new player, temporary ID is: " + socketConnection.getName());
+                    logger.printString("Added new player, temporary ID is: " + socketConnection.getName());
                 } catch (IOException e) {
                     System.err.println("Connection Error!");
                     e.printStackTrace();
@@ -241,8 +243,15 @@ public class Server implements Runnable{
         queue.offer(new AnswerEncapsulated(message, connection));
     }
 
+    /**
+     * Tries to register a new player, given unique name and color.
+     * @param connection Connection to be registered
+     * @param name Player name
+     * @param color Player color
+     * @return {@code true} if registered successfully, {@code false} otherwise (caused by already existing name or color)
+     */
     private synchronized boolean registerPlayer(IClientConnection connection, String name, Color color){
-        printInfoConsole(connection.getName() + " wants to register as " + name + ", using "
+        logger.printString(connection.getName() + " wants to register as " + name + ", using "
                 + connection.getDebugColor() + color + ANSI.reset +" workers.");
         if (!chosenNames.contains(name) && !chosenColors.contains(color)) {
             controller.addPlayer(name, color);
@@ -250,7 +259,7 @@ public class Server implements Runnable{
             chosenColors.add(color);
             connection.setName(name);
             connection.setDebugColor(color);
-            printInfoConsole("Successfully registered "+name+", using "+color+" workers.");
+            logger.printString("Successfully registered "+name+", using "+color+" workers.");
 
             int indexPlayer = activeConnections.indexOf(connection);
             if (indexPlayer < getChosenPlayerNumber() - 1) {
@@ -262,7 +271,7 @@ public class Server implements Runnable{
             }
             return true;
         }
-        printInfoConsole("Either the name or color requested were not available.");
+        logger.printString("Either the name or color requested were not available.");
         return false;
     }
 
@@ -274,8 +283,7 @@ public class Server implements Runnable{
      * @param connection Message sender
      */
     private synchronized void manageMessage(Answer message, IClientConnection connection){
-        printInfoConsole(ANSI.FG_bright_blue + "Received: " + ANSI.reset + message.getClass().getSimpleName()
-                + " by: " + connection.getDebugColor() + connection.getName() + ANSI.reset);
+        logger.printAnswerMessage(message, connection);
 
         if (message instanceof AnswerServerConfig){
             manageServerConfig((AnswerServerConfig) message, connection);
@@ -324,21 +332,11 @@ public class Server implements Runnable{
         }
     }
 
-    /**
-     * Prints synchronously a debug info in the console.
-     * @param string Info to be printed
-     */
-    protected void printInfoConsole(String string){
-        synchronized (consoleLock){
-            System.out.println(string);
-        }
-    }
-
 
     @Override
     public void run() {
         acceptConnections();
-        printInfoConsole("Server started. Listening to socket connections on port: " + port);
+        logger.printString("Server started. Listening to socket connections on port: " + port);
         AnswerEncapsulated message;
         while(true){
             try {

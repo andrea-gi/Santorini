@@ -6,6 +6,8 @@ import it.polimi.ingsw.PSP034.messages.SlimBoard;
 import it.polimi.ingsw.PSP034.model.gods.*;
 import it.polimi.ingsw.PSP034.observer.ModelObservable;
 import it.polimi.ingsw.PSP034.observer.ModelObserver;
+import it.polimi.ingsw.PSP034.server.ServerLogger;
+import it.polimi.ingsw.PSP034.view.printables.ANSI;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -159,6 +161,8 @@ public class Game extends ModelObservable {
         int index = players.indexOf(currentPlayer);
         int nextIndex = ((index + 1) % players.size());
         setCurrentPlayer(players.get(nextIndex));
+        ServerLogger.getInstance().printString(ANSI.underline + "Changed current player to: " + currentPlayer.getColor().getFG_color()+
+                currentPlayer.getName() + ANSI.reset);
     }
 
     public void setRandomPlayer(){
