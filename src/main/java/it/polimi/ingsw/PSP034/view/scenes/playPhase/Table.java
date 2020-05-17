@@ -4,11 +4,12 @@ import it.polimi.ingsw.PSP034.constants.Color;
 import it.polimi.ingsw.PSP034.constants.Constant;
 import it.polimi.ingsw.PSP034.constants.Directions;
 import it.polimi.ingsw.PSP034.constants.Sex;
+import it.polimi.ingsw.PSP034.model.Player;
 import it.polimi.ingsw.PSP034.view.printables.*;
 import it.polimi.ingsw.PSP034.view.printables.arrangements.HorizontalArrangement;
 import it.polimi.ingsw.PSP034.view.printables.arrangements.VerticalArrangement;
-import it.polimi.ingsw.PSP034.view.printables.godcards.GodCard;
 import it.polimi.ingsw.PSP034.view.scenes.Scene;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -101,7 +102,7 @@ public class Table extends Scene{
 
     private void initializeWorkersSetup(String currentPlayer){
         setTitle("Workers setup");
-        String message = currentPlayer + " is placing his workers";
+        String message = currentPlayer + " is placing Workers";
         setMessage(new Message(message, -1));
     }
 
@@ -261,26 +262,99 @@ public class Table extends Scene{
         setEmptyRequest();
     }
 
-    public void updateDefeat(String winnerName){
-        //TODO -- scelta tra seguire e non
+    public void updateDefeat(@NotNull String winnerName, @NotNull String[] losersNames) throws NullPointerException{
         if(winnerName.equals("")){
+            Color loserColor = null;
+            for(PlayerBox card : cards){
+                if(card.getPlayerName().equals(losersNames[0])){
+                    loserColor = card.getColor();
+                    PlayerBox newCard = new PlayerBox(card.getPlayerName(), card.getGodName(), null);
+                    changeCard(card, newCard);
+                }
+            }
+
+            LoserDrawing loserDrawing;
+            if(loserColor != null)
+                loserDrawing = new LoserDrawing(loserColor);
+            else
+                throw new NullPointerException(losersNames[0] + "can't loose as there's no such player still playing");
+            request.insertObject(request.getObjects().indexOf(message), loserDrawing);
+
             setMessage(new Message("Oh, no! You lost...", -1));
-            requiredAnswer = false;
+            setQuestion(new Dialog("Do you want to exit the game or keep watching?", -1, 1, "Exit", "Keep watching"));
+
         }else{
+            Color[] loserColors = new Color[losersNames.length];
+            Color winnerColor = null;
+            for(PlayerBox card : cards){
+                if(card.getPlayerName().equals(winnerName))
+                    winnerColor = card.getColor();
+                else{
+                    for(int i = 0; i < losersNames.length; i++){
+                        if(card.getPlayerName().equals(losersNames[i]))
+                            loserColors[i] = card.getColor();
+                    }
+                }
+            }
+            OtherWinnerDrawing drawing;
+
+            for(int i = 0; i < loserColors.length; i++){
+                if(loserColors[i] == null)
+                    throw new NullPointerException(losersNames[i] + "can't loose as there's no such player still playing");
+            }
+            if(winnerColor == null)
+                throw new NullPointerException(winnerName + "can't win as there's no such player still playing");
+
+            drawing = new OtherWinnerDrawing(winnerColor, loserColors);
+
+            request.insertObject(request.getObjects().indexOf(message), drawing);
             setMessage(new Message("Oh, no! " + winnerName + " won...", -1));
-            requiredAnswer = false;
+            setQuestion(new Dialog("Do you want to exit the game or play again?", -1, 1, "Exit", "Play again"));
+
         }
+        message.setVisible(true);
+        setAnswer(new Message("Your choice", -1));
+        regex = new ArrayList<>();
+        regex.add(new RegexCondition("^[1-2]$", "Invalid selection"));
     }
 
-    public void updateRemovePlayer(String loser){
-        //TODO -- colore carta e enter
-        setMessage(new Message(loser + " lost! You are one step closer to victory", -1));
-        requiredAnswer = false;
+    public void updateRemovePlayer(String loser) throws NullPointerException{
+        Color loserColor = null;
+        for(PlayerBox card : cards){
+            if(card.getPlayerName().equals(loser)){
+                PlayerBox newCard = new PlayerBox(card.getPlayerName(), card.getGodName(), null);
+                changeCard(card, newCard);
+            }
+        }
+        if(loser == null)
+            throw new NullPointerException(loser + " can't loose as there is no such player still playing");
+
+        setMessage(new Message(loser + " lost! You are one step closer to victory!", -1));
+
+        setAnswer(new Message("Enter to continue", -1));
+        requiredAnswer = true;
+        regex = null;
     }
 
-    public void updateWin(String loserName){
-        setMessage(new Message("You win!", -1));
-        requiredAnswer = false;
+    public void updateWin(String winnerName) throws NullPointerException{
+        Color winnerColor = null;
+        for(PlayerBox card : cards){
+            if(card.getPlayerName().equals(winnerName)){
+                winnerColor = card.getColor();
+            }
+        }
+        if(winnerColor == null)
+            throw new NullPointerException(winnerName + " can't win as there is no such player still playing");
+
+        WinnerDrawing drawing = new WinnerDrawing(winnerColor);
+        request.insertObject(request.getObjects().indexOf(message), drawing);
+        setMessage(new Message("YAY! YOU WIN!", -1));
+        setQuestion(new Dialog("Do you want to exit the game or play again?", -1, 1, "Exit", "Play again"));
+        message.setVisible(true);
+
+        setAnswer(new Message("Your choice", -1));
+        regex = new ArrayList<>();
+        regex.add(new RegexCondition("^[1-2]$", "Invalid selection"));
     }
 
 
@@ -355,5 +429,12 @@ public class Table extends Scene{
             }
         }
         return options;
+    }
+
+    private void changeCard(PlayerBox oldCard, PlayerBox newCard){
+        int pos = alignedCards.getObjects().indexOf(oldCard);
+        alignedCards.removeObjects(oldCard);
+        oldCard = newCard;
+        alignedCards.insertObject(pos, oldCard);
     }
 }

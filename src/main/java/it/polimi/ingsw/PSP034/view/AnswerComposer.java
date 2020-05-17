@@ -8,8 +8,11 @@ import it.polimi.ingsw.PSP034.messages.Answer;
 import it.polimi.ingsw.PSP034.messages.Request;
 import it.polimi.ingsw.PSP034.messages.SlimBoard;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.AnswerIP;
+import it.polimi.ingsw.PSP034.messages.clientConfiguration.AutoClose;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.RequestClientConfig;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.RequestIP;
+import it.polimi.ingsw.PSP034.messages.gameOverPhase.AnswerGameOver;
+import it.polimi.ingsw.PSP034.messages.gameOverPhase.PersonalDefeatRequest;
 import it.polimi.ingsw.PSP034.messages.playPhase.*;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.AnswerNameColor;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.AnswerNumber;
@@ -118,6 +121,17 @@ public class AnswerComposer {
             boolean choice = params[0].equals("1");
             answer = new AnswerBooleanChoice(choice);
         }
+        return answer;
+    }
+
+    private Answer answerGameOver(String...params){
+        if(request instanceof PersonalDefeatRequest){
+            if(params[0].equals("1"))
+                answer = new AutoClose();
+            else if(params[0].equals("2"))
+                answer = new AnswerGameOver(true);
+        }
+        //TODO -- finire risposte;
         return answer;
     }
 }

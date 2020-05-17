@@ -9,11 +9,10 @@ import it.polimi.ingsw.PSP034.view.printables.arrangements.VerticalArrangement;
  * This class is the prototype that has to be extended by avery scene the composes the game. The variables that contain the dimensions of the frame are defined here.
  */
 public abstract class Scene {
-    private final int FRAME_WIDTH = 192;
-    private final int FRAME_HEIGHT = 31;
-    private final int FRAME_START_LINE = 4;
-    private final int FRAME_START_COLUMN = 18;
-    private VerticalArrangement mainVA;
+    private final int FRAME_WIDTH = 198;
+    private final int FRAME_HEIGHT = 40;
+    private final int FRAME_START_LINE = 6;
+    private final int FRAME_START_COLUMN = 16;
 
     public int getFrameWidth() {
         return FRAME_WIDTH;
@@ -44,7 +43,7 @@ public abstract class Scene {
         for(PrintableObject object : objects){
             totalHeight += object.getHeight();
         }
-        mainVA = new VerticalArrangement();
+        VerticalArrangement mainVA = new VerticalArrangement();
         if(getFrameHeight()-totalHeight >= 0) {
             Spacer spacerUP = new Spacer(getFrameWidth(), (getFrameHeight() - totalHeight) / 2);
             Spacer spacerDOWN = new Spacer(getFrameWidth(), getFrameHeight() - totalHeight - spacerUP.getHeight());

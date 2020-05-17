@@ -23,31 +23,44 @@ public class PlayerBox extends PrintableObject{
                 break;
             }
         }
-        this. color = color;
+        this.color = color;
         constructionArray = new ArrayList<>();
 
-        constructionArray.add(color.getBG_color()+"╔══════════════════════════════════════╗"+ANSI.reset);
-        constructionArray.add(color.getBG_color()+"║"+ANSI.reset+"                                      "+color.getBG_color()+"║"+ANSI.reset+"\033["+((40+playerName.length())/2)+"D"+playerName);
-        constructionArray.add(color.getBG_color()+"╠══════════════════════════════════════╣"+ANSI.reset);
-        constructionArray.add(color.getBG_color()+"║"+ANSI.reset+"                                      "+color.getBG_color()+"║"+ANSI.reset+"\033["+((40+godName.length())/2)+"D"+godName);
-        constructionArray.add(color.getBG_color()+"╟"+ANSI.reset+"──────────────────────────────────────"+color.getBG_color()+"╢"+ANSI.reset);
+        String BG_color = this.color != null? color.getBG_color() : ANSI.reset;
+        constructionArray.add(BG_color+"╔══════════════════════════════════════╗"+ANSI.reset);
+        constructionArray.add(BG_color+"║"+ANSI.reset+"                                      "+BG_color+"║"+ANSI.reset+"\033["+((40+playerName.length())/2)+"D"+playerName);
+        constructionArray.add(BG_color+"╠══════════════════════════════════════╣"+ANSI.reset);
+        constructionArray.add(BG_color+"║"+ANSI.reset+"                                      "+BG_color+"║"+ANSI.reset+"\033["+((40+godName.length())/2)+"D"+godName);
+        constructionArray.add(BG_color+"╟"+ANSI.reset+"──────────────────────────────────────"+BG_color+"╢"+ANSI.reset);
         int start = 0;
         int end = 36;
         while(end < godPower.length()){
             while(godPower.charAt(end) != ' '){
                 end--;
             }
-            constructionArray.add(color.getBG_color()+"║"+ANSI.reset+"                                      "+color.getBG_color()+"║"+ANSI.reset+"\033[38D"+godPower.substring(start, end));
+            constructionArray.add(BG_color+"║"+ANSI.reset+"                                      "+BG_color+"║"+ANSI.reset+"\033[38D"+godPower.substring(start, end));
             start = end+1;
             end = start + 36;
         }
         if(start <= godPower.length()){
-            constructionArray.add(color.getBG_color()+"║"+ANSI.reset+"                                      "+color.getBG_color()+"║"+ANSI.reset+"\033[38D"+godPower.substring(start));
+            constructionArray.add(BG_color+"║"+ANSI.reset+"                                      "+BG_color+"║"+ANSI.reset+"\033[38D"+godPower.substring(start));
         }
-        constructionArray.add(color.getBG_color()+"╚══════════════════════════════════════╝"+ANSI.reset);
+        constructionArray.add(BG_color+"╚══════════════════════════════════════╝"+ANSI.reset);
         super.setObjectSize(constructionArray.size());
         for(int i = 0; i<constructionArray.size(); i++){
             super.setObjectLine(i, constructionArray.get(i));
         }
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public String getGodName() {
+        return godName;
+    }
+
+    public Color getColor() {
+        return color;
     }
 }

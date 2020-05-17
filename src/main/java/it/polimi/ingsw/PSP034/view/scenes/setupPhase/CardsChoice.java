@@ -58,9 +58,9 @@ public class CardsChoice extends Scene {
         //TODO -- valutare se fare più regex per i diversi errori
         RegexCondition regex;
         if(playersNumber == 2)
-            regex = new RegexCondition("^(([1-9]|1[0-4]),)((?!\\2)([1-9]|1[0-4]))$", "Invalid selection");
+            regex = new RegexCondition("^(([1-9])|1([0-4])),((?!\\2)[1-9]|1((?!\\3)[0-4]))$", "Invalid selection");
         else
-            regex = new RegexCondition("^(([1-9]|1[0-4]),)(((?!\\2)([1-9]|1[0-4])),)((?!\\2)(?!\\5)([1-9]|1[0-4]))$", "Invalid selection");
+            regex = new RegexCondition("^(([1-9])|1([0-4])),(((?!\\2)[1-9])|(1((?!\\3)[0-4]))),((?!\\2)(?!\\5)[1-9]|1((?!\\3)(?!\\7)[0-4]))$", "Invalid selection");
         return choice.waitAnswer(regex);
     }
 }

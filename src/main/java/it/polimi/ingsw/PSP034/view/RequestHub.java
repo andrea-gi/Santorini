@@ -264,22 +264,26 @@ public class RequestHub {
     }
 
     private Answer newGameOverRequest(GameOverRequest request){
+        String answer;
         if(request instanceof PersonalDefeatRequest){
-            ((Table) currScene).updateDefeat(((PersonalDefeatRequest) request).getWinner());
-            currScene.show();
-            return null;
+            ((Table) currScene).updateDefeat(((PersonalDefeatRequest) request).getWinner(), ((PersonalDefeatRequest) request).getLosers());
+            answer = currScene.show();
+            answerComposer = new AnswerComposer(request);
+            return answerComposer.packetAnswer(answer);
         }
 
         else if(request instanceof SingleLoserInfo) {
             ((Table) currScene).updateRemovePlayer(((SingleLoserInfo) request).getLoser());
-            currScene.show();
-            return null;
+            answer = currScene.show();
+            answerComposer = new AnswerComposer(request);
+            return answerComposer.packetAnswer(answer);
         }
 
         else if(request instanceof WinnerRequest){
             ((Table) currScene).updateWin(((WinnerRequest) request).getLoser());
-            currScene.show();
-            return null;
+            answer = currScene.show();
+            answerComposer = new AnswerComposer(request);
+            return answerComposer.packetAnswer(answer);
         }
 
         else{
