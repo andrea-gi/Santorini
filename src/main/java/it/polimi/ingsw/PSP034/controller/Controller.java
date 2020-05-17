@@ -180,12 +180,12 @@ public class Controller implements IController{
                 int indexLoser = currentGame.getPlayersName().indexOf(toBeDeletedPlayer.getName());
                 String winner = currentGame.getPlayersName().get((indexLoser + 1)% 2);
 
-                sendToPlayer(loser, new PersonalDefeatRequest(winner));
+                sendToPlayer(loser, new PersonalDefeatRequest(winner, loser));
                 sendToPlayer(winner, new WinnerRequest(loser));
                 return true;
             }
             else{
-                sendToPlayer(toBeDeletedPlayer.getName(), new PersonalDefeatRequest("")); // empty string --> no winner
+                sendToPlayer(toBeDeletedPlayer.getName(), new PersonalDefeatRequest("", toBeDeletedPlayer.getName())); // empty string --> no winner
                 sendToAllExcept(toBeDeletedPlayer.getName(), new SingleLoserInfo(toBeDeletedPlayer.getName(), toBeDeletedPlayer.getColor()));
                 currentGame.removePlayer(toBeDeletedPlayer);
             }

@@ -161,9 +161,9 @@ public class ServerLogger {
         if (message instanceof SingleLoserInfo)
             result = result + " (Loser: " + ((SingleLoserInfo) message).getLoser() ;
         else if (message instanceof WinnerRequest)
-            result = result + " (Loser" + ((WinnerRequest) message).getLoser();
+            result = result + " (Loser: " + ((WinnerRequest) message).getLoser();
         else if (message instanceof PersonalDefeatRequest)
-            result = result + " (Winner" + ((PersonalDefeatRequest) message).getWinner();
+            result = result + " (Winner: " + ((PersonalDefeatRequest) message).getWinner() + "; Losers: " + Arrays.toString(((PersonalDefeatRequest) message).getLosers());
 
         return result + ")";
     }

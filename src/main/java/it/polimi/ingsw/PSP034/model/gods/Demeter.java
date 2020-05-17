@@ -37,6 +37,7 @@ public class Demeter extends GodsRules {
                 if (usePower)
                     return new NextStateInfo(TurnPhase.END);
                 else {
+                    usePower = true; // in order to have a correct validBuild
                     if (anyValidBuild(getPlayer().getWorker(getChosenSex())))
                         return new NextStateInfo(TurnPhase.POWER, RequiredActions.REQUEST_POWER);
                     else

@@ -9,6 +9,8 @@ import it.polimi.ingsw.PSP034.model.Player;
 import it.polimi.ingsw.PSP034.model.Tile;
 import it.polimi.ingsw.PSP034.model.Worker;
 
+import java.util.ArrayList;
+
 /**Handles the turn phases for each Player */
 public class TurnHandler {
     private IStateManager currentGod;
@@ -70,7 +72,9 @@ public class TurnHandler {
                 //TODO--WIN & GAMEOVER
             case WIN:
                 controller.sendToPlayer(player.getName(), new WinnerRequest(""));
-                controller.sendToAllExcept(player.getName(), new PersonalDefeatRequest(player.getName()));
+                ArrayList<String> losers = controller.getPlayersName();
+                losers.remove(player.getName());
+                controller.sendToAllExcept(player.getName(), new PersonalDefeatRequest(player.getName(), losers.toArray(new String[0])));
                 break;
             case GAMEOVER:
                 player.setHasLost(true);
