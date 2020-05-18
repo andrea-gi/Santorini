@@ -1,14 +1,20 @@
 .root{
     -fx-font-size: 17pt;
     -fx-font-family: "Agency FB";
+    -fx-text-fill: #9b6029;
     -fx-background-image: url("/images/fg_panel2.png");
     -fx-background-size: cover;
-    -fx-background-color: rgb(186, 182, 178);
+}
+
+#title{
+    -fx-background-image: url("/images/bg_modeselect.png");
+    -fx-background-size: cover;
 }
 
 .label {
     -fx-font-size: 17pt;
     -fx-font-family: "Agency FB";
+    -fx-text-fill: #9b6029;
     -fx-font-weight: bold;
 }
 
@@ -19,6 +25,8 @@
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
     -fx-text-fill: rgb(255, 255, 255);
+    -fx-font-size: 13pt;
+    -fx-font-family: "Agency FB";
 }
 
 .button:pressed{
@@ -28,6 +36,8 @@
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
     -fx-text-fill: rgb(255, 255, 255);
+    -fx-font-size: 13pt;
+    -fx-font-family: "Agency FB";
 }
 
 #buttonPlay{
@@ -62,6 +72,33 @@
     -fx-background-color: rgba(81,73,68, 0.8);
 }
 
-.choice-box .menu-item:focused > .label { -fx-text-fill: white; }
+.choice-box .menu-item:focused > .label {
+    -fx-text-fill: white;
+    -fx-font-weight: normal;
+}
 
-.choice-box > .label { -fx-text-fill: white; }
+.choice-box > .label {
+    -fx-text-fill: white;
+    -fx-font-size: 13;
+}
+
+.radio-button{
+    -fx-font-size: 17pt;
+    -fx-font-family: "Agency FB";
+    -fx-text-fill: #9b6029;
+    -fx-font-weight: bold;
+}
+
+.check-box{
+    -fx-font-size: 13pt;
+    -fx-font-family: "Agency FB";
+    -fx-text-fill: #9b6029;
+    -fx-font-weight: bold;
+}
+
+.tooltip{
+    -fx-font-size: 13pt;
+    -fx-font-family: "Agency FB";
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: normal;
+}

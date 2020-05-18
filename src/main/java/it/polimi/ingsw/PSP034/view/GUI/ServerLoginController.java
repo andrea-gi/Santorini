@@ -27,7 +27,6 @@ public class ServerLoginController {
     @FXML
     private Button submit;
 
-    private boolean notValid;
     private String serverName;
     private String serverPort;
 
@@ -41,7 +40,6 @@ public class ServerLoginController {
 
     @FXML
     private void initialize(){
-        notValid = true;
         santoriniLogo.setImage(image);
         imageViewBackground.setFitWidth(Screen.getPrimary().getVisualBounds().getWidth());
         imageViewBackground.setFitHeight(Screen.getPrimary().getVisualBounds().getHeight());

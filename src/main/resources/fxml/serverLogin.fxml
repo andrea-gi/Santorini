@@ -12,10 +12,15 @@
 
 <AnchorPane prefHeight="417.0" prefWidth="305.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP034.view.GUI.ServerLoginController">
     <children>
+      <ImageView disable="true" fitHeight="473.0" fitWidth="321.0" layoutY="118.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/clp_bg2.png" />
+         </image>
+      </ImageView>
         <VBox fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="485.0" minWidth="291.0" prefHeight="591.0" prefWidth="321.0" stylesheets="@../style.css">
             <children>
                 <ImageView fx:id="santoriniLogo" blendMode="SRC_ATOP" fitHeight="90.0" fitWidth="294.0" pickOnBounds="true" preserveRatio="true">
-                    <Image url="@../../santorini.jpg" />
+                    <Image url="@../images/santorini.jpg" />
                     <VBox.margin>
                         <Insets bottom="50.0" left="15.0" right="10.0" top="35.0" />
                     </VBox.margin>

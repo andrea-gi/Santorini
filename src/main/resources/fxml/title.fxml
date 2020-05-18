@@ -5,33 +5,33 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="629.0" style="-fx-background-color: #12c5fc;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP034.view.GUI.TitleController">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="825.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP034.view.GUI.TitleController">
    <children>
-      <ImageView fitHeight="400.0" fitWidth="273.0" layoutX="-117.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../../../../Downloads/bg_panelEdgeLeftleft.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="495.0" fitWidth="277.0" layoutX="477.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../../../../Downloads/bg_panelEdgeLeftRight.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="126.0" fitWidth="299.0" layoutX="158.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/ps_unlock_all.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="205.0" fitWidth="188.0" layoutX="217.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/title_island.png" />
-         </image>
-      </ImageView>
-      <ImageView fx:id="santoriniLogo" fitHeight="96.0" fitWidth="229.0" layoutX="193.0" layoutY="164.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="santoriniLogo" fitHeight="133.0" fitWidth="417.0" layoutX="218.0" layoutY="327.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/santorini.jpg" />
          </image>
       </ImageView>
-      <Button fx:id="play" layoutX="246.0" layoutY="243.0" mnemonicParsing="false" onAction="#setPlay" prefHeight="151.0" prefWidth="134.0" />
+      <Button fx:id="play" layoutX="349.0" layoutY="193.0" mnemonicParsing="false" onAction="#setPlay" prefHeight="135.0" prefWidth="125.0" />
+      <ImageView fx:id="poseidon" fitHeight="185.0" fitWidth="107.0" layoutX="264.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/title_poseidon.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="aphrodite" fitHeight="161.0" fitWidth="102.0" layoutX="481.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/title_aphrodite.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="clouds2" fitHeight="75.0" fitWidth="132.0" layoutX="494.0" layoutY="169.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/cloud3_modeselect.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="clouds" fitHeight="59.0" fitWidth="132.0" layoutX="241.0" layoutY="169.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/cloud3_modeselect.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

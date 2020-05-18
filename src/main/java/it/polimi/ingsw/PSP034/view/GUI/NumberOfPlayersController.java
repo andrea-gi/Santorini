@@ -1,0 +1,67 @@
+package it.polimi.ingsw.PSP034.view.GUI;
+
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.Toggle;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
+import java.io.File;
+
+public class NumberOfPlayersController {
+    File file = new File("src\\main\\resources\\images\\santorini.jpg");
+    Image image = new Image(file.toURI().toString());
+
+    @FXML
+    private ImageView santoriniLogo;
+
+    @FXML
+    private Button submit;
+
+    @FXML
+    private RadioButton two;
+
+    @FXML
+    private RadioButton three;
+
+    private String number;
+
+    private final ToggleGroup toggleGroup = new ToggleGroup();
+
+    @FXML
+    private void initialize(){
+        submit.setDisable(true);
+        two.setToggleGroup(toggleGroup);
+        three.setToggleGroup(toggleGroup);
+        toggleGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+            @Override
+            public void changed(ObservableValue<? extends Toggle> observable,
+                                Toggle oldToggle, Toggle newToggle) {
+
+                RadioButton chosen = (RadioButton)toggleGroup.getSelectedToggle();
+
+                if (chosen != null) {
+                    number = chosen.getText();
+                    submit.setDisable(false);
+                }
+            }
+        });
+        santoriniLogo.setImage(image);
+    }
+
+    public void getSelectedToggle() {
+        submit.setDisable(false);
+    }
+
+    @FXML
+    public void setSubmit(ActionEvent e){
+        System.out.println("There are " + number + " players");
+        submit.setDisable(true);
+        submit.setText("SUBMITTED!");
+    }
+}
