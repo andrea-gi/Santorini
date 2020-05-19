@@ -6,7 +6,7 @@ import it.polimi.ingsw.PSP034.messages.ModelUpdate;
 import it.polimi.ingsw.PSP034.messages.Request;
 import it.polimi.ingsw.PSP034.messages.gameOverPhase.PersonalDefeatRequest;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.*;
-import it.polimi.ingsw.PSP034.view.printables.ANSI;
+import it.polimi.ingsw.PSP034.view.CLI.printables.ANSI;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

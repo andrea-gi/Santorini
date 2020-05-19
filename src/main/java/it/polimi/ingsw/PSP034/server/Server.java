@@ -10,7 +10,7 @@ import it.polimi.ingsw.PSP034.messages.gameOverPhase.GameOverAnswer;
 import it.polimi.ingsw.PSP034.messages.playPhase.PlayAnswer;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.*;
 import it.polimi.ingsw.PSP034.messages.setupPhase.SetupAnswer;
-import it.polimi.ingsw.PSP034.view.printables.ANSI;
+import it.polimi.ingsw.PSP034.view.CLI.printables.ANSI;
 
 import java.io.IOException;
 import java.net.ServerSocket;

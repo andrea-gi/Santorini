@@ -1,6 +1,6 @@
 package it.polimi.ingsw.PSP034.constants;
 
-import it.polimi.ingsw.PSP034.view.printables.ANSI;
+import it.polimi.ingsw.PSP034.view.CLI.printables.ANSI;
 
 import java.util.ArrayList;
 import java.util.Arrays;

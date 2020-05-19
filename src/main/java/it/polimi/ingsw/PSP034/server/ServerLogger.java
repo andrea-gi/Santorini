@@ -6,7 +6,7 @@ import it.polimi.ingsw.PSP034.messages.gameOverPhase.*;
 import it.polimi.ingsw.PSP034.messages.playPhase.*;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.*;
 import it.polimi.ingsw.PSP034.messages.setupPhase.*;
-import it.polimi.ingsw.PSP034.view.printables.ANSI;
+import it.polimi.ingsw.PSP034.view.CLI.printables.ANSI;
 
 import java.io.PrintStream;
 import java.util.ArrayList;

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.PSP034.client;
 
-import it.polimi.ingsw.PSP034.view.CLI;
+import it.polimi.ingsw.PSP034.view.CLI.CLI;
 
 public class ClientApp {
     public static void main(String[] args) {

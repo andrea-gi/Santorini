@@ -7,7 +7,7 @@ import it.polimi.ingsw.PSP034.model.gods.*;
 import it.polimi.ingsw.PSP034.observer.ModelObservable;
 import it.polimi.ingsw.PSP034.observer.ModelObserver;
 import it.polimi.ingsw.PSP034.server.ServerLogger;
-import it.polimi.ingsw.PSP034.view.printables.ANSI;
+import it.polimi.ingsw.PSP034.view.CLI.printables.ANSI;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
