@@ -172,7 +172,7 @@ public class ViewBoard extends PrintableObject {
             }
 
             if(sex != null){
-                constructionArray.set(1, constructionArray.get(1) + "\033[9D" + "\033[3C" + color.getBG_color() + " " + sex.toString() + " " + ANSI.reset + "\033[3C");
+                constructionArray.set(1, constructionArray.get(1) + "\033[9D" + "\033[3C" + this.color.getBG_color() + " " + sex.toString() + " " + ANSI.reset + "\033[3C");
             }
 
             super.setObjectLine(0, constructionArray.get(0));
