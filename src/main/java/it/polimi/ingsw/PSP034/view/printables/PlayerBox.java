@@ -6,12 +6,10 @@ import it.polimi.ingsw.PSP034.view.printables.godcards.GodDescription;
 import java.util.ArrayList;
 
 public class PlayerBox extends PrintableObject{
-    private String playerName;
-    private String godName;
+    private final String playerName;
+    private final String godName;
     private String godPower;
-    private Color color;
-
-    private ArrayList<String> constructionArray;
+    private final Color color;
 
     public PlayerBox(String playerName, String godName, Color color){
         super();
@@ -24,7 +22,7 @@ public class PlayerBox extends PrintableObject{
             }
         }
         this.color = color;
-        constructionArray = new ArrayList<>();
+        ArrayList<String> constructionArray = new ArrayList<>();
 
         String BG_color = this.color != null? color.getBG_color() : ANSI.reset;
         constructionArray.add(BG_color+"╔══════════════════════════════════════╗"+ANSI.reset);
@@ -47,7 +45,7 @@ public class PlayerBox extends PrintableObject{
         }
         constructionArray.add(BG_color+"╚══════════════════════════════════════╝"+ANSI.reset);
         super.setObjectSize(constructionArray.size());
-        for(int i = 0; i<constructionArray.size(); i++){
+        for(int i = 0; i< constructionArray.size(); i++){
             super.setObjectLine(i, constructionArray.get(i));
         }
     }

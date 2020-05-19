@@ -3,18 +3,11 @@ package it.polimi.ingsw.PSP034.view.printables;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Dialog extends PrintableObject {
-    private final String text;
+public class Dialog extends Message {
     private final ArrayList<String> options;
 
-    public Dialog(String text, int maxMessageLength, int optionsRows, String... options){
-        super();
-        this.text = text;
-        int maxLength;
-        if(maxMessageLength == -1)
-            maxLength = text.length();
-        else
-            maxLength = maxMessageLength;
+    public Dialog (String text, int maxMessageWidth, int optionsRows, String... options){
+        super(text, maxMessageWidth);
 
         this.options = new ArrayList<>();
         this.options.addAll(Arrays.asList(options));
@@ -24,24 +17,9 @@ public class Dialog extends PrintableObject {
                 maxOptionLength = option.length();
         }
 
-        ArrayList<String> constructionArray = new ArrayList<>();
+        String[] message = super.getObject();
+        ArrayList<String> constructionArray = new ArrayList<>(Arrays.asList(message));
 
-        int start = 0;
-        int end = maxLength;
-        while(end < text.length()){
-            while(text.charAt(end) != ' '  &&  end != 0){
-                end--;
-            }
-            if(end == 0){
-                end = start + maxLength;
-            }
-            constructionArray.add(text.substring(start, end));
-            start = end+1;
-            end = start + maxLength;
-        }
-        if(start <= text.length()){
-            constructionArray.add(text.substring(start));
-        }
 
         int optionColumns;
         if(this.options.size()%optionsRows > 0)
@@ -70,10 +48,6 @@ public class Dialog extends PrintableObject {
         for(int line = 0; line<constructionArray.size(); line++){
             super.setObjectLine(line, constructionArray.get(line));
         }
-    }
-
-    public String getText(){
-        return text;
     }
 
     public String getOption(int optionNumber){

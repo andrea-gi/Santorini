@@ -15,8 +15,6 @@ public class ViewBoard extends PrintableObject {
     private static ViewTile[][] viewTiles;
 
 
-    private ArrayList<String> constructionArray;
-
     public ViewBoard(){
         super();
         viewTiles = new ViewTile[5][5];
@@ -26,25 +24,26 @@ public class ViewBoard extends PrintableObject {
             }
         }
 
-        constructionArray = new ArrayList<>();
+        ArrayList<String> constructionArray = new ArrayList<>();
 
         super.setObjectSize(25);
-        String seaLine = BG_Sea;
+        StringBuilder seaLine = new StringBuilder(BG_Sea);
         for(int x = 0; x < 60; x+=2){
             if(x%4 == 0)
-                seaLine = seaLine + FG_Sea_light;
+                seaLine.append(FG_Sea_light);
             else
-                seaLine = seaLine + FG_Sea_dark;
-            seaLine = seaLine + "~ ";
+                seaLine.append(FG_Sea_dark);
+            seaLine.append("~ ");
         }
-        seaLine = seaLine + FG_Sea_light + "~" + ANSI.reset;
-        String invertedSeaLine = seaLine.replace(" ", "#").replace("~", " ").replace("#", "~");
+        seaLine.append(FG_Sea_light).append("~").append(ANSI.reset);
+        String invertedSeaLine = seaLine.toString().replace(" ", "#").replace("~", " ").replace("#", "~");
 
-        String seaLineFragment = seaLine.substring(0, 5+BG_Sea.length()+2*FG_Sea_light.length()+FG_Sea_dark.length());
-        String invertedSeaLineFragment = invertedSeaLine.substring(0, 5+BG_Sea.length()+2*FG_Sea_light.length()+FG_Sea_dark.length());
+        int fragmentLength = 5 + BG_Sea.length() + 2 * FG_Sea_light.length() + FG_Sea_dark.length();
+        String seaLineFragment = seaLine.substring(0, fragmentLength);
+        String invertedSeaLineFragment = invertedSeaLine.substring(0, fragmentLength);
 
 
-        constructionArray.add(seaLine);
+        constructionArray.add(seaLine.toString());
         constructionArray.add(invertedSeaLine);
 
         constructionArray.add(seaLineFragment + ANSI.BG_green + ANSI.FG_white + "╔═════════╤═════════╤═════════╤═════════╤═════════╗" + seaLineFragment + ANSI.reset);
@@ -70,7 +69,7 @@ public class ViewBoard extends PrintableObject {
         constructionArray.add(seaLineFragment + ANSI.BG_green + ANSI.FG_white + "╚═════════╧═════════╧═════════╧═════════╧═════════╝" + seaLineFragment + ANSI.reset);
 
         constructionArray.add(invertedSeaLine);
-        constructionArray.add(seaLine);
+        constructionArray.add(seaLine.toString());
 
 
         for(int i = 0; i < constructionArray.size(); i++){
@@ -120,9 +119,8 @@ public class ViewBoard extends PrintableObject {
     }
 
 
-
-    //TODO -- Ddecidere static o no
-    private class ViewTile extends PrintableObject {
+    
+    private static class ViewTile extends PrintableObject {
         private int building;
         private boolean hasDome;
         private Color color;

@@ -17,7 +17,7 @@ public class OtherWinnerDrawing extends PrintableObject {
 
         String buildColor = ANSI.FG_white;
         String winner = winnerColor.getFG_color();
-        StringBuilder line = new StringBuilder("");
+        StringBuilder line = new StringBuilder();
 
         line.append("   ").append(winner).append("\\o/             ").append(ANSI.reset);
         for(int i = 1; i < losersColors.length; i++){
@@ -25,59 +25,59 @@ public class OtherWinnerDrawing extends PrintableObject {
         }
         super.setObjectLine(0,line.toString());
 
-        line = new StringBuilder("");
+        line = new StringBuilder();
         line.append("    ").append(winner).append("█              ").append(ANSI.reset);
         for(int i = 1; i < losersColors.length; i++){
             line.append("          ");
         }
         super.setObjectLine(1,line.toString());
 
-        line = new StringBuilder("");
-        line.append("   ").append(winner).append("/ \\        ").append(losersColors[0]).append("o       ").append(ANSI.reset);
+        line = new StringBuilder();
+        line.append("   ").append(winner).append("/ \\        ").append(losersColors[0].getFG_color()).append("o       ").append(ANSI.reset);
         for(int i = 1; i < losersColors.length; i++){
             line.append(losersColors[i].getFG_color()).append("     o    ").append(ANSI.reset);
         }
         super.setObjectLine(2,line.toString());
 
-        line = new StringBuilder("");
-        line.append("  ").append(buildColor).append("█████      ").append(losersColors[0]).append("/█\\      ").append(ANSI.reset);
+        line = new StringBuilder();
+        line.append("  ").append(buildColor).append("█████      ").append(losersColors[0].getFG_color()).append("/█\\      ").append(ANSI.reset);
         for(int i = 1; i < losersColors.length; i++){
-            line.append(losersColors[i].getFG_color()).append("    /█\\   ").append(ANSI.reset);;
+            line.append(losersColors[i].getFG_color()).append("    /█\\   ").append(ANSI.reset);
         }
         super.setObjectLine(3,line.toString());
 
-        line = new StringBuilder("");
-        line.append("  ").append(buildColor).append("█████      ").append(losersColors[0]).append("/ \\      ").append(ANSI.reset);
+        line = new StringBuilder();
+        line.append("  ").append(buildColor).append("█████      ").append(losersColors[0].getFG_color()).append("/ \\      ").append(ANSI.reset);
         for(int i = 1; i < losersColors.length; i++){
-            line.append(losersColors[i].getFG_color()).append("    / \\   ").append(ANSI.reset);;
+            line.append(losersColors[i].getFG_color()).append("    / \\   ").append(ANSI.reset);
         }
         super.setObjectLine(4,line.toString());
 
-        line = new StringBuilder("");
+        line = new StringBuilder();
         line.append(" ").append(buildColor).append("███████   ███████ ").append(ANSI.reset);
         for(int i = 1; i < losersColors.length; i++){
-            line.append(buildColor).append("  ███████ ").append(ANSI.reset);;
+            line.append(buildColor).append("  ███████ ").append(ANSI.reset);
         }
         super.setObjectLine(5,line.toString());
 
-        line = new StringBuilder("");
+        line = new StringBuilder();
         line.append(" ").append(buildColor).append("███████   ███████ ").append(ANSI.reset);
         for(int i = 1; i < losersColors.length; i++){
-            line.append(buildColor).append("  ███████ ").append(ANSI.reset);;
+            line.append(buildColor).append("  ███████ ").append(ANSI.reset);
         }
         super.setObjectLine(6,line.toString());
 
-        line = new StringBuilder("");
+        line = new StringBuilder();
         line.append(buildColor).append("█████████ █████████").append(ANSI.reset);
         for(int i = 1; i < losersColors.length; i++){
-            line.append(buildColor).append(" █████████").append(ANSI.reset);;
+            line.append(buildColor).append(" █████████").append(ANSI.reset);
         }
         super.setObjectLine(7,line.toString());
 
-        line = new StringBuilder("");
+        line = new StringBuilder();
         line.append(buildColor).append("█████████ █████████").append(ANSI.reset);
         for(int i = 1; i < losersColors.length; i++){
-            line.append(buildColor).append(" █████████").append(ANSI.reset);;
+            line.append(buildColor).append(" █████████").append(ANSI.reset);
         }
         super.setObjectLine(8,line.toString());
     }
