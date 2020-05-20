@@ -144,8 +144,9 @@ public class Server implements Runnable{
             for(IClientConnection connection : activeConnections){
                 controller.addModelObserver(connection);
                 if (connection.equals(activeConnections.get(0))) {
+                    Color[] alreadyChosenColors = chosenColors.toArray(new Color[0]);
                     connection.asyncSend(new RequestNameColor(chosenNames.toArray(new String[0]),
-                            Color.getRemainingColors(chosenColors.toArray(new Color[0]))));
+                            Color.getRemainingColors(alreadyChosenColors), alreadyChosenColors));
                 }
                 else
                     connection.asyncSend(new RequestServerConfig(ServerInfo.WELCOME_WAIT));
@@ -264,8 +265,9 @@ public class Server implements Runnable{
             int indexPlayer = activeConnections.indexOf(connection);
             if (indexPlayer < getChosenPlayerNumber() - 1) {
                 connection.asyncSend(new RequestServerConfig(ServerInfo.SUCCESSFULLY_ADDED));
+                Color[] alreadyChosenColors = chosenColors.toArray(new Color[0]);
                 activeConnections.get(indexPlayer + 1).asyncSend(new RequestNameColor(chosenNames.toArray(new String[0]),
-                        Color.getRemainingColors(chosenColors.toArray(new Color[0]))));
+                        Color.getRemainingColors(alreadyChosenColors), alreadyChosenColors));
             } else {
                 controller.handleGamePhase();
             }
@@ -310,8 +312,9 @@ public class Server implements Runnable{
             validMessage = registerPlayer(connection, answerNameColor.getName(), answerNameColor.getColor());
             if (!validMessage){
                 // TODO -- come gestisco l'errore? dovrei inviare una notifica di errore
+                Color[] alreadyChosenColors = chosenColors.toArray(new Color[0]);
                 connection.asyncSend(new RequestNameColor(chosenNames.toArray(new String[0]),
-                        Color.getRemainingColors(chosenColors.toArray(new Color[0]))));
+                        Color.getRemainingColors(alreadyChosenColors), alreadyChosenColors));
             }
         }
     }

@@ -7,11 +7,13 @@ public class RequestNameColor extends RequestServerConfig{
 
     private final String[] alreadyChosenNames;
     private final Color[] availableColors;
+    private final Color[] alreadyChosenColors;
 
-    public RequestNameColor(String[] alreadyChosenNames, Color[] availableColors){
+    public RequestNameColor(String[] alreadyChosenNames, Color[] availableColors, Color[] alreadyChosenColors){
         super(ServerInfo.REQUEST_NAME_COLOR);
         this.alreadyChosenNames = alreadyChosenNames;
         this.availableColors = availableColors;
+        this.alreadyChosenColors = alreadyChosenColors;
     }
 
     public Color[] getAvailableColors() {
@@ -20,5 +22,9 @@ public class RequestNameColor extends RequestServerConfig{
 
     public String[] getAlreadyChosenNames() {
         return alreadyChosenNames;
+    }
+
+    public Color[] getAlreadyChosenColors() {
+        return alreadyChosenColors;
     }
 }
