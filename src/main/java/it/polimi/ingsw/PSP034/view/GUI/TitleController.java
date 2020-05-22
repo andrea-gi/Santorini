@@ -36,7 +36,7 @@ public class TitleController {
 
     @FXML
     private void initialize(){
-        anchorPane.setId("title");
+        anchorPane.setId("titleScene");
         santoriniLogo.setImage(image);
         poseidon.setImage(imagePos);
         aphrodite.setImage(imageAph);
@@ -45,7 +45,8 @@ public class TitleController {
         play.setId("buttonPlay");
     }
 
-    public void setPlay(ActionEvent e){
+    public void setPlay(ActionEvent e) {
         System.out.println("Game started");
+        ScenePath.setNextScene(anchorPane.getScene(), ScenePath.SERVER_LOGIN);
     }
 }

@@ -58,5 +58,6 @@ public class ServerLoginController {
         System.out.println("Port number: " + serverPort);
         submit.setDisable(true);
         submit.setText("SUBMITTED!");
+        ScenePath.setNextScene(pane.getScene(), ScenePath.WAITING);
     }
 }

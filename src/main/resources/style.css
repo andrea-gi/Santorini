@@ -2,11 +2,11 @@
     -fx-font-size: 17pt;
     -fx-font-family: "Agency FB";
     -fx-text-fill: #9b6029;
-    -fx-background-image: url("/images/fg_panel2.png");
+    -fx-background-image: url("/images/background_columns.png");
     -fx-background-size: cover;
 }
 
-#title{
+#titleScene{
     -fx-background-image: url("/images/bg_modeselect.png");
     -fx-background-size: cover;
 }
@@ -46,6 +46,10 @@
     -fx-background-color: transparent;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
+}
+
+#buttonPlay:hover{
+    -fx-border-color: #fff300;
 }
 
 #buttonPlay:pressed{

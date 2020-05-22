@@ -5,30 +5,30 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="825.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP034.view.GUI.TitleController">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP034.view.GUI.TitleController">
    <children>
-      <ImageView fx:id="santoriniLogo" fitHeight="133.0" fitWidth="417.0" layoutX="218.0" layoutY="327.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="santoriniLogo" fitHeight="133.0" fitWidth="417.0" layoutX="438.0" layoutY="522.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/santorini.jpg" />
          </image>
       </ImageView>
-      <Button fx:id="play" layoutX="349.0" layoutY="193.0" mnemonicParsing="false" onAction="#setPlay" prefHeight="135.0" prefWidth="125.0" />
-      <ImageView fx:id="poseidon" fitHeight="185.0" fitWidth="107.0" layoutX="264.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
+      <Button fx:id="play" layoutX="570.0" layoutY="276.0" mnemonicParsing="false" onAction="#setPlay" prefHeight="135.0" prefWidth="125.0" />
+      <ImageView fx:id="poseidon" fitHeight="209.0" fitWidth="148.0" layoutX="435.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/title_poseidon.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="aphrodite" fitHeight="161.0" fitWidth="102.0" layoutX="481.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="aphrodite" fitHeight="201.0" fitWidth="157.0" layoutX="732.0" layoutY="68.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/title_aphrodite.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="clouds2" fitHeight="75.0" fitWidth="132.0" layoutX="494.0" layoutY="169.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="clouds2" fitHeight="92.0" fitWidth="165.0" layoutX="745.0" layoutY="226.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/cloud3_modeselect.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="clouds" fitHeight="59.0" fitWidth="132.0" layoutX="241.0" layoutY="169.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="clouds" fitHeight="80.0" fitWidth="153.0" layoutX="387.0" layoutY="254.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/cloud3_modeselect.png" />
          </image>

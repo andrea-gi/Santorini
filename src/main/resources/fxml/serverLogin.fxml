@@ -8,71 +8,41 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="417.0" prefWidth="305.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP034.view.GUI.ServerLoginController">
     <children>
-      <ImageView disable="true" fitHeight="473.0" fitWidth="321.0" layoutY="118.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/clp_bg2.png" />
-         </image>
-      </ImageView>
-        <VBox fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="485.0" minWidth="291.0" prefHeight="591.0" prefWidth="321.0" stylesheets="@../style.css">
+        <VBox fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../style.css">
             <children>
                 <ImageView fx:id="santoriniLogo" blendMode="SRC_ATOP" fitHeight="90.0" fitWidth="294.0" pickOnBounds="true" preserveRatio="true">
                     <Image url="@../images/santorini.jpg" />
                     <VBox.margin>
-                        <Insets bottom="50.0" left="15.0" right="10.0" top="35.0" />
+                        <Insets bottom="120.0" left="500.0" right="480.0" top="35.0" />
                     </VBox.margin>
                 </ImageView>
-                <Label prefHeight="29.0" prefWidth="159.0" styleClass="style.css" text="Enter Server name" textFill="#9b6029">
-                    <font>
-                        <Font name="Agency FB Bold" size="24.0" />
-                    </font>
+                <Label prefHeight="29.0" prefWidth="159.0" styleClass="style.css" text="Enter Server name">
                     <VBox.margin>
-                        <Insets bottom="15.0" left="80.0" right="80.0" />
+                        <Insets bottom="15.0" left="530.0" right="80.0" />
                     </VBox.margin>
                 </Label>
-                <TextField fx:id="enterServerName" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="34.0" prefWidth="227.0" promptText="Default localhost" stylesheets="@../style.css">
-                    <font>
-                        <Font name="Agency FB" size="17.0" />
-                    </font>
-                    <opaqueInsets>
-                        <Insets />
-                    </opaqueInsets>
+                <TextField fx:id="enterServerName" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="34.0" prefWidth="227.0" promptText="Default localhost">
                     <VBox.margin>
-                        <Insets bottom="35.0" left="50.0" right="50.0" />
+                        <Insets bottom="50.0" left="530.0" right="520.0" />
                     </VBox.margin>
                 </TextField>
-                <Label layoutX="25.0" layoutY="146.0" prefHeight="29.0" prefWidth="182.0" text="Choose a Server port" textFill="#9b6029">
-                    <font>
-                        <Font name="Agency FB Bold" size="24.0" />
-                    </font>
-                    <opaqueInsets>
-                        <Insets />
-                    </opaqueInsets>
+                <Label layoutX="25.0" layoutY="146.0" prefHeight="29.0" prefWidth="182.0" text="Choose a Server port">
                     <VBox.margin>
-                        <Insets bottom="15.0" left="70.0" right="70.0" />
+                        <Insets bottom="15.0" left="530.0" right="70.0" />
                     </VBox.margin>
                 </Label>
-                <TextField fx:id="enterServerPort" layoutX="25.0" layoutY="191.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="34.0" prefWidth="325.0" promptText="Default 2020" stylesheets="@../style.css">
-                    <font>
-                        <Font name="Agency FB" size="17.0" />
-                    </font>
-                    <opaqueInsets>
-                        <Insets />
-                    </opaqueInsets>
+                <TextField fx:id="enterServerPort" layoutX="25.0" layoutY="191.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="34.0" prefWidth="325.0" promptText="Default 2020">
                     <VBox.margin>
-                        <Insets bottom="35.0" left="50.0" right="50.0" />
+                        <Insets bottom="50.0" left="530.0" right="520.0" />
                     </VBox.margin>
                 </TextField>
-                <Button fx:id="submit" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#setSubmit" prefHeight="33.0" prefWidth="141.0" stylesheets="@../style.css" text="SUBMIT" textAlignment="CENTER" textFill="WHITE">
+                <Button fx:id="submit" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#setSubmit" prefHeight="33.0" prefWidth="141.0" text="SUBMIT" textAlignment="CENTER">
                     <VBox.margin>
-                        <Insets bottom="25.0" left="90.0" right="80.0" top="15.0" />
+                        <Insets bottom="25.0" left="560.0" right="80.0" top="50.0" />
                     </VBox.margin>
-                    <font>
-                        <Font name="Agency FB Bold" size="14.0" />
-                    </font>
                 </Button>
             </children>
         </VBox>
