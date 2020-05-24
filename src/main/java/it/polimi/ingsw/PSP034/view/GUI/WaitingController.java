@@ -4,25 +4,35 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.Screen;
+import javafx.scene.layout.Pane;
 
 import java.io.File;
 
-public class WaitingController {
+public class WaitingController implements GUIController{
     File file = new File("src\\main\\resources\\images\\santorini.jpg");
     Image image = new Image(file.toURI().toString());
-    ImageView imageViewBackground = new ImageView();
 
     @FXML
     private ImageView santoriniLogo;
 
     @FXML
+    private Pane pane;
+
+    @FXML
     private Label lobby;
+
+    @Override
+    public Pane getPane() {
+        return pane;
+    }
 
     @FXML
     private void initialize(){
+        GUIRequestHub.getInstance().setCurrentController(this);
         santoriniLogo.setImage(image);
-        imageViewBackground.setFitWidth(Screen.getPrimary().getVisualBounds().getWidth());
-        imageViewBackground.setFitHeight(Screen.getPrimary().getVisualBounds().getHeight());
+    }
+
+    public void setMyLabel(String string){
+        lobby.setText(string);
     }
 }

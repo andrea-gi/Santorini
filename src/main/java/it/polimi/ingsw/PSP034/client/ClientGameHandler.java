@@ -50,13 +50,18 @@ public class ClientGameHandler implements Runnable{
         }
     }
 
+    /**
+     * Handles a single answer
+     * @param message Answer to the given request, {@code null} if the answer is not needed.
+     */
+    public void send(Answer message){}
 
     @Override
     public void run() {
         while(true){
             try{
                 Request message = queue.take();
-                Answer answer = requestManager.handleRequest(message);
+                requestManager.handleRequest(message);
                 if (answer instanceof AutoClose) {
                     setActive(false);
                     closeStream();

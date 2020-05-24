@@ -11,13 +11,14 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class ChooseGodsController {
+public class ChooseGodsController implements GUIController{
     File file = new File("src\\main\\resources\\images\\santorini.jpg");
     Image image = new Image(file.toURI().toString());
     ObservableSet<CheckBox> chosenGods = FXCollections.observableSet();
@@ -25,6 +26,9 @@ public class ChooseGodsController {
 
     @FXML
     private ImageView santoriniLogo;
+
+    @FXML
+    private Pane pane;
 
     @FXML
     private CheckBox Apollo;
@@ -93,6 +97,7 @@ public class ChooseGodsController {
 
     @FXML
     private void initialize(){
+        GUIRequestHub.getInstance().setCurrentController(this);
         submit.setDisable(true);
         santoriniLogo.setImage(image);
         ArrayList<Tooltip> tp = new ArrayList<>(Arrays.asList(apollotip, artemistip,athenatip, atlastip, demetertip,
@@ -157,7 +162,17 @@ public class ChooseGodsController {
     public void setSubmit(ActionEvent e){
         System.out.println("Chosen gods: " + chosenGods.toString());
         submit.setDisable(true);
+        for (CheckBox myGod: remainingGods) {
+            myGod.setDisable(true);
+        }
+        for (CheckBox myGod: chosenGods) {
+            myGod.setDisable(true);
+        }
         submit.setText("SUBMITTED!");
     }
 
+    @Override
+    public Pane getPane() {
+        return pane;
+    }
 }

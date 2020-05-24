@@ -7,7 +7,7 @@
 }
 
 #titleScene{
-    -fx-background-image: url("/images/bg_modeselect.png");
+    -fx-background-image: url("/images/title.png");
     -fx-background-size: cover;
 }
 
@@ -46,10 +46,6 @@
     -fx-background-color: transparent;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
-}
-
-#buttonPlay:hover{
-    -fx-border-color: #fff300;
 }
 
 #buttonPlay:pressed{
@@ -91,6 +87,48 @@
     -fx-font-family: "Agency FB";
     -fx-text-fill: #9b6029;
     -fx-font-weight: bold;
+}
+
+#redButton{
+    -fx-background-color: red;
+}
+
+#redButton:hover {
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+    -fx-scale-z: 1.1;
+}
+
+#redButton:selected{
+    -fx-border-color: #fff300;
+}
+
+#blueButton{
+    -fx-background-color: blue;
+}
+
+#blueButton:hover {
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+    -fx-scale-z: 1.1;
+}
+
+#blueButton:selected{
+    -fx-border-color: #fff300;
+}
+
+#magentaButton{
+    -fx-background-color: magenta;
+}
+
+#magentaButton:hover {
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+    -fx-scale-z: 1.1;
+}
+
+#magentaButton:selected{
+    -fx-border-color: #fff300;
 }
 
 .check-box{

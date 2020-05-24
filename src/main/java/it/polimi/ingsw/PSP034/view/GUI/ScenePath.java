@@ -1,10 +1,10 @@
 package it.polimi.ingsw.PSP034.view.GUI;
 
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 
-import java.io.File;
 import java.io.IOException;
 
 public class ScenePath {
@@ -17,13 +17,16 @@ public class ScenePath {
     public static final String NUMBER_OF_PLAYERS = "/fxml/numberOfPlayers.fxml";
 
     public static void setNextScene(Scene scene, String path) {
-        FXMLLoader loader = new FXMLLoader((ScenePath.class.getResource(path)));
-        Pane pane;
-        try {
-            pane = loader.load();
-            scene.setRoot(pane);
-            scene.getStylesheets().add("/style.css");
-        } catch (IOException ignored) {
-        }
+        Platform.runLater(()->{
+            FXMLLoader loader = new FXMLLoader((ScenePath.class.getResource(path)));
+            Pane pane;
+            try {
+                pane = loader.load();
+                scene.setRoot(pane);
+                scene.getStylesheets().add("/style.css");
+            } catch (IOException ignored) {
+                //TODO -- schermata di errore
+            }
+        });
     }
 }

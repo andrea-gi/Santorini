@@ -7,14 +7,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.stage.Screen;
 
 import java.io.File;
 
-public class ServerLoginController {
+public class ServerLoginController implements GUIController{
     File file = new File("src\\main\\resources\\images\\santorini.jpg");
     Image image = new Image(file.toURI().toString());
-    ImageView imageViewBackground = new ImageView();
 
     @FXML
     private Pane pane;
@@ -30,6 +28,11 @@ public class ServerLoginController {
     private String serverName;
     private String serverPort;
 
+    @Override
+    public Pane getPane() {
+        return pane;
+    }
+
     public String getEnterServerName() {
         return enterServerName.getText();
     }
@@ -40,9 +43,8 @@ public class ServerLoginController {
 
     @FXML
     private void initialize(){
+        GUIRequestHub.getInstance().setCurrentController(this);
         santoriniLogo.setImage(image);
-        imageViewBackground.setFitWidth(Screen.getPrimary().getVisualBounds().getWidth());
-        imageViewBackground.setFitHeight(Screen.getPrimary().getVisualBounds().getHeight());
     }
 
     public void setSubmit(ActionEvent e){
@@ -54,10 +56,10 @@ public class ServerLoginController {
             serverPort = "2020";
         else
             serverPort = getEnterServerPort();
-        System.out.println(serverName);
-        System.out.println("Port number: " + serverPort);
         submit.setDisable(true);
         submit.setText("SUBMITTED!");
-        ScenePath.setNextScene(pane.getScene(), ScenePath.WAITING);
+        enterServerName.setDisable(true);
+        enterServerPort.setDisable(true);
+        //GUIRequestHub.getInstance().send(new AnswerIP(serverName,serverPort)); //TODO -- inviare
     }
 }

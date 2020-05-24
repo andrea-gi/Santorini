@@ -1,27 +1,22 @@
 package it.polimi.ingsw.PSP034.view.GUI;
 
+import it.polimi.ingsw.PSP034.constants.Color;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.stage.Screen;
 
 import java.io.File;
 
 
-public class LoginController {
+public class LoginController implements GUIController{
     File file = new File("src\\main\\resources\\images\\santorini.jpg");
     Image image = new Image(file.toURI().toString());
-    ObservableList<String> colorChoices = FXCollections.observableArrayList("White", "Grey", "Blue");
-    ImageView imageViewBackground = new ImageView();
+    private final ToggleGroup colors = new ToggleGroup();
 
     @FXML
     private Pane pane;
@@ -35,20 +30,25 @@ public class LoginController {
     @FXML
     private ImageView santoriniLogo;
 
-    private boolean notValid;
-
-    @FXML
-    private ChoiceBox<String> chooseColor;
-
-    @FXML
-    public void selectedColor() {
-        chooseColor.getSelectionModel()
-                .selectedItemProperty()
-                .addListener( (ObservableValue<? extends String> observable, String oldValue, String newValue) -> filledColor() );
-    }
-
     @FXML
     private Button submit;
+
+    @FXML
+    private RadioButton red;
+
+    @FXML
+    private RadioButton blue;
+
+    @FXML
+    private RadioButton magenta;
+
+    private boolean notValid;
+    private Color myColor;
+
+    @Override
+    public Pane getPane() {
+        return pane;
+    }
 
     public String getEnterName(){
         return enterName.getText();
@@ -56,33 +56,52 @@ public class LoginController {
 
     @FXML
     private void initialize(){
-        imageViewBackground.setFitWidth(Screen.getPrimary().getVisualBounds().getWidth());
-        imageViewBackground.setFitHeight(Screen.getPrimary().getVisualBounds().getHeight());
+        GUIRequestHub.getInstance().setCurrentController(this);
         notValid = true;
-        chooseColor.setValue("");
-        chooseColor.setItems(colorChoices);
+        red.setToggleGroup(colors);
+        blue.setToggleGroup(colors);
+        magenta.setToggleGroup(colors);
+        red.getStyleClass().remove("radio-button");
+        red.setId("redButton");
+        blue.getStyleClass().remove("radio-button");
+        blue.setId("blueButton");
+        magenta.getStyleClass().remove("radio-button");
+        magenta.setId("magentaButton");
+        colors.selectedToggleProperty().addListener((observable, oldToggle, newToggle) -> {
+
+            RadioButton chosen = (RadioButton) colors.getSelectedToggle();
+
+            if (chosen != null) {
+                if (chosen == red)
+                    myColor = Color.RED;
+                else if (chosen == blue)
+                    myColor = Color.BLUE;
+                else if (chosen == magenta)
+                    myColor = Color.MAGENTA;
+            }
+        });
         santoriniLogo.setImage(image);
         submit.setDisable(notValid);
     }
 
     @FXML
     public void filledName(){
-        notValid = getEnterName().isEmpty() || chooseColor.getSelectionModel().getSelectedItem().isEmpty();
+        notValid = getEnterName().isEmpty() || colors.getSelectedToggle() == null;
         submit.setDisable(notValid);
     }
 
     @FXML
     public void filledColor(){
-        notValid = getEnterName().isEmpty() || chooseColor.getSelectionModel().getSelectedItem().isEmpty();
+        notValid = getEnterName().isEmpty() || colors.getSelectedToggle() == null;
         submit.setDisable(notValid);
     }
 
     @FXML
     public void setSubmit(ActionEvent e){
-        System.out.println(getEnterName());
-        System.out.println(chooseColor.getValue());
         submit.setDisable(true);
         submit.setText("SUBMITTED!");
+        enterName.setDisable(true);
+        //ScenePath.setNextScene(pane.getScene(), ScenePath.CHOOSE_GODS);
     }
 
 }
