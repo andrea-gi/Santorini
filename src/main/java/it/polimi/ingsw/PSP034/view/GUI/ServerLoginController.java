@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP034.view.GUI;
 
+import it.polimi.ingsw.PSP034.messages.clientConfiguration.AnswerIP;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -60,6 +61,6 @@ public class ServerLoginController implements GUIController{
         submit.setText("SUBMITTED!");
         enterServerName.setDisable(true);
         enterServerPort.setDisable(true);
-        //GUIRequestHub.getInstance().send(new AnswerIP(serverName,serverPort)); //TODO -- inviare
+        GUIRequestHub.getInstance().createConnection(new AnswerIP(serverName, Integer.parseInt(serverPort))); //TODO -- inviare
     }
 }

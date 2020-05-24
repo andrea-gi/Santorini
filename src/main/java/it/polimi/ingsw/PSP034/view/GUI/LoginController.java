@@ -1,8 +1,6 @@
 package it.polimi.ingsw.PSP034.view.GUI;
 
-import it.polimi.ingsw.PSP034.constants.Color;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import it.polimi.ingsw.PSP034.constants.PlayerColor;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -43,7 +41,7 @@ public class LoginController implements GUIController{
     private RadioButton magenta;
 
     private boolean notValid;
-    private Color myColor;
+    private PlayerColor myColor;
 
     @Override
     public Pane getPane() {
@@ -73,11 +71,11 @@ public class LoginController implements GUIController{
 
             if (chosen != null) {
                 if (chosen == red)
-                    myColor = Color.RED;
+                    myColor = PlayerColor.RED;
                 else if (chosen == blue)
-                    myColor = Color.BLUE;
+                    myColor = PlayerColor.BLUE;
                 else if (chosen == magenta)
-                    myColor = Color.MAGENTA;
+                    myColor = PlayerColor.MAGENTA;
             }
         });
         santoriniLogo.setImage(image);

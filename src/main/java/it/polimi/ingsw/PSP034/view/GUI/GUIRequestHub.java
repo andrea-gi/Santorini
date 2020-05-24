@@ -1,5 +1,7 @@
 package it.polimi.ingsw.PSP034.view.GUI;
 
+import it.polimi.ingsw.PSP034.client.Client;
+import it.polimi.ingsw.PSP034.client.ClientGameHandler;
 import it.polimi.ingsw.PSP034.client.RequestManager;
 import it.polimi.ingsw.PSP034.messages.Answer;
 import it.polimi.ingsw.PSP034.messages.Request;
@@ -11,7 +13,7 @@ import javafx.scene.Scene;
 
 import java.lang.reflect.Method;
 
-public class GUIRequestHub implements RequestManager {
+public class GUIRequestHub extends RequestManager {
     private GUIController currentController;
     private static GUIRequestHub instance;
 
@@ -44,26 +46,27 @@ public class GUIRequestHub implements RequestManager {
             //TODO -- break
             case REQUEST_NAME_COLOR:
                 ScenePath.setNextScene(scene, ScenePath.LOGIN);
-
+                break;
             case REQUEST_PLAYER_NUMBER:
                 ScenePath.setNextScene(scene, ScenePath.NUMBER_OF_PLAYERS);
-
+                break;
             case LOBBY:
                 ScenePath.setNextScene(scene, ScenePath.WAITING);
-
+                break;
                 //TODO -- waiting di lobby
 
             case WELCOME_WAIT:
                 ScenePath.setNextScene(scene, ScenePath.WAITING); //TODO -- waiting di lobby
-
+                break;
             case SUCCESSFULLY_ADDED:
                 ScenePath.setNextScene(scene, ScenePath.WAITING); //TODO -- waiting di lobby
-
+                break;
             case CARDS_CHOICE_WAIT:
                 ScenePath.setNextScene(scene, ScenePath.WAITING); //TODO -- waiting di lobby
-
+                break;
             case ALREADY_STARTED:
                 //TODO -- chi eccede e non può registrarsi
+                break;
         }
 
     }
@@ -105,18 +108,23 @@ public class GUIRequestHub implements RequestManager {
         //TODO -- decidere se va bene
     }
 
-    public void sendAnswer(Answer answer){
-
-
+    //TODO -- unificare con cli?
+    void createConnection(AnswerIP answer){
+        new Thread(() -> {
+            Client client = new Client(this, answer.getIp(), answer.getPort());
+            client.startConnection(); // TODO -- assicurarsi che la connessione sia stata creata
+            Thread runClient = new Thread(client);
+            runClient.start();
+        }
+        ).start();
     }
 
-    @Override
-    public Answer handleRequest(Request message) {
+    public void handleRequest(Request message) {
         try {
-            Method method = getClass().getMethod("craftRequest", message.getClass());
+            Method method = getClass().getDeclaredMethod("craftRequest", message.getClass());
             method.invoke(this, message);
-        } catch (Exception ignored){
+        } catch (Exception e){
+            e.printStackTrace();
         }
-        return null; //TODO -- void
     }
 }

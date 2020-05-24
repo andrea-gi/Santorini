@@ -22,7 +22,7 @@ public class TitleController implements GUIController{
     }
 
     public void setPlay(ActionEvent e) {
-        GUIRequestHub.getInstance().handleRequest(new RequestIP());
+        GUIRequestHub.getInstance().handleRequest(new RequestIP(false));
     }
 
     @Override

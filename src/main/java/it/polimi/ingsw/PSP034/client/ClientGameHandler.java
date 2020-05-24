@@ -18,6 +18,7 @@ public class ClientGameHandler implements Runnable{
         this.requestManager = requestManager;
         this.queue = requestBlockingQueue;
         this.out = out;
+        requestManager.setSender(this);
         setActive(true);
     }
 
@@ -54,21 +55,23 @@ public class ClientGameHandler implements Runnable{
      * Handles a single answer
      * @param message Answer to the given request, {@code null} if the answer is not needed.
      */
-    public void send(Answer message){}
+    public void send(Answer message){
+        if (message instanceof AutoClose) {
+            setActive(false);
+            closeStream();
+        }
+        else if (message != null)
+            sendAnswer(message);
+        // if (message instanceof RequestServerConfig) controllo la tipologia di messaggio ed eventualmente chiudo tutto
+
+    }
 
     @Override
     public void run() {
-        while(true){
+        while(isActive()){
             try{
                 Request message = queue.take();
                 requestManager.handleRequest(message);
-                if (answer instanceof AutoClose) {
-                    setActive(false);
-                    closeStream();
-                }
-                if (answer != null)
-                    sendAnswer(answer);
-                // if (message instanceof RequestServerConfig) controllo la tipologia di messaggio ed eventualmente chiudo tutto
             } catch (InterruptedException e) {
                 setActive(false);
                 e.printStackTrace();
