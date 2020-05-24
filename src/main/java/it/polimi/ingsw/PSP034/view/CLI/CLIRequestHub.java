@@ -24,11 +24,11 @@ import it.polimi.ingsw.PSP034.view.CLI.scenes.playPhase.Table;
 import it.polimi.ingsw.PSP034.view.CLI.scenes.serverConfiguration.*;
 import it.polimi.ingsw.PSP034.view.CLI.scenes.setupPhase.*;
 
-public class RequestHub {
+public class CLIRequestHub {
     private Scene currScene;
     private AnswerComposer answerComposer;
 
-    public RequestHub(){
+    public CLIRequestHub(){
         currScene = null;
         answerComposer = null;
     }

@@ -2,7 +2,7 @@ package it.polimi.ingsw.PSP034.messages.serverConfiguration;
 
 import java.io.Serializable;
 
-public enum ServerInfo implements Serializable {
+public enum ServerInfo{
     REQUEST_NAME_COLOR,
     REQUEST_PLAYER_NUMBER,
     LOBBY, // sent to players joining an already started game
