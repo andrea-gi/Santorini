@@ -23,10 +23,6 @@ public class NextStateInfo implements Serializable {
     }
 
     public RequiredActions[] getRequiredActions(){
-        RequiredActions[] returnActions = new RequiredActions[actions.size()];
-        for(int i = 0; i < actions.size(); i++){
-            returnActions[i] = actions.get(i);
-        }
-        return returnActions;
+        return actions.toArray(new RequiredActions[0]);
     }
 }

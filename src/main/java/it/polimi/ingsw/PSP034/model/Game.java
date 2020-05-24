@@ -22,6 +22,7 @@ public class Game extends ModelObservable {
     private String[] godsList = {""};
     private ArrayList<String> remainingGods;
     private ArrayList<String> alreadyChosenGods;
+    private String eliminatedPlayerName = "";
 
     /**
      * Creates a new Game class, instantiating a new Board and a structure for Players. 
@@ -174,6 +175,7 @@ public class Game extends ModelObservable {
     public void removePlayer(Player player){
         if(player == currentPlayer)
             setNextPlayer();
+        eliminatedPlayerName = player.getName();
         player.getWorker(Sex.MALE).getMyTile().setWorker(null);
         player.getWorker(Sex.FEMALE).getMyTile().setWorker(null);
         removeGod(player);
@@ -181,8 +183,9 @@ public class Game extends ModelObservable {
         notifyObservers(generateSlimBoard()); // Notify all model observers
     }
 
-
-
+    public String getEliminatedPlayerName() {
+        return eliminatedPlayerName;
+    }
 
     public void setGamePhase(GamePhase gamePhase){
         this.gamePhase = gamePhase;

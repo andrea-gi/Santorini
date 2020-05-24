@@ -5,6 +5,7 @@ import it.polimi.ingsw.PSP034.constants.Sex;
 import it.polimi.ingsw.PSP034.constants.TurnPhase;
 import it.polimi.ingsw.PSP034.messages.SlimBoard;
 import it.polimi.ingsw.PSP034.messages.gameOverPhase.*;
+import it.polimi.ingsw.PSP034.messages.playPhase.InfoIsStarting;
 import it.polimi.ingsw.PSP034.messages.playPhase.NextStateInfo;
 import it.polimi.ingsw.PSP034.messages.playPhase.PlayAnswer;
 import it.polimi.ingsw.PSP034.messages.playPhase.RequestStart;
@@ -91,14 +92,19 @@ public class Controller implements IController{
         messageManager.sendTo(message, player);
     }
 
-    void sendToAll(Request message){
-        String[] players = currentGame.getPlayersName().toArray(new String[0]);
+    void sendToAll(Request message, boolean toEliminatedPlayer){
+        ArrayList<String> playersList = currentGame.getPlayersName();
+        if(toEliminatedPlayer)
+            playersList.add(currentGame.getEliminatedPlayerName());
+        String[] players = playersList.toArray(new String[0]);
         messageManager.sendTo(message, players);
     }
 
-    void sendToAllExcept(String player, Request message){
+    void sendToAllExcept(String player, Request message, boolean toEliminatedPlayer){
         ArrayList<String> playersList = currentGame.getPlayersName();
         playersList.remove(player);
+        if(toEliminatedPlayer)
+            playersList.add(currentGame.getEliminatedPlayerName());
         messageManager.sendTo(message, playersList.toArray(new String[0]));
     }
 
@@ -126,12 +132,13 @@ public class Controller implements IController{
             case SETUP:
                 godLikePlayerChoice();
                 String name = this.getCurrentPlayer().getName();
-                sendToAllExcept(name, new GodLikeInfo(name));
+                sendToAllExcept(name, new GodLikeInfo(name), false);
                 sendToPlayer(name, new RequestCardsChoice(getPlayerNumber()));
                 break;
             case PLAY:
                 turnHandler.setCurrentGod(getCurrentPlayer().getMyGod());
                 sendToPlayer(this.getCurrentPlayer().getName(), new RequestStart(new NextStateInfo(TurnPhase.START)));
+                sendToAllExcept(this.getCurrentPlayer().getName(), new InfoIsStarting(this.getCurrentPlayer().getName()), false);
                 break;
             case GAMEOVER:
                 //Player loser = this.getCurrentPlayer();
@@ -186,7 +193,7 @@ public class Controller implements IController{
             }
             else{
                 sendToPlayer(toBeDeletedPlayer.getName(), new PersonalDefeatRequest("", toBeDeletedPlayer.getName())); // empty string --> no winner
-                sendToAllExcept(toBeDeletedPlayer.getName(), new SingleLoserInfo(toBeDeletedPlayer.getName(), toBeDeletedPlayer.getColor()));
+                sendToAllExcept(toBeDeletedPlayer.getName(), new SingleLoserInfo(toBeDeletedPlayer.getName(), toBeDeletedPlayer.getColor()), false);
                 currentGame.removePlayer(toBeDeletedPlayer);
             }
         }

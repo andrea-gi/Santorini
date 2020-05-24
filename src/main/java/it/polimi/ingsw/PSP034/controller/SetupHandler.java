@@ -47,7 +47,7 @@ public class SetupHandler {
             case CHOOSE_FIRST_PLAYER:
                 if (message instanceof AnswerFirstPlayer){
                     controller.firstPlayerSetUp(((AnswerFirstPlayer) message).getFirstPlayer());
-                    controller.sendToAll(new InitializeBoard(controller.getSlimBoard()));
+                    controller.sendToAll(new InitializeBoard(controller.getSlimBoard()), false);
                     //TODO -- da decidere
                     //String firstPlayer = controller.getCurrentPlayer().getName();
                     //controller.sendToAllExcept(firstPlayer, new FirstPlayerInfo(firstPlayer));
@@ -94,6 +94,7 @@ public class SetupHandler {
             case CHOOSE_FIRST_PLAYER:
                 currentSetupPhase = SetupPhase.PLACE_WORKERS;
                 controller.sendToPlayer(player.getName(), new RequestPlaceWorker(Sex.MALE, controller.getSlimBoard()));
+                controller.sendToAllExcept(player.getName(), new InfoIsPlacing(player.getName()), false);
                 firstWorker = true;
                 break;
 

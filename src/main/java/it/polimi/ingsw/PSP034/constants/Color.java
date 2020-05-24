@@ -10,8 +10,8 @@ public enum Color {
     BLUE(ANSI.FG_blue, ANSI.BG_blue),
     MAGENTA(ANSI.FG_magenta, ANSI.BG_magenta);
 
-    String FG_color;
-    String BG_color;
+    private final String FG_color;
+    private final String BG_color;
     Color(String FG_color, String BG_color){
         this.FG_color = FG_color;
         this.BG_color = BG_color;

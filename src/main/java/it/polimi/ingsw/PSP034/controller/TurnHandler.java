@@ -49,6 +49,7 @@ public class TurnHandler {
     /**Makes the state of the turn change in order, depending on the God associated to the Player */
     private void manageNextState(){
         //myTurnPhase = currentGod.nextState();
+        String newCurrentPlayer;
         Player player = controller.getCurrentPlayer();
         NextStateInfo nextStateInfo = currentGod.nextState(myTurnPhase);
         setPreviousTurnPhase(myTurnPhase); // Saving previous phase
@@ -63,29 +64,27 @@ public class TurnHandler {
                 break;
             case END:
                 controller.sendToPlayer(player.getName(), new RequestEnd());
-                setMyTurnPhase(TurnPhase.START);
-                setPreviousTurnPhase(TurnPhase.START);
                 controller.setNextPlayer();
                 setCurrentGod(controller.getCurrentGod());
-                controller.sendToPlayer(controller.getCurrentPlayer().getName(), new RequestStart(new NextStateInfo(TurnPhase.START)));
+                newCurrentPlayer = controller.getCurrentPlayer().getName();
+                controller.sendToPlayer(newCurrentPlayer, new RequestStart(new NextStateInfo(TurnPhase.START)));
+                controller.sendToAllExcept(newCurrentPlayer, new InfoIsStarting(newCurrentPlayer), true);
                 break;
-                //TODO--WIN & GAMEOVER
             case WIN:
                 controller.sendToPlayer(player.getName(), new WinnerRequest(""));
                 ArrayList<String> losers = controller.getPlayersName();
                 losers.remove(player.getName());
-                controller.sendToAllExcept(player.getName(), new PersonalDefeatRequest(player.getName(), losers.toArray(new String[0])));
+                controller.sendToAllExcept(player.getName(), new PersonalDefeatRequest(player.getName(), losers.toArray(new String[0])), true);
                 break;
             case GAMEOVER:
                 player.setHasLost(true);
                 boolean isGameOver = controller.isGameOver();
                 if ( !isGameOver ){
-                    setMyTurnPhase(TurnPhase.START);
-                    setPreviousTurnPhase(TurnPhase.START);
                     //Next player already set by controller
                     setCurrentGod(controller.getCurrentGod());
-
-                    controller.sendToPlayer(controller.getCurrentPlayer().getName(), new RequestStart(new NextStateInfo(TurnPhase.START)));
+                    newCurrentPlayer = controller.getCurrentPlayer().getName();
+                    controller.sendToPlayer(newCurrentPlayer, new RequestStart(new NextStateInfo(TurnPhase.START)));
+                    controller.sendToAllExcept(newCurrentPlayer, new InfoIsStarting(newCurrentPlayer), true);
                 }
                 else{
                     controller.setNextGamePhase();
