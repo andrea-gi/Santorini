@@ -1,6 +1,6 @@
 package it.polimi.ingsw.PSP034.view.CLI;
 
-import it.polimi.ingsw.PSP034.constants.Color;
+import it.polimi.ingsw.PSP034.constants.PlayerColor;
 import it.polimi.ingsw.PSP034.constants.Constant;
 import it.polimi.ingsw.PSP034.constants.Directions;
 import it.polimi.ingsw.PSP034.constants.Sex;
@@ -61,7 +61,7 @@ public class AnswerComposer {
             case REQUEST_NAME_COLOR:
                 RequestNameColor castRequest = (RequestNameColor) request;
                 String name = params[0];
-                Color color = castRequest.getAvailableColors()[Integer.parseInt(params[1])-1];
+                PlayerColor color = castRequest.getAvailableColors()[Integer.parseInt(params[1])-1];
                 answer = new AnswerNameColor(name, color);
                 break;
 

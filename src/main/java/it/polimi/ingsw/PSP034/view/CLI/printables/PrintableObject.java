@@ -56,6 +56,8 @@ public class PrintableObject{
      * @param column line to start printing from.  The value is 1-based.
      */
     public void print(int line, int column){
+        System.out.print(ANSI.reset);
+
         this.startLine = line;
         this.startColumn = column;
         for(int i = line; i-line < object.length; i++){

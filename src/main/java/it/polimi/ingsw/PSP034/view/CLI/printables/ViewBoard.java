@@ -1,16 +1,19 @@
 package it.polimi.ingsw.PSP034.view.CLI.printables;
 
 
-import it.polimi.ingsw.PSP034.constants.Color;
+import it.polimi.ingsw.PSP034.constants.Colors;
+import it.polimi.ingsw.PSP034.constants.PlayerColor;
 import it.polimi.ingsw.PSP034.constants.Constant;
 import it.polimi.ingsw.PSP034.constants.Sex;
 
 import java.util.ArrayList;
 
 public class ViewBoard extends PrintableObject {
-    private static final String BG_Sea = ANSI.BG_blue;
-    private static final String FG_Sea_light = ANSI.FG_bright_white;
-    private static final String FG_Sea_dark = ANSI.FG_cyan;
+    private static final String BG_Sea = Colors.SEA_BG.get();
+    private static final String FG_Sea_light = Colors.LIGHT_WAVE_FG.get();
+    private static final String FG_Sea_dark = Colors.DARK_WAVE_FG.get();
+    private static final String BG_Grass = Colors.GRASS_BG.get();
+    private static final String BG_Building = Colors.BUILDING_BG.get();
 
     private static ViewTile[][] viewTiles;
 
@@ -46,7 +49,7 @@ public class ViewBoard extends PrintableObject {
         constructionArray.add(seaLine.toString());
         constructionArray.add(invertedSeaLine);
 
-        constructionArray.add(seaLineFragment + ANSI.BG_green + ANSI.FG_white + "╔═════════╤═════════╤═════════╤═════════╤═════════╗" + seaLineFragment + ANSI.reset);
+        constructionArray.add(seaLineFragment + BG_Grass + ANSI.FG_white + "╔═════════╤═════════╤═════════╤═════════╤═════════╗" + seaLineFragment + ANSI.reset);
         for(int y = 1; y < 20; y++){
             String line = "";
             if (y%2 == 0)
@@ -96,7 +99,7 @@ public class ViewBoard extends PrintableObject {
         }
     }
 
-    public void updateTile(int x, int y, int building, boolean hasDome, Color color, Sex sex){
+    public void updateTile(int x, int y, int building, boolean hasDome, PlayerColor color, Sex sex){
         viewTiles[x][y].update(building, hasDome, color, sex);
     }
 
@@ -123,7 +126,7 @@ public class ViewBoard extends PrintableObject {
     private static class ViewTile extends PrintableObject {
         private int building;
         private boolean hasDome;
-        private Color color;
+        private PlayerColor color;
         private Sex sex;
         private final ArrayList<String> constructionArray;
 
@@ -147,7 +150,7 @@ public class ViewBoard extends PrintableObject {
             super.setObjectLine(2, baseLine);
         }
 
-        private void update(int building, boolean hasDome, Color color, Sex sex){
+        private void update(int building, boolean hasDome, PlayerColor color, Sex sex){
             this.building = building;
             this.hasDome = hasDome;
             this.color = color;

@@ -1,12 +1,13 @@
 package it.polimi.ingsw.PSP034.view.CLI.printables;
 
 
-import it.polimi.ingsw.PSP034.constants.Color;
+import it.polimi.ingsw.PSP034.constants.Colors;
+import it.polimi.ingsw.PSP034.constants.PlayerColor;
 
 public class WinnerDrawing extends PrintableObject{
-    public WinnerDrawing(Color color){
+    public WinnerDrawing(PlayerColor color){
         super();
-        String buildColor = ANSI.FG_white;
+        String buildColor = Colors.BUILDING_BG.get();
         String playerColor = color.getFG_color();
         super.setObjectSize(9);
         super.setObjectLine(0, "   " + playerColor + "\\o/   " + ANSI.reset);

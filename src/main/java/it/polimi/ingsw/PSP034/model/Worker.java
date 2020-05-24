@@ -3,7 +3,7 @@ import it.polimi.ingsw.PSP034.constants.*;
 
 public class Worker {
     private final Sex sex;
-    private final Color color;
+    private final PlayerColor color;
     private final String name;
     private Tile myTile;
 
@@ -12,14 +12,14 @@ public class Worker {
      * @param name indicates the Player associated to the Worker
      * @param color indicates the color of my worker
      * @param myTile indicates where the player sets the worker the first turn  */
-    public Worker(Sex sex, String name, Color color, Tile myTile) {
+    public Worker(Sex sex, String name, PlayerColor color, Tile myTile) {
         this.sex = sex;
         this.name = name;
         this.color = color;
         this.myTile = myTile;
     }
 
-    public Color getColor(){
+    public PlayerColor getColor(){
         return color;
     }
 

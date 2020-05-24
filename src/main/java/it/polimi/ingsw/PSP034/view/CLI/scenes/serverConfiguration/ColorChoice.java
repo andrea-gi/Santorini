@@ -1,14 +1,14 @@
 package it.polimi.ingsw.PSP034.view.CLI.scenes.serverConfiguration;
 
-import it.polimi.ingsw.PSP034.constants.Color;
+import it.polimi.ingsw.PSP034.constants.PlayerColor;
 import it.polimi.ingsw.PSP034.view.CLI.printables.*;
 import it.polimi.ingsw.PSP034.view.CLI.printables.arrangements.VerticalArrangement;
 import it.polimi.ingsw.PSP034.view.CLI.scenes.Scene;
 
 public class ColorChoice extends Scene {
-    private final Color[] availableColors;
+    private final PlayerColor[] availableColors;
 
-    public ColorChoice(Color[] availableColors){
+    public ColorChoice(PlayerColor[] availableColors){
         this.availableColors = availableColors;
     }
 

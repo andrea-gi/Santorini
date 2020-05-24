@@ -81,7 +81,7 @@ public class Game extends ModelObservable {
         int playersSize = players.size();
         String[] finalGodsList = new String[playersSize];
         String[] playersList = new String[playersSize];
-        Color[] colorsList = new Color[playersSize];
+        PlayerColor[] colorsList = new PlayerColor[playersSize];
         for (int i = 0; i < playersSize; i++) {
             playersList[i] = players.get(i).getName();
             colorsList[i] = players.get(i).getColor();

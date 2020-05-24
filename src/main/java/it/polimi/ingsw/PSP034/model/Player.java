@@ -9,7 +9,7 @@ public class Player {
     private ArrayList<Worker> myWorkers;
     private boolean hasWon;
     private boolean hasLost;
-    private final Color color;
+    private final PlayerColor color;
 
     /** Creates a new Player class
      * @param name Player's name
@@ -17,7 +17,7 @@ public class Player {
      * At the time of instantiation, there is no myGod associated, which has to bet set using
      * {@link Player#setMyGod(GodsRules)}
      * */
-    public Player(String name, Color color) {
+    public Player(String name, PlayerColor color) {
         this.name = name;
         myGod = null;
         myWorkers = new ArrayList<>();
@@ -100,7 +100,7 @@ public class Player {
         return worker.getOwner().equals(name);
     }
 
-    public Color getColor() {
+    public PlayerColor getColor() {
         return color;
     }
 }

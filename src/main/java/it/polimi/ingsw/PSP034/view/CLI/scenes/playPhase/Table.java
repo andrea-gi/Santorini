@@ -1,6 +1,6 @@
 package it.polimi.ingsw.PSP034.view.CLI.scenes.playPhase;
 
-import it.polimi.ingsw.PSP034.constants.Color;
+import it.polimi.ingsw.PSP034.constants.PlayerColor;
 import it.polimi.ingsw.PSP034.constants.Constant;
 import it.polimi.ingsw.PSP034.constants.Directions;
 import it.polimi.ingsw.PSP034.constants.Sex;
@@ -39,7 +39,7 @@ public class Table extends Scene{
     boolean requiredAnswer;
 
 
-    public Table(String[] gods, String[] players, Color[] colors, String currentPlayer){
+    public Table(String[] gods, String[] players, PlayerColor[] colors, String currentPlayer){
         all = new VerticalArrangement();
 
         title = new Font("   ");
@@ -91,25 +91,7 @@ public class Table extends Scene{
         regex = null;
 
         requiredAnswer = false;
-
-
-
-
-        initializeWorkersSetup(currentPlayer);
     }
-
-
-    private void initializeWorkersSetup(String currentPlayer){
-        setTitle("Workers setup");
-        String message = currentPlayer + " is placing Workers";
-        setMessage(new Message(message, -1));
-    }
-
-
-
-
-
-
 
 
     @Override
@@ -130,7 +112,7 @@ public class Table extends Scene{
         }
     }
 
-    public void updateBoard(boolean[][] dome, int[][] building, Color[][] color, Sex[][] sex, boolean showNumbers, String currentPlayer){
+    public void updateBoard(boolean[][] dome, int[][] building, PlayerColor[][] color, Sex[][] sex, boolean showNumbers, String currentPlayer){
         if(currentPlayer != null) {
             if(!title.getText().equals("your turn"))
                 setTitle(currentPlayer + "'s turn");
@@ -151,7 +133,7 @@ public class Table extends Scene{
 
     }
 
-    public void updatePlaceWorker(boolean[][] dome, int[][] building, Color[][] color, Sex[][] sex, Sex worker){
+    public void updatePlaceWorker(boolean[][] dome, int[][] building, PlayerColor[][] color, Sex[][] sex, Sex worker){
         setTitle("workers setup");
 
         updateBoard(dome, building, color, sex, true, null);
@@ -190,6 +172,13 @@ public class Table extends Scene{
 
 
         regex.add(new RegexCondition(rule.toString(), "Invalid selection."));
+    }
+
+    public void updateOtherPlacing(String playerName){
+        setTitle("Workers setup");
+        setMessage(new Message(playerName + " is placing Workers", -1));
+        setAnswer(new Message("", -1));
+        requiredAnswer = false;
     }
 
     public void updateSelectWorker(String action) {
@@ -255,6 +244,12 @@ public class Table extends Scene{
         setEmptyRequest();
     }
 
+    public void updateOtherStarting(String playerName){
+        setTitle(playerName + "'s turn");
+        setEmptyRequest();
+        requiredAnswer = false;
+    }
+
     public void updateEnd(){
         setTitle("Your turn ended");
 
@@ -263,7 +258,7 @@ public class Table extends Scene{
 
     public void updateDefeat(@NotNull String winnerName, @NotNull String[] losersNames) throws NullPointerException{
         if(winnerName.equals("")){
-            Color loserColor = null;
+            PlayerColor loserColor = null;
             for(PlayerBox card : cards){
                 if(card.getPlayerName().equals(losersNames[0])){
                     loserColor = card.getColor();
@@ -283,8 +278,8 @@ public class Table extends Scene{
             setQuestion(new Dialog("Do you want to exit the game or keep watching?", -1, 1, "Exit", "Keep watching"));
 
         }else{
-            Color[] loserColors = new Color[losersNames.length];
-            Color winnerColor = null;
+            PlayerColor[] loserColors = new PlayerColor[losersNames.length];
+            PlayerColor winnerColor = null;
             for(PlayerBox card : cards){
                 if(card.getPlayerName().equals(winnerName))
                     winnerColor = card.getColor();
@@ -318,7 +313,7 @@ public class Table extends Scene{
     }
 
     public void updateRemovePlayer(String loser) throws NullPointerException{
-        Color loserColor = null;
+        PlayerColor loserColor = null;
         for(PlayerBox card : cards){
             if(card.getPlayerName().equals(loser)){
                 PlayerBox newCard = new PlayerBox(card.getPlayerName(), card.getGodName(), null);
@@ -336,7 +331,7 @@ public class Table extends Scene{
     }
 
     public void updateWin(String winnerName) throws NullPointerException{
-        Color winnerColor = null;
+        PlayerColor winnerColor = null;
         for(PlayerBox card : cards){
             if(card.getPlayerName().equals(winnerName)){
                 winnerColor = card.getColor();

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.PSP034.server;
 
-import it.polimi.ingsw.PSP034.constants.Color;
+import it.polimi.ingsw.PSP034.constants.PlayerColor;
 import it.polimi.ingsw.PSP034.messages.Answer;
 import it.polimi.ingsw.PSP034.messages.ModelUpdate;
 import it.polimi.ingsw.PSP034.messages.Request;
@@ -184,7 +184,7 @@ class ClientHandler implements IClientConnection, Runnable{
     }
 
     @Override
-    public void setDebugColor(Color color) {
+    public void setDebugColor(PlayerColor color) {
         this.debugColor = color.getFG_color();
     }
 

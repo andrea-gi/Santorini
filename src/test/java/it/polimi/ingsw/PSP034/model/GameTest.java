@@ -1,6 +1,6 @@
 package it.polimi.ingsw.PSP034.model;
 
-import it.polimi.ingsw.PSP034.constants.Color;
+import it.polimi.ingsw.PSP034.constants.PlayerColor;
 import it.polimi.ingsw.PSP034.constants.Sex;
 import org.junit.After;
 import org.junit.Before;
@@ -20,8 +20,8 @@ public class GameTest {
     public void setUp() {
         myBoard = new Board();
         myGame = new Game(myBoard);
-        firstPlayer = new Player("Veronica", Color.MAGENTA);
-        secondPlayer = new Player("Sara", Color.RED);
+        firstPlayer = new Player("Veronica", PlayerColor.MAGENTA);
+        secondPlayer = new Player("Sara", PlayerColor.RED);
         myGame.addRemainingGod("Apollo");
     }
 

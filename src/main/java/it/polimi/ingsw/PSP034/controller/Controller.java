@@ -1,5 +1,5 @@
 package it.polimi.ingsw.PSP034.controller;
-import it.polimi.ingsw.PSP034.constants.Color;
+import it.polimi.ingsw.PSP034.constants.PlayerColor;
 import it.polimi.ingsw.PSP034.constants.GamePhase;
 import it.polimi.ingsw.PSP034.constants.Sex;
 import it.polimi.ingsw.PSP034.constants.TurnPhase;
@@ -56,7 +56,7 @@ public class Controller implements IController{
     }
 
     @Override
-    public void addPlayer(String name, Color color){
+    public void addPlayer(String name, PlayerColor color){
         currentGame.addPlayer(new Player(name, color));
     }
 

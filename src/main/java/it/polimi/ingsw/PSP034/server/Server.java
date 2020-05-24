@@ -1,6 +1,6 @@
 package it.polimi.ingsw.PSP034.server;
 
-import it.polimi.ingsw.PSP034.constants.Color;
+import it.polimi.ingsw.PSP034.constants.PlayerColor;
 import it.polimi.ingsw.PSP034.constants.Constant;
 import it.polimi.ingsw.PSP034.controller.Controller;
 import it.polimi.ingsw.PSP034.controller.IController;
@@ -44,7 +44,7 @@ public class Server implements Runnable{
 
     private final ArrayList<IClientConnection> activeConnections = new ArrayList<>();
 
-    private final ArrayList<Color> chosenColors = new ArrayList<>();
+    private final ArrayList<PlayerColor> chosenColors = new ArrayList<>();
     private final ArrayList<String> chosenNames = new ArrayList<>();
 
     private boolean gameStarted = false;
@@ -144,9 +144,9 @@ public class Server implements Runnable{
             for(IClientConnection connection : activeConnections){
                 controller.addModelObserver(connection);
                 if (connection.equals(activeConnections.get(0))) {
-                    Color[] alreadyChosenColors = chosenColors.toArray(new Color[0]);
+                    PlayerColor[] alreadyChosenColors = chosenColors.toArray(new PlayerColor[0]);
                     connection.asyncSend(new RequestNameColor(chosenNames.toArray(new String[0]),
-                            Color.getRemainingColors(alreadyChosenColors), alreadyChosenColors));
+                            PlayerColor.getRemainingColors(alreadyChosenColors), alreadyChosenColors));
                 }
                 else
                     connection.asyncSend(new RequestServerConfig(ServerInfo.WELCOME_WAIT));
@@ -251,7 +251,7 @@ public class Server implements Runnable{
      * @param color Player color
      * @return {@code true} if registered successfully, {@code false} otherwise (caused by already existing name or color)
      */
-    private synchronized boolean registerPlayer(IClientConnection connection, String name, Color color){
+    private synchronized boolean registerPlayer(IClientConnection connection, String name, PlayerColor color){
         logger.printString(connection.getName() + " wants to register as " + name + ", using "
                 + connection.getDebugColor() + color + ANSI.reset +" workers.");
         if (!chosenNames.contains(name) && !chosenColors.contains(color)) {
@@ -265,9 +265,9 @@ public class Server implements Runnable{
             int indexPlayer = activeConnections.indexOf(connection);
             if (indexPlayer < getChosenPlayerNumber() - 1) {
                 connection.asyncSend(new RequestServerConfig(ServerInfo.SUCCESSFULLY_ADDED));
-                Color[] alreadyChosenColors = chosenColors.toArray(new Color[0]);
+                PlayerColor[] alreadyChosenColors = chosenColors.toArray(new PlayerColor[0]);
                 activeConnections.get(indexPlayer + 1).asyncSend(new RequestNameColor(chosenNames.toArray(new String[0]),
-                        Color.getRemainingColors(alreadyChosenColors), alreadyChosenColors));
+                        PlayerColor.getRemainingColors(alreadyChosenColors), alreadyChosenColors));
             } else {
                 controller.handleGamePhase();
             }
@@ -312,9 +312,9 @@ public class Server implements Runnable{
             validMessage = registerPlayer(connection, answerNameColor.getName(), answerNameColor.getColor());
             if (!validMessage){
                 // TODO -- come gestisco l'errore? dovrei inviare una notifica di errore
-                Color[] alreadyChosenColors = chosenColors.toArray(new Color[0]);
+                PlayerColor[] alreadyChosenColors = chosenColors.toArray(new PlayerColor[0]);
                 connection.asyncSend(new RequestNameColor(chosenNames.toArray(new String[0]),
-                        Color.getRemainingColors(alreadyChosenColors), alreadyChosenColors));
+                        PlayerColor.getRemainingColors(alreadyChosenColors), alreadyChosenColors));
             }
         }
     }

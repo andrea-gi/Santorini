@@ -1,6 +1,6 @@
 package it.polimi.ingsw.PSP034.model;
 
-import it.polimi.ingsw.PSP034.constants.Color;
+import it.polimi.ingsw.PSP034.constants.PlayerColor;
 import it.polimi.ingsw.PSP034.constants.Constant;
 import it.polimi.ingsw.PSP034.constants.Sex;
 import org.junit.After;
@@ -18,9 +18,9 @@ public class GodsRulesTest {
     public void setUp() {
         myBoard = new Board();
         myGame = new Game(myBoard);
-        firstPlayer = new Player("Veronica", Color.RED);
-        secondPlayer = new Player("Andrea", Color.BLUE);
-        thirdPlayer = new Player("Lorenzo", Color.MAGENTA);
+        firstPlayer = new Player("Veronica", PlayerColor.RED);
+        secondPlayer = new Player("Andrea", PlayerColor.BLUE);
+        thirdPlayer = new Player("Lorenzo", PlayerColor.MAGENTA);
         myGame.addPlayer(firstPlayer);
         myGame.addPlayer(secondPlayer);
         myGame.addPlayer(thirdPlayer);

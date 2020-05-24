@@ -10,9 +10,6 @@ public class Arrangement extends PrintableObject {
     private int alignment;
     private int border;
 
-    //private int startLine;
-    //private int startColumn;
-
     public Arrangement(){
         super();
         this.objects = new ArrayList<>();

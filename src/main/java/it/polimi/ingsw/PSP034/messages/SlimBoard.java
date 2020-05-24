@@ -1,9 +1,8 @@
 package it.polimi.ingsw.PSP034.messages;
 
-import it.polimi.ingsw.PSP034.constants.Color;
+import it.polimi.ingsw.PSP034.constants.PlayerColor;
 import it.polimi.ingsw.PSP034.constants.Constant;
 import it.polimi.ingsw.PSP034.constants.Sex;
-import it.polimi.ingsw.PSP034.messages.ModelUpdate;
 import it.polimi.ingsw.PSP034.model.Board;
 
 public class SlimBoard extends ModelUpdate {
@@ -12,20 +11,20 @@ public class SlimBoard extends ModelUpdate {
     private final String currentPlayer;
     private final String[] godsList;
     private final String[] playersList;
-    private final Color[] colorsList;
+    private final PlayerColor[] colorsList;
     private final boolean[][] dome;
     private final int[][] building;
-    private final Color[][] color;
+    private final PlayerColor[][] color;
     private final Sex[][] sex;
 
-    public SlimBoard(Board board, String currentPlayer, String[] godsList, String[] playersList, Color[] colorsList){
+    public SlimBoard(Board board, String currentPlayer, String[] godsList, String[] playersList, PlayerColor[] colorsList){
         this.currentPlayer = currentPlayer;
         this.colorsList = colorsList;
         this.godsList = godsList;
         this.playersList = playersList;
         dome = new boolean[Constant.DIM][Constant.DIM];
         building = new int[Constant.DIM][Constant.DIM];
-        color = new Color[Constant.DIM][Constant.DIM];
+        color = new PlayerColor[Constant.DIM][Constant.DIM];
         sex = new Sex[Constant.DIM][Constant.DIM];
 
         for(int i = 0; i < Constant.DIM; i++){
@@ -48,7 +47,7 @@ public class SlimBoard extends ModelUpdate {
         return dome;
     }
 
-    public Color[][] getColor() {
+    public PlayerColor[][] getColor() {
         return color;
     }
 
@@ -72,7 +71,7 @@ public class SlimBoard extends ModelUpdate {
         return playersList;
     }
 
-    public Color[] getColorsList() {
+    public PlayerColor[] getColorsList() {
         return colorsList;
     }
 }

@@ -28,27 +28,23 @@ public class VerticalArrangement extends Arrangement {
     public void updateAlignment() {
         ArrayList<String> constructorArray = new ArrayList<>();
         int maxWidth = 0;
-        int totalHeight = 0;
         for (PrintableObject object : super.getObjects()) {
             if (object.getWidth() > maxWidth)
                 maxWidth = object.getWidth();
-            totalHeight += object.getHeight();
         }
         if (super.getObjects().size() != 0) {
-            switch (super.getAlignment()) {
-                case 0:
-                    for (int index = 0; index < super.getObjects().size(); index++) {
-                        PrintableObject currentObject = super.getObjects().get(index);
+            for (int index = 0; index < super.getObjects().size(); index++) {
+                PrintableObject currentObject = super.getObjects().get(index);
+                if (!currentObject.getVisibility() || currentObject.getWidth() == 0 || currentObject.getHeight() == 0)
+                    continue;
 
-                        if(!currentObject.getVisibility()  ||  currentObject.getWidth() == 0  ||  currentObject.getHeight() == 0)
-                            continue;
-
-                        if (index != 0) {
-                            for (int j = 0; j < super.getBorder(); j++) {
-                                constructorArray.add(new String(new char[maxWidth]).replace('\u0000', ' '));
-                            }
-                        }
-
+                if (index != 0) {
+                    for (int j = 0; j < super.getBorder(); j++) {
+                        constructorArray.add(new String(new char[maxWidth]).replace('\u0000', ' '));
+                    }
+                }
+                switch (super.getAlignment()) {
+                    case 0:
                         int beforeSpace = (maxWidth - currentObject.getWidth()) / 2;
                         int afterSpace = maxWidth - currentObject.getWidth() - beforeSpace;
 
@@ -58,8 +54,8 @@ public class VerticalArrangement extends Arrangement {
                                 constructorLine += new String(new char[beforeSpace]).replace('\u0000', ' ');
                             }
 
-                            if(line == 0)
-                                constructorLine += "@" + new String(new char[currentObject.getWidth()-1]).replace('\u0000', '#');
+                            if (line == 0)
+                                constructorLine += "@" + new String(new char[currentObject.getWidth() - 1]).replace('\u0000', '#');
                             else
                                 constructorLine += new String(new char[currentObject.getWidth()]).replace('\u0000', '#');
 
@@ -68,26 +64,14 @@ public class VerticalArrangement extends Arrangement {
                             }
                             constructorArray.add(constructorLine);
                         }
-                    }
-                    break;
-                case 1:
-                    for (int index = 0; index < super.getObjects().size(); index++) {
-                        PrintableObject currentObject = super.getObjects().get(index);
+                        break;
 
-                        if(!currentObject.getVisibility()  ||  currentObject.getWidth() == 0  ||  currentObject.getHeight() == 0)
-                            continue;
-
-                        if (index != 0) {
-                            for (int j = 0; j < super.getBorder(); j++) {
-                                constructorArray.add(new String(new char[maxWidth]).replace('\u0000', ' '));
-                            }
-                        }
-
+                    case 1:
                         for (int line = 0; line < currentObject.getHeight(); line++) {
                             String constructorLine = "";
 
-                            if(line == 0)
-                                constructorLine += "@" + new String(new char[currentObject.getWidth()-1]).replace('\u0000', '#');
+                            if (line == 0)
+                                constructorLine += "@" + new String(new char[currentObject.getWidth() - 1]).replace('\u0000', '#');
                             else
                                 constructorLine += new String(new char[currentObject.getWidth()]).replace('\u0000', '#');
 
@@ -96,36 +80,24 @@ public class VerticalArrangement extends Arrangement {
                             }
                             constructorArray.add(constructorLine);
                         }
-                    }
-                    break;
-                case 2:
-                    for (int index = 0; index < super.getObjects().size(); index++) {
-                        PrintableObject currentObject = super.getObjects().get(index);
+                        break;
 
-                        if(!currentObject.getVisibility()  ||  currentObject.getWidth() == 0  ||  currentObject.getHeight() == 0)
-                            continue;
-
-                        if (index != 0) {
-                            for (int j = 0; j < super.getBorder(); j++) {
-                                constructorArray.add(new String(new char[maxWidth]).replace('\u0000', ' '));
-                            }
-                        }
-
+                    case 2:
                         for (int line = 0; line < currentObject.getHeight(); line++) {
                             String constructorLine = "";
                             if (currentObject.getWidth() < maxWidth) {
                                 constructorLine += new String(new char[maxWidth - currentObject.getWidth()]).replace('\u0000', ' ');
                             }
 
-                            if(line == 0)
-                                constructorLine += "@" + new String(new char[currentObject.getWidth()-1]).replace('\u0000', '#');
+                            if (line == 0)
+                                constructorLine += "@" + new String(new char[currentObject.getWidth() - 1]).replace('\u0000', '#');
                             else
                                 constructorLine += new String(new char[currentObject.getWidth()]).replace('\u0000', '#');
 
                             constructorArray.add(constructorLine);
                         }
-                    }
-                    break;
+                        break;
+                }
             }
             super.setObjectSize(constructorArray.size());
             for (int i = 0; i < constructorArray.size(); i++) {

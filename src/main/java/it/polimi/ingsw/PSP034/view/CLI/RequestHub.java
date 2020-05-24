@@ -178,6 +178,12 @@ public class RequestHub {
             return null;
         }
 
+        else if(request instanceof InfoIsPlacing){
+            ((Table) currScene).updateOtherPlacing(((InfoIsPlacing) request).getPlayer());
+            currScene.show();
+            return null;
+        }
+
         //TODO -- decidere se va bene
         return null;
     }
@@ -250,6 +256,12 @@ public class RequestHub {
             ((Table) currScene).updateStart();
             currScene.show();
             return new AnswerStart();
+        }
+
+        else if(request instanceof InfoIsStarting){
+            ((Table) currScene).updateOtherStarting(((InfoIsStarting) request).getPlayer());
+            currScene.show();
+            return null;
         }
 
         else if(request instanceof RequestEnd){

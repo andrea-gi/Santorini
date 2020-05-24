@@ -80,9 +80,9 @@ public class ANSI {
      */
     public static void clearLineInterval(int line, int startColumn, int endColumn){
         ANSI.moveTo(line, startColumn);
-        String spaces = "";
+        StringBuilder spaces = new StringBuilder();
         for(int x = startColumn; x <= endColumn; x++){
-            spaces = spaces + " ";
+            spaces.append(" ");
         }
         System.out.print(spaces);
         ANSI.moveTo(line, startColumn);
@@ -110,9 +110,9 @@ public class ANSI {
      * @param endColumn Column of the bottom right character of the area.
      */
     public static void clearArea(int startLine, int startColumn, int endLine, int endColumn){
-        String spaces = "";
+        StringBuilder spaces = new StringBuilder();
         for(int x = startColumn; x <= endColumn; x++){
-            spaces = spaces + " ";
+            spaces.append(" ");
         }
         for(int y = startLine; y <= endLine; y++){
             ANSI.moveTo(y, startColumn);
@@ -126,6 +126,7 @@ public class ANSI {
     //RESET                                                  //
     ///////////////////////////////////////////////////////////
     public static final String reset = "\033[0m";
+    //public static final String reset = "\033[38;2;0;0;0;48;2;255;255;255m";
 
     ///////////////////////////////////////////////////////////
     //4-BIT COLORS                                           //
