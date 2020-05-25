@@ -5,6 +5,7 @@ import it.polimi.ingsw.PSP034.messages.Answer;
 import it.polimi.ingsw.PSP034.messages.ModelUpdate;
 import it.polimi.ingsw.PSP034.messages.Request;
 import it.polimi.ingsw.PSP034.messages.gameOverPhase.PersonalDefeatRequest;
+import it.polimi.ingsw.PSP034.messages.gameOverPhase.WinnerRequest;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.*;
 import it.polimi.ingsw.PSP034.view.CLI.printables.ANSI;
 
@@ -90,9 +91,10 @@ class ClientHandler implements IClientConnection, Runnable{
      * to the socket.
      */
     private void send(){
+        Request message;
         while (isActive()) {
             try {
-                Request message = sendQueue.take();
+                message = sendQueue.take();
                 if (!isActive()) {
                     logger.printString("Connection to " + debugColor + this.playerName + ANSI.reset +
                             " has already been closed. Cannot send: " + message.getClass().getSimpleName());
@@ -102,6 +104,7 @@ class ClientHandler implements IClientConnection, Runnable{
                 out.writeObject(message);
                 out.flush();
                 logger.printRequestMessage(message, this.playerName, this.debugColor);
+                manageClosingInfo(message);
             } catch (IOException | InterruptedException e) {
                 // TODO -- disconnetto
                 close();
@@ -109,13 +112,46 @@ class ClientHandler implements IClientConnection, Runnable{
         }
     }
 
-    public void asyncSend(Request message){
-        sendQueue.offer(message);
+    /**
+     * Manages a message that causes a disconnection.
+     * Used in {@link ClientHandler#send()} method, in order to process the info right after the notification of disconnection
+     * @param message Message that causes the disconnection.
+     */
+    private void manageClosingInfo(Request message){
+        if (message == null)
+            return;
+        if (message instanceof RequestServerConfig){
+            if (((RequestServerConfig) message).getInfo() == ServerInfo.ALREADY_STARTED)
+                close();
+        }
+        else if (message instanceof WinnerRequest ||
+                (message instanceof PersonalDefeatRequest && !((PersonalDefeatRequest) message).getWinner().equals("")))
+            close();
+    }
+
+    /**
+     * Manages a message that causes a change in the client status (e.g. it became an external viewer).
+     * @param message Message that causes the status change.
+     */
+    private void manageStatusInfo(Request message){
+        if (message == null)
+            return;
         if (message instanceof PersonalDefeatRequest){
             synchronized (this){
                 externalViewer = true;
             }
         }
+    }
+
+    /**
+     * Sends an asynchronous {@link Request} message through an {@link java.io.ObjectOutputStream}
+     *
+     * @param request {@link java.io.Serializable} message being sent
+     */
+    @Override
+    public void asyncSend(Request request){
+        manageStatusInfo(request);
+        sendQueue.offer(request);
     }
 
     /**
@@ -130,8 +166,9 @@ class ClientHandler implements IClientConnection, Runnable{
             out = new ObjectOutputStream(socket.getOutputStream());
             new Thread(this::send).start();
         } catch (IOException e) {
-            System.err.println("Cannot open input/output stream.");
+            logger.printString("Cannot open input/output stream ("+ debugColor + playerName + ANSI.reset + ")");
             close();
+            return;
         }
         if (firstConnected)
             sendQueue.offer(new RequestServerConfig(ServerInfo.REQUEST_PLAYER_NUMBER));
@@ -143,51 +180,76 @@ class ClientHandler implements IClientConnection, Runnable{
             try{
                 Answer message = (Answer) in.readObject();
                 server.addMessage(message, this);
-            } catch (IOException | ClassNotFoundException e) {
-                setActive(false);
+            } catch (IOException e) {
+                logger.printString("IOException in ClientHandler - run() (" + debugColor + playerName + ANSI.reset + "). Normally caused by disconnection.");
                 close();
-                // TODO -- disconnetto
+            } catch (ClassNotFoundException e){
+                logger.printString("ClassNotFoundException in ClientHandler - run() (" + debugColor + playerName + ANSI.reset + ").");
+                close();
             }
         }
+        close();
     }
 
-
+    /**
+     * Closes the socket connection
+     */
     @Override
     public synchronized void closeConnection() {
-        // TODO -- inviare messaggio chiusura socket
         try {
             if(!socket.isClosed()) {
                 socket.close();
             }
         } catch (IOException e) {
-            System.err.println("Error when closing socket!");
+            logger.printString("Error when closing " + debugColor + playerName + ANSI.reset + " socket!" );
         } finally{
             setActive(false);
         }
     }
 
+    /**
+     * Closes and deregisters connection from {@link Server}.
+     */
     private void close(){
-        closeConnection();
-        logger.printString("Deregistering: " + debugColor + playerName + ANSI.reset);
-        server.deregisterConnection(this);
-        logger.printString(debugColor + playerName + ANSI.reset + " deregistered successfully.");
+        if (isActive()) {
+            closeConnection();
+            logger.printString("Deregistering: " + debugColor + playerName + ANSI.reset);
+            server.deregisterConnection(this);
+            logger.printString(debugColor + playerName + ANSI.reset + " deregistered successfully.");
+        }
     }
 
+    /**
+     * Returns the player name associated to the socket
+     * @return Player name
+     */
     @Override
     public synchronized String getName() {
         return playerName;
     }
 
+    /**
+     * Sets the player name associated to the socket
+     * @param name Player name
+     */
     @Override
     public synchronized void setName(String name){
         this.playerName = name;
     }
 
+    /**
+     * Sets the player's color (ANSI) used for logging
+     * @param color Color chosen
+     */
     @Override
     public void setDebugColor(PlayerColor color) {
         this.debugColor = color.getFG_color();
     }
 
+    /**
+     * Returns the player color (ANSI) for logging
+     * @return Player color
+     */
     @Override
     public String getDebugColor() {
         return debugColor;
