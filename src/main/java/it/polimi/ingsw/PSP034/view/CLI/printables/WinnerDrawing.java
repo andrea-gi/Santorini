@@ -13,10 +13,10 @@ public class WinnerDrawing extends PrintableObject{
         super.setObjectLine(0, "   " + playerColor + "\\o/   " + ANSI.reset);
         super.setObjectLine(1, "    " + playerColor + "█    " + ANSI.reset);
         super.setObjectLine(2, "   " + playerColor + "/ \\   " + ANSI.reset);
-        super.setObjectLine(3, "  " + buildColor + "█████  " + ANSI.reset);
-        super.setObjectLine(4, "  " + buildColor + "█████  " + ANSI.reset);
-        super.setObjectLine(5, " " + buildColor + "███████ " + ANSI.reset);
-        super.setObjectLine(6, " " + buildColor + "███████ " + ANSI.reset);
+        super.setObjectLine(3, "  " + buildColor + "█████" + ANSI.reset + "  ");
+        super.setObjectLine(4, "  " + buildColor + "█████" + ANSI.reset + "  ");
+        super.setObjectLine(5, " " + buildColor + "███████" + ANSI.reset + " ");
+        super.setObjectLine(6, " " + buildColor + "███████" + ANSI.reset + " ");
         super.setObjectLine(7, "" + buildColor + "█████████" + ANSI.reset);
         super.setObjectLine(8, "" + buildColor + "█████████" + ANSI.reset);
     }
