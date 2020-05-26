@@ -177,7 +177,7 @@ public class Table extends Scene{
     public void updateOtherPlacing(String playerName){
         setTitle("Workers setup");
         setMessage(new Message(playerName + " is placing Workers", -1));
-        setAnswer(new Message("", -1));
+        textBoxANDAnswer.setVisible(false);
         requiredAnswer = false;
     }
 
