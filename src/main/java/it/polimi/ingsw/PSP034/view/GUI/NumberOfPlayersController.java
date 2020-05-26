@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP034.view.GUI;
 
+import it.polimi.ingsw.PSP034.messages.serverConfiguration.AnswerNumber;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -72,6 +73,6 @@ public class NumberOfPlayersController implements GUIController {
     public void setSubmit(ActionEvent e){
         submit.setDisable(true);
         submit.setText("SUBMITTED!");
-        ScenePath.setNextScene(pane.getScene(), ScenePath.LOGIN);
+        GUIRequestHub.getInstance().sendAnswer(new AnswerNumber(number));
     }
 }

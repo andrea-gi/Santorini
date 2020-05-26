@@ -172,11 +172,9 @@ public class Server implements Runnable{
         if (waitingConnections.contains(connection)){
             if (isGameStarted()){
                 connection.asyncSend(new RequestServerConfig(ServerInfo.ALREADY_STARTED));
-                connection.closeConnection();
                 waitingConnections.remove(connection);
             }
             else if (!canStartSetup() && connection == firstPlayerConnected){
-                /*connection.closeConnection();*/
                 waitingConnections.remove(connection);
                 synchronized (firstConnectionLock) {
                     if (!waitingConnections.isEmpty()) {
@@ -187,7 +185,6 @@ public class Server implements Runnable{
                 }
             }
             else {
-                /*connection.closeConnection();*/
                 waitingConnections.remove(connection);
             }
         } else if (activeConnections.contains(connection)){
@@ -200,7 +197,8 @@ public class Server implements Runnable{
     }
 
     private synchronized void deregisterWaitingList(){
-        for(IClientConnection deregistered : waitingConnections) {
+        ArrayList<IClientConnection> waitingCopy = new ArrayList<>(waitingConnections);
+        for(IClientConnection deregistered : waitingCopy) {
             // TODO -- invio messaggio
             deregisterConnection(deregistered);
         }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.PSP034.view.GUI;
 
 import it.polimi.ingsw.PSP034.constants.PlayerColor;
+import it.polimi.ingsw.PSP034.messages.serverConfiguration.AnswerNameColor;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -99,7 +100,7 @@ public class LoginController implements GUIController{
         submit.setDisable(true);
         submit.setText("SUBMITTED!");
         enterName.setDisable(true);
-        //ScenePath.setNextScene(pane.getScene(), ScenePath.CHOOSE_GODS);
+        GUIRequestHub.getInstance().sendAnswer(new AnswerNameColor(getEnterName(), myColor));
     }
 
 }
