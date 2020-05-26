@@ -188,7 +188,7 @@ public class Controller implements IController{
                 String winner = currentGame.getPlayersName().get((indexLoser + 1)% 2);
 
                 sendToPlayer(loser, new PersonalDefeatRequest(winner, loser));
-                sendToPlayer(winner, new WinnerRequest(loser));
+                sendToPlayer(winner, new WinnerRequest(loser, winner));
                 return true;
             }
             else{

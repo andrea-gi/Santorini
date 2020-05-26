@@ -331,7 +331,7 @@ public class Table extends Scene{
     }
 
     public void updateWin(String winnerName) throws NullPointerException{
-        /*PlayerColor winnerColor = null;
+        PlayerColor winnerColor = null;
         for(PlayerBox card : cards){
             if(card.getPlayerName().equals(winnerName)){
                 winnerColor = card.getColor();
@@ -339,8 +339,8 @@ public class Table extends Scene{
         }
         if(winnerColor == null)
             throw new NullPointerException(winnerName + " can't win as there is no such player still playing");
-        */
-        WinnerDrawing drawing = new WinnerDrawing();
+
+        WinnerDrawing drawing = new WinnerDrawing(winnerColor);
         request.insertObject(request.getObjects().indexOf(message), drawing);
         setMessage(new Message("YAY! YOU WIN!", -1));
         setQuestion(new Dialog("Do you want to exit the game or play again?", -1, 1, "Exit", "Play again"));

@@ -291,7 +291,7 @@ public class CLIRequestHub {
         }
 
         else if(request instanceof WinnerRequest){
-            ((Table) currScene).updateWin(((WinnerRequest) request).getLoser());
+            ((Table) currScene).updateWin(((WinnerRequest) request).getWinner());
             answer = currScene.show();
             answerComposer = new AnswerComposer(request);
             return answerComposer.packetAnswer(answer);

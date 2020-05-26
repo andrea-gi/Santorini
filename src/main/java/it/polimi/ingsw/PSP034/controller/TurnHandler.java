@@ -71,7 +71,7 @@ public class TurnHandler {
                 controller.sendToAllExcept(newCurrentPlayer, new InfoIsStarting(newCurrentPlayer), true);
                 break;
             case WIN:
-                controller.sendToPlayer(player.getName(), new WinnerRequest(""));
+                controller.sendToPlayer(player.getName(), new WinnerRequest("", player.getName()));
                 ArrayList<String> losers = controller.getPlayersName();
                 losers.remove(player.getName());
                 controller.sendToAllExcept(player.getName(), new PersonalDefeatRequest(player.getName(), losers.toArray(new String[0])), true);
