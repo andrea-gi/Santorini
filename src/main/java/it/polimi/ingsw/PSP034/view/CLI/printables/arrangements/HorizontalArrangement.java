@@ -6,6 +6,7 @@ import it.polimi.ingsw.PSP034.view.CLI.printables.PrintableObject;
 import java.util.ArrayList;
 
 public class HorizontalArrangement extends Arrangement{
+
     public HorizontalArrangement(){
         super();
     }
@@ -34,60 +35,81 @@ public class HorizontalArrangement extends Arrangement{
                 maxHeight = object.getHeight();
         }
         if(super.getObjects().size() != 0) {
-            for (int line = 0; line < maxHeight; line++) {
-                StringBuilder constructorLine = new StringBuilder();
-                for (int index = 0; index < super.getObjects().size(); index++) {
-                    PrintableObject currentObject = super.getObjects().get(index);
+            switch (super.getAlignment()) {
+                case 0:
+                    for (int line = 0; line < maxHeight; line++) {
+                        StringBuilder constructorLine = new StringBuilder();
+                        for (int index = 0; index < super.getObjects().size(); index++) {
+                            PrintableObject currentObject = super.getObjects().get(index);
 
-                    if (!currentObject.getVisibility() || currentObject.getWidth() == 0 || currentObject.getHeight() == 0)
-                        continue;
+                            if(!currentObject.getVisibility()  ||  currentObject.getWidth() == 0  ||  currentObject.getHeight() == 0)
+                                continue;
 
-                    if (index != 0)
-                        constructorLine.append(new String(new char[super.getBorder()]).replace('\u0000', ' '));
+                            if (index != 0)
+                                constructorLine.append(new String(new char[super.getBorder()]).replace('\u0000', ' '));
 
-                    switch (super.getAlignment()) {
-                        //Centre alignment
-                        case 0:
                             int above = (maxHeight - currentObject.getHeight()) / 2;
                             int under = above + currentObject.getHeight();
                             if (line < above || line >= under)
                                 constructorLine.append(new String(new char[currentObject.getWidth()]).replace('\u0000', ' '));
                             else {
-                                if (line - (maxHeight - currentObject.getHeight()) / 2 == 0)
+                                if(line - (maxHeight - currentObject.getHeight()) / 2 == 0)
                                     constructorLine.append("@").append(new String(new char[currentObject.getWidth() - 1]).replace('\u0000', '#'));
                                 else
                                     constructorLine.append(new String(new char[currentObject.getWidth()]).replace('\u0000', '#'));
                             }
-                            constructorArray.add(constructorLine.toString());
-                            break;
+                        }
+                        constructorArray.add(constructorLine.toString());
+                    }
+                    break;
+                case 1:
+                    for (int line = 0; line < maxHeight; line++) {
+                        StringBuilder constructorLine = new StringBuilder();
+                        for (int index = 0; index < super.getObjects().size(); index++) {
+                            PrintableObject currentObject = super.getObjects().get(index);
 
-                        //Top alignment
-                        case 1:
+                            if(!currentObject.getVisibility()  ||  currentObject.getWidth() == 0  ||  currentObject.getHeight() == 0)
+                                continue;
+
+                            if (index != 0)
+                                constructorLine.append(new String(new char[super.getBorder()]).replace('\u0000', ' '));
+
                             if (line >= currentObject.getHeight())
                                 constructorLine.append(new String(new char[currentObject.getWidth()]).replace('\u0000', ' '));
                             else {
-                                if (line == 0)
-                                    constructorLine.append("@").append(new String(new char[currentObject.getWidth() - 1]).replace('\u0000', '#'));
+                                if(line == 0)
+                                    constructorLine.append("@").append(new String(new char[currentObject.getWidth()-1]).replace('\u0000', '#'));
                                 else
                                     constructorLine.append(new String(new char[currentObject.getWidth()]).replace('\u0000', '#'));
                             }
-                            constructorArray.add(constructorLine.toString());
-                            break;
+                        }
+                        constructorArray.add(constructorLine.toString());
+                    }
+                    break;
+                case 2:
+                    for (int line = 0; line < maxHeight; line++) {
+                        StringBuilder constructorLine = new StringBuilder();
+                        for (int index = 0; index < super.getObjects().size(); index++) {
+                            PrintableObject currentObject = super.getObjects().get(index);
 
-                        //Bottom alignment
-                        case 2:
+                            if(!currentObject.getVisibility()  ||  currentObject.getWidth() == 0  ||  currentObject.getHeight() == 0)
+                                continue;
+
+                            if (index != 0)
+                                constructorLine.append(new String(new char[super.getBorder()]).replace('\u0000', '#'));
+
                             if (line < maxHeight - currentObject.getHeight())
                                 constructorLine.append(new String(new char[currentObject.getWidth()]).replace('\u0000', ' '));
-                            else {
-                                if (line - (maxHeight - currentObject.getHeight()) == 0)
+                            else{
+                                if(line -(maxHeight - currentObject.getHeight()) == 0)
                                     constructorLine.append("@").append(new String(new char[currentObject.getWidth() - 1]).replace('\u0000', '#'));
                                 else
                                     constructorLine.append(new String(new char[currentObject.getWidth()]).replace('\u0000', '#'));
                             }
-                            constructorArray.add(constructorLine.toString());
-                            break;
+                        }
+                        constructorArray.add(constructorLine.toString());
                     }
-                }
+                    break;
             }
             super.setObjectSize(constructorArray.size());
             for(int i = 0; i<constructorArray.size(); i++){
