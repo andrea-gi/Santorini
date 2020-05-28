@@ -1,7 +1,7 @@
 package it.polimi.ingsw.PSP034.client;
 
 import it.polimi.ingsw.PSP034.messages.Request;
-import it.polimi.ingsw.PSP034.messages.clientConfiguration.AutoClose;
+import it.polimi.ingsw.PSP034.messages.clientConfiguration.AutoCloseRequest;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -43,20 +43,16 @@ public class Client implements Runnable{
             clientGameHandler.start();
             return true;
         } catch (IOException e){
-            // devo chiudere stream (no) e socket?
             return false;
         }
     }
 
-    public synchronized void setClientEnded(boolean value){
-        this.clientEnded = value;
-    }
-
     private void closeStreams(){
         try {
+            clientEnded = true;
             in.close();
-            //requestQueue.put(new AutoClose());
-        } catch (IOException /*| InterruptedException*/ ignored){
+            requestQueue.offer(new AutoCloseRequest());
+        } catch (IOException ignored){
         }
     }
 
@@ -68,16 +64,13 @@ public class Client implements Runnable{
                 if (receivedMessage instanceof Request){
                     requestQueue.put((Request) receivedMessage);
                 } //else if PING
-                //else if MESSAGGIO DI CHIUSURA
             }
             catch (IOException | ClassNotFoundException | InterruptedException e){
-                //cosa devo fare qui?
-                // TODO -- requestQueue.put(new ConnectionError)
-                // gestisco la chiusura della connessione con un "inside message"
+                requestQueue.clear();
+                closeStreams();
             }
-            if (clientEnded){
+            if(clientEnded)
                 return;
-            }
         }
     }
 }

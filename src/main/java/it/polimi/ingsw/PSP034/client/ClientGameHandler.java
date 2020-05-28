@@ -2,7 +2,10 @@ package it.polimi.ingsw.PSP034.client;
 
 import it.polimi.ingsw.PSP034.messages.Answer;
 import it.polimi.ingsw.PSP034.messages.Request;
-import it.polimi.ingsw.PSP034.messages.clientConfiguration.AutoClose;
+import it.polimi.ingsw.PSP034.messages.clientConfiguration.AutoCloseAnswer;
+import it.polimi.ingsw.PSP034.messages.clientConfiguration.AutoCloseRequest;
+import it.polimi.ingsw.PSP034.messages.clientConfiguration.ErrorMessage;
+import it.polimi.ingsw.PSP034.view.GameException;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -45,9 +48,8 @@ public class ClientGameHandler implements Runnable{
                 out.flush();
             }
         } catch(IOException e){
-            setActive(false);
-            e.printStackTrace();
-            //TODO -- gestire eccezione. dove va gestita? Prob nel client
+            disableAndClearQueue();
+            closeStream();
         }
     }
 
@@ -56,9 +58,10 @@ public class ClientGameHandler implements Runnable{
      * @param message Answer to the given request, {@code null} if the answer is not needed.
      */
     public void send(Answer message){
-        if (message instanceof AutoClose) {
+        if (message instanceof AutoCloseAnswer) {
             setActive(false);
             closeStream();
+            System.exit(0);
         }
         else if (message != null)
             sendAnswer(message);
@@ -66,16 +69,30 @@ public class ClientGameHandler implements Runnable{
 
     }
 
+    /**
+     * Clears message queue from any remaining message and sets client disabled.
+     */
+    private void disableAndClearQueue(){
+        setActive(false);
+        queue.clear();
+    }
+
     @Override
     public void run() {
         while(isActive()){
             try{
                 Request message = queue.take();
+                if (message instanceof AutoCloseRequest) {
+                    closeStream();
+                    throw new GameException("Server connection failed.", 2); //TODO -- scegliere codice errore
+                }
                 requestManager.handleRequest(message);
             } catch (InterruptedException e) {
-                setActive(false);
-                e.printStackTrace();
-                // cosa faccio?
+                disableAndClearQueue();
+                requestManager.showError(new ErrorMessage(0)); //TODO -- scegliere codice errore
+            } catch (GameException e){
+                disableAndClearQueue();
+                requestManager.showError(new ErrorMessage(e.getCode())); //TODO -- scegliere codice errore
             }
         }
     }

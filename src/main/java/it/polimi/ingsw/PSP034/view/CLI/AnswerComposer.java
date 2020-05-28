@@ -8,7 +8,7 @@ import it.polimi.ingsw.PSP034.messages.Answer;
 import it.polimi.ingsw.PSP034.messages.Request;
 import it.polimi.ingsw.PSP034.messages.SlimBoard;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.AnswerIP;
-import it.polimi.ingsw.PSP034.messages.clientConfiguration.AutoClose;
+import it.polimi.ingsw.PSP034.messages.clientConfiguration.AutoCloseAnswer;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.RequestClientConfig;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.RequestIP;
 import it.polimi.ingsw.PSP034.messages.gameOverPhase.*;
@@ -158,7 +158,7 @@ public class AnswerComposer {
     private Answer answerGameOver(String...params){
         if(request instanceof PersonalDefeatRequest){
             if(params[0].equals("1")) {
-                answer = new AutoClose();
+                answer = new AutoCloseAnswer();
             }else if(((PersonalDefeatRequest) request).getWinner().equals("")) {
                 //TODO -- risposta che genera un messaggio interno per cancellare la domanda?
             }else{
@@ -168,7 +168,7 @@ public class AnswerComposer {
 
         else if(request instanceof SingleLoserInfo){
             if(params[0].equals("1")){
-                answer = new AutoClose();
+                answer = new AutoCloseAnswer();
             }else if (params[0].equals("2")){
                 answer = new AnswerGameOver(true);
             }
@@ -176,7 +176,7 @@ public class AnswerComposer {
 
         else if(request instanceof WinnerRequest){
             if(params[0].equals("1")){
-                answer = new AutoClose();
+                answer = new AutoCloseAnswer();
             }else if (params[0].equals("2")){
                 answer = new AnswerGameOver(true);
             }
