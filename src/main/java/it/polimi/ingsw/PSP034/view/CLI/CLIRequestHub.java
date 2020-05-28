@@ -216,6 +216,9 @@ public class CLIRequestHub {
                         break;
                     case REQUEST_MOVE:
                         Directions[] moveDirections = requiredSex == Sex.MALE ? ((RequestAction) request).getPossibleMaleDirections() : ((RequestAction) request).getPossibleFemaleDirections();
+                        if (requiredSex == null){
+                            throw new NullPointerException("No Worker was selected nor imposed.");
+                        }
                         ((Table) currScene).updateMove(requiredSex, moveDirections, hasChoice);
                         answers[1] = currScene.show();
                         if(Integer.parseInt(answers[1]) > moveDirections.length) {
@@ -227,6 +230,9 @@ public class CLIRequestHub {
                         }
                     case REQUEST_BUILD:
                         Directions[] buildDirections = requiredSex == Sex.MALE ? ((RequestAction) request).getPossibleMaleDirections() : ((RequestAction) request).getPossibleFemaleDirections();
+                        if (requiredSex == null){
+                            throw new NullPointerException("No Worker was selected nor imposed.");
+                        }
                         ((Table) currScene).updateBuild(requiredSex, buildDirections, hasChoice);
                         answers[1] = currScene.show();
                         if(Integer.parseInt(answers[1]) > buildDirections.length) {
@@ -285,9 +291,8 @@ public class CLIRequestHub {
 
         else if(request instanceof SingleLoserInfo) {
             ((Table) currScene).updateRemovePlayer(((SingleLoserInfo) request).getLoser());
-            answer = currScene.show();
-            answerComposer = new AnswerComposer(request);
-            return answerComposer.packetAnswer(answer);
+            currScene.show();
+            return null;
         }
 
         else if(request instanceof WinnerRequest){

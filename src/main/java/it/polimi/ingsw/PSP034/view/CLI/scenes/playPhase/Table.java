@@ -113,11 +113,6 @@ public class Table extends Scene{
     }
 
     public void updateBoard(boolean[][] dome, int[][] building, PlayerColor[][] color, Sex[][] sex, boolean showNumbers, String currentPlayer){
-        if(currentPlayer != null) {
-            if(!title.getText().equals("your turn"))
-                setTitle(currentPlayer + "'s turn");
-        }
-
         for(int y = 0; y < Constant.DIM; y++){
             for(int x = 0; x < Constant.DIM; x++){
                 board.updateTile(x, y, building[x][y], dome[x][y], color[x][y], sex[x][y]);

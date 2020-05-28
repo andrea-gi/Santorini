@@ -11,8 +11,7 @@ import it.polimi.ingsw.PSP034.messages.clientConfiguration.AnswerIP;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.AutoClose;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.RequestClientConfig;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.RequestIP;
-import it.polimi.ingsw.PSP034.messages.gameOverPhase.AnswerGameOver;
-import it.polimi.ingsw.PSP034.messages.gameOverPhase.PersonalDefeatRequest;
+import it.polimi.ingsw.PSP034.messages.gameOverPhase.*;
 import it.polimi.ingsw.PSP034.messages.playPhase.*;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.AnswerNameColor;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.AnswerNumber;
@@ -33,17 +32,28 @@ public class AnswerComposer {
         if(request != null) {
             if(request instanceof RequestClientConfig) {
                 return answerClientConfig(params);
-            }else if (request instanceof RequestServerConfig) {
+            }
+
+            else if (request instanceof RequestServerConfig) {
                 return answerServerConfig(params);
-            }else if (request instanceof SetupRequest) {
+            }
+
+            else if (request instanceof SetupRequest) {
                 return answerSetup(params);
-            }else if (request instanceof PlayRequest) {
+            }
+
+            else if (request instanceof PlayRequest) {
                 return answerPlay(params);
-            }else
-                //TODO decidere testo
-                throw new IllegalArgumentException();
+            }
+
+            else if(request instanceof GameOverRequest){
+                return answerGameOver(params);
+            }
+
+            else
+                throw new IllegalArgumentException(request.getClass().getName() + "is not or doesn't extend a supported request.");
         }else{
-            throw new NullPointerException("It is not possible to get an answer without a request");
+            throw new NullPointerException("It is not possible to get an answer without a request.");
         }
     }
 
@@ -52,6 +62,8 @@ public class AnswerComposer {
             String ip = params[0].equals("") ? "localhost" : params[0];
             int port = params[1].equals("") ? 2020 : Integer.parseInt(params[1]);
             answer = new AnswerIP(ip, port);
+        }else {
+            throw new IllegalArgumentException("There is no answer for " + request.getClass().getName());
         }
         return answer;
     }
@@ -68,6 +80,9 @@ public class AnswerComposer {
             case REQUEST_PLAYER_NUMBER:
                 answer = new AnswerNumber(Integer.parseInt(params[0]));
                 break;
+
+            default:
+                throw new IllegalArgumentException("There is no answer for " + request.getClass().getName() + " with ServerInfo " + ((RequestServerConfig) request).getInfo());
         }
         return answer;
     }
@@ -85,12 +100,16 @@ public class AnswerComposer {
             }
             answer = new AnswerCardsChoice(gods);
         }
+
         else if (request instanceof RequestFirstPlayer) {
             answer = new AnswerFirstPlayer(((RequestFirstPlayer) request).getPlayers()[Integer.parseInt(params[0])-1]);
         }
+
         else if (request instanceof RequestPersonalGod) {
             answer = new AnswerPersonalGod(((RequestPersonalGod) request).getPossibleGods()[Integer.parseInt(params[0])-1]);
-        }else if(request instanceof RequestPlaceWorker) {
+        }
+
+        else if(request instanceof RequestPlaceWorker) {
             SlimBoard slimBoard = ((RequestPlaceWorker) request).getSlimBoard();
             int tile = Integer.parseInt(params[0]);
             int x = 0;
@@ -108,6 +127,11 @@ public class AnswerComposer {
             }
             answer = new AnswerPlaceWorker(((RequestPlaceWorker) request).getSex(), x, Constant.DIM - 1 - y );
         }
+
+        else {
+            throw new IllegalArgumentException("There is no answer for " + request.getClass().getName());
+        }
+
         return answer;
     }
 
@@ -117,21 +141,51 @@ public class AnswerComposer {
             Directions[] directions = sex == Sex.MALE ? ((RequestAction) request).getPossibleMaleDirections() : ((RequestAction) request).getPossibleFemaleDirections();
             Directions direction = directions[Integer.parseInt(params[1])-1];
             answer = new AnswerAction(sex, direction);
-        }else if(request instanceof RequestBooleanChoice) {
+        }
+
+        else if(request instanceof RequestBooleanChoice) {
             boolean choice = params[0].equals("1");
             answer = new AnswerBooleanChoice(choice);
         }
+
+        else {
+            throw new IllegalArgumentException("There is no answer for " + request.getClass().getName());
+        }
+
         return answer;
     }
 
     private Answer answerGameOver(String...params){
         if(request instanceof PersonalDefeatRequest){
-            if(params[0].equals("1"))
+            if(params[0].equals("1")) {
                 answer = new AutoClose();
-            else if(params[0].equals("2"))
+            }else if(((PersonalDefeatRequest) request).getWinner().equals("")) {
+                //TODO -- risposta che genera un messaggio interno per cancellare la domanda?
+            }else{
                 answer = new AnswerGameOver(true);
+            }
         }
-        //TODO -- finire risposte;
+
+        else if(request instanceof SingleLoserInfo){
+            if(params[0].equals("1")){
+                answer = new AutoClose();
+            }else if (params[0].equals("2")){
+                answer = new AnswerGameOver(true);
+            }
+        }
+
+        else if(request instanceof WinnerRequest){
+            if(params[0].equals("1")){
+                answer = new AutoClose();
+            }else if (params[0].equals("2")){
+                answer = new AnswerGameOver(true);
+            }
+        }
+
+        else {
+            throw new IllegalArgumentException("There is no answer for " + request.getClass().getName());
+        }
+
         return answer;
     }
 }
