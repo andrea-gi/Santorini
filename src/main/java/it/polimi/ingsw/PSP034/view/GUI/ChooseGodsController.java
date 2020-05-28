@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP034.view.GUI;
 
+import it.polimi.ingsw.PSP034.messages.setupPhase.AnswerCardsChoice;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.IntegerBinding;
 import javafx.collections.FXCollections;
@@ -157,6 +158,11 @@ public class ChooseGodsController implements GUIController{
 
     }
 
+    @Override
+    public Pane getPane() {
+        return pane;
+    }
+
 
     @FXML
     public void setSubmit(ActionEvent e){
@@ -169,10 +175,8 @@ public class ChooseGodsController implements GUIController{
             myGod.setDisable(true);
         }
         submit.setText("SUBMITTED!");
+        GUIRequestHub.getInstance().sendAnswer(new AnswerCardsChoice((String[]) chosenGods.toArray()));
     }
 
-    @Override
-    public Pane getPane() {
-        return pane;
-    }
+
 }

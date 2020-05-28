@@ -2,6 +2,7 @@ package it.polimi.ingsw.PSP034.view.GUI;
 
 import it.polimi.ingsw.PSP034.constants.PlayerColor;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.AnswerNameColor;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -10,6 +11,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class LoginController implements GUIController{
@@ -19,9 +23,6 @@ public class LoginController implements GUIController{
 
     @FXML
     private Pane pane;
-
-    @FXML
-    private Label title;
 
     @FXML
     private TextField enterName;
@@ -43,6 +44,7 @@ public class LoginController implements GUIController{
 
     private boolean notValid;
     private PlayerColor myColor;
+    private ArrayList<String> chosenNames;
 
     @Override
     public Pane getPane() {
@@ -62,10 +64,13 @@ public class LoginController implements GUIController{
         magenta.setToggleGroup(colors);
         red.getStyleClass().remove("radio-button");
         red.setId("redButton");
+        red.setDisable(true);
         blue.getStyleClass().remove("radio-button");
         blue.setId("blueButton");
+        blue.setDisable(true);
         magenta.getStyleClass().remove("radio-button");
         magenta.setId("magentaButton");
+        magenta.setDisable(true);
         colors.selectedToggleProperty().addListener((observable, oldToggle, newToggle) -> {
 
             RadioButton chosen = (RadioButton) colors.getSelectedToggle();
@@ -81,11 +86,13 @@ public class LoginController implements GUIController{
         });
         santoriniLogo.setImage(image);
         submit.setDisable(notValid);
+
+        enterName.setDisable(true);
     }
 
     @FXML
     public void filledName(){
-        notValid = getEnterName().isEmpty() || colors.getSelectedToggle() == null;
+        notValid = getEnterName().isEmpty() || colors.getSelectedToggle() == null || getEnterName().length() > 20 || !getEnterName().matches("^[a-zA-Z0-9_]+$");
         submit.setDisable(notValid);
     }
 
@@ -100,7 +107,22 @@ public class LoginController implements GUIController{
         submit.setDisable(true);
         submit.setText("SUBMITTED!");
         enterName.setDisable(true);
+
         GUIRequestHub.getInstance().sendAnswer(new AnswerNameColor(getEnterName(), myColor));
     }
 
+    public void update(String[] chosenNames, PlayerColor[] availableColors){
+        Platform.runLater(()->{
+            this.chosenNames = new ArrayList<>(Arrays.asList(chosenNames));
+            enterName.setDisable(false);
+            ArrayList<PlayerColor> colorsList = new ArrayList<>(Arrays.asList(availableColors));
+            if (colorsList.contains(PlayerColor.MAGENTA))
+                magenta.setDisable(false);
+            if (colorsList.contains(PlayerColor.BLUE))
+                blue.setDisable(false);
+            if (colorsList.contains(PlayerColor.RED))
+                red.setDisable(false);
+        });
+
+    }
 }

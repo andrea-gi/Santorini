@@ -1,17 +1,17 @@
 package it.polimi.ingsw.PSP034.view.GUI;
 
 import it.polimi.ingsw.PSP034.client.Client;
-import it.polimi.ingsw.PSP034.client.ClientGameHandler;
 import it.polimi.ingsw.PSP034.client.RequestManager;
-import it.polimi.ingsw.PSP034.messages.Answer;
 import it.polimi.ingsw.PSP034.messages.Request;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.AnswerIP;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.RequestIP;
+import it.polimi.ingsw.PSP034.messages.serverConfiguration.RequestNameColor;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.RequestServerConfig;
 import it.polimi.ingsw.PSP034.messages.setupPhase.*;
+import javafx.application.Platform;
 import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-import java.lang.reflect.Method;
 
 public class GUIRequestHub extends RequestManager {
     private GUIController currentController;
@@ -36,42 +36,49 @@ public class GUIRequestHub extends RequestManager {
         return currentController;
     }
 
-    private void craftRequest(RequestIP request){
-        ScenePath.setNextScene(currentController.getPane().getScene(), ScenePath.SERVER_LOGIN);
+    private void craftRequestIP(RequestIP request){
+        Platform.runLater(()->{ScenePath.setNextScene(currentController.getPane().getScene(), ScenePath.SERVER_LOGIN);});
     }
 
-    private void craftRequest(RequestServerConfig request){
+    private void craftRequestServer(RequestServerConfig request){
         Scene scene = currentController.getPane().getScene();
         switch (request.getInfo()){
-            //TODO -- break
             case REQUEST_NAME_COLOR:
-                ScenePath.setNextScene(scene, ScenePath.LOGIN);
+                RequestNameColor requestNameColor = (RequestNameColor) request;
+                Platform.runLater(()->{
+                    ScenePath.setNextScene(scene, ScenePath.LOGIN);
+                    ((LoginController) currentController).update(requestNameColor.getAlreadyChosenNames(), requestNameColor.getAvailableColors());
+                });
                 break;
             case REQUEST_PLAYER_NUMBER:
-                ScenePath.setNextScene(scene, ScenePath.NUMBER_OF_PLAYERS);
+                Platform.runLater(()->{ScenePath.setNextScene(scene, ScenePath.NUMBER_OF_PLAYERS);});
                 break;
             case LOBBY:
-                ScenePath.setNextScene(scene, ScenePath.WAITING);
+                Platform.runLater(()->{ScenePath.setNextScene(scene, ScenePath.WAITING);});
                 break;
                 //TODO -- waiting di lobby
 
             case WELCOME_WAIT:
-                ScenePath.setNextScene(scene, ScenePath.WAITING); //TODO -- waiting di lobby
+                Platform.runLater(()->{ScenePath.setNextScene(scene, ScenePath.WAITING);});
+                //TODO -- waiting di lobby
                 break;
             case SUCCESSFULLY_ADDED:
-                ScenePath.setNextScene(scene, ScenePath.WAITING); //TODO -- waiting di lobby
+                Platform.runLater(()->{ScenePath.setNextScene(scene, ScenePath.WAITING);}); //TODO -- waiting di lobby
                 break;
             case CARDS_CHOICE_WAIT:
-                ScenePath.setNextScene(scene, ScenePath.WAITING); //TODO -- waiting di lobby
+                Platform.runLater(()->{ScenePath.setNextScene(scene, ScenePath.WAITING);}); //TODO -- waiting di lobby
                 break;
             case ALREADY_STARTED:
+                Platform.runLater(()->{ScenePath.setDialog((Stage)scene.getWindow(),"Game Started",
+                        "Oops, seems like the game has already started without you, sorry! :(");});
                 //TODO -- chi eccede e non può registrarsi
-                break;
+
+
         }
 
     }
 
-    private void craftRequest(SetupRequest request){
+    private void craftRequestSetup(SetupRequest request){
         Scene scene = currentController.getPane().getScene();
         if (request instanceof GodLikeInfo){
 
@@ -120,11 +127,11 @@ public class GUIRequestHub extends RequestManager {
     }
 
     public void handleRequest(Request message) {
-        try {
-            Method method = getClass().getDeclaredMethod("craftRequest", message.getClass());
-            method.invoke(this, message);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+        if (message instanceof RequestIP)
+            craftRequestIP((RequestIP) message);
+        else if (message instanceof RequestServerConfig)
+            craftRequestServer((RequestServerConfig) message);
+        else if (message instanceof SetupRequest)
+            craftRequestSetup((SetupRequest) message);
     }
 }

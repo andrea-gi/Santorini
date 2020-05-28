@@ -30,6 +30,7 @@ public class WaitingController implements GUIController{
     private void initialize(){
         GUIRequestHub.getInstance().setCurrentController(this);
         santoriniLogo.setImage(image);
+        setMyLabel("You are in the Lobby now");
     }
 
     public void setMyLabel(String string){

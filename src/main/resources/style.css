@@ -90,45 +90,76 @@
 }
 
 #redButton{
-    -fx-background-color: red;
+    -fx-background-image: url("/images/worker_red_pressed.png");
+    -fx-background-size: cover;
 }
 
 #redButton:hover {
-    -fx-scale-x: 1.1;
-    -fx-scale-y: 1.1;
-    -fx-scale-z: 1.1;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-scale-z: 1.05;
+    -fx-background-size: cover;
+}
+
+#redButton:disabled{
+    -fx-opacity: 0.3;
 }
 
 #redButton:selected{
-    -fx-border-color: #fff300;
+    -fx-background-image: url("/images/worker_red_normal.png");
+    -fx-background-size: cover;
+    -fx-opacity: 1;
+    -fx-scale-x: 1.3;
+    -fx-scale-y: 1.3;
+    -fx-scale-z: 1.3;
 }
 
 #blueButton{
-    -fx-background-color: blue;
+    -fx-background-image: url("/images/worker_blue_pressed.png");
+    -fx-background-size: cover;
+}
+
+#blueButton:disabled{
+    -fx-opacity: 0.3;
 }
 
 #blueButton:hover {
-    -fx-scale-x: 1.1;
-    -fx-scale-y: 1.1;
-    -fx-scale-z: 1.1;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-scale-z: 1.05;
 }
 
 #blueButton:selected{
-    -fx-border-color: #fff300;
+    -fx-background-image: url("/images/worker_blue_normal.png");
+    -fx-background-size: cover;
+    -fx-opacity: 1;
+    -fx-scale-x: 1.3;
+    -fx-scale-y: 1.3;
+    -fx-scale-z: 1.3;
 }
 
 #magentaButton{
-    -fx-background-color: magenta;
+    -fx-background-image: url("/images/worker_magenta_pressed.png");
+    -fx-background-size: cover;
+}
+
+#magentaButton:disabled{
+    -fx-opacity: 0.3;
 }
 
 #magentaButton:hover {
-    -fx-scale-x: 1.1;
-    -fx-scale-y: 1.1;
-    -fx-scale-z: 1.1;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-scale-z: 1.05;
 }
 
 #magentaButton:selected{
-    -fx-border-color: #fff300;
+    -fx-background-image: url("/images/worker_magenta_normal.png");
+    -fx-background-size: cover;
+    -fx-opacity: 1;
+    -fx-scale-x: 1.3;
+    -fx-scale-y: 1.3;
+    -fx-scale-z: 1.3;
 }
 
 .check-box{
@@ -143,4 +174,21 @@
     -fx-font-family: "Agency FB";
     -fx-text-fill: #ffffff;
     -fx-font-weight: normal;
+}
+
+#dialogScene{
+    -fx-background-image: url("/images/endgame_victorywin.png");
+}
+
+#dialogLabel {
+    -fx-text-alignment: center;
+    -fx-wrap-text: true;
+}
+
+#dialogTitle {
+    -fx-text-alignment: center;
+    -fx-wrap-text: true;
+    -fx-text-fill: white;
+    -fx-font-size: 20pt;
+    -fx-effect: dropshadow(gaussian, darkblue, 2, 0.7, 0, 0);
 }

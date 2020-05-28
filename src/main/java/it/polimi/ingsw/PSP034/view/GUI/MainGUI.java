@@ -13,8 +13,8 @@ public class MainGUI extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource(ScenePath.TITLE));
 
-        primaryStage.setMaximized(true);
-        primaryStage.setFullScreen(true);
+        primaryStage.setHeight(720);
+        primaryStage.setWidth(1280);
         primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         primaryStage.setTitle("Santorini");
         primaryStage.setResizable(false);

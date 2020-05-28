@@ -16,22 +16,22 @@
                 <ImageView fx:id="santoriniLogo" blendMode="SRC_ATOP" fitHeight="90.0" fitWidth="294.0" pickOnBounds="true" preserveRatio="true">
                     <Image url="@../images/santorini.jpg" />
                     <VBox.margin>
-                        <Insets bottom="120.0" left="560.0" right="480.0" top="35.0" />
+                        <Insets bottom="120.0" left="500.0" right="480.0" top="35.0" />
                     </VBox.margin>
                 </ImageView>
-                <Label alignment="CENTER" layoutX="25.0" layoutY="146.0" prefHeight="30.0" prefWidth="324.0" text="Choose your God">
+                <Label layoutX="25.0" layoutY="146.0" prefHeight="30.0" prefWidth="324.0" text="Choose your God">
                     <VBox.margin>
-                        <Insets bottom="15.0" top="15.0" />
+                        <Insets bottom="15.0" left="530.0" right="80.0" top="15.0" />
                     </VBox.margin>
                 </Label>
                 <ChoiceBox fx:id="chooseGod" minHeight="23.0" onMouseClicked="#selectedGod" prefHeight="33.0" prefWidth="141.0">
                     <VBox.margin>
-                        <Insets bottom="25.0" left="90.0" right="80.0" />
+                        <Insets bottom="25.0" left="530.0" right="80.0" />
                     </VBox.margin>
                 </ChoiceBox>
                 <Button fx:id="submit" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#setSubmit" prefHeight="33.0" prefWidth="141.0" text="SUBMIT" textAlignment="CENTER">
                     <VBox.margin>
-                        <Insets bottom="25.0" left="90.0" right="80.0" top="50.0" />
+                        <Insets bottom="25.0" left="560.0" right="80.0" top="50.0" />
                     </VBox.margin>
                 </Button>
             </children>

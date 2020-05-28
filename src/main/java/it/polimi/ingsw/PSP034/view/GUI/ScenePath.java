@@ -1,9 +1,13 @@
 package it.polimi.ingsw.PSP034.view.GUI;
 
 import javafx.application.Platform;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
@@ -16,17 +20,43 @@ public class ScenePath {
     public static final String PERSONAL_GOD = "/fxml/personalGod.fxml";
     public static final String NUMBER_OF_PLAYERS = "/fxml/numberOfPlayers.fxml";
 
+    public static final String DIALOG = "/fxml/dialog.fxml";
+
     public static void setNextScene(Scene scene, String path) {
-        Platform.runLater(()->{
-            FXMLLoader loader = new FXMLLoader((ScenePath.class.getResource(path)));
-            Pane pane;
+        FXMLLoader loader = new FXMLLoader((ScenePath.class.getResource(path)));
+        Pane pane;
+        try {
+            pane = loader.load();
+            scene.setRoot(pane);
+            scene.getStylesheets().add("/style.css");
+        } catch (IOException ignored) {
+            //TODO -- schermata di errore
+        }
+    }
+
+    public static void setDialog(Stage stage, String info, String message){
+        Platform.runLater(()-> {
+            FXMLLoader loader = new FXMLLoader((ScenePath.class.getResource("/fxml/dialog.fxml")));
+
+            Scene dialogScene;
             try {
-                pane = loader.load();
-                scene.setRoot(pane);
-                scene.getStylesheets().add("/style.css");
-            } catch (IOException ignored) {
-                //TODO -- schermata di errore
+                dialogScene = new Scene(loader.load(), 420, 430);
+                dialogScene.getStylesheets().add("/style.css");
+            } catch (IOException e) {
+                return;
             }
+
+            Stage dialog = new Stage();
+            dialog.setScene(dialogScene);
+            dialog.initOwner(stage);
+            dialog.initStyle(StageStyle.UNDECORATED);
+            dialog.initModality(Modality.APPLICATION_MODAL);
+            dialog.setAlwaysOnTop(true);
+
+            ((DialogController)GUIRequestHub.getInstance().getCurrentController()).setMyTitle(info);
+            ((DialogController)GUIRequestHub.getInstance().getCurrentController()).setLabel(message);
+
+            dialog.showAndWait();
         });
     }
 }

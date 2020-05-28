@@ -36,27 +36,27 @@
                 <Insets bottom="15.0" left="530.0" right="70.0" />
             </VBox.margin>
         </Label>
-      <HBox prefHeight="100.0" prefWidth="365.0">
+      <HBox prefHeight="157.0" prefWidth="330.0">
          <VBox.margin>
-            <Insets left="480.0" right="470.0" />
+            <Insets left="460.0" right="460.0" />
          </VBox.margin>
          <children>
-            <RadioButton fx:id="blue" mnemonicParsing="false" onAction="#filledColor" prefHeight="99.0" prefWidth="99.0" text="BLUE">
+            <RadioButton fx:id="blue" mnemonicParsing="false" onAction="#filledColor" prefHeight="145.0" prefWidth="105.0">
                <HBox.margin>
                   <Insets right="10.0" />
                </HBox.margin>
             </RadioButton>
-            <RadioButton fx:id="red" mnemonicParsing="false" onAction="#filledColor" prefHeight="99.0" prefWidth="99.0" text="RED">
+            <RadioButton fx:id="red" mnemonicParsing="false" onAction="#filledColor" prefHeight="145.0" prefWidth="105.0">
                <HBox.margin>
                   <Insets right="10.0" />
                </HBox.margin>
             </RadioButton>
-            <RadioButton fx:id="magenta" mnemonicParsing="false" onAction="#filledColor" prefHeight="99.0" prefWidth="99.0" text="MAGENTA" />
+            <RadioButton fx:id="magenta" mnemonicParsing="false" onAction="#filledColor" prefHeight="145.0" prefWidth="105.0" />
          </children>
       </HBox>
         <Button fx:id="submit" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#setSubmit" prefHeight="33.0" prefWidth="141.0" stylesheets="@../style.css" text="SUBMIT" textAlignment="CENTER">
             <VBox.margin>
-                <Insets bottom="25.0" left="560.0" right="80.0" top="50.0" />
+                <Insets bottom="25.0" left="560.0" right="80.0" top="30.0" />
             </VBox.margin>
         </Button>
     </children>
