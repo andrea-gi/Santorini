@@ -5,7 +5,7 @@ import it.polimi.ingsw.PSP034.messages.Request;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.AutoCloseAnswer;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.AutoCloseRequest;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.ErrorMessage;
-import it.polimi.ingsw.PSP034.messages.clientConfiguration.SilentClose;
+import it.polimi.ingsw.PSP034.messages.gameOverPhase.EndByDisconnection;
 import it.polimi.ingsw.PSP034.view.GameException;
 
 import java.io.IOException;
@@ -35,6 +35,14 @@ public class ClientGameHandler implements Runnable{
         this.isActive = active;
     }
 
+    synchronized void setSilentEnded(boolean silentEnded){
+        this.silentEnded = silentEnded;
+    }
+
+    synchronized boolean isSilentEnded(){
+        return this.silentEnded;
+    }
+
     private synchronized void closeStream(){
         try {
             out.close();
@@ -52,8 +60,8 @@ public class ClientGameHandler implements Runnable{
         } catch(IOException e){
             setActive(false);
             closeStream();
-            if (!silentEnded)
-                requestManager.showError(new ErrorMessage("C001", "Connection error. Couldn't send message"));
+            if (!isSilentEnded())
+                requestManager.showError(new ErrorMessage("C001", "Connection error. Could not send message"));
         }
     }
 
@@ -75,26 +83,27 @@ public class ClientGameHandler implements Runnable{
 
     @Override
     public void run() {
-        while(isActive()){
+        while(isActive() || !queue.isEmpty()){
             try{
                 Request message = queue.take();
 
-                if (message instanceof SilentClose){
-                    silentEnded = true;
+                if(message instanceof EndByDisconnection){
+                    queue.clear();
                 }
-                else if (message instanceof AutoCloseRequest) {
+
+                if (message instanceof AutoCloseRequest) {
                     closeStream();
-                    throw new GameException("C002", "Connection error. Couldn't receive message.");
+                    throw new GameException("C002", "Connection error. Could not receive message.");
                 }else {
                     requestManager.handleRequest(message);
                 }
             } catch (InterruptedException e) {
                 setActive(false);
-                if (!silentEnded)
+                if (!isSilentEnded())
                     requestManager.showError(new ErrorMessage("C003", "Fatal error."));
             } catch (GameException e){
                 setActive(false);
-                if (!silentEnded)
+                if (!isSilentEnded())
                     requestManager.showError(new ErrorMessage(e.getCode(), e.getMessage()));
             }
         }

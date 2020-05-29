@@ -6,10 +6,7 @@ import it.polimi.ingsw.PSP034.messages.Answer;
 import it.polimi.ingsw.PSP034.messages.Request;
 import it.polimi.ingsw.PSP034.messages.SlimBoard;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.*;
-import it.polimi.ingsw.PSP034.messages.gameOverPhase.GameOverRequest;
-import it.polimi.ingsw.PSP034.messages.gameOverPhase.PersonalDefeatRequest;
-import it.polimi.ingsw.PSP034.messages.gameOverPhase.SingleLoserInfo;
-import it.polimi.ingsw.PSP034.messages.gameOverPhase.WinnerRequest;
+import it.polimi.ingsw.PSP034.messages.gameOverPhase.*;
 import it.polimi.ingsw.PSP034.messages.playPhase.*;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.RequestNameColor;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.RequestServerConfig;
@@ -311,6 +308,11 @@ public class CLIRequestHub {
             answer = currScene.show();
             answerComposer = new AnswerComposer(request);
             return answerComposer.packetAnswer(answer);
+        }
+
+        else if(request instanceof EndByDisconnection){
+            currScene.printError("S001", ((EndByDisconnection) request).getDisconnectedPlayer() + " has disconnected. Game has ended.");
+            return new AutoCloseAnswer();
         }
 
         else{

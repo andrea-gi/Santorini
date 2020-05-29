@@ -187,7 +187,7 @@ public class Controller implements IController{
                 int indexLoser = currentGame.getPlayersName().indexOf(toBeDeletedPlayer.getName());
                 String winner = currentGame.getPlayersName().get((indexLoser + 1)% 2);
 
-                sendToPlayer(loser, new PersonalDefeatRequest(winner, loser));
+                sendToAllExcept(winner, new PersonalDefeatRequest(winner, loser), true);
                 sendToPlayer(winner, new WinnerRequest(loser, winner));
                 return true;
             }

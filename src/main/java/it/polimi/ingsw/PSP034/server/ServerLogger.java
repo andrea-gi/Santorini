@@ -164,6 +164,8 @@ public class ServerLogger {
             result = result + " (Loser: " + ((WinnerRequest) message).getLoser();
         else if (message instanceof PersonalDefeatRequest)
             result = result + " (Winner: " + ((PersonalDefeatRequest) message).getWinner() + "; Losers: " + Arrays.toString(((PersonalDefeatRequest) message).getLosers());
+        else if (message instanceof EndByDisconnection)
+            result = result + " (Disconnected: " + ((EndByDisconnection) message).getDisconnectedPlayer();
 
         return result + ")";
     }

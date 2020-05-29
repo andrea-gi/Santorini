@@ -4,6 +4,7 @@ import it.polimi.ingsw.PSP034.constants.PlayerColor;
 import it.polimi.ingsw.PSP034.messages.Answer;
 import it.polimi.ingsw.PSP034.messages.ModelUpdate;
 import it.polimi.ingsw.PSP034.messages.Request;
+import it.polimi.ingsw.PSP034.messages.gameOverPhase.EndByDisconnection;
 import it.polimi.ingsw.PSP034.messages.gameOverPhase.PersonalDefeatRequest;
 import it.polimi.ingsw.PSP034.messages.gameOverPhase.WinnerRequest;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.*;
@@ -120,13 +121,13 @@ class ClientHandler implements IClientConnection, Runnable{
     private void manageClosingInfo(Request message){
         if (message == null)
             return;
-        if (message instanceof RequestServerConfig){
-            if (((RequestServerConfig) message).getInfo() == ServerInfo.ALREADY_STARTED)
-                close();
-        }
-        else if (message instanceof WinnerRequest ||
-                (message instanceof PersonalDefeatRequest && !((PersonalDefeatRequest) message).getWinner().equals("")))
+
+        if ((message instanceof RequestServerConfig && ((RequestServerConfig) message).getInfo() == ServerInfo.ALREADY_STARTED)
+                || (message instanceof WinnerRequest)
+                || (message instanceof PersonalDefeatRequest && !(((PersonalDefeatRequest) message).getWinner().equals("")))
+                || (message instanceof EndByDisconnection)){
             close();
+        }
     }
 
     /**

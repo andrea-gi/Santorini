@@ -6,6 +6,7 @@ import it.polimi.ingsw.PSP034.controller.Controller;
 import it.polimi.ingsw.PSP034.controller.IController;
 import it.polimi.ingsw.PSP034.messages.Answer;
 import it.polimi.ingsw.PSP034.messages.Request;
+import it.polimi.ingsw.PSP034.messages.gameOverPhase.EndByDisconnection;
 import it.polimi.ingsw.PSP034.messages.gameOverPhase.GameOverAnswer;
 import it.polimi.ingsw.PSP034.messages.playPhase.PlayAnswer;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.*;
@@ -188,10 +189,22 @@ public class Server implements Runnable{
                 waitingConnections.remove(connection);
             }
         } else if (activeConnections.contains(connection)){
-            if (connection.isExternalViewer())
+            if (connection.isExternalViewer()) {
                 connection.closeConnection();
+                controller.removeModelObserver(connection);
+            }
             else{
-                //TODO
+                activeConnections.remove(connection);
+                String disconnectedName;
+                if (connection.getDebugColor().equals(ANSI.reset)) //ANSI.reset is default color prior to registration
+                    disconnectedName = "An opponent";
+                else
+                    disconnectedName = connection.getName();
+                for(IClientConnection deregister : activeConnections) {
+                    deregister.asyncSend(new EndByDisconnection(disconnectedName));
+                    controller.removeModelObserver(connection);
+                }
+                //TODO -- restart del Server
             }
         }
     }

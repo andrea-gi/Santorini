@@ -2,7 +2,7 @@ package it.polimi.ingsw.PSP034.client;
 
 import it.polimi.ingsw.PSP034.messages.Request;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.AutoCloseRequest;
-import it.polimi.ingsw.PSP034.messages.clientConfiguration.SilentClose;
+import it.polimi.ingsw.PSP034.messages.gameOverPhase.EndByDisconnection;
 import it.polimi.ingsw.PSP034.messages.gameOverPhase.PersonalDefeatRequest;
 import it.polimi.ingsw.PSP034.messages.gameOverPhase.WinnerRequest;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.RequestServerConfig;
@@ -24,7 +24,8 @@ public class Client implements Runnable{
 
     private final RequestManager requestManager;
 
-    private Thread clientGameHandler;
+    private Thread clientGameHandlerThread;
+    private ClientGameHandler clientGameHandler;
 
     private boolean clientEnded = false;
     private boolean silentEnded = false;
@@ -45,8 +46,9 @@ public class Client implements Runnable{
                 return false;
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
-            clientGameHandler = new Thread(new ClientGameHandler(requestManager, requestQueue, out));
-            clientGameHandler.start();
+            clientGameHandler = new ClientGameHandler(requestManager, requestQueue, out);
+            clientGameHandlerThread = new Thread(clientGameHandler);
+            clientGameHandlerThread.start();
             return true;
         } catch (IOException e){
             return false;
@@ -65,7 +67,9 @@ public class Client implements Runnable{
 
     private boolean isSilentCloseRequest(Request message){
         return (message instanceof RequestServerConfig && ((RequestServerConfig) message).getInfo() == ServerInfo.ALREADY_STARTED)
-                || message instanceof PersonalDefeatRequest || message instanceof WinnerRequest;
+                || (message instanceof PersonalDefeatRequest && !((PersonalDefeatRequest) message).getWinner().equals(""))
+                || message instanceof WinnerRequest
+                || message instanceof EndByDisconnection;
     }
 
     @Override
@@ -77,8 +81,8 @@ public class Client implements Runnable{
                 if (receivedMessage instanceof Request && canManageMessages){
                     requestQueue.put((Request) receivedMessage);
                     if (isSilentCloseRequest((Request) receivedMessage)){
-                        requestQueue.put(new SilentClose());
-                        silentEnded = true;
+                        this.silentEnded = true;
+                        clientGameHandler.setSilentEnded(true);
                     }
                 } //else if PING
             }
