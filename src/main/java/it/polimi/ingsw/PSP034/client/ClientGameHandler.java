@@ -53,7 +53,7 @@ public class ClientGameHandler implements Runnable{
             setActive(false);
             closeStream();
             if (!silentEnded)
-                requestManager.showError(new ErrorMessage(3)); //TODO -- scegliere codice errore
+                requestManager.showError(new ErrorMessage("C001", "Connection error. Couldn't send message"));
         }
     }
 
@@ -84,18 +84,18 @@ public class ClientGameHandler implements Runnable{
                 }
                 else if (message instanceof AutoCloseRequest) {
                     closeStream();
-                    throw new GameException("Server connection failed.", 2); //TODO -- scegliere codice errore
+                    throw new GameException("C002", "Connection error. Couldn't receive message.");
                 }else {
                     requestManager.handleRequest(message);
                 }
             } catch (InterruptedException e) {
                 setActive(false);
                 if (!silentEnded)
-                    requestManager.showError(new ErrorMessage(0)); //TODO -- scegliere codice errore
+                    requestManager.showError(new ErrorMessage("C003", "Fatal error."));
             } catch (GameException e){
                 setActive(false);
                 if (!silentEnded)
-                    requestManager.showError(new ErrorMessage(e.getCode())); //TODO -- scegliere codice errore
+                    requestManager.showError(new ErrorMessage(e.getCode(), e.getMessage()));
             }
         }
     }

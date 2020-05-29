@@ -64,8 +64,8 @@ public abstract class Scene {
      * Prints an error prompt in the middle of the screen.
      * @param code The code that determines the kind of error.
      */
-    public void printError(int code){
-        ErrorPrompt errorPrompt = new ErrorPrompt(code);
+    public void printError(String code, String description){
+        ErrorPrompt errorPrompt = new ErrorPrompt(code, description);
         errorPrompt.print(FRAME_START_LINE + (FRAME_HEIGHT-errorPrompt.getHeight())/2, FRAME_START_COLUMN + (FRAME_WIDTH-errorPrompt.getWidth())/2);
     }
 

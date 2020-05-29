@@ -78,7 +78,7 @@ public class CLIRequestHub {
         }
 
         else if(request instanceof ErrorMessage){
-            currScene.printError(((ErrorMessage) request).getCode());
+            currScene.printError(((ErrorMessage) request).getCode(), ((ErrorMessage) request).getDescription());
             return null;
         }
         //TODO -- decidere se va bene
