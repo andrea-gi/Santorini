@@ -44,37 +44,54 @@ public class GUIRequestHub extends RequestManager {
     private void craftRequestServer(RequestServerConfig request){
         Scene scene = currentController.getPane().getScene();
         switch (request.getInfo()){
+
             case REQUEST_NAME_COLOR:
                 RequestNameColor requestNameColor = (RequestNameColor) request;
                 Platform.runLater(()->{
-                    ScenePath.setNextScene(scene, ScenePath.LOGIN);
-                    ((LoginController) currentController).update(requestNameColor.getAlreadyChosenNames(), requestNameColor.getAvailableColors());
+                    ScenePath.setNextScene(scene, ScenePath.NAME_COLOR);
+                    ((NameColorController) currentController).update(requestNameColor.getAlreadyChosenNames(), requestNameColor.getAvailableColors());
                 });
                 break;
+
             case REQUEST_PLAYER_NUMBER:
                 Platform.runLater(()->{ScenePath.setNextScene(scene, ScenePath.NUMBER_OF_PLAYERS);});
                 break;
+
             case LOBBY:
-                Platform.runLater(()->{ScenePath.setNextScene(scene, ScenePath.WAITING);});
+                Platform.runLater(()->{
+                    ScenePath.setNextScene(scene, ScenePath.WAITING);
+                    ((WaitingController) currentController).setMyTitle("You are in the Lobby now");
+                    ((WaitingController) currentController).setMyMessage("Wait for the other players to connect...");
+                });
                 break;
-                //TODO -- waiting di lobby
 
             case WELCOME_WAIT:
-                Platform.runLater(()->{ScenePath.setNextScene(scene, ScenePath.WAITING);});
-                //TODO -- waiting di lobby
+                Platform.runLater(()->{
+                    ScenePath.setNextScene(scene, ScenePath.WAITING);
+                    ((WaitingController) currentController).setMyTitle("Welcome in a new game");
+                    ((WaitingController) currentController).setMyMessage("Wait for the other player to finish registration...");
+                    });
                 break;
+
             case SUCCESSFULLY_ADDED:
-                Platform.runLater(()->{ScenePath.setNextScene(scene, ScenePath.WAITING);}); //TODO -- waiting di lobby
+                Platform.runLater(()->{
+                    ScenePath.setNextScene(scene, ScenePath.WAITING);
+                    ((WaitingController) currentController).setMyTitle("Successfully Added!");
+                    ((WaitingController) currentController).setMyMessage("You have been successfully added to the game. Wait!");
+                });
                 break;
+
             case CARDS_CHOICE_WAIT:
-                Platform.runLater(()->{ScenePath.setNextScene(scene, ScenePath.WAITING);}); //TODO -- waiting di lobby
+                Platform.runLater(()->{
+                    ScenePath.setNextScene(scene, ScenePath.WAITING);
+                    ((WaitingController) currentController).setMyTitle("Your choice has been registered.");
+                    ((WaitingController) currentController).setMyMessage("Wait for the other players to make their choice");
+                });
                 break;
+
             case ALREADY_STARTED:
                 Platform.runLater(()->{ScenePath.setDialog((Stage)scene.getWindow(),"Game Started",
                         "Oops, seems like the game has already started without you, sorry! :(");});
-                //TODO -- chi eccede e non può registrarsi
-
-
         }
 
     }
@@ -82,23 +99,39 @@ public class GUIRequestHub extends RequestManager {
     private void craftRequestSetup(SetupRequest request){
         Scene scene = currentController.getPane().getScene();
         if (request instanceof GodLikeInfo){
-
+            String godLikePlayer = ((GodLikeInfo) request).getGodLikePlayer();
+            Platform.runLater(()->{ScenePath.setDialog((Stage)scene.getWindow(),"God like Player",
+                    godLikePlayer + " has been chosen as the most god-like player. Such a lucky player!");});
         }
 
         else if(request instanceof RequestCardsChoice) {
-            ScenePath.setNextScene(scene, ScenePath.CHOOSE_GODS);
+            RequestCardsChoice requestCardsChoice = (RequestCardsChoice) request;
+            Platform.runLater(()->{
+                ScenePath.setNextScene(scene, ScenePath.CHOOSE_GODS);
+                ((ChooseGodsController) currentController).update(requestCardsChoice.getPlayerNumber());
+            });
         }
 
         else if (request instanceof RequestFirstPlayer) {
-
+            RequestFirstPlayer requestFP = (RequestFirstPlayer) request;
+            Platform.runLater(()->{
+                ((FirstPlayerController) currentController).update(requestFP.getPlayers());
+            });
         }
 
         else if (request instanceof FirstPlayerInfo){
-
+            String firstPlayer = ((FirstPlayerInfo) request).getFirstPlayer();
+            Platform.runLater(()->{
+                ScenePath.setDialog((Stage)scene.getWindow(), "First Player", firstPlayer + " has been chosen as first player! Is this a good strategy? We'll see...");
+            });
         }
 
         else if (request instanceof RequestPersonalGod) {
-            ScenePath.setNextScene(scene, ScenePath.PERSONAL_GOD);
+            Platform.runLater(()->{
+                RequestPersonalGod requestPersonalGod = (RequestPersonalGod) request;
+                ScenePath.setNextScene(scene, ScenePath.PERSONAL_GOD);
+                ((PersonalGodController) currentController).update(requestPersonalGod.getPossibleGods(), requestPersonalGod.getAlreadyChosenGods());
+            });
         }
 
         else if (request instanceof RequestPlaceWorker) {

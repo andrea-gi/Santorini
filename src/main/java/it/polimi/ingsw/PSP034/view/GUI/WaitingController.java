@@ -19,7 +19,10 @@ public class WaitingController implements GUIController{
     private Pane pane;
 
     @FXML
-    private Label lobby;
+    private Label title;
+
+    @FXML
+    private Label message;
 
     @Override
     public Pane getPane() {
@@ -30,10 +33,13 @@ public class WaitingController implements GUIController{
     private void initialize(){
         GUIRequestHub.getInstance().setCurrentController(this);
         santoriniLogo.setImage(image);
-        setMyLabel("You are in the Lobby now");
     }
 
-    public void setMyLabel(String string){
-        lobby.setText(string);
+    public void setMyTitle(String string){
+        title.setText(string);
+    }
+
+    public void setMyMessage(String string) {
+        message.setText(string);
     }
 }

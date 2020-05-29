@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="pane" prefHeight="500.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP034.view.GUI.DialogController">
+<BorderPane fx:id="pane" prefHeight="500.0" prefWidth="400.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP034.view.GUI.DialogController">
    <top>
       <Label fx:id="title" text="Attention please" BorderPane.alignment="CENTER">
          <BorderPane.margin>
@@ -35,7 +35,7 @@
    <bottom>
       <HBox alignment="CENTER" prefHeight="38.0" prefWidth="300.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="ok" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="33.0" prefWidth="141.0" text="OK">
+            <Button fx:id="ok" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onOk" prefHeight="33.0" prefWidth="141.0" text="OK">
                <HBox.margin>
                   <Insets bottom="50.0" />
                </HBox.margin></Button>

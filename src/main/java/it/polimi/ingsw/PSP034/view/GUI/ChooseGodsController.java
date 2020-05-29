@@ -18,6 +18,7 @@ import javafx.util.Duration;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 
 public class ChooseGodsController implements GUIController{
     File file = new File("src\\main\\resources\\images\\santorini.jpg");
@@ -92,9 +93,9 @@ public class ChooseGodsController implements GUIController{
     @FXML
     private Tooltip zeustip;
 
-    private int number = 3;
+    private int number;
     private IntegerBinding numberOfSelectedGods = Bindings.size(chosenGods);
-    private ArrayList<String> name;
+    private final ArrayList<String> name = new ArrayList<>();
 
     @FXML
     private void initialize(){
@@ -166,7 +167,6 @@ public class ChooseGodsController implements GUIController{
 
     @FXML
     public void setSubmit(ActionEvent e){
-        System.out.println("Chosen gods: " + chosenGods.toString());
         submit.setDisable(true);
         for (CheckBox myGod: remainingGods) {
             myGod.setDisable(true);
@@ -175,7 +175,14 @@ public class ChooseGodsController implements GUIController{
             myGod.setDisable(true);
         }
         submit.setText("SUBMITTED!");
-        GUIRequestHub.getInstance().sendAnswer(new AnswerCardsChoice((String[]) chosenGods.toArray()));
+        for (CheckBox checkBox : chosenGods) {
+            name.add(checkBox.getText());
+        }
+        GUIRequestHub.getInstance().sendAnswer(new AnswerCardsChoice(name.toArray(new String[0])));
+    }
+
+    public void update(int playerNumber){
+        this.number = playerNumber;
     }
 
 

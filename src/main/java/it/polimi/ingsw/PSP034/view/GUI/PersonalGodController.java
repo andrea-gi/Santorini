@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP034.view.GUI;
 
+import it.polimi.ingsw.PSP034.messages.setupPhase.AnswerPersonalGod;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,11 +13,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
 import java.io.File;
+import java.util.Arrays;
 
 public class PersonalGodController implements GUIController {
     File file = new File("src\\main\\resources\\images\\santorini.jpg");
     Image image = new Image(file.toURI().toString());
-    ObservableList<String> godChoices = FXCollections.observableArrayList("Apollo", "Artemis", "Athena");
+    ObservableList<String> godChoices = FXCollections.observableArrayList();
 
     @FXML
     private ImageView santoriniLogo;
@@ -37,7 +39,6 @@ public class PersonalGodController implements GUIController {
         notValid = true;
         santoriniLogo.setImage(image);
         chooseGod.setValue("");
-        chooseGod.setItems(godChoices);
         submit.setDisable(notValid);
     }
 
@@ -56,13 +57,20 @@ public class PersonalGodController implements GUIController {
 
     @FXML
     public void setSubmit(ActionEvent e){
-        System.out.println("Chosen god: " + chooseGod.getValue());
         submit.setDisable(true);
         submit.setText("SUBMITTED!");
+
+        GUIRequestHub.getInstance().sendAnswer(new AnswerPersonalGod(chooseGod.getAccessibleText()));
     }
 
     @Override
     public Pane getPane() {
         return pane;
+    }
+
+    public void update(String[] possibleGods, String[] chosen){
+        godChoices.addAll(Arrays.asList(possibleGods));
+        chooseGod.setItems(godChoices);
+        //TODO --gestire i chosen
     }
 }

@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class LoginController implements GUIController{
+public class NameColorController implements GUIController{
     File file = new File("src\\main\\resources\\images\\santorini.jpg");
     Image image = new Image(file.toURI().toString());
     private final ToggleGroup colors = new ToggleGroup();
@@ -26,6 +26,9 @@ public class LoginController implements GUIController{
 
     @FXML
     private TextField enterName;
+
+    @FXML
+    private Label error;
 
     @FXML
     private ImageView santoriniLogo;
@@ -53,6 +56,12 @@ public class LoginController implements GUIController{
 
     public String getEnterName(){
         return enterName.getText();
+    }
+
+    public void setError(String string){
+        error.setText(string);
+        error.setWrapText(true);
+        error.setId("error");
     }
 
     @FXML
@@ -92,13 +101,14 @@ public class LoginController implements GUIController{
 
     @FXML
     public void filledName(){
-        notValid = getEnterName().isEmpty() || colors.getSelectedToggle() == null || getEnterName().length() > 20 || !getEnterName().matches("^[a-zA-Z0-9_]+$");
+        notValid = getEnterName().isEmpty() || colors.getSelectedToggle() == null;
+
         submit.setDisable(notValid);
     }
 
     @FXML
     public void filledColor(){
-        notValid = getEnterName().isEmpty() || colors.getSelectedToggle() == null;
+        notValid = getEnterName().isEmpty() || colors.getSelectedToggle() == null || getEnterName().length() > 20 || !getEnterName().matches("^[a-zA-Z0-9_]+$");
         submit.setDisable(notValid);
     }
 
@@ -108,7 +118,27 @@ public class LoginController implements GUIController{
         submit.setText("SUBMITTED!");
         enterName.setDisable(true);
 
-        GUIRequestHub.getInstance().sendAnswer(new AnswerNameColor(getEnterName(), myColor));
+        if (!getEnterName().matches("^[a-zA-Z0-9_]+$")){
+            setError("Only letters, numbers and underscores allowed");
+            reInsert();
+        }
+        else if (getEnterName().length() > 20){
+            setError("This name is too long (1-20 characters)");
+            reInsert();
+        }
+        else if (chosenNames.contains(enterName.getText())){
+            setError("This name has already been chosen");
+            reInsert();
+        }
+        else
+            GUIRequestHub.getInstance().sendAnswer(new AnswerNameColor(getEnterName(), myColor));
+    }
+
+    private void reInsert(){
+        enterName.clear();
+        enterName.setDisable(false);
+        submit.setDisable(false);
+        submit.setText("SUBMIT");
     }
 
     public void update(String[] chosenNames, PlayerColor[] availableColors){

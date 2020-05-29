@@ -10,12 +10,12 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP034.view.GUI.LoginController">
+<VBox fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP034.view.GUI.NameColorController">
     <children>
         <ImageView fx:id="santoriniLogo" blendMode="SRC_ATOP" fitHeight="90.0" fitWidth="294.0" pickOnBounds="true" preserveRatio="true">
             <Image url="@../images/santorini.jpg" />
             <VBox.margin>
-                <Insets bottom="120.0" left="500.0" right="480.0" top="35.0" />
+                <Insets bottom="100.0" left="500.0" right="480.0" top="35.0" />
             </VBox.margin>
         </ImageView>
         <Label prefHeight="29.0" prefWidth="253.0" stylesheets="@../style.css" text="Enter your name">
@@ -25,9 +25,14 @@
         </Label>
         <TextField fx:id="enterName" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyTyped="#filledName" prefHeight="33.0" prefWidth="285.0" promptText="Name">
             <VBox.margin>
-                <Insets bottom="50.0" left="520.0" right="510.0" />
+                <Insets left="520.0" right="510.0" />
             </VBox.margin>
         </TextField>
+      <Label fx:id="error" prefHeight="50.0" prefWidth="239.0" wrapText="true">
+         <VBox.margin>
+            <Insets bottom="20.0" left="530.0" />
+         </VBox.margin>
+      </Label>
         <Label layoutX="25.0" layoutY="146.0" prefHeight="29.0" prefWidth="251.0" text="Choose a color">
             <opaqueInsets>
                 <Insets />
@@ -36,22 +41,22 @@
                 <Insets bottom="15.0" left="530.0" right="70.0" />
             </VBox.margin>
         </Label>
-      <HBox prefHeight="157.0" prefWidth="330.0">
+      <HBox prefHeight="140.0" prefWidth="330.0">
          <VBox.margin>
             <Insets left="460.0" right="460.0" />
          </VBox.margin>
          <children>
-            <RadioButton fx:id="blue" mnemonicParsing="false" onAction="#filledColor" prefHeight="145.0" prefWidth="105.0">
+            <RadioButton fx:id="blue" mnemonicParsing="false" onAction="#filledColor" prefHeight="140.0" prefWidth="100.0">
                <HBox.margin>
                   <Insets right="10.0" />
                </HBox.margin>
             </RadioButton>
-            <RadioButton fx:id="red" mnemonicParsing="false" onAction="#filledColor" prefHeight="145.0" prefWidth="105.0">
+            <RadioButton fx:id="red" mnemonicParsing="false" onAction="#filledColor" prefHeight="140.0" prefWidth="100.0">
                <HBox.margin>
                   <Insets right="10.0" />
                </HBox.margin>
             </RadioButton>
-            <RadioButton fx:id="magenta" mnemonicParsing="false" onAction="#filledColor" prefHeight="145.0" prefWidth="105.0" />
+            <RadioButton fx:id="magenta" mnemonicParsing="false" onAction="#filledColor" prefHeight="140.0" prefWidth="100.0" />
          </children>
       </HBox>
         <Button fx:id="submit" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#setSubmit" prefHeight="33.0" prefWidth="141.0" stylesheets="@../style.css" text="SUBMIT" textAlignment="CENTER">

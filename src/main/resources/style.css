@@ -190,5 +190,9 @@
     -fx-wrap-text: true;
     -fx-text-fill: white;
     -fx-font-size: 20pt;
-    -fx-effect: dropshadow(gaussian, darkblue, 2, 0.7, 0, 0);
+}
+
+#error{
+    -fx-text-fill: darkred;
+    -fx-font-size: 12pt;
 }
