@@ -7,10 +7,7 @@ import it.polimi.ingsw.PSP034.constants.Sex;
 import it.polimi.ingsw.PSP034.messages.Answer;
 import it.polimi.ingsw.PSP034.messages.Request;
 import it.polimi.ingsw.PSP034.messages.SlimBoard;
-import it.polimi.ingsw.PSP034.messages.clientConfiguration.AnswerIP;
-import it.polimi.ingsw.PSP034.messages.clientConfiguration.AutoCloseAnswer;
-import it.polimi.ingsw.PSP034.messages.clientConfiguration.RequestClientConfig;
-import it.polimi.ingsw.PSP034.messages.clientConfiguration.RequestIP;
+import it.polimi.ingsw.PSP034.messages.clientConfiguration.*;
 import it.polimi.ingsw.PSP034.messages.gameOverPhase.*;
 import it.polimi.ingsw.PSP034.messages.playPhase.*;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.AnswerNameColor;
@@ -162,7 +159,7 @@ public class AnswerComposer {
             }else if(((PersonalDefeatRequest) request).getWinner().equals("")) {
                 //TODO -- risposta che genera un messaggio interno per cancellare la domanda?
             }else{
-                answer = new AnswerGameOver(true);
+                answer = new RestartClient();
             }
         }
 
@@ -170,7 +167,7 @@ public class AnswerComposer {
             if(params[0].equals("1")){
                 answer = new AutoCloseAnswer();
             }else if (params[0].equals("2")){
-                answer = new AnswerGameOver(true);
+                answer = new RestartClient();
             }
         }
 
@@ -178,7 +175,7 @@ public class AnswerComposer {
             if(params[0].equals("1")){
                 answer = new AutoCloseAnswer();
             }else if (params[0].equals("2")){
-                answer = new AnswerGameOver(true);
+                answer = new RestartClient();
             }
         }
 

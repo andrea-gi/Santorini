@@ -5,10 +5,7 @@ import it.polimi.ingsw.PSP034.constants.Sex;
 import it.polimi.ingsw.PSP034.messages.Answer;
 import it.polimi.ingsw.PSP034.messages.Request;
 import it.polimi.ingsw.PSP034.messages.SlimBoard;
-import it.polimi.ingsw.PSP034.messages.clientConfiguration.ErrorMessage;
-import it.polimi.ingsw.PSP034.messages.clientConfiguration.RequestClientConfig;
-import it.polimi.ingsw.PSP034.messages.clientConfiguration.RequestIP;
-import it.polimi.ingsw.PSP034.messages.clientConfiguration.TitleRequest;
+import it.polimi.ingsw.PSP034.messages.clientConfiguration.*;
 import it.polimi.ingsw.PSP034.messages.gameOverPhase.GameOverRequest;
 import it.polimi.ingsw.PSP034.messages.gameOverPhase.PersonalDefeatRequest;
 import it.polimi.ingsw.PSP034.messages.gameOverPhase.SingleLoserInfo;
@@ -129,7 +126,7 @@ public class CLIRequestHub {
             case ALREADY_STARTED:
                 currScene = new AlreadyStarted();
                 currScene.show();
-                return null;
+                return new AutoCloseAnswer();
         }
         //TODO -- decidere se va bene
         return null;

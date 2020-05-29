@@ -5,6 +5,7 @@ import it.polimi.ingsw.PSP034.messages.Request;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.AutoCloseAnswer;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.AutoCloseRequest;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.ErrorMessage;
+import it.polimi.ingsw.PSP034.messages.clientConfiguration.SilentClose;
 import it.polimi.ingsw.PSP034.view.GameException;
 
 import java.io.IOException;
@@ -16,6 +17,7 @@ public class ClientGameHandler implements Runnable{
     private final RequestManager requestManager; //CLI OR GUI
     private final ObjectOutputStream out;
     private boolean isActive;
+    private boolean silentEnded = false;
 
     public ClientGameHandler(RequestManager requestManager, BlockingQueue<Request> requestBlockingQueue, ObjectOutputStream out){
         this.requestManager = requestManager;
@@ -48,8 +50,10 @@ public class ClientGameHandler implements Runnable{
                 out.flush();
             }
         } catch(IOException e){
-            disableAndClearQueue();
+            setActive(false);
             closeStream();
+            if (!silentEnded)
+                requestManager.showError(new ErrorMessage(3)); //TODO -- scegliere codice errore
         }
     }
 
@@ -69,30 +73,29 @@ public class ClientGameHandler implements Runnable{
 
     }
 
-    /**
-     * Clears message queue from any remaining message and sets client disabled.
-     */
-    private void disableAndClearQueue(){
-        setActive(false);
-        queue.clear();
-    }
-
     @Override
     public void run() {
         while(isActive()){
             try{
                 Request message = queue.take();
-                if (message instanceof AutoCloseRequest) {
+
+                if (message instanceof SilentClose){
+                    silentEnded = true;
+                }
+                else if (message instanceof AutoCloseRequest) {
                     closeStream();
                     throw new GameException("Server connection failed.", 2); //TODO -- scegliere codice errore
+                }else {
+                    requestManager.handleRequest(message);
                 }
-                requestManager.handleRequest(message);
             } catch (InterruptedException e) {
-                disableAndClearQueue();
-                requestManager.showError(new ErrorMessage(0)); //TODO -- scegliere codice errore
+                setActive(false);
+                if (!silentEnded)
+                    requestManager.showError(new ErrorMessage(0)); //TODO -- scegliere codice errore
             } catch (GameException e){
-                disableAndClearQueue();
-                requestManager.showError(new ErrorMessage(e.getCode())); //TODO -- scegliere codice errore
+                setActive(false);
+                if (!silentEnded)
+                    requestManager.showError(new ErrorMessage(e.getCode())); //TODO -- scegliere codice errore
             }
         }
     }

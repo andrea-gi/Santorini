@@ -1,6 +1,5 @@
 package it.polimi.ingsw.PSP034.controller;
 
-import it.polimi.ingsw.PSP034.messages.gameOverPhase.AnswerGameOver;
 import it.polimi.ingsw.PSP034.messages.gameOverPhase.GameOverAnswer;
 
 public class GameOverPhase {
@@ -17,7 +16,7 @@ public class GameOverPhase {
     }
 
     public void executeSelectedState(GameOverAnswer message){
-        if (message instanceof AnswerGameOver) {
+        /*if (message instanceof AnswerGameOver) {
             boolean newGame = ((AnswerGameOver) message).getNewGame();
             if (newGame) {
                 //setto tutto a null?
@@ -27,6 +26,6 @@ public class GameOverPhase {
                 controller.handleGamePhase();
             } //else
                 //close connection
-        }
+        }*/
     }
 }

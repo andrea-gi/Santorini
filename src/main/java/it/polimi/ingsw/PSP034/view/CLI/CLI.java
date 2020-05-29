@@ -4,10 +4,7 @@ import it.polimi.ingsw.PSP034.client.Client;
 import it.polimi.ingsw.PSP034.client.RequestManager;
 import it.polimi.ingsw.PSP034.messages.Answer;
 import it.polimi.ingsw.PSP034.messages.Request;
-import it.polimi.ingsw.PSP034.messages.clientConfiguration.AnswerIP;
-import it.polimi.ingsw.PSP034.messages.clientConfiguration.ErrorMessage;
-import it.polimi.ingsw.PSP034.messages.clientConfiguration.RequestIP;
-import it.polimi.ingsw.PSP034.messages.clientConfiguration.TitleRequest;
+import it.polimi.ingsw.PSP034.messages.clientConfiguration.*;
 
 public class CLI extends RequestManager implements Runnable {
     private final CLIRequestHub CLIRequestHub;
@@ -20,7 +17,11 @@ public class CLI extends RequestManager implements Runnable {
     @Override
     public void handleRequest(Request request) {
         Answer answer = CLIRequestHub.newRequest(request);
-        sendAnswer(answer);
+        if (answer instanceof RestartClient){
+            CLIRequestHub.newRequest(new RequestIP(false));
+        } else {
+            sendAnswer(answer);
+        }
     }
 
     @Override

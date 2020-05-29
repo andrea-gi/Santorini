@@ -2,6 +2,11 @@ package it.polimi.ingsw.PSP034.client;
 
 import it.polimi.ingsw.PSP034.messages.Request;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.AutoCloseRequest;
+import it.polimi.ingsw.PSP034.messages.clientConfiguration.SilentClose;
+import it.polimi.ingsw.PSP034.messages.gameOverPhase.PersonalDefeatRequest;
+import it.polimi.ingsw.PSP034.messages.gameOverPhase.WinnerRequest;
+import it.polimi.ingsw.PSP034.messages.serverConfiguration.RequestServerConfig;
+import it.polimi.ingsw.PSP034.messages.serverConfiguration.ServerInfo;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -19,9 +24,10 @@ public class Client implements Runnable{
 
     private final RequestManager requestManager;
 
-    Thread clientGameHandler;
+    private Thread clientGameHandler;
 
-    boolean clientEnded = false;
+    private boolean clientEnded = false;
+    private boolean silentEnded = false;
 
     private final BlockingQueue<Request> requestQueue = new ArrayBlockingQueue<>(64);
 
@@ -51,22 +57,34 @@ public class Client implements Runnable{
         try {
             clientEnded = true;
             in.close();
-            requestQueue.offer(new AutoCloseRequest());
+            if (!silentEnded)
+                requestQueue.offer(new AutoCloseRequest());
         } catch (IOException ignored){
         }
     }
 
+    private boolean isSilentCloseRequest(Request message){
+        return (message instanceof RequestServerConfig && ((RequestServerConfig) message).getInfo() == ServerInfo.ALREADY_STARTED)
+                || message instanceof PersonalDefeatRequest || message instanceof WinnerRequest;
+    }
+
     @Override
     public void run() {
+        boolean canManageMessages = true;
         while(true){
             try{
                 Object receivedMessage = in.readObject();
-                if (receivedMessage instanceof Request){
+                if (receivedMessage instanceof Request && canManageMessages){
                     requestQueue.put((Request) receivedMessage);
+                    if (isSilentCloseRequest((Request) receivedMessage)){
+                        requestQueue.put(new SilentClose());
+                        silentEnded = true;
+                    }
                 } //else if PING
             }
             catch (IOException | ClassNotFoundException | InterruptedException e){
-                requestQueue.clear();
+                //requestQueue.clear();
+                canManageMessages = false;
                 closeStreams();
             }
             if(clientEnded)
