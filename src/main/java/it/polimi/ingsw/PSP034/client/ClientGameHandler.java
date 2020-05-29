@@ -87,7 +87,7 @@ public class ClientGameHandler implements Runnable{
             try{
                 Request message = queue.take();
 
-                if(message instanceof EndByDisconnection){
+                if(Request.isSilentCloseRequest(message)){
                     queue.clear();
                 }
 

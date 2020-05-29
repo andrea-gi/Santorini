@@ -65,13 +65,6 @@ public class Client implements Runnable{
         }
     }
 
-    private boolean isSilentCloseRequest(Request message){
-        return (message instanceof RequestServerConfig && ((RequestServerConfig) message).getInfo() == ServerInfo.ALREADY_STARTED)
-                || (message instanceof PersonalDefeatRequest && !((PersonalDefeatRequest) message).getWinner().equals(""))
-                || message instanceof WinnerRequest
-                || message instanceof EndByDisconnection;
-    }
-
     @Override
     public void run() {
         boolean canManageMessages = true;
@@ -80,7 +73,7 @@ public class Client implements Runnable{
                 Object receivedMessage = in.readObject();
                 if (receivedMessage instanceof Request && canManageMessages){
                     requestQueue.put((Request) receivedMessage);
-                    if (isSilentCloseRequest((Request) receivedMessage)){
+                    if (Request.isSilentCloseRequest((Request) receivedMessage)){
                         this.silentEnded = true;
                         clientGameHandler.setSilentEnded(true);
                     }

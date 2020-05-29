@@ -122,10 +122,7 @@ class ClientHandler implements IClientConnection, Runnable{
         if (message == null)
             return;
 
-        if ((message instanceof RequestServerConfig && ((RequestServerConfig) message).getInfo() == ServerInfo.ALREADY_STARTED)
-                || (message instanceof WinnerRequest)
-                || (message instanceof PersonalDefeatRequest && !(((PersonalDefeatRequest) message).getWinner().equals("")))
-                || (message instanceof EndByDisconnection)){
+        if (Request.isSilentCloseRequest(message)){
             close();
         }
     }
