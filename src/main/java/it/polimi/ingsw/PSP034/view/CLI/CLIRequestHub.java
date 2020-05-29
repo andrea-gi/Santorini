@@ -5,6 +5,7 @@ import it.polimi.ingsw.PSP034.constants.Sex;
 import it.polimi.ingsw.PSP034.messages.Answer;
 import it.polimi.ingsw.PSP034.messages.Request;
 import it.polimi.ingsw.PSP034.messages.SlimBoard;
+import it.polimi.ingsw.PSP034.messages.clientConfiguration.ErrorMessage;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.RequestClientConfig;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.RequestIP;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.TitleRequest;
@@ -36,20 +37,27 @@ public class CLIRequestHub {
     public Answer newRequest(Request request){
         if(request instanceof RequestClientConfig)
             return newRequestClientConfig((RequestClientConfig) request);
+
         else if(request instanceof RequestServerConfig)
             return newRequestServerConfig((RequestServerConfig) request);
+
         else if(request instanceof SetupRequest)
             return newSetupRequest((SetupRequest) request);
-        else if(request instanceof PlayRequest){
+
+        else if(request instanceof PlayRequest)
             return newPlayRequest((PlayRequest) request);
-        }else if(request instanceof GameOverRequest) {
+
+        else if(request instanceof GameOverRequest)
             return newGameOverRequest((GameOverRequest) request);
-        }else if(request instanceof SlimBoard){
+
+        else if(request instanceof SlimBoard){
             SlimBoard slimBoard = (SlimBoard) request;
             ((Table) currScene).updateBoard(slimBoard.getDome(), slimBoard.getBuilding(), slimBoard.getColor(), slimBoard.getSex(), false, slimBoard.getCurrentPlayer());
             currScene.show();
             return null;
-        }else{
+        }
+
+        else{
             //TODO -- decidere se va bene
             return null;
         }
@@ -61,6 +69,7 @@ public class CLIRequestHub {
             currScene.show();
             return null;
         }
+
         else if (request instanceof RequestIP){
             String[] answers = new String[2];
             currScene = new ServerAddress();
@@ -69,6 +78,11 @@ public class CLIRequestHub {
             answers[1] = currScene.show();
             answerComposer = new AnswerComposer(request);
             return answerComposer.packetAnswer(answers);
+        }
+
+        else if(request instanceof ErrorMessage){
+            currScene.printError(((ErrorMessage) request).getCode());
+            return null;
         }
         //TODO -- decidere se va bene
         return null;
