@@ -18,7 +18,7 @@ public class CLI extends RequestManager implements Runnable {
     public void handleRequest(Request request) {
         Answer answer = CLIRequestHub.newRequest(request);
         if (answer instanceof RestartClient){
-            CLIRequestHub.newRequest(new RequestIP(false));
+            startConnection();
         } else {
             sendAnswer(answer);
         }
@@ -29,9 +29,7 @@ public class CLI extends RequestManager implements Runnable {
         CLIRequestHub.newRequest(error);
     }
 
-    @Override
-    public void run() {
-        handleRequest(new TitleRequest());
+    private void startConnection(){
         Client client;
         boolean connected = true;
         do{
@@ -41,5 +39,12 @@ public class CLI extends RequestManager implements Runnable {
         } while (!connected);
         Thread runClient = new Thread(client);
         runClient.start();
+    }
+
+
+    @Override
+    public void run() {
+        handleRequest(new TitleRequest());
+        startConnection();
     }
 }
