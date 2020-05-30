@@ -11,14 +11,15 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
 import java.io.File;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class PersonalGodController implements GUIController {
     File file = new File("src\\main\\resources\\images\\santorini.jpg");
     Image image = new Image(file.toURI().toString());
     private final ToggleGroup gods = new ToggleGroup();
     String chosenGod;
+    private ArrayList<String> myGods = new ArrayList<>();
 
     @FXML
     private ImageView santoriniLogo;
@@ -60,12 +61,14 @@ public class PersonalGodController implements GUIController {
             RadioButton chosen = (RadioButton) gods.getSelectedToggle();
 
             if (chosen != null) {
-                if (chosen == one)
+                if (chosen == one) {
                     chosenGod = one.getText();
+                }
                 else if (chosen == two)
                     chosenGod = two.getText();
                 else if (chosen == three)
                     chosenGod = three.getText();
+                setGodBackground(chosen, chosenGod, true);
             }
         });
     }
@@ -91,7 +94,39 @@ public class PersonalGodController implements GUIController {
         return pane;
     }
 
+    RadioButton previousButton = null;
+    String previousGod = null;
+
+    private void setGodBackground(RadioButton radioButton, String god, boolean golden){
+        String path;
+        if (golden){
+            restorePreviousBackground();
+            this.previousButton = radioButton;
+            this.previousGod = god;
+            path = GodPath.getGoldPath(god);
+        }
+        else{
+            path = GodPath.getPath(god);
+        }
+        Image godCard = new Image(getClass().getResource(path).toExternalForm(), 215, 300, true, true);
+        radioButton.setBackground(new Background(new BackgroundImage(
+                godCard,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.DEFAULT,
+                BackgroundSize.DEFAULT
+        )));
+    }
+
+    private void restorePreviousBackground(){
+        if (this.previousButton != null && this.previousGod != null) {
+            this.previousButton.setBackground(Background.EMPTY);
+            setGodBackground(this.previousButton, this.previousGod, false);
+        }
+    }
+
     public void update(String[] possibleGods, String[] chosen){
+        myGods.addAll(Arrays.asList(possibleGods));
         RadioButton[] buttons = new RadioButton[]{one, two, three};
         String name;
         for (int i = 0; i < possibleGods.length+chosen.length; i++){
@@ -102,9 +137,7 @@ public class PersonalGodController implements GUIController {
                 name = chosen[i-(possibleGods.length)];
                 buttons[i].setDisable(true);
             }
-            Image godCard = new Image(getClass().getResource(GodPath.getPath(name)).toExternalForm(), 215, 300, true, true);
-            buttons[i].setBackground(new Background(new BackgroundImage(godCard,
-                    BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT)));
+            setGodBackground(buttons[i], name, false);
             buttons[i].setText(name);
             buttons[i].setId("godButton");
             buttons[i].setVisible(true);

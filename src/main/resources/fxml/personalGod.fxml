@@ -29,16 +29,16 @@
                <children>
                   <RadioButton fx:id="one" mnemonicParsing="false" onAction="#setChosenGod" prefHeight="300.0" prefWidth="215.0" wrapText="true">
                      <HBox.margin>
-                        <Insets left="70.0" right="190.0" />
+                        <Insets left="80.0" right="190.0" />
                      </HBox.margin>
                   </RadioButton>
                   <RadioButton fx:id="three" mnemonicParsing="false" onAction="#setChosenGod" prefHeight="300.0" prefWidth="215.0" wrapText="true">
                      <HBox.margin>
-                        <Insets right="190.0" />
+                        <Insets right="200.0" />
                      </HBox.margin></RadioButton>
                   <RadioButton fx:id="two" mnemonicParsing="false" onAction="#setChosenGod" prefHeight="300.0" prefWidth="215.0" wrapText="true">
                      <HBox.margin>
-                        <Insets right="80.0" />
+                        <Insets right="70.0" />
                      </HBox.margin>
                   </RadioButton>
                </children>

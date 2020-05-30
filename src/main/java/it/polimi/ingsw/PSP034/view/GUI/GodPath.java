@@ -26,4 +26,12 @@ public class GodPath {
         }
         return "";
     }
+
+    public static String getGoldPath(String string){
+        String normalPath = getPath(string);
+        if (!normalPath.equals("")) {
+            return normalPath.substring(0, normalPath.length() - 4) + "_gold.png";
+        }
+        return "";
+    }
 }
