@@ -48,6 +48,12 @@
     -fx-background-position: center;
 }
 
+#buttonPlay:hover{
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+    -fx-scale-z: 1.1;
+}
+
 #buttonPlay:pressed{
     -fx-background-image: url("/images/button_play_down.png");
     -fx-background-size: cover;
@@ -56,30 +62,25 @@
     -fx-background-position: center;
 }
 
-.choice-box{
-    -fx-font-size: 13pt;
-    -fx-font-family: "Agency FB";
-    -fx-background-image: url("/images/clp_skip_btn.png");
-    -fx-background-color: transparent;
-
+#godButton{
+    -fx-text-fill: transparent;
 }
 
-.choice-box .context-menu {
-    -fx-background-color: rgba(146, 128, 113, 0.65);
+#godButton:hover{
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-scale-z: 1.05;
 }
 
-.choice-box .menu-item:focused {
-    -fx-background-color: rgba(81,73,68, 0.8);
+#godButton:disabled{
+    -fx-opacity: 0.3;
 }
 
-.choice-box .menu-item:focused > .label {
-    -fx-text-fill: white;
-    -fx-font-weight: normal;
-}
-
-.choice-box > .label {
-    -fx-text-fill: white;
-    -fx-font-size: 13;
+#godButton:selected{
+    -fx-opacity: 1;
+    -fx-scale-x: 1.2;
+    -fx-scale-y: 1.2;
+    -fx-scale-z: 1.2;
 }
 
 .radio-button{
@@ -177,7 +178,8 @@
 }
 
 #dialogScene{
-    -fx-background-image: url("/images/endgame_victorywin.png");
+    -fx-background-image: url("/images/dialog.png");
+    -fx-background-size: cover;
 }
 
 #dialogLabel {

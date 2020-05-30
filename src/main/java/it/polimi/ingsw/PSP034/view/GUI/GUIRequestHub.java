@@ -13,6 +13,8 @@ import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.net.MalformedURLException;
+
 
 public class GUIRequestHub extends RequestManager {
     private GUIController currentController;

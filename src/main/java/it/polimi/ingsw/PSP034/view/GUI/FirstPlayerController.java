@@ -58,6 +58,7 @@ public class FirstPlayerController implements GUIController {
                     chosenPlayer = two.getText();
                 else if (chosen == three)
                     chosenPlayer = three.getText();
+                submit.setDisable(false);
             }
         });
     }
@@ -69,12 +70,12 @@ public class FirstPlayerController implements GUIController {
 
     public void update(String[] names){
         one.setVisible(true);
-        three.setVisible(true);
+        two.setVisible(true);
         one.setText(names[0]);
-        three.setText(names[1]);
+        two.setText(names[1]);
         if (names.length == 3){
-            two.setVisible(true);
-            two.setText(names[2]);
+            three.setVisible(true);
+            three.setText(names[2]);
         }
     }
 

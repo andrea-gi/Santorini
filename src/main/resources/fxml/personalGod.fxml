@@ -17,35 +17,38 @@
                 <ImageView fx:id="santoriniLogo" blendMode="SRC_ATOP" fitHeight="90.0" fitWidth="294.0" pickOnBounds="true" preserveRatio="true">
                     <Image url="@../images/santorini.jpg" />
                     <VBox.margin>
-                        <Insets bottom="120.0" left="500.0" right="480.0" top="35.0" />
+                        <Insets bottom="50.0" left="500.0" right="480.0" top="35.0" />
                     </VBox.margin>
                 </ImageView>
                 <Label layoutX="25.0" layoutY="146.0" prefHeight="30.0" prefWidth="324.0" text="Choose your God">
                     <VBox.margin>
-                        <Insets bottom="15.0" left="530.0" right="80.0" top="15.0" />
+                        <Insets bottom="30.0" left="540.0" right="80.0" />
                     </VBox.margin>
                 </Label>
-            <HBox prefHeight="140.0" prefWidth="330.0">
+            <HBox prefHeight="300.0" prefWidth="1200.0">
                <children>
-                  <RadioButton fx:id="one" mnemonicParsing="false" prefHeight="140.0" prefWidth="110.0">
+                  <RadioButton fx:id="one" mnemonicParsing="false" onAction="#setChosenGod" prefHeight="300.0" prefWidth="215.0" wrapText="true">
                      <HBox.margin>
-                        <Insets right="10.0" />
+                        <Insets left="70.0" right="190.0" />
                      </HBox.margin>
                   </RadioButton>
-                  <RadioButton fx:id="two" mnemonicParsing="false" prefHeight="140.0" prefWidth="110.0">
+                  <RadioButton fx:id="three" mnemonicParsing="false" onAction="#setChosenGod" prefHeight="300.0" prefWidth="215.0" wrapText="true">
                      <HBox.margin>
-                        <Insets right="10.0" />
+                        <Insets right="190.0" />
+                     </HBox.margin></RadioButton>
+                  <RadioButton fx:id="two" mnemonicParsing="false" onAction="#setChosenGod" prefHeight="300.0" prefWidth="215.0" wrapText="true">
+                     <HBox.margin>
+                        <Insets right="80.0" />
                      </HBox.margin>
                   </RadioButton>
-                  <RadioButton fx:id="three" mnemonicParsing="false" prefHeight="140.0" prefWidth="110.0" />
                </children>
                <VBox.margin>
-                  <Insets left="460.0" right="460.0" />
+                  <Insets bottom="20.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
             </HBox>
                 <Button fx:id="submit" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#setSubmit" prefHeight="33.0" prefWidth="141.0" text="SUBMIT" textAlignment="CENTER">
                     <VBox.margin>
-                        <Insets bottom="25.0" left="560.0" right="80.0" top="70.0" />
+                        <Insets bottom="25.0" left="560.0" right="80.0" top="30.0" />
                     </VBox.margin>
                 </Button>
             </children>

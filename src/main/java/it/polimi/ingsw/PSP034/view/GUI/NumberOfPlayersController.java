@@ -57,7 +57,7 @@ public class NumberOfPlayersController implements GUIController {
     }
 
     public void getSelectedToggle() {
-        submit.setDisable(false);
+        submit.setDisable(toggleGroup.getSelectedToggle() == null);
     }
 
     @Override

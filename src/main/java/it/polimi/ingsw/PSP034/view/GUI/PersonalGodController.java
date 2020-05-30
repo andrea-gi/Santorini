@@ -8,15 +8,17 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 
 import java.io.File;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
 
 public class PersonalGodController implements GUIController {
     File file = new File("src\\main\\resources\\images\\santorini.jpg");
     Image image = new Image(file.toURI().toString());
     private final ToggleGroup gods = new ToggleGroup();
-    private String chosenGod;
+    String chosenGod;
 
     @FXML
     private ImageView santoriniLogo;
@@ -45,8 +47,11 @@ public class PersonalGodController implements GUIController {
         two.setToggleGroup(gods);
         three.setToggleGroup(gods);
         one.getStyleClass().remove("radio-button");
+        one.setId("god");
         two.getStyleClass().remove("radio-button");
+        two.setId("god");
         three.getStyleClass().remove("radio-button");
+        three.setId("god");
         one.setVisible(false);
         two.setVisible(false);
         three.setVisible(false);
@@ -66,7 +71,15 @@ public class PersonalGodController implements GUIController {
     }
 
     @FXML
+    public void setChosenGod() {
+        submit.setDisable(gods.getSelectedToggle() == null);
+    }
+
+    @FXML
     public void setSubmit(ActionEvent e){
+        one.setDisable(true);
+        two.setDisable(true);
+        three.setDisable(true);
         submit.setDisable(true);
         submit.setText("SUBMITTED!");
 
@@ -79,21 +92,22 @@ public class PersonalGodController implements GUIController {
     }
 
     public void update(String[] possibleGods, String[] chosen){
-        one.setVisible(true);
-        three.setVisible(true);
-        one.setText(possibleGods[0]);
-        three.setText(possibleGods[1]);
-        if (possibleGods.length == 3){
-            two.setVisible(true);
-            two.setText(possibleGods[2]);
-        }
-        for (String string: chosen) {
-            if (string.equalsIgnoreCase(one.getText()))
-                one.setDisable(true);
-            if (string.equalsIgnoreCase(two.getText()))
-                two.setDisable(true);
-            if (string.equalsIgnoreCase(three.getText()))
-                three.setDisable(true);
+        RadioButton[] buttons = new RadioButton[]{one, two, three};
+        String name;
+        for (int i = 0; i < possibleGods.length+chosen.length; i++){
+            if (i < possibleGods.length){
+                name = possibleGods[i];
+            }
+            else{
+                name = chosen[i-(possibleGods.length)];
+                buttons[i].setDisable(true);
+            }
+            Image godCard = new Image(getClass().getResource(GodPath.getPath(name)).toExternalForm(), 215, 300, true, true);
+            buttons[i].setBackground(new Background(new BackgroundImage(godCard,
+                    BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT)));
+            buttons[i].setText(name);
+            buttons[i].setId("godButton");
+            buttons[i].setVisible(true);
         }
 
     }
