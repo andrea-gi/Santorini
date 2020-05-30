@@ -18,7 +18,6 @@ import javafx.util.Duration;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 
 public class ChooseGodsController implements GUIController{
     File file = new File("src\\main\\resources\\images\\santorini.jpg");

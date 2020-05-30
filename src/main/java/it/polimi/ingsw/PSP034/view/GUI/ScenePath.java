@@ -1,6 +1,5 @@
 package it.polimi.ingsw.PSP034.view.GUI;
 
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -18,6 +17,7 @@ public class ScenePath {
     public static final String CHOOSE_GODS = "/fxml/chooseGods.fxml";
     public static final String PERSONAL_GOD = "/fxml/personalGod.fxml";
     public static final String NUMBER_OF_PLAYERS = "/fxml/numberOfPlayers.fxml";
+    public static final String FIRST_PLAYER = "/fxml/firstPlayer.fxml";
 
     public static void setNextScene(Scene scene, String path) {
         FXMLLoader loader = new FXMLLoader((ScenePath.class.getResource(path)));
@@ -32,30 +32,28 @@ public class ScenePath {
     }
 
     public static void setDialog(Stage stage, String info, String message){
-        Platform.runLater(()-> {
-            FXMLLoader loader = new FXMLLoader((ScenePath.class.getResource("/fxml/dialog.fxml")));
-            Scene dialogScene;
-            try {
-                dialogScene = new Scene(loader.load(), 420, 430);
-                dialogScene.getStylesheets().add("/style.css");
-            } catch (IOException e) {
-                return;
-            }
+        FXMLLoader loader = new FXMLLoader((ScenePath.class.getResource("/fxml/dialog.fxml")));
+        Scene dialogScene;
+        try {
+            dialogScene = new Scene(loader.load(), 420, 430);
+            dialogScene.getStylesheets().add("/style.css");
+        } catch (IOException e) {
+            return;
+        }
 
-            Stage dialog = new Stage();
-            dialogScene.setFill(null);
-            dialog.setScene(dialogScene);
-            dialog.initOwner(stage);
-            dialog.initStyle(StageStyle.UNDECORATED);
-            dialog.initModality(Modality.APPLICATION_MODAL);
-            dialog.setAlwaysOnTop(true);
-            dialog.initStyle(StageStyle.TRANSPARENT);
+        Stage dialog = new Stage();
+        dialogScene.setFill(null);
+        dialog.setScene(dialogScene);
+        dialog.initOwner(stage);
+        dialog.initStyle(StageStyle.UNDECORATED);
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.setAlwaysOnTop(true);
+        dialog.initStyle(StageStyle.TRANSPARENT);
 
-            ((DialogController)GUIRequestHub.getInstance().getCurrentController()).setMyTitle(info);
-            ((DialogController)GUIRequestHub.getInstance().getCurrentController()).setLabel(message);
+        ((DialogController)GUIRequestHub.getInstance().getCurrentController()).setMyTitle(info);
+        ((DialogController)GUIRequestHub.getInstance().getCurrentController()).setLabel(message);
 
-            dialog.showAndWait();
-        });
+        dialog.showAndWait();
     }
 
     public static void dismissDialog(Stage dialog){

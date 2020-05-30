@@ -46,12 +46,12 @@
             <Insets left="460.0" right="460.0" />
          </VBox.margin>
          <children>
-            <RadioButton fx:id="blue" mnemonicParsing="false" onAction="#filledColor" prefHeight="140.0" prefWidth="100.0">
+            <RadioButton fx:id="red" mnemonicParsing="false" onAction="#filledColor" prefHeight="140.0" prefWidth="100.0">
                <HBox.margin>
                   <Insets right="10.0" />
                </HBox.margin>
             </RadioButton>
-            <RadioButton fx:id="red" mnemonicParsing="false" onAction="#filledColor" prefHeight="140.0" prefWidth="100.0">
+            <RadioButton fx:id="blue" mnemonicParsing="false" onAction="#filledColor" prefHeight="140.0" prefWidth="100.0">
                <HBox.margin>
                   <Insets right="10.0" />
                </HBox.margin>

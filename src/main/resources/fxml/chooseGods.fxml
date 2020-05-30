@@ -13,14 +13,14 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="417.0" prefWidth="305.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP034.view.GUI.ChooseGodsController">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP034.view.GUI.ChooseGodsController">
     <children>
         <VBox fx:id="pane" layoutY="6.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../style.css">
             <children>
                 <ImageView fx:id="santoriniLogo" blendMode="SRC_ATOP" fitHeight="90.0" fitWidth="294.0" pickOnBounds="true" preserveRatio="true">
                     <Image url="@../images/santorini.jpg" />
                     <VBox.margin>
-                        <Insets bottom="120.0" left="500.0" right="480.0" top="35.0" />
+                        <Insets bottom="100.0" left="500.0" right="480.0" top="35.0" />
                     </VBox.margin>
                 </ImageView>
                   <Label prefHeight="30.0" prefWidth="497.0" text="Choose all the Gods" textFill="WHITE">
@@ -28,7 +28,7 @@
                           <Insets />
                       </opaqueInsets>
                <VBox.margin>
-                  <Insets bottom="15.0" left="530.0" right="80.0" />
+                  <Insets bottom="15.0" left="510.0" right="80.0" />
                </VBox.margin>
                   </Label>
                 <GridPane alignment="CENTER" maxHeight="300.0" maxWidth="260.0" prefHeight="300.0" prefWidth="260.0">
@@ -134,12 +134,12 @@
                         </CheckBox>
                     </children>
                     <VBox.margin>
-                        <Insets bottom="10.0" left="530.0" right="15.0" />
+                        <Insets bottom="10.0" left="510.0" right="15.0" />
                     </VBox.margin>
                 </GridPane>
                 <Button fx:id="submit" alignment="CENTER" contentDisplay="CENTER" maxHeight="33.0" maxWidth="141.0" mnemonicParsing="false" onAction="#setSubmit" prefHeight="33.0" prefWidth="141.0" text="SUBMIT" textAlignment="CENTER">
                     <VBox.margin>
-                        <Insets bottom="25.0" left="560.0" right="8.0" top="10.0" />
+                        <Insets bottom="25.0" left="550.0" right="8.0" top="10.0" />
                     </VBox.margin>
                 </Button>
             </children>

@@ -93,15 +93,19 @@ public class GUIRequestHub extends RequestManager {
                 Platform.runLater(()->{ScenePath.setDialog((Stage)scene.getWindow(),"Game Started",
                         "Oops, seems like the game has already started without you, sorry! :(");});
         }
-
     }
 
     private void craftRequestSetup(SetupRequest request){
         Scene scene = currentController.getPane().getScene();
         if (request instanceof GodLikeInfo){
+            GUIController previousController = currentController;
             String godLikePlayer = ((GodLikeInfo) request).getGodLikePlayer();
-            Platform.runLater(()->{ScenePath.setDialog((Stage)scene.getWindow(),"God like Player",
-                    godLikePlayer + " has been chosen as the most god-like player. Such a lucky player!");});
+            Platform.runLater(()->
+            {
+                ScenePath.setDialog((Stage)scene.getWindow(),"God like Player",
+                    godLikePlayer + " has been chosen as the most god-like player. Such a lucky player!");
+                currentController = previousController;
+            });
         }
 
         else if(request instanceof RequestCardsChoice) {
@@ -112,9 +116,18 @@ public class GUIRequestHub extends RequestManager {
             });
         }
 
+        else if (request instanceof RequestPersonalGod) {
+            RequestPersonalGod requestPersonalGod = (RequestPersonalGod) request;
+            Platform.runLater(()->{
+                ScenePath.setNextScene(scene, ScenePath.PERSONAL_GOD);
+                ((PersonalGodController) currentController).update(requestPersonalGod.getPossibleGods(), requestPersonalGod.getAlreadyChosenGods());
+            });
+        }
+
         else if (request instanceof RequestFirstPlayer) {
             RequestFirstPlayer requestFP = (RequestFirstPlayer) request;
             Platform.runLater(()->{
+                ScenePath.setNextScene(scene, ScenePath.FIRST_PLAYER);
                 ((FirstPlayerController) currentController).update(requestFP.getPlayers());
             });
         }
@@ -122,15 +135,9 @@ public class GUIRequestHub extends RequestManager {
         else if (request instanceof FirstPlayerInfo){
             String firstPlayer = ((FirstPlayerInfo) request).getFirstPlayer();
             Platform.runLater(()->{
+                GUIController previousController = currentController;
                 ScenePath.setDialog((Stage)scene.getWindow(), "First Player", firstPlayer + " has been chosen as first player! Is this a good strategy? We'll see...");
-            });
-        }
-
-        else if (request instanceof RequestPersonalGod) {
-            Platform.runLater(()->{
-                RequestPersonalGod requestPersonalGod = (RequestPersonalGod) request;
-                ScenePath.setNextScene(scene, ScenePath.PERSONAL_GOD);
-                ((PersonalGodController) currentController).update(requestPersonalGod.getPossibleGods(), requestPersonalGod.getAlreadyChosenGods());
+                currentController = previousController;
             });
         }
 

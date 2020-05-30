@@ -67,14 +67,14 @@ public class FirstPlayerController implements GUIController {
         return pane;
     }
 
-    public void update(String[] players){
+    public void update(String[] names){
         one.setVisible(true);
-        two.setVisible(true);
-        one.setText(players[0]);
-        two.setText(players[1]);
-        if (players.length == 3){
-            three.setVisible(true);
-            three.setText(players[2]);
+        three.setVisible(true);
+        one.setText(names[0]);
+        three.setText(names[1]);
+        if (names.length == 3){
+            two.setVisible(true);
+            two.setText(names[2]);
         }
     }
 
