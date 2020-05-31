@@ -12,13 +12,8 @@ import javafx.scene.layout.Pane;
 import java.io.File;
 
 public class ServerLoginController implements GUIController{
-    File file = new File("src\\main\\resources\\images\\santorini.jpg");
-    Image image = new Image(file.toURI().toString());
-
     @FXML
     private Pane pane;
-    @FXML
-    private ImageView santoriniLogo;
     @FXML
     private TextField enterServerName;
     @FXML
@@ -45,7 +40,6 @@ public class ServerLoginController implements GUIController{
     @FXML
     private void initialize(){
         GUIRequestHub.getInstance().setCurrentController(this);
-        santoriniLogo.setImage(image);
     }
 
     public void setSubmit(ActionEvent e){

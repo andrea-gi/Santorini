@@ -16,12 +16,6 @@ import javafx.scene.layout.Pane;
 import java.io.File;
 
 public class NumberOfPlayersController implements GUIController {
-    File file = new File("src\\main\\resources\\images\\santorini.jpg");
-    Image image = new Image(file.toURI().toString());
-
-    @FXML
-    private ImageView santoriniLogo;
-
     @FXML
     private Pane pane;
 
@@ -53,7 +47,6 @@ public class NumberOfPlayersController implements GUIController {
                 submit.setDisable(false);
             }
         });
-        santoriniLogo.setImage(image);
     }
 
     public void getSelectedToggle() {

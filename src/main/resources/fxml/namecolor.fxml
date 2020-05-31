@@ -5,63 +5,55 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP034.view.GUI.NameColorController">
+<VBox fx:id="pane" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP034.view.GUI.NameColorController">
     <children>
-        <ImageView fx:id="santoriniLogo" blendMode="SRC_ATOP" fitHeight="90.0" fitWidth="294.0" pickOnBounds="true" preserveRatio="true">
-            <Image url="@../images/santorini.jpg" />
+        <Label alignment="CENTER" prefHeight="29.0" prefWidth="253.0" stylesheets="@../style.css" text="Enter your name">
             <VBox.margin>
-                <Insets bottom="100.0" left="500.0" right="480.0" top="35.0" />
-            </VBox.margin>
-        </ImageView>
-        <Label prefHeight="29.0" prefWidth="253.0" stylesheets="@../style.css" text="Enter your name">
-            <VBox.margin>
-                <Insets bottom="15.0" left="530.0" right="80.0" />
+                <Insets bottom="15.0" top="100.0" />
             </VBox.margin>
         </Label>
         <TextField fx:id="enterName" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyTyped="#filledName" prefHeight="33.0" prefWidth="285.0" promptText="Name">
             <VBox.margin>
-                <Insets left="520.0" right="510.0" />
+                <Insets left="510.0" right="510.0" />
             </VBox.margin>
         </TextField>
       <Label fx:id="error" prefHeight="50.0" prefWidth="239.0" wrapText="true">
          <VBox.margin>
-            <Insets bottom="20.0" left="530.0" />
+            <Insets bottom="20.0" />
          </VBox.margin>
       </Label>
-        <Label layoutX="25.0" layoutY="146.0" prefHeight="29.0" prefWidth="251.0" text="Choose a color">
+        <Label alignment="CENTER" layoutX="25.0" layoutY="146.0" prefHeight="29.0" prefWidth="251.0" text="Choose a color">
             <opaqueInsets>
                 <Insets />
             </opaqueInsets>
             <VBox.margin>
-                <Insets bottom="15.0" left="530.0" right="70.0" />
+                <Insets bottom="15.0" />
             </VBox.margin>
         </Label>
-      <HBox alignment="CENTER" prefHeight="140.0" prefWidth="330.0">
+      <HBox alignment="CENTER" prefHeight="160.0" prefWidth="330.0">
          <VBox.margin>
-            <Insets left="460.0" right="460.0" />
+            <Insets />
          </VBox.margin>
          <children>
-            <RadioButton fx:id="red" mnemonicParsing="false" onAction="#filledColor" prefHeight="135.0" prefWidth="95.0">
+            <RadioButton fx:id="red" mnemonicParsing="false" onAction="#filledColor" prefHeight="140.0" prefWidth="100.0">
                <HBox.margin>
-                  <Insets right="10.0" />
+                  <Insets right="20.0" />
                </HBox.margin>
             </RadioButton>
-            <RadioButton fx:id="blue" mnemonicParsing="false" onAction="#filledColor" prefHeight="135.0" prefWidth="95.0">
+            <RadioButton fx:id="blue" mnemonicParsing="false" onAction="#filledColor" prefHeight="140.0" prefWidth="100.0">
                <HBox.margin>
-                  <Insets right="10.0" />
+                  <Insets right="20.0" />
                </HBox.margin>
             </RadioButton>
-            <RadioButton fx:id="magenta" mnemonicParsing="false" onAction="#filledColor" prefHeight="135.0" prefWidth="95.0" />
+            <RadioButton fx:id="magenta" mnemonicParsing="false" onAction="#filledColor" prefHeight="140.0" prefWidth="100.0" />
          </children>
       </HBox>
         <Button fx:id="submit" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#setSubmit" prefHeight="33.0" prefWidth="141.0" stylesheets="@../style.css" text="SUBMIT" textAlignment="CENTER">
             <VBox.margin>
-                <Insets bottom="25.0" left="560.0" right="80.0" top="30.0" />
+                <Insets bottom="25.0" top="30.0" />
             </VBox.margin>
         </Button>
     </children>

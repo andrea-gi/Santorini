@@ -4,6 +4,7 @@ import it.polimi.ingsw.PSP034.messages.setupPhase.AnswerPersonalGod;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
@@ -15,14 +16,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class PersonalGodController implements GUIController {
-    File file = new File("src\\main\\resources\\images\\santorini.jpg");
-    Image image = new Image(file.toURI().toString());
     private final ToggleGroup gods = new ToggleGroup();
     String chosenGod;
     private ArrayList<String> myGods = new ArrayList<>();
-
-    @FXML
-    private ImageView santoriniLogo;
 
     @FXML
     private Pane pane;
@@ -40,9 +36,17 @@ public class PersonalGodController implements GUIController {
     private RadioButton three;
 
     @FXML
+    private Label labelOne;
+
+    @FXML
+    private Label labelTwo;
+
+    @FXML
+    private Label labelThree;
+
+    @FXML
     private void initialize() {
         GUIRequestHub.getInstance().setCurrentController(this);
-        santoriniLogo.setImage(image);
         submit.setDisable(true);
         one.setToggleGroup(gods);
         two.setToggleGroup(gods);
@@ -128,6 +132,7 @@ public class PersonalGodController implements GUIController {
     public void update(String[] possibleGods, String[] chosen){
         myGods.addAll(Arrays.asList(possibleGods));
         RadioButton[] buttons = new RadioButton[]{one, two, three};
+        Label[] labels = new Label[]{labelOne, labelTwo, labelThree};
         String name;
         for (int i = 0; i < possibleGods.length+chosen.length; i++){
             if (i < possibleGods.length){
@@ -139,6 +144,9 @@ public class PersonalGodController implements GUIController {
             }
             setGodBackground(buttons[i], name, false);
             buttons[i].setText(name);
+            labels[i].setWrapText(true);
+            labels[i].setText(name.toUpperCase());
+            labels[i].setId("godName");
             buttons[i].setId("godButton");
             buttons[i].setVisible(true);
         }

@@ -2,7 +2,6 @@ package it.polimi.ingsw.PSP034.view.GUI;
 
 import it.polimi.ingsw.PSP034.constants.PlayerColor;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.AnswerNameColor;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -13,12 +12,9 @@ import javafx.scene.layout.Pane;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 
 public class NameColorController implements GUIController{
-    File file = new File("src\\main\\resources\\images\\santorini.jpg");
-    Image image = new Image(file.toURI().toString());
     private final ToggleGroup colors = new ToggleGroup();
 
     @FXML
@@ -29,9 +25,6 @@ public class NameColorController implements GUIController{
 
     @FXML
     private Label error;
-
-    @FXML
-    private ImageView santoriniLogo;
 
     @FXML
     private Button submit;
@@ -93,7 +86,6 @@ public class NameColorController implements GUIController{
                     myColor = PlayerColor.MAGENTA;
             }
         });
-        santoriniLogo.setImage(image);
         submit.setDisable(notValid);
 
         enterName.setDisable(true);
@@ -131,6 +123,7 @@ public class NameColorController implements GUIController{
             reInsert();
         }
         else {
+            setError("");
             GUIRequestHub.getInstance().sendAnswer(new AnswerNameColor(getEnterName(), myColor));
             red.setDisable(true);
             blue.setDisable(true);

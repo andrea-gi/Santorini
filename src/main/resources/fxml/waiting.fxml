@@ -5,24 +5,16 @@
 <?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.effect.SepiaTone?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane prefHeight="417.0" prefWidth="305.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP034.view.GUI.WaitingController">
     <children>
-        <VBox fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-alignment: center;" stylesheets="@../style.css">
+        <VBox fx:id="pane" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-alignment: center;" stylesheets="@../style.css">
             <children>
-                <ImageView fx:id="santoriniLogo" blendMode="SRC_ATOP" fitHeight="90.0" fitWidth="294.0" pickOnBounds="true" preserveRatio="true">
-                    <Image url="@../images/santorini.jpg" />
+                <Label fx:id="title" alignment="CENTER" prefHeight="160.0" prefWidth="204.0" wrapText="true">
                     <VBox.margin>
-                        <Insets bottom="80.0" top="35.0" />
-                    </VBox.margin>
-                </ImageView>
-                <Label fx:id="title" prefHeight="160.0" prefWidth="204.0" wrapText="true">
-                    <VBox.margin>
-                        <Insets bottom="15.0" top="40.0" />
+                        <Insets bottom="15.0" top="200.0" />
                     </VBox.margin>
                 </Label>
                 <ProgressIndicator minHeight="66.0" minWidth="66.0" prefHeight="90.0" prefWidth="90.0">
@@ -37,7 +29,7 @@
                   </SepiaTone>
                </effect>
                 </ProgressIndicator>
-                <Label fx:id="message" prefHeight="200.0" prefWidth="218.0" wrapText="true">
+                <Label fx:id="message" alignment="CENTER" prefHeight="200.0" prefWidth="218.0" wrapText="true">
                     <VBox.margin>
                         <Insets bottom="100.0" />
                     </VBox.margin>

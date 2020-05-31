@@ -20,13 +20,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ChooseGodsController implements GUIController{
-    File file = new File("src\\main\\resources\\images\\santorini.jpg");
-    Image image = new Image(file.toURI().toString());
     ObservableSet<CheckBox> chosenGods = FXCollections.observableSet();
     ObservableSet<CheckBox> remainingGods = FXCollections.observableSet();
-
-    @FXML
-    private ImageView santoriniLogo;
 
     @FXML
     private Pane pane;
@@ -93,33 +88,22 @@ public class ChooseGodsController implements GUIController{
     private Tooltip zeustip;
 
     private int number;
-    private IntegerBinding numberOfSelectedGods = Bindings.size(chosenGods);
+    private final IntegerBinding numberOfSelectedGods = Bindings.size(chosenGods);
     private final ArrayList<String> name = new ArrayList<>();
 
     @FXML
     private void initialize(){
         GUIRequestHub.getInstance().setCurrentController(this);
         submit.setDisable(true);
-        santoriniLogo.setImage(image);
         ArrayList<Tooltip> tp = new ArrayList<>(Arrays.asList(apollotip, artemistip,athenatip, atlastip, demetertip,
                 hephaestustip, heratip, hestiatip, minotaurtip, pantip, prometheustip, limustip, tritontip, zeustip));
         for (Tooltip t: tp ) {
             t.setShowDelay(Duration.seconds(0));
         }
-        remainingGods.add(Apollo);
-        remainingGods.add(Artemis);
-        remainingGods.add(Athena);
-        remainingGods.add(Atlas);
-        remainingGods.add(Demeter);
-        remainingGods.add(Hephaestus);
-        remainingGods.add(Hera);
-        remainingGods.add(Hestia);
-        remainingGods.add(Minotaur);
-        remainingGods.add(Pan);
-        remainingGods.add(Prometheus);
-        remainingGods.add(Limus);
-        remainingGods.add(Triton);
-        remainingGods.add(Zeus);
+        CheckBox[] allPossibleGods = new CheckBox[]{Apollo, Artemis, Athena, Atlas, Demeter, Hephaestus, Hera, Hestia,
+            Minotaur, Pan, Prometheus, Limus, Triton, Zeus};
+
+        remainingGods.addAll(Arrays.asList(allPossibleGods));
 
         for (CheckBox myGod: remainingGods) {
             setMyGods(myGod);
@@ -183,6 +167,5 @@ public class ChooseGodsController implements GUIController{
     public void update(int playerNumber){
         this.number = playerNumber;
     }
-
 
 }

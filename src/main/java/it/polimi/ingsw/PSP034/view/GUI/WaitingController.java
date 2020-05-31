@@ -9,11 +9,6 @@ import javafx.scene.layout.Pane;
 import java.io.File;
 
 public class WaitingController implements GUIController{
-    File file = new File("src\\main\\resources\\images\\santorini.jpg");
-    Image image = new Image(file.toURI().toString());
-
-    @FXML
-    private ImageView santoriniLogo;
 
     @FXML
     private Pane pane;
@@ -32,7 +27,6 @@ public class WaitingController implements GUIController{
     @FXML
     private void initialize(){
         GUIRequestHub.getInstance().setCurrentController(this);
-        santoriniLogo.setImage(image);
     }
 
     public void setMyTitle(String string){

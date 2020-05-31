@@ -2,13 +2,21 @@
     -fx-font-size: 17pt;
     -fx-font-family: "Agency FB";
     -fx-text-fill: #9b6029;
-    -fx-background-image: url("/images/background_columns.png");
+    -fx-background-image: url("/images/background_setup.png");
     -fx-background-size: cover;
 }
 
 #titleScene{
     -fx-background-image: url("/images/title.png");
     -fx-background-size: cover;
+}
+
+#boardScene{
+    -fx-background-size: cover;
+}
+
+#boardTitle{
+    -fx-font-size: 24pt;
 }
 
 .label {
@@ -197,4 +205,8 @@
 #error{
     -fx-text-fill: darkred;
     -fx-font-size: 12pt;
+}
+
+#godName{
+    -fx-font-size: 19pt;
 }
