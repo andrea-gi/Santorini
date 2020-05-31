@@ -1,11 +1,14 @@
 package it.polimi.ingsw.PSP034.view.GUI;
 
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class MainGUI extends Application {
 
@@ -22,6 +25,10 @@ public class MainGUI extends Application {
         primaryStage.setScene(new Scene(root));
         root.getStylesheets().add("/style.css");
         primaryStage.show();
-    }
 
+        primaryStage.setOnCloseRequest(t -> {
+            Platform.exit();
+            System.exit(0);
+        });
+    }
 }

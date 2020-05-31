@@ -1,28 +1,36 @@
 package it.polimi.ingsw.PSP034.view.GUI;
 
-public class GodPath {
-    public static final String APOLLO = "/images/gods/Apollo.png";
-    public static final String ARTEMIS = "/images/gods/Artemis.png";
-    public static final String ATHENA = "/images/gods/Athena.png";
-    public static final String ATLAS = "/images/gods/Atlas.png";
-    public static final String DEMETER = "/images/gods/Demeter.png";
-    public static final String HEPHAESTUS = "/images/gods/Hephaestus.png";
-    public static final String HERA = "/images/gods/Hera.png";
-    public static final String HESTIA = "/images/gods/Hestia.png";
-    public static final String LIMUS = "/images/gods/Limus.png";
-    public static final String MINOTAUR = "/images/gods/Minotaur.png";
-    public static final String PAN = "/images/gods/Pan.png";
-    public static final String PROMETHEUS = "/images/gods/Prometheus.png";
-    public static final String TRITON = "/images/gods/Triton.png";
-    public static final String ZEUS = "/images/gods/Zeus.png";
+public enum GodPath {
+    APOLLO("/images/gods/Apollo.png", "/images/powers/Apollo.png"),
+    ARTEMIS("/images/gods/Artemis.png", "/images/powers/Artemis.png"),
+    ATHENA("/images/gods/Athena.png", "/images/powers/Athena.png"),
+    ATLAS("/images/gods/Atlas.png", "/images/powers/Atlas.png"),
+    DEMETER("/images/gods/Demeter.png", "/images/powers/Demeter.png"),
+    HEPHAESTUS("/images/gods/Hephaestus.png", "/images/powers/Hephaestus.png"),
+    HERA("/images/gods/Hera.png", "/images/powers/Hera.png"),
+    HESTIA("/images/gods/Hestia.png", "/images/powers/Hestia.png"),
+    LIMUS("/images/gods/Limus.png", "/images/powers/Limus.png"),
+    MINOTAUR("/images/gods/Minotaur.png", "/images/powers/Minotaur.png"),
+    PAN("/images/gods/Pan.png", "/images/powers/Pan.png"),
+    PROMETHEUS("/images/gods/Prometheus.png", "/images/powers/Prometheus.png"),
+    TRITON("/images/gods/Triton.png", "/images/powers/Triton.png"),
+    ZEUS("/images/gods/Zeus.png", "/images/powers/Zeus.png");
 
-    public static final String[] paths = new String[]{APOLLO, ARTEMIS, ATHENA, ATLAS, DEMETER, HEPHAESTUS,
+    private final String normalPath;
+    private final String power;
+
+    GodPath(String normalPath, String power){
+        this.normalPath = normalPath;
+        this.power = power;
+    }
+
+    public static final GodPath[] paths = new GodPath[]{APOLLO, ARTEMIS, ATHENA, ATLAS, DEMETER, HEPHAESTUS,
             HERA, HESTIA, LIMUS, MINOTAUR, PAN, PROMETHEUS, TRITON, ZEUS};
 
     public static String getPath(String string){
-        for(String god:paths){
-            if (("/images/gods/" + string + ".png").equalsIgnoreCase(god))
-                return god;
+        for(GodPath god:paths){ //TODO -- sostituire con values
+            if (("/images/gods/" + string + ".png").equalsIgnoreCase(god.normalPath))
+                return god.normalPath;
         }
         return "";
     }
@@ -34,4 +42,13 @@ public class GodPath {
         }
         return "";
     }
+
+    public static String getPower(String string){
+        for(GodPath god:paths){
+            if (("/images/powers/" + string + ".png").equalsIgnoreCase(god.power))
+                return god.power;
+        }
+        return "";
+    }
+
 }

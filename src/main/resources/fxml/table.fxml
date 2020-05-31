@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane fx:id="pane" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP034.view.GUI.TableController">
+   <children>
+      <HBox prefHeight="720.0" prefWidth="1280.0">
+         <children>
+            <VBox alignment="CENTER" prefHeight="720.0" prefWidth="440.0">
+               <children>
+                  <GridPane fx:id="gridCard" alignment="BASELINE_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="660.0" prefWidth="400.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="160.0" valignment="TOP" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="160.0" valignment="TOP" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="160.0" valignment="TOP" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="160.0" valignment="TOP" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <AnchorPane maxHeight="320.0" maxWidth="200.0" prefHeight="320.0" prefWidth="200.0">
+                           <children>
+                              <ImageView fx:id="cardOne" fitHeight="320.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                              <ImageView fx:id="godOne" fitHeight="148.0" fitWidth="106.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="47.0" AnchorPane.topAnchor="62.0" />
+                              <ImageView fx:id="powerOne" fitHeight="57.0" fitWidth="144.0" layoutX="5.0" layoutY="211.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="28.0" AnchorPane.topAnchor="237.0" />
+                              <Label fx:id="nameTwo" alignment="CENTER" layoutX="25.0" prefHeight="18.0" prefWidth="135.0" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="17.0" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane maxHeight="320.0" maxWidth="200.0" prefHeight="320.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <children>
+                              <ImageView fx:id="cardThree" fitHeight="320.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                              <ImageView fx:id="godThree" fitHeight="148.0" fitWidth="106.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="47.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="62.0" />
+                              <ImageView fx:id="powerThree" fitHeight="57.0" fitWidth="144.0" layoutX="14.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="28.0" AnchorPane.topAnchor="237.0" />
+                              <Label fx:id="nameThree" alignment="CENTER" contentDisplay="CENTER" layoutX="17.0" prefHeight="18.0" prefWidth="135.0" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="17.0" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane maxHeight="320.0" maxWidth="200.0" prefHeight="320.0" prefWidth="200.0" GridPane.rowIndex="2" GridPane.rowSpan="2147483647">
+                           <children>
+                              <ImageView fx:id="cardTwo" fitHeight="320.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                              <ImageView fx:id="godTwo" fitHeight="148.0" fitWidth="106.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="47.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="62.0" />
+                              <ImageView fx:id="powerTwo" fitHeight="57.0" fitWidth="144.0" layoutY="180.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="28.0" AnchorPane.topAnchor="237.0" />
+                              <Label fx:id="nameOne" alignment="CENTER" contentDisplay="CENTER" layoutX="12.0" layoutY="14.0" prefHeight="18.0" prefWidth="135.0" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="17.0" />
+                           </children>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </AnchorPane>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="10.0" />
+                     </VBox.margin>
+                  </GridPane>
+               </children></VBox>
+            <VBox alignment="TOP_CENTER" prefHeight="720.0" prefWidth="580.0">
+               <children>
+                  <Label fx:id="title" alignment="TOP_CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="479.0" wrapText="true">
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label fx:id="message" alignment="CENTER" prefHeight="30.0" prefWidth="485.0" wrapText="true">
+                     <VBox.margin>
+                        <Insets bottom="68.0" />
+                     </VBox.margin>
+                  </Label>
+                  <GridPane fx:id="gridTable" gridLinesVisible="true" maxHeight="405.0" maxWidth="405.0" prefHeight="405.0" prefWidth="405.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="81.0" fitWidth="81.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
+                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
+                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="106.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" />
+                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="106.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
+                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="10.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="106.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
+                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="10.0" layoutY="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3" />
+                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="106.0" layoutY="295.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="10.0" layoutY="295.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="4" />
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </GridPane>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="720.0" prefWidth="260.0">
+               <children>
+                  <Label />
+               </children></VBox>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

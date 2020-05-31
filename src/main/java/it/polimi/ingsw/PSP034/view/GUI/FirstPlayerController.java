@@ -6,20 +6,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
-import java.io.File;
 
 public class FirstPlayerController implements GUIController {
-    File file = new File("src\\main\\resources\\images\\santorini.jpg");
-    Image image = new Image(file.toURI().toString());
     private final ToggleGroup playersGroup = new ToggleGroup();
     private String chosenPlayer;
-
-    @FXML
-    private ImageView santoriniLogo;
 
     @FXML
     private Pane pane;
@@ -39,7 +31,6 @@ public class FirstPlayerController implements GUIController {
     @FXML
     private void initialize() {
         GUIRequestHub.getInstance().setCurrentController(this);
-        santoriniLogo.setImage(image);
         submit.setDisable(true);
         one.setToggleGroup(playersGroup);
         two.setToggleGroup(playersGroup);

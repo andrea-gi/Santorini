@@ -3,17 +3,18 @@ package it.polimi.ingsw.PSP034.view.GUI;
 import it.polimi.ingsw.PSP034.client.Client;
 import it.polimi.ingsw.PSP034.client.RequestManager;
 import it.polimi.ingsw.PSP034.messages.Request;
+import it.polimi.ingsw.PSP034.messages.SlimBoard;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.AnswerIP;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.ErrorMessage;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.RequestIP;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.RequestNameColor;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.RequestServerConfig;
 import it.polimi.ingsw.PSP034.messages.setupPhase.*;
+import it.polimi.ingsw.PSP034.model.Player;
 import javafx.application.Platform;
 import javafx.scene.Scene;
+import javafx.scene.control.Tab;
 import javafx.stage.Stage;
-
-import java.net.MalformedURLException;
 
 
 public class GUIRequestHub extends RequestManager {
@@ -134,17 +135,21 @@ public class GUIRequestHub extends RequestManager {
             });
         }
 
-        else if (request instanceof FirstPlayerInfo){
+        /*else if (request instanceof FirstPlayerInfo){
             String firstPlayer = ((FirstPlayerInfo) request).getFirstPlayer();
+            GUIController previousController = currentController;
             Platform.runLater(()->{
-                GUIController previousController = currentController;
-                ScenePath.setDialog((Stage)scene.getWindow(), "First Player", firstPlayer + " has been chosen as first player! Is this a good strategy? We'll see...");
+                ScenePath.setDialog((Stage)scene.getWindow(), "First Player",
+                        firstPlayer + " has been chosen as first player! Is this a good strategy? We'll see...");
                 currentController = previousController;
             });
-        }
+        }*/
 
         else if (request instanceof RequestPlaceWorker) {
-
+            Platform.runLater(()->{
+                ((TableController) currentController).setMyTitle("Your turn");
+                ((TableController) currentController).setMyMessage("Place your workers");
+            });
         }
 
         else if (request instanceof  ReceivedWorkerChoice){
@@ -152,7 +157,18 @@ public class GUIRequestHub extends RequestManager {
         }
 
         else if(request instanceof InitializeBoard){
+            Platform.runLater(()->{
+                SlimBoard slim = ((InitializeBoard) request).getSlimBoard();
+                ScenePath.setNextScene(scene, ScenePath.TABLE);
+                ((TableController) currentController).updateCards(slim.getGodsList(), slim.getPlayersList(), slim.getColorsList());
+            });
+        }
 
+        else if (request instanceof InfoIsPlacing){
+            Platform.runLater(()->{
+                ((TableController) currentController).setMyTitle(((InfoIsPlacing) request).getPlayer() + "'s turn");
+                ((TableController) currentController).setMyMessage(((InfoIsPlacing) request).getPlayer() + " is placing workers.");
+            });
         }
 
         //TODO -- decidere se va bene

@@ -19,6 +19,8 @@ public class ScenePath {
     public static final String NUMBER_OF_PLAYERS = "/fxml/numberOfPlayers.fxml";
     public static final String FIRST_PLAYER = "/fxml/firstPlayer.fxml";
 
+    public static final String TABLE = "/fxml/table.fxml";
+
     public static void setNextScene(Scene scene, String path) {
         FXMLLoader loader = new FXMLLoader((ScenePath.class.getResource(path)));
         Pane pane;
