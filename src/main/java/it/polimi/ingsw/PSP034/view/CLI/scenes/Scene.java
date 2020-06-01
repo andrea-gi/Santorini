@@ -1,19 +1,16 @@
 package it.polimi.ingsw.PSP034.view.CLI.scenes;
 
-import it.polimi.ingsw.PSP034.view.CLI.printables.ANSI;
-import it.polimi.ingsw.PSP034.view.CLI.printables.ErrorPrompt;
-import it.polimi.ingsw.PSP034.view.CLI.printables.PrintableObject;
-import it.polimi.ingsw.PSP034.view.CLI.printables.Spacer;
+import it.polimi.ingsw.PSP034.view.CLI.printables.*;
 import it.polimi.ingsw.PSP034.view.CLI.printables.arrangements.VerticalArrangement;
 
 /**
  * This class is the prototype that has to be extended by avery scene the composes the game. The variables that contain the dimensions of the frame are defined here.
  */
 public abstract class Scene {
-    private final int FRAME_WIDTH = 198;
-    private final int FRAME_HEIGHT = 40;
-    private final int FRAME_START_LINE = 6;
-    private final int FRAME_START_COLUMN = 16;
+    private final int FRAME_WIDTH = Frame.FRAME_WIDTH;
+    private final int FRAME_HEIGHT = Frame.FRAME_HEIGHT;
+    private final int FRAME_START_LINE = Frame.FRAME_START_LINE;
+    private final int FRAME_START_COLUMN = Frame.FRAME_START_COLUMN;
 
     public int getFrameWidth() {
         return FRAME_WIDTH;
