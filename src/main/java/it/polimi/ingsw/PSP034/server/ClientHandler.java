@@ -4,6 +4,7 @@ import it.polimi.ingsw.PSP034.constants.PlayerColor;
 import it.polimi.ingsw.PSP034.messages.Answer;
 import it.polimi.ingsw.PSP034.messages.ModelUpdate;
 import it.polimi.ingsw.PSP034.messages.Request;
+import it.polimi.ingsw.PSP034.messages.clientConfiguration.AutoCloseRequest;
 import it.polimi.ingsw.PSP034.messages.gameOverPhase.EndByDisconnection;
 import it.polimi.ingsw.PSP034.messages.gameOverPhase.PersonalDefeatRequest;
 import it.polimi.ingsw.PSP034.messages.gameOverPhase.WinnerRequest;
@@ -96,7 +97,9 @@ class ClientHandler implements IClientConnection, Runnable{
         while (isActive()) {
             try {
                 message = sendQueue.take();
-                if (!isActive()) {
+                if(message instanceof AutoCloseRequest)
+                    return;
+                else if (!isActive()) {
                     logger.printString("Connection to " + debugColor + this.playerName + ANSI.reset +
                             " has already been closed. Cannot send: " + message.getClass().getSimpleName());
                     return;
@@ -211,6 +214,7 @@ class ClientHandler implements IClientConnection, Runnable{
     private void close(){
         if (isActive()) {
             closeConnection();
+            sendQueue.add(new AutoCloseRequest());
             logger.printString("Deregistering: " + debugColor + playerName + ANSI.reset);
             server.deregisterConnection(this);
             logger.printString(debugColor + playerName + ANSI.reset + " deregistered successfully.");

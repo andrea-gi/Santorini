@@ -55,7 +55,7 @@ public class Server implements Runnable{
     private int chosenPlayerNumber = Constant.MAXPLAYERS;
     private int port;
 
-    private final IController controller;
+    private IController controller;
 
     private final BlockingQueue<AnswerEncapsulated> queue = new ArrayBlockingQueue<>(60);
 
@@ -170,6 +170,8 @@ public class Server implements Runnable{
      * @param connection Reference to the connection being deregistered.
      */
     protected synchronized void deregisterConnection(IClientConnection connection){
+        if (connection == null)
+            return;
         if (waitingConnections.contains(connection)){
             if (isGameStarted()){
                 connection.asyncSend(new RequestServerConfig(ServerInfo.ALREADY_STARTED));
@@ -194,7 +196,7 @@ public class Server implements Runnable{
                 controller.removeModelObserver(connection);
             }
             else{
-                activeConnections.remove(connection);
+                //activeConnections.remove(connection);
                 String disconnectedName;
                 if (connection.getDebugColor().equals(ANSI.reset)) //ANSI.reset is default color prior to registration
                     disconnectedName = "An opponent";
@@ -204,7 +206,7 @@ public class Server implements Runnable{
                     deregister.asyncSend(new EndByDisconnection(disconnectedName));
                     controller.removeModelObserver(connection);
                 }
-                //TODO -- restart del Server
+                restart();
             }
         }
     }
@@ -218,6 +220,24 @@ public class Server implements Runnable{
         waitingConnections.clear();
     }
 
+    private synchronized void restart(){
+        logger.printString(ANSI.underline + ANSI.FG_red + "Game ended. Preparing server for a new game" + ANSI.reset);
+        queue.clear();
+        synchronized (firstConnectionLock){
+            firstConnection = true;
+            firstPlayerConnected = null;
+            activeConnections.clear();
+            waitingConnections.clear();
+        }
+        controller = new Controller(this);
+        chosenPlayerNumber = Constant.MAXPLAYERS;
+        playerNumberFlag = true;
+        setGameStarted(false);
+        setCanStartSetup(false);
+        chosenNames.clear();
+        chosenColors.clear();
+        logger.printString(ANSI.underline + ANSI.FG_red + "New game ready. Waiting for new client connections." + ANSI.reset);
+    }
 
     private void acceptConnections(){
         executor.execute(() -> {
@@ -357,7 +377,11 @@ public class Server implements Runnable{
                 message = queue.take();
                 manageMessage(message.message, message.connection);
             } catch (InterruptedException e){
-                // TODO -- interrupted
+                try {
+                    serverSocket.close();
+                } catch (IOException ignored) {
+                    logger.printString("Error closing server socket.");
+                }
             }
         }
     }
