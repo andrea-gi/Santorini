@@ -232,8 +232,6 @@ public class ViewBoard extends PrintableObject {
             super.setObjectLine(0, constructionArray.get(0));
             super.setObjectLine(1, constructionArray.get(1));
             super.setObjectLine(2, constructionArray.get(2));
-
-            //super.print(super.getStartLine(), super.getStartColumn());
         }
     }
 }

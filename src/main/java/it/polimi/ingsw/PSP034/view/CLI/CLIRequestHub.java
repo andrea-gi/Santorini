@@ -12,6 +12,7 @@ import it.polimi.ingsw.PSP034.messages.serverConfiguration.RequestNameColor;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.RequestServerConfig;
 import it.polimi.ingsw.PSP034.messages.setupPhase.*;
 import it.polimi.ingsw.PSP034.view.CLI.scenes.*;
+import it.polimi.ingsw.PSP034.view.CLI.scenes.clientConfiguration.ScreenTest;
 import it.polimi.ingsw.PSP034.view.CLI.scenes.clientConfiguration.ServerAddress;
 import it.polimi.ingsw.PSP034.view.CLI.scenes.clientConfiguration.ServerPort;
 import it.polimi.ingsw.PSP034.view.CLI.scenes.clientConfiguration.TitleScene;
@@ -59,6 +60,8 @@ public class CLIRequestHub {
 
     private Answer newRequestClientConfig(RequestClientConfig request){
         if (request instanceof TitleRequest) {
+            currScene = new ScreenTest();
+            currScene.show();
             currScene = new TitleScene();
             currScene.show();
             return null;
