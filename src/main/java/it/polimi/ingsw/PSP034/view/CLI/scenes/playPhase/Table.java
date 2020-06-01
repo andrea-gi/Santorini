@@ -29,7 +29,6 @@ public class Table extends Scene{
 
     Dialog question;
     Message message;
-    Spacer emptyRequest;
     HorizontalArrangement textBoxANDAnswer;
 
     Spacer answerIndentation;
@@ -52,12 +51,13 @@ public class Table extends Scene{
         rightSide = new VerticalArrangement();
         boardANDRight.addObjects(board, rightSide);
         boardANDRight.setTopAlignment();
+        boardANDRight.setBorder(5);
 
         alignedCards = new HorizontalArrangement();
         request = new VerticalArrangement();
         rightSide.addObjects(alignedCards, request);
         rightSide.setCentreAlignment();
-        rightSide.setBorder(1);
+        rightSide.setBorder(3);
 
         cards = new PlayerBox[gods.length];
         for(int i = 0; i < gods.length; i++){
@@ -75,18 +75,18 @@ public class Table extends Scene{
         message.setVisible(false);
         question = new Dialog("", -1,1, "");
         question.setVisible(false);
-        emptyRequest = new Spacer(alignedCards.getWidth(), board.getHeight()-alignedCards.getHeight());
         textBoxANDAnswer = new HorizontalArrangement();
         textBoxANDAnswer.setVisible(false);
-        request.addObjects(message, question, emptyRequest, textBoxANDAnswer);
+        request.addObjects(message, question, textBoxANDAnswer);
+        request.setCentreAlignment();
+        request.setBorder(1);
 
         answerIndentation = new Spacer(5, 1);
         answer = new Message("", -1);
         textBox = new TextBox(1);
         textBoxANDAnswer.addObjects(answerIndentation, answer, textBox);
         textBoxANDAnswer.setBottomAlignment();
-
-        boardANDRight.setBorder(super.getFrameWidth()-board.getWidth()-rightSide.getWidth());
+        textBoxANDAnswer.setBorder(1);
 
         regex = null;
 
@@ -172,8 +172,6 @@ public class Table extends Scene{
     public void updateOtherPlacing(String playerName){
         setTitle("Workers setup");
         setMessage(new Message(playerName + " is placing Workers", -1));
-        textBoxANDAnswer.setVisible(false);
-        requiredAnswer = false;
     }
 
     public void updateSelectWorker(String action) {
@@ -185,7 +183,7 @@ public class Table extends Scene{
         regex.add(new RegexCondition("^[1-2]$", "Invalid selection."));
     }
 
-    public void updateMove(Sex sex, Directions[] possibleDirections, boolean hasChoice){
+    public void updateMove(@NotNull Sex sex, Directions[] possibleDirections, boolean hasChoice){
         String[] options = directionsToOptions(possibleDirections, hasChoice);
 
         setQuestion(new Dialog("Where do you want to move your " + sex.name().toLowerCase() + " (" + sex.toString() + ") Worker?", -1, 3, options));
@@ -193,10 +191,13 @@ public class Table extends Scene{
         setAnswer(new Message("Your move :", -1));
 
         regex = new ArrayList<>();
-        regex.add(new RegexCondition("^[1-" + (possibleDirections.length+1) + "]$", "Invalid selection."));
+        if(options.length <= 9)
+            regex.add(new RegexCondition("^[1-" + (options.length) + "]$", "Invalid selection."));
+        else
+            regex.add(new RegexCondition("^(([1-9])|(1(" + (options.length)%10 + ")))$", "Invalid selection."));
     }
 
-    public void updateBuild(Sex sex, Directions[] possibleDirections, boolean hasChoice){
+    public void updateBuild(@NotNull Sex sex, Directions[] possibleDirections, boolean hasChoice){
         String[] options = directionsToOptions(possibleDirections, hasChoice);
 
         setQuestion(new Dialog("Where do you want to build with your " + sex.name().toLowerCase() + " (" + sex.toString() + ") Worker?", -1, 3, options));
@@ -204,30 +205,15 @@ public class Table extends Scene{
         setAnswer(new Message("Your build :", -1));
 
         regex = new ArrayList<>();
-        regex.add(new RegexCondition("^[1-" + (possibleDirections.length+1) + "]$", "Invalid selection."));
+        if(options.length <= 9)
+            regex.add(new RegexCondition("^[1-" + (options.length) + "]$", "Invalid selection."));
+        else
+            regex.add(new RegexCondition("^(([1-9])|(1(" + (options.length)%10 + ")))$", "Invalid selection."));
     }
 
     public void updatePower(){
-        int pos = request.getObjects().indexOf(question);
-        request.removeObjects(question);
-        question = new Dialog("Do you want to use your god's power?", -1, 1, "Yes", "No");
-        question.setVisible(true);
-        request.insertObject(pos, question);
-        emptyRequest.setVisible(false);
-        message.setVisible(false);
-
-        pos = textBoxANDAnswer.getObjects().indexOf(answer);
-        textBoxANDAnswer.removeObjects(answer);
-        answer = new Message("Your choice :", -1);
-        textBoxANDAnswer.insertObject(pos, answer);
-
-        pos = textBoxANDAnswer.getObjects().indexOf(textBox);
-        textBoxANDAnswer.removeObjects(textBox);
-        textBox = new TextBox(question.getWidth()-answer.getWidth());
-        textBoxANDAnswer.insertObject(pos, textBox);
-        textBoxANDAnswer.setVisible(true);
-
-        requiredAnswer = true;
+        setQuestion(new Dialog("Do you want to use your god's power?", -1, 1, "Yes", "No"));
+        setAnswer(new Message("Your choice :", -1));
 
         regex = new ArrayList<>();
         regex.add(new RegexCondition("^[1-2]$", "Invalid selection."));
@@ -242,12 +228,10 @@ public class Table extends Scene{
     public void updateOtherStarting(String playerName){
         setTitle(playerName + "'s turn");
         setEmptyRequest();
-        requiredAnswer = false;
     }
 
     public void updateEnd(){
         setTitle("Your turn ended");
-
         setEmptyRequest();
     }
 
@@ -308,20 +292,21 @@ public class Table extends Scene{
     }
 
     public void updateRemovePlayer(String loser) throws NullPointerException{
-        PlayerColor loserColor = null;
+        boolean loserExists = false;
         for(PlayerBox card : cards){
             if(card.getPlayerName().equals(loser)){
                 PlayerBox newCard = new PlayerBox(card.getPlayerName(), card.getGodName(), null);
                 changeCard(card, newCard);
+                loserExists = true;
+                break;
             }
         }
-        if(loser == null)
+        if(!loserExists)
             throw new NullPointerException(loser + " can't loose as there is no such player still playing");
 
         setMessage(new Message(loser + " lost! You are one step closer to victory!", -1));
 
         setAnswer(new Message("Enter to continue", -1));
-        requiredAnswer = true;
         regex = null;
     }
 
@@ -346,10 +331,11 @@ public class Table extends Scene{
         regex.add(new RegexCondition("^[1-2]$", "Invalid selection"));
     }
 
-
     public void updateClearRequest(){
         setEmptyRequest();
     }
+
+
 
     private void setTitle(String newTitle){
         int pos = all.getObjects().indexOf(title);
@@ -364,8 +350,10 @@ public class Table extends Scene{
         question = newQuestion;
         question.setVisible(true);
         request.insertObject(pos, question);
-        emptyRequest.setVisible(false);
         message.setVisible(false);
+
+        textBoxANDAnswer.setVisible(false);
+        requiredAnswer = false;
     }
 
     private void setMessage(Message newMessage){
@@ -374,12 +362,13 @@ public class Table extends Scene{
         message = newMessage;
         message.setVisible(true);
         request.insertObject(pos, message);
-        emptyRequest.setVisible(false);
         question.setVisible(false);
+
+        textBoxANDAnswer.setVisible(false);
+        requiredAnswer = false;
     }
 
     private void setEmptyRequest(){
-        emptyRequest.setVisible(true);
         message.setVisible(false);
         question.setVisible(false);
 
@@ -403,7 +392,7 @@ public class Table extends Scene{
         requiredAnswer = true;
     }
 
-    private String[] directionsToOptions(Directions[] possibleDirections, boolean hasChoice) {
+    private String @NotNull [] directionsToOptions(Directions[] possibleDirections, boolean hasChoice) {
         String[] options;
         if(hasChoice) {
             options = new String[possibleDirections.length + 1];

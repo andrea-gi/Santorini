@@ -35,21 +35,21 @@ public class OtherWinnerDrawing extends PrintableObject {
         line = new StringBuilder();
         line.append("   ").append(winner).append("/ \\        ").append(losersColors[0].getFG_color()).append("o       ").append(ANSI.reset);
         for(int i = 1; i < losersColors.length; i++){
-            line.append(losersColors[i].getFG_color()).append("     o    ").append(ANSI.reset);
+            line.append(losersColors[i].getFG_color()).append("o    ").append(ANSI.reset);
         }
         super.setObjectLine(2,line.toString());
 
         line = new StringBuilder();
         line.append("  ").append(buildColor).append("█████      ").append(losersColors[0].getFG_color()).append("/█\\      ").append(ANSI.reset);
         for(int i = 1; i < losersColors.length; i++){
-            line.append(losersColors[i].getFG_color()).append("    /█\\   ").append(ANSI.reset);
+            line.append(losersColors[i].getFG_color()).append("/█\\   ").append(ANSI.reset);
         }
         super.setObjectLine(3,line.toString());
 
         line = new StringBuilder();
         line.append("  ").append(buildColor).append("█████      ").append(losersColors[0].getFG_color()).append("/ \\      ").append(ANSI.reset);
         for(int i = 1; i < losersColors.length; i++){
-            line.append(losersColors[i].getFG_color()).append("    / \\   ").append(ANSI.reset);
+            line.append(losersColors[i].getFG_color()).append("/ \\   ").append(ANSI.reset);
         }
         super.setObjectLine(4,line.toString());
 

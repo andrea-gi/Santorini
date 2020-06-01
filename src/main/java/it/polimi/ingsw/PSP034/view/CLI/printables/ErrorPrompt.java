@@ -15,7 +15,7 @@ public class ErrorPrompt extends PrintableObject{
 
         constructionArray.add(borderColor + "╔" + emptyLine.replace(' ', '═') + "╗" + ANSI.reset);
         constructionArray.add(borderColor + "║" + ANSI.reset + emptyLine + borderColor + "║" + ANSI.reset);
-        constructionArray.add(borderColor + "║" + ANSI.reset + borderString +  "Sorry, an error occurred and the game   "+ borderColor +"║" + ANSI.reset);
+        constructionArray.add(borderColor + "║" + ANSI.reset + borderString +  "Sorry, an error occurred and the game" + borderString + borderColor +"║" + ANSI.reset);
         constructionArray.add(borderColor + "║" + ANSI.reset + borderString +  "stopped. Please close the application.  "+ borderColor +"║" + ANSI.reset);
         constructionArray.add(borderColor + "║" + ANSI.reset + emptyLine + borderColor + "║" + ANSI.reset);
         constructionArray.add(borderColor + "║" + ANSI.reset + emptyLine + borderColor + "║" + ANSI.reset + "\033[" + (1+ maxLength) + "D" + ANSI.FG_rgbColor(255, 0, 0) + "Error code: " + ANSI.reset + errorCode);

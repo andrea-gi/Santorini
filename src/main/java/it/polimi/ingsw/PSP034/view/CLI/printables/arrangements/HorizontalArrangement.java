@@ -127,19 +127,23 @@ public class HorizontalArrangement extends Arrangement{
             int index = 0;
             while (super.getObjects().get(index).getHeight() == 0  ||  super.getObjects().get(index).getWidth() == 0  ||  !super.getObjects().get(index).getVisibility()){
                 index++;
+                if(index >= super.getObjects().size())
+                    break;
             }
-            external:
-            for (int currColumn = 0; currColumn < super.getWidth(); currColumn++) {
-                for (int currLine = 0; currLine < super.getHeight(); currLine++) {
-                    if (super.getObject()[currLine].charAt(currColumn) == '@') {
-                        super.getObjects().get(index).print(line + currLine, column + currColumn);
-                        index++;
-                        if (index >= super.getObjects().size())
-                            break external;
-                        while (super.getObjects().get(index).getHeight() == 0  ||  super.getObjects().get(index).getWidth() == 0  ||  !super.getObjects().get(index).getVisibility()){
+            if(index < super.getObjects().size()) {
+                external:
+                for (int currColumn = 0; currColumn < super.getWidth(); currColumn++) {
+                    for (int currLine = 0; currLine < super.getHeight(); currLine++) {
+                        if (super.getObject()[currLine].charAt(currColumn) == '@') {
+                            super.getObjects().get(index).print(line + currLine, column + currColumn);
                             index++;
                             if (index >= super.getObjects().size())
                                 break external;
+                            while (super.getObjects().get(index).getHeight() == 0 || super.getObjects().get(index).getWidth() == 0 || !super.getObjects().get(index).getVisibility()) {
+                                index++;
+                                if (index >= super.getObjects().size())
+                                    break external;
+                            }
                         }
                     }
                 }
@@ -147,6 +151,5 @@ public class HorizontalArrangement extends Arrangement{
         }
         super.setStartLine(line);
         super.setStartColumn(column);
-
     }
 }

@@ -50,17 +50,15 @@ public class Arrangement extends PrintableObject {
         return objects;
     }
 
-    int getAlignment() {
+    public int getAlignment() {
         return alignment;
     }
 
-    int getBorder() {
+    public int getBorder() {
         return border;
     }
 
-    void setAlignment(int alignment) {
+    protected void setAlignment(int alignment) {
         this.alignment = alignment;
     }
-
-
 }
