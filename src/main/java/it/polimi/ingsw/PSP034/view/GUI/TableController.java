@@ -121,7 +121,6 @@ public class TableController implements GUIController{
         this.answerSex = sex;
         for (int i = 0; i < Constant.DIM; i++){
             for (int j = 0; j < Constant.DIM; j++){
-                getTileByIndex(i, j, gridTable).setId("freeTile");
                 if (alreadyOccupied[i][j] == null){
                     getTileByIndex(i, j, gridTable).setDisable(false);
                 }
