@@ -11,16 +11,19 @@ public class Tile {
     private int building;
     private boolean dome;
     private final int x, y;
-    private static Board board;
+    private final Board board;
 
     /**
      * Initializes a new tile with (x,y) coordinates.
      * At the moment of creation the tile has no worker (set to null), building (set to 0) nor dome (set to false).
+     * Starting tile (0,0) is the upper left one.
      *
-     * @param x x coordinate of the new tile
-     * @param y y coordinate of the new tile
+     * @param board Reference to the game board, which contains all the tiles (in a given game).
+     * @param x x coordinate of the new tile (left to right).
+     * @param y y coordinate of the new tile (up to down).
      */
-    public Tile(int x, int y) {
+    public Tile(Board board, int x, int y) {
+        this.board = board;
         worker = null;
         building = Constant.GROUND;
         dome = false;
@@ -28,14 +31,11 @@ public class Tile {
         this.y = y;
     }
 
-    protected static void setBoard(Board board) {
-        Tile.board = board;
-    }
-
     public Worker getWorker() {
         return worker;
     }
 
+    //TODO -- sistemare eccezione
     /**
      * Set the worker standing in this tile to newWorker.
      *
@@ -50,6 +50,7 @@ public class Tile {
         return building;
     }
 
+    //TODO -- sistemare eccezione
     /**
      * Sets the height of the building on this tile.
      *
@@ -108,6 +109,8 @@ public class Tile {
         return neighbouringTiles;
     }
 
+
+    //TODO--eccezione
     /**
      * Using this method requires that each needed check regarding the existence of the next tile has already been performed.
      * Only finds next tile in the same direction of the given one.
@@ -146,6 +149,7 @@ public class Tile {
 
     }
 
+    //TODO -- eccezione
     /**
      * Finds the theoretical coordinate (one-dimensional) given a tile coordinate and an offset.
      *
@@ -154,19 +158,11 @@ public class Tile {
      * @return Theoretical coordinate of the next tile in the direction represented by the offset, starting from the base.
      */
     private int sameDirectionCoordinate(int distance, int base) {
-        switch (distance) {
-            case 1:
-                base = base + 2;
-                break;
-            case -1:
-                base = base - 2;
-                break;
-            case 0:
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + distance);
+        if (distance == 0 || distance == -1 || distance == 1)
+            return base + distance*2;
+        else{
+            throw new IllegalStateException("Unexpected value: " + distance);
         }
-        return base;
     }
 
 
@@ -181,6 +177,7 @@ public class Tile {
         return x >= 0 && x < DIM && y >= 0 && y < DIM;
     }
 
+    //TODO -- JAVADOC ed eccezioni
     public boolean isPerimeter() {
         return x == 0 || x == DIM - 1 || y == 0 || y == DIM - 1;
     }

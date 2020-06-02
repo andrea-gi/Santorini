@@ -16,31 +16,31 @@ public enum Directions {
             case -1:
                 switch (y){
                     case -1:
-                        return SW;
+                        return NW;
                     case 0:
                         return W;
                     case 1:
-                        return NW;
+                        return SW;
                 }
 
             case 0:
                 switch (y){
                     case -1:
-                        return S;
+                        return N;
                     case 0:
                         return O;
                     case 1:
-                        return N;
+                        return S;
                 }
 
             case 1:
                 switch (y){
                     case -1:
-                        return SE;
+                        return NE;
                     case 0:
                         return E;
                     case 1:
-                        return NE;
+                        return SE;
                 }
 
         }
@@ -73,7 +73,7 @@ public enum Directions {
             case SW:
             case S:
             case SE:
-                return -1;
+                return 1;
 
             case W:
             case O:
@@ -83,7 +83,7 @@ public enum Directions {
             case NW:
             case N:
             case NE:
-                return 1;
+                return -1;
         }
 
         return 9;

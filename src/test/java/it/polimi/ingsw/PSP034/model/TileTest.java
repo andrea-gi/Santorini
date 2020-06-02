@@ -110,7 +110,7 @@ public class TileTest {
         myTile = board.getTile(2,2);
         destinationTile = board.getTile(2,3);
         Directions direction = myTile.directionCalculator(destinationTile);
-        assertEquals(direction, Directions.N);
+        assertEquals(direction, Directions.S);
     }
 
     @Test

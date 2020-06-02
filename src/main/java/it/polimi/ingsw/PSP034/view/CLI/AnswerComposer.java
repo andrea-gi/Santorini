@@ -122,7 +122,7 @@ public class AnswerComposer {
                     }
                 }
             }
-            answer = new AnswerPlaceWorker(((RequestPlaceWorker) request).getSex(), x, Constant.DIM - 1 - y );
+            answer = new AnswerPlaceWorker(((RequestPlaceWorker) request).getSex(), x, y );
         }
 
         else {
