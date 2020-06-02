@@ -16,6 +16,11 @@ public class RequestAction extends PlayRequest {
     private final Directions[] possibleMaleDirections;
     private final Directions[] possibleFemaleDirections;
 
+    private final int xMale;
+    private final int yMale;
+    private final int xFemale;
+    private final int yFemale;
+
     public RequestAction(NextStateInfo info, Player player){
         super(info);
         Worker male = player.getWorker(Sex.MALE);
@@ -23,6 +28,12 @@ public class RequestAction extends PlayRequest {
 
         Tile maleStartTile = male.getMyTile();
         Tile femaleStartTile = female.getMyTile();
+
+        this.xMale = maleStartTile.getX();
+        this.yMale = maleStartTile.getY();
+
+        this.xFemale = femaleStartTile.getX();
+        this.yFemale = femaleStartTile.getY();
 
         ArrayList<Tile> malePossibleTiles;
         ArrayList<Tile> femalePossibleTiles;
@@ -50,7 +61,21 @@ public class RequestAction extends PlayRequest {
 
     }
 
+    public int getxFemale() {
+        return xFemale;
+    }
 
+    public int getyFemale() {
+        return yFemale;
+    }
+
+    public int getxMale() {
+        return xMale;
+    }
+
+    public int getyMale() {
+        return yMale;
+    }
 
     public Directions[] getPossibleFemaleDirections() {
         return possibleFemaleDirections;
