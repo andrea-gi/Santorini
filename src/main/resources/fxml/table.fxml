@@ -8,48 +8,64 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane fx:id="pane" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP034.view.GUI.TableController">
    <children>
-      <HBox prefHeight="720.0" prefWidth="1280.0">
+      <HBox maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0">
          <children>
-            <VBox alignment="CENTER" prefHeight="720.0" prefWidth="440.0">
+            <VBox fillWidth="false" maxHeight="720.0" maxWidth="567.0" minHeight="720.0" minWidth="567.0" prefHeight="720.0" prefWidth="567.0">
                <children>
-                  <GridPane fx:id="gridCard" alignment="BASELINE_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="660.0" prefWidth="400.0">
+                  <VBox maxHeight="95.0" maxWidth="700.0" minHeight="95.0" minWidth="700.0" prefHeight="95.0" prefWidth="700.0">
+                     <children>
+                        <Label fx:id="title" alignment="CENTER" contentDisplay="CENTER" prefHeight="36.0" prefWidth="700.0" wrapText="true">
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label fx:id="message" alignment="CENTER" prefHeight="20.0" prefWidth="700.0" wrapText="true">
+                           <VBox.margin>
+                              <Insets bottom="68.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <GridPane fx:id="gridCard" alignment="BASELINE_LEFT" maxHeight="560.0" maxWidth="567.0" minHeight="560.0" minWidth="567.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="560.0" prefWidth="567.0">
                     <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="189.0" minWidth="189.0" prefWidth="189.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="189.0" minWidth="189.0" prefWidth="189.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="189.0" minWidth="189.0" prefWidth="189.0" />
                     </columnConstraints>
                     <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="160.0" valignment="TOP" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="160.0" valignment="TOP" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="160.0" valignment="TOP" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="160.0" valignment="TOP" vgrow="SOMETIMES" />
+                        <RowConstraints fillHeight="false" maxHeight="140.0" minHeight="10.0" prefHeight="140.0" valignment="TOP" vgrow="SOMETIMES" />
+                      <RowConstraints fillHeight="false" maxHeight="140.0" minHeight="10.0" prefHeight="140.0" valignment="TOP" vgrow="SOMETIMES" />
+                      <RowConstraints fillHeight="false" maxHeight="140.0" minHeight="10.0" prefHeight="140.0" valignment="TOP" vgrow="SOMETIMES" />
+                      <RowConstraints fillHeight="false" maxHeight="140.0" minHeight="10.0" prefHeight="140.0" valignment="TOP" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <AnchorPane maxHeight="320.0" maxWidth="200.0" prefHeight="320.0" prefWidth="200.0">
+                        <AnchorPane maxHeight="280.0" maxWidth="189.0" minHeight="280.0" minWidth="189.0" prefHeight="280.0" prefWidth="189.0" GridPane.rowSpan="2">
                            <children>
-                              <ImageView fx:id="cardOne" fitHeight="320.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                              <ImageView fx:id="godOne" fitHeight="148.0" fitWidth="106.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="47.0" AnchorPane.topAnchor="62.0" />
-                              <ImageView fx:id="powerOne" fitHeight="57.0" fitWidth="144.0" layoutX="5.0" layoutY="211.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="28.0" AnchorPane.topAnchor="237.0" />
-                              <Label fx:id="nameTwo" alignment="CENTER" layoutX="25.0" prefHeight="18.0" prefWidth="135.0" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="17.0" />
+                              <ImageView fx:id="cardOne" fitHeight="280.0" fitWidth="189.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                              <ImageView fx:id="godOne" fitHeight="137.0" fitWidth="79.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="55.0" AnchorPane.topAnchor="40.0" />
+                              <ImageView fx:id="powerOne" fitHeight="60.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="199.0" />
+                              <Label fx:id="nameTwo" alignment="CENTER" layoutX="25.0" prefHeight="20.0" prefWidth="140.0" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="13.0" />
                            </children>
                         </AnchorPane>
-                        <AnchorPane maxHeight="320.0" maxWidth="200.0" prefHeight="320.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <AnchorPane maxHeight="280.0" maxWidth="189.0" prefHeight="280.0" prefWidth="189.0" GridPane.columnIndex="2">
                            <children>
-                              <ImageView fx:id="cardThree" fitHeight="320.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                              <ImageView fx:id="godThree" fitHeight="148.0" fitWidth="106.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="47.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="62.0" />
-                              <ImageView fx:id="powerThree" fitHeight="57.0" fitWidth="144.0" layoutX="14.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="28.0" AnchorPane.topAnchor="237.0" />
-                              <Label fx:id="nameThree" alignment="CENTER" contentDisplay="CENTER" layoutX="17.0" prefHeight="18.0" prefWidth="135.0" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="17.0" />
+                              <ImageView fx:id="cardThree" fitHeight="280.0" fitWidth="189.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                              <ImageView fx:id="godThree" fitHeight="137.0" fitWidth="79.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="55.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0" />
+                              <ImageView fx:id="powerThree" fitHeight="60.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="199.0" />
+                              <Label fx:id="nameThree" alignment="CENTER" contentDisplay="CENTER" layoutX="17.0" prefHeight="20.0" prefWidth="140.0" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="13.0" />
                            </children>
                         </AnchorPane>
-                        <AnchorPane maxHeight="320.0" maxWidth="200.0" prefHeight="320.0" prefWidth="200.0" GridPane.rowIndex="2" GridPane.rowSpan="2147483647">
+                        <AnchorPane maxHeight="280.0" maxWidth="189.0" prefHeight="280.0" prefWidth="189.0" GridPane.columnIndex="1" GridPane.rowSpan="2147483647">
                            <children>
-                              <ImageView fx:id="cardTwo" fitHeight="320.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                              <ImageView fx:id="godTwo" fitHeight="148.0" fitWidth="106.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="47.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="62.0" />
-                              <ImageView fx:id="powerTwo" fitHeight="57.0" fitWidth="144.0" layoutY="180.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="28.0" AnchorPane.topAnchor="237.0" />
-                              <Label fx:id="nameOne" alignment="CENTER" contentDisplay="CENTER" layoutX="12.0" layoutY="14.0" prefHeight="18.0" prefWidth="135.0" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="17.0" />
+                              <ImageView fx:id="cardTwo" fitHeight="280.0" fitWidth="189.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                              <ImageView fx:id="godTwo" fitHeight="137.0" fitWidth="79.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="55.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0" />
+                              <ImageView fx:id="powerTwo" fitHeight="60.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="199.0" />
+                              <Label fx:id="nameOne" alignment="CENTER" contentDisplay="CENTER" layoutX="12.0" layoutY="14.0" prefHeight="20.0" prefWidth="140.0" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="13.0" />
                            </children>
                            <GridPane.margin>
                               <Insets />
@@ -61,19 +77,9 @@
                      </VBox.margin>
                   </GridPane>
                </children></VBox>
-            <VBox alignment="TOP_CENTER" prefHeight="720.0" prefWidth="580.0">
+            <VBox alignment="TOP_RIGHT" fillWidth="false" maxHeight="720.0" maxWidth="713.0" minHeight="720.0" minWidth="713.0" prefHeight="720.0" prefWidth="713.0">
                <children>
-                  <Label fx:id="title" alignment="TOP_CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="479.0" wrapText="true">
-                     <VBox.margin>
-                        <Insets top="20.0" />
-                     </VBox.margin>
-                  </Label>
-                  <Label fx:id="message" alignment="CENTER" prefHeight="30.0" prefWidth="485.0" wrapText="true">
-                     <VBox.margin>
-                        <Insets bottom="68.0" />
-                     </VBox.margin>
-                  </Label>
-                  <GridPane fx:id="gridTable" gridLinesVisible="true" maxHeight="405.0" maxWidth="405.0" prefHeight="405.0" prefWidth="405.0">
+                  <GridPane fx:id="gridTable" gridLinesVisible="true" maxHeight="547.8" maxWidth="547.8" minHeight="547.8" minWidth="547.8" prefHeight="547.8" prefWidth="547.8">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -89,42 +95,38 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
-                        <ImageView fitHeight="81.0" fitWidth="81.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
-                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
-                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
-                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="106.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" />
-                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="106.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
-                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="10.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="106.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
-                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="10.0" layoutY="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="3" />
-                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3" />
-                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="106.0" layoutY="295.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="4" />
-                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="10.0" layoutY="295.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="4" />
+                        <StackPane maxHeight="109.5" maxWidth="109.5" minHeight="109.5" minWidth="109.5" prefHeight="109.5" prefWidth="109.5" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <StackPane maxHeight="109.5" maxWidth="109.5" minHeight="109.5" minWidth="109.5" prefHeight="109.5" prefWidth="109.5" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                        <StackPane layoutX="120.0" layoutY="10.0" maxHeight="109.5" maxWidth="109.5" minHeight="109.5" minWidth="109.5" prefHeight="109.5" prefWidth="109.5" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+                        <StackPane layoutX="10.0" layoutY="10.0" maxHeight="109.5" maxWidth="109.5" minHeight="109.5" minWidth="109.5" prefHeight="109.5" prefWidth="109.5" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+                        <StackPane layoutX="10.0" layoutY="10.0" maxHeight="109.5" maxWidth="109.5" minHeight="109.5" minWidth="109.5" prefHeight="109.5" prefWidth="109.5" GridPane.columnIndex="4" GridPane.rowIndex="0"/>
+                        <StackPane layoutX="10.0" layoutY="10.0" maxHeight="109.5" maxWidth="109.5" minHeight="109.5" minWidth="109.5" prefHeight="109.5" prefWidth="109.5" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                        <StackPane layoutX="10.0" layoutY="10.0" maxHeight="109.5" maxWidth="109.5" minHeight="109.5" minWidth="109.5" prefHeight="109.5" prefWidth="109.5" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <StackPane layoutX="10.0" layoutY="10.0" maxHeight="109.5" maxWidth="109.5" minHeight="109.5" minWidth="109.5" prefHeight="109.5" prefWidth="109.5" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <StackPane layoutX="10.0" layoutY="10.0" maxHeight="109.5" maxWidth="109.5" minHeight="109.5" minWidth="109.5" prefHeight="109.5" prefWidth="109.5" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                        <StackPane layoutX="10.0" layoutY="10.0" maxHeight="109.5" maxWidth="109.5" minHeight="109.5" minWidth="109.5" prefHeight="109.5" prefWidth="109.5" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                        <StackPane layoutX="10.0" layoutY="10.0" maxHeight="109.5" maxWidth="109.5" minHeight="109.5" minWidth="109.5" prefHeight="109.5" prefWidth="109.5" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                        <StackPane layoutX="10.0" layoutY="10.0" maxHeight="109.5" maxWidth="109.5" minHeight="109.5" minWidth="109.5" prefHeight="109.5" prefWidth="109.5" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <StackPane layoutX="10.0" layoutY="10.0" maxHeight="109.5" maxWidth="109.5" minHeight="109.5" minWidth="109.5" prefHeight="109.5" prefWidth="109.5" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <StackPane layoutX="10.0" layoutY="10.0" maxHeight="109.5" maxWidth="109.5" minHeight="109.5" minWidth="109.5" prefHeight="109.5" prefWidth="109.5" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                        <StackPane layoutX="10.0" layoutY="10.0" maxHeight="109.5" maxWidth="109.5" minHeight="109.5" minWidth="109.5" prefHeight="109.5" prefWidth="109.5" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                        <StackPane layoutX="10.0" layoutY="10.0" maxHeight="109.5" maxWidth="109.5" minHeight="109.5" minWidth="109.5" prefHeight="109.5" prefWidth="109.5" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                        <StackPane layoutX="10.0" layoutY="10.0" maxHeight="109.5" maxWidth="109.5" minHeight="109.5" minWidth="109.5" prefHeight="109.5" prefWidth="109.5" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <StackPane layoutX="10.0" layoutY="10.0" maxHeight="109.5" maxWidth="109.5" minHeight="109.5" minWidth="109.5" prefHeight="109.5" prefWidth="109.5" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                        <StackPane layoutX="10.0" layoutY="10.0" maxHeight="109.5" maxWidth="109.5" minHeight="109.5" minWidth="109.5" prefHeight="109.5" prefWidth="109.5" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                        <StackPane layoutX="10.0" layoutY="10.0" maxHeight="109.5" maxWidth="109.5" minHeight="109.5" minWidth="109.5" prefHeight="109.5" prefWidth="109.5" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                        <StackPane layoutX="10.0" layoutY="10.0" maxHeight="109.5" maxWidth="109.5" minHeight="109.5" minWidth="109.5" prefHeight="109.5" prefWidth="109.5" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                        <StackPane layoutX="10.0" layoutY="10.0" maxHeight="109.5" maxWidth="109.5" minHeight="109.5" minWidth="109.5" prefHeight="109.5" prefWidth="109.5" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <StackPane layoutX="10.0" layoutY="10.0" maxHeight="109.5" maxWidth="109.5" minHeight="109.5" minWidth="109.5" prefHeight="109.5" prefWidth="109.5" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                        <StackPane layoutX="10.0" layoutY="10.0" maxHeight="109.5" maxWidth="109.5" minHeight="109.5" minWidth="109.5" prefHeight="109.5" prefWidth="109.5" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                        <StackPane layoutX="10.0" layoutY="10.0" maxHeight="109.5" maxWidth="109.5" minHeight="109.5" minWidth="109.5" prefHeight="109.5" prefWidth="109.5" GridPane.columnIndex="4" GridPane.rowIndex="4" />
                      </children>
                      <VBox.margin>
-                        <Insets />
+                        <Insets right="80.2" top="84.8" />
                      </VBox.margin>
                   </GridPane>
                </children>
             </VBox>
-            <VBox alignment="CENTER" prefHeight="720.0" prefWidth="260.0">
-               <children>
-                  <Label />
-               </children></VBox>
          </children>
       </HBox>
    </children>

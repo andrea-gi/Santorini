@@ -112,7 +112,7 @@ public class PersonalGodController implements GUIController {
         else{
             path = GodPath.getPath(god);
         }
-        Image godCard = new Image(getClass().getResource(path).toExternalForm(), 215, 300, true, true);
+        Image godCard = new Image(getClass().getResource(path).toExternalForm(), 200, 254.5, true, true);
         radioButton.setBackground(new Background(new BackgroundImage(
                 godCard,
                 BackgroundRepeat.NO_REPEAT,

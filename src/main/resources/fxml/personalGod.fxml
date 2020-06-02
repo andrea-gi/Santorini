@@ -22,27 +22,27 @@
                   <VBox alignment="TOP_CENTER" prefHeight="350.0" prefWidth="400.0">
                      <children>
                         <Label fx:id="labelOne" />
-                        <RadioButton fx:id="one" mnemonicParsing="false" onAction="#setChosenGod" prefHeight="300.0" prefWidth="215.0" wrapText="true">
+                        <RadioButton fx:id="one" mnemonicParsing="false" onAction="#setChosenGod" prefHeight="254.5" prefWidth="200.0" wrapText="true">
                            <VBox.margin>
-                              <Insets bottom="20.0" />
+                              <Insets bottom="20.0" top="30.0" />
                            </VBox.margin></RadioButton>
                      </children>
                   </VBox>
                   <VBox alignment="TOP_CENTER" prefHeight="350.0" prefWidth="400.0">
                      <children>
                         <Label fx:id="labelThree" />
-                        <RadioButton fx:id="three" mnemonicParsing="false" onAction="#setChosenGod" prefHeight="300.0" prefWidth="215.0" wrapText="true">
+                        <RadioButton fx:id="three" mnemonicParsing="false" onAction="#setChosenGod" prefHeight="254.5" prefWidth="200.0" wrapText="true">
                            <VBox.margin>
-                              <Insets bottom="20.0" />
+                              <Insets bottom="20.0" top="30.0" />
                            </VBox.margin></RadioButton>
                      </children>
                   </VBox>
                   <VBox alignment="TOP_CENTER" prefHeight="350.0" prefWidth="400.0">
                      <children>
                         <Label fx:id="labelTwo" />
-                        <RadioButton fx:id="two" mnemonicParsing="false" onAction="#setChosenGod" prefHeight="300.0" prefWidth="215.0" wrapText="true">
+                        <RadioButton fx:id="two" mnemonicParsing="false" onAction="#setChosenGod" prefHeight="254.5" prefWidth="200.0" wrapText="true">
                            <VBox.margin>
-                              <Insets bottom="20.0" />
+                              <Insets bottom="20.0" top="30.0" />
                            </VBox.margin></RadioButton>
                      </children>
                   </VBox>
