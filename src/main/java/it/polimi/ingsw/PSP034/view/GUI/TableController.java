@@ -1,9 +1,14 @@
 package it.polimi.ingsw.PSP034.view.GUI;
 
 import it.polimi.ingsw.PSP034.constants.Constant;
+import it.polimi.ingsw.PSP034.constants.Directions;
 import it.polimi.ingsw.PSP034.constants.PlayerColor;
 import it.polimi.ingsw.PSP034.constants.Sex;
+import it.polimi.ingsw.PSP034.messages.Answer;
 import it.polimi.ingsw.PSP034.messages.SlimBoard;
+import it.polimi.ingsw.PSP034.messages.playPhase.AnswerAction;
+import it.polimi.ingsw.PSP034.messages.playPhase.RequestAction;
+import it.polimi.ingsw.PSP034.messages.playPhase.RequiredActions;
 import it.polimi.ingsw.PSP034.messages.setupPhase.AnswerPlaceWorker;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -71,6 +76,8 @@ public class TableController implements GUIController{
     @FXML
     private ImageView powerThree;
 
+    private final boolean[][] canSend = new boolean[Constant.DIM][Constant.DIM];
+
     @FXML
     private void initialize() {
         GUIRequestHub.getInstance().setCurrentController(this);
@@ -117,12 +124,26 @@ public class TableController implements GUIController{
 
     Sex answerSex;
 
-    public void updatePlaceWorker(Sex sex, PlayerColor color, Sex[][] alreadyOccupied){
+    private enum CurrentPhase{
+        PLACE_WORKER,
+        WORKER_CHOICE,
+        MOVE_REQUEST,
+        BUILD_REQUEST,
+        POWER_REQUEST;
+    }
+
+    private CurrentPhase currentPhase;
+
+    public void updatePlaceWorker(Sex sex, Sex[][] alreadyOccupied){
+        currentPhase = CurrentPhase.PLACE_WORKER;
         this.answerSex = sex;
         for (int i = 0; i < Constant.DIM; i++){
             for (int j = 0; j < Constant.DIM; j++){
                 if (alreadyOccupied[i][j] == null){
-                    getTileByIndex(i, j, gridTable).setDisable(false);
+                    enableTile(i, j);
+                }
+                else{
+                    disableTile(i, j);
                 }
             }
         }
@@ -131,12 +152,25 @@ public class TableController implements GUIController{
     public void onClickTile(MouseEvent e){
         int y = GridPane.getRowIndex((Node) e.getSource());
         int x = GridPane.getColumnIndex((Node) e.getSource());
-        for (int i = 0; i < Constant.DIM; i++){
+        for (int i = 0; i < Constant.DIM; i++){ //TODO solo quando mando il messaggio
             for (int j = 0; j < Constant.DIM; j++){
-                getTileByIndex(i, j, gridTable).setDisable(true);
+                disableTile(i, j);
             }
         }
-        GUIRequestHub.getInstance().sendAnswer(new AnswerPlaceWorker(answerSex, x, y));
+        Answer answerToSend = null;
+        switch (currentPhase){
+            case PLACE_WORKER:
+                answerToSend = new AnswerPlaceWorker(answerSex, x, y);
+                break;
+            case WORKER_CHOICE:
+                // TODO gestire casi
+            case MOVE_REQUEST:
+            case BUILD_REQUEST:
+                answerToSend = new AnswerAction(answerSex, Directions.offsetToDirection(x, y));
+                break;
+        }
+        if (answerToSend != null)
+            GUIRequestHub.getInstance().sendAnswer(answerToSend); //TODO gestire errore click su disable
     }
 
     public Node getTileByIndex (final int x, final int y, GridPane gridPane) {
@@ -153,12 +187,14 @@ public class TableController implements GUIController{
         return myTile;
     }
 
-    public void disableBoard(){
-        for (int i = 0; i < Constant.DIM; i++){
-            for (int j = 0; j < Constant.DIM; j++){
-                getTileByIndex(i, j, gridTable).setDisable(true);
-            }
-        }
+    private void enableTile(int x, int y){
+        canSend[x][y] = true;
+        getTileByIndex(x, y, gridTable).setId("enabledTile");
+    }
+
+    public void disableTile(int x, int y){
+        canSend[x][y] = false;
+        getTileByIndex(x, y, gridTable).setId("disabledTile");
     }
 
     private int[][] savedBuildings = new int[Constant.DIM][Constant.DIM];
@@ -187,6 +223,18 @@ public class TableController implements GUIController{
                 }
             }
         }
+    }
+
+    public void updatePlayAction(RequestAction request){
+        currentPhase = CurrentPhase.PLACE_WORKER;
+        if (request.getRequiredActions()[0] == RequiredActions.REQUEST_WORKER){
+            enableTile(request.getXMale(), request.getYMale());
+            enableTile(request.getXFemale(), request.getYFemale());
+        }
+        else if (request.getRequiredActions()[0] == RequiredActions.REQUIRED_MALE)
+            enableTile(request.getXMale(), request.getYMale());
+        else if (request.getRequiredActions()[0] == RequiredActions.REQUIRED_FEMALE)
+            enableTile(request.getXFemale(), request.getYFemale());
     }
 
     private Image maleRed = new Image("/images/MRed.png", 109.5, 109.5, true, true);

@@ -224,3 +224,24 @@
 #godName{
     -fx-font-size: 19pt;
 }
+
+#enabledTile{
+    -fx-border-color: #d69600;
+    -fx-background-color: #fff300;
+    -fx-opacity: 0.4;
+}
+
+#enabledTile:hover{
+    -fx-border-color: #d69600;
+    -fx-background-color: #fff300;
+    -fx-opacity: 0.7;
+}
+
+#enabledTile:selected{
+    -fx-border-color: #d61517;
+}
+
+#disabledTile{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}

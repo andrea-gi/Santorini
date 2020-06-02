@@ -9,6 +9,7 @@ import it.polimi.ingsw.PSP034.messages.SlimBoard;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.AnswerIP;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.ErrorMessage;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.RequestIP;
+import it.polimi.ingsw.PSP034.messages.playPhase.*;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.RequestNameColor;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.RequestServerConfig;
 import it.polimi.ingsw.PSP034.messages.setupPhase.*;
@@ -153,21 +154,17 @@ public class GUIRequestHub extends RequestManager {
                 String workerSex = ((RequestPlaceWorker) request).getSex() == Sex.MALE ? "male" : "female";
                 ((TableController) currentController).setMyTitle("Your turn");
                 ((TableController) currentController).setMyMessage("Place your " + workerSex +  " worker.");
-                ((TableController) currentController).updatePlaceWorker(((RequestPlaceWorker) request).getSex(), PlayerColor.BLUE, ((RequestPlaceWorker) request).getSlimBoard().getSex());
+                ((TableController) currentController).updatePlaceWorker(((RequestPlaceWorker) request).getSex(), ((RequestPlaceWorker) request).getSlimBoard().getSex());
             });
         }
 
         else if (request instanceof  ReceivedWorkerChoice){
-            Platform.runLater(()->{
-
-            });
         }
 
         else if(request instanceof InitializeBoard){
             Platform.runLater(()->{
                 SlimBoard slim = ((InitializeBoard) request).getSlimBoard();
                 ScenePath.setNextScene(scene, ScenePath.TABLE);
-                //((TableController) currentController).disableBoard();
                 ((TableController) currentController).updateCards(slim.getGodsList(), slim.getPlayersList(), slim.getColorsList());
                 ((TableController) currentController).updateAndSaveBoard(slim);
             });
@@ -175,13 +172,39 @@ public class GUIRequestHub extends RequestManager {
 
         else if (request instanceof InfoIsPlacing){
             Platform.runLater(()->{
-                //((TableController) currentController).disableBoard();
                 ((TableController) currentController).setMyTitle(((InfoIsPlacing) request).getPlayer() + "'s turn");
                 ((TableController) currentController).setMyMessage(((InfoIsPlacing) request).getPlayer() + " is placing workers.");
             });
         }
 
         //TODO -- decidere se va bene
+    }
+
+    private void craftPlayRequest(PlayRequest request){
+        Scene scene = currentController.getPane().getScene();
+        if (request instanceof InfoIsStarting){
+            Platform.runLater(()->{
+                ((TableController) currentController).setMyTitle(((InfoIsStarting) request).getPlayer() + "'s turn");
+            });
+        }
+
+        else if (request instanceof RequestStart){
+            Platform.runLater(()->{
+                ((TableController) currentController).setMyTitle("Your turn");
+                GUIRequestHub.getInstance().sendAnswer(new AnswerStart());
+            });
+        }
+
+        else if (request instanceof RequestAction){
+            Platform.runLater(()->{
+                switch (request.getNextPhase()) {
+                    case MOVE:
+                        ((TableController) currentController).setMyMessage("Choose a worker to move");
+                        ((TableController) currentController).updatePlayAction((RequestAction) request);
+                }
+            });
+        }
+
     }
 
     //TODO -- unificare con cli?
@@ -203,6 +226,8 @@ public class GUIRequestHub extends RequestManager {
             craftRequestServer((RequestServerConfig) message);
         else if (message instanceof SetupRequest)
             craftRequestSetup((SetupRequest) message);
+        else if (message instanceof PlayRequest)
+            craftPlayRequest((PlayRequest) message);
         else if (message instanceof SlimBoard){
             Platform.runLater(()->{
                 ((TableController) currentController).updateAndSaveBoard((SlimBoard) message);

@@ -61,19 +61,19 @@ public class RequestAction extends PlayRequest {
 
     }
 
-    public int getxFemale() {
+    public int getXFemale() {
         return xFemale;
     }
 
-    public int getyFemale() {
+    public int getYFemale() {
         return yFemale;
     }
 
-    public int getxMale() {
+    public int getXMale() {
         return xMale;
     }
 
-    public int getyMale() {
+    public int getYMale() {
         return yMale;
     }
 
