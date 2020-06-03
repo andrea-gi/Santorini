@@ -29,6 +29,16 @@ public class CLI extends RequestManager implements Runnable {
         CLIRequestHub.newRequest(error);
     }
 
+    /**
+     * Returns message handling availability.
+     *
+     * @return always {@code true}, because CLI is input blocking.
+     */
+    @Override
+    public boolean canHandleRequest() {
+        return true;
+    }
+
     private void startConnection(){
         Client client;
         boolean connected = true;

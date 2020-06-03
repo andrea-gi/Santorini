@@ -35,4 +35,10 @@ public abstract class RequestManager {
         if (sender != null)
             sender.send(answer);
     }
+
+    /**
+     * Returns message handling availability.
+     * @return {@code true} if {@link this#handleRequest(Request)} can manage a new request.
+     */
+    public abstract boolean canHandleRequest();
 }

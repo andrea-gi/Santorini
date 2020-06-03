@@ -5,7 +5,6 @@ import it.polimi.ingsw.PSP034.messages.Request;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.AutoCloseAnswer;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.AutoCloseRequest;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.ErrorMessage;
-import it.polimi.ingsw.PSP034.messages.gameOverPhase.EndByDisconnection;
 import it.polimi.ingsw.PSP034.view.GameException;
 
 import java.io.IOException;
@@ -81,11 +80,20 @@ public class ClientGameHandler implements Runnable{
 
     }
 
+    private final Object waitLock = new Object();
+
     @Override
     public void run() {
         while(isActive() || !queue.isEmpty()){
             try{
-                Request message = queue.take();
+                Request message = null;
+                if(requestManager.canHandleRequest())
+                    message = queue.take();
+                else{
+                    synchronized (waitLock) {
+                        waitLock.wait(5);
+                    }
+                }
 
                 if(Request.isSilentCloseRequest(message)){
                     queue.clear();
@@ -94,9 +102,10 @@ public class ClientGameHandler implements Runnable{
                 if (message instanceof AutoCloseRequest) {
                     closeStream();
                     throw new GameException("C002", "Connection error. Could not receive message.");
-                }else {
-                    requestManager.handleRequest(message);
                 }
+                else if (message != null)
+                    requestManager.handleRequest(message);
+
             } catch (InterruptedException e) {
                 setActive(false);
                 if (!isSilentEnded())

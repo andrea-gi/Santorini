@@ -59,9 +59,11 @@ public class Client implements Runnable{
         try {
             clientEnded = true;
             in.close();
-            if (!silentEnded)
-                requestQueue.offer(new AutoCloseRequest());
         } catch (IOException ignored){
+        }finally {
+            if (!silentEnded) {
+                requestQueue.offer(new AutoCloseRequest());
+            }
         }
     }
 

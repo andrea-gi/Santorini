@@ -2,7 +2,6 @@ package it.polimi.ingsw.PSP034.view.GUI;
 
 import it.polimi.ingsw.PSP034.client.Client;
 import it.polimi.ingsw.PSP034.client.RequestManager;
-import it.polimi.ingsw.PSP034.constants.PlayerColor;
 import it.polimi.ingsw.PSP034.constants.Sex;
 import it.polimi.ingsw.PSP034.messages.Request;
 import it.polimi.ingsw.PSP034.messages.SlimBoard;
@@ -13,18 +12,15 @@ import it.polimi.ingsw.PSP034.messages.playPhase.*;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.RequestNameColor;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.RequestServerConfig;
 import it.polimi.ingsw.PSP034.messages.setupPhase.*;
-import it.polimi.ingsw.PSP034.model.Player;
-import it.polimi.ingsw.PSP034.view.CLI.scenes.playPhase.Table;
 import javafx.application.Platform;
 import javafx.scene.Scene;
-import javafx.scene.control.Tab;
 import javafx.stage.Stage;
 
 
 public class GUIRequestHub extends RequestManager {
     private GUIController currentController;
     private static GUIRequestHub instance;
-
+    private static boolean canHandleRequest;
 
     private GUIRequestHub(){
     }
@@ -32,6 +28,7 @@ public class GUIRequestHub extends RequestManager {
     public static GUIRequestHub getInstance(){
         if (instance == null){
             instance = new GUIRequestHub();
+            canHandleRequest = true;
         }
         return instance;
     }
@@ -46,7 +43,7 @@ public class GUIRequestHub extends RequestManager {
 
     private void craftRequestIP(RequestIP request){
         Platform.runLater(()->{ScenePath.setNextScene(currentController.getPane().getScene(), ScenePath.SERVER_LOGIN);});
-    }
+    }//TODO--gestione errore
 
     private void craftRequestServer(RequestServerConfig request){
         Scene scene = currentController.getPane().getScene();
@@ -97,14 +94,17 @@ public class GUIRequestHub extends RequestManager {
                 break;
 
             case ALREADY_STARTED:
+                setCanHandleRequest(false);
                 Platform.runLater(()->{ScenePath.setDialog((Stage)scene.getWindow(),"Game Started",
                         "Oops, seems like the game has already started without you, sorry! :(");});
+                break;
         }
     }
 
     private void craftRequestSetup(SetupRequest request){
         Scene scene = currentController.getPane().getScene();
         if (request instanceof GodLikeInfo){
+            setCanHandleRequest(false);
             GUIController previousController = currentController;
             String godLikePlayer = ((GodLikeInfo) request).getGodLikePlayer();
             Platform.runLater(()->
@@ -238,5 +238,19 @@ public class GUIRequestHub extends RequestManager {
     @Override
     public void showError(ErrorMessage error) {
         //TODO
+    }
+
+    /**
+     * Returns message handling availability.
+     *
+     * @return {@code true} if {@link this#handleRequest(Request)} can manage a new request.
+     */
+    @Override
+    public synchronized boolean canHandleRequest() {
+        return canHandleRequest;
+    }
+
+    public synchronized void setCanHandleRequest(boolean bool){
+        canHandleRequest = bool;
     }
 }
