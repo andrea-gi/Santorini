@@ -201,6 +201,9 @@ public class GUIRequestHub extends RequestManager {
                     case MOVE:
                         ((TableController) currentController).setMyMessage("Choose a worker to move");
                         ((TableController) currentController).updatePlayAction((RequestAction) request);
+                    case BUILD:
+                        ((TableController) currentController).setMyMessage("Choose a worker to build with");
+                        ((TableController) currentController).updatePlayAction((RequestAction) request);
                 }
             });
         }

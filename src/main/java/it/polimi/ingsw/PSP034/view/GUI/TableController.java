@@ -1,15 +1,13 @@
 package it.polimi.ingsw.PSP034.view.GUI;
 
-import it.polimi.ingsw.PSP034.constants.Constant;
-import it.polimi.ingsw.PSP034.constants.Directions;
-import it.polimi.ingsw.PSP034.constants.PlayerColor;
-import it.polimi.ingsw.PSP034.constants.Sex;
+import it.polimi.ingsw.PSP034.constants.*;
 import it.polimi.ingsw.PSP034.messages.Answer;
 import it.polimi.ingsw.PSP034.messages.SlimBoard;
 import it.polimi.ingsw.PSP034.messages.playPhase.AnswerAction;
 import it.polimi.ingsw.PSP034.messages.playPhase.RequestAction;
 import it.polimi.ingsw.PSP034.messages.playPhase.RequiredActions;
 import it.polimi.ingsw.PSP034.messages.setupPhase.AnswerPlaceWorker;
+import it.polimi.ingsw.PSP034.view.GameException;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -152,25 +150,56 @@ public class TableController implements GUIController{
     public void onClickTile(MouseEvent e){
         int y = GridPane.getRowIndex((Node) e.getSource());
         int x = GridPane.getColumnIndex((Node) e.getSource());
-        for (int i = 0; i < Constant.DIM; i++){ //TODO solo quando mando il messaggio
-            for (int j = 0; j < Constant.DIM; j++){
-                disableTile(i, j);
-            }
+
+        if (!canSend[x][y]) {
+            return; //TODO -- gestione input errato
         }
+
         Answer answerToSend = null;
         switch (currentPhase){
-            case PLACE_WORKER:
+            case PLACE_WORKER: //setup
                 answerToSend = new AnswerPlaceWorker(answerSex, x, y);
                 break;
-            case WORKER_CHOICE:
-                // TODO gestire casi
+            case WORKER_CHOICE: //play action
+                chooseActionWorker(x,y);
+                currentPhase = playActionPhase == TurnPhase.MOVE ? CurrentPhase.MOVE_REQUEST : CurrentPhase.BUILD_REQUEST;
+                break;
             case MOVE_REQUEST:
             case BUILD_REQUEST:
-                answerToSend = new AnswerAction(answerSex, Directions.offsetToDirection(x, y));
+                if ((answerSex == Sex.MALE && x == femaleXAction && y == femaleYAction)
+                        || (answerSex == Sex.FEMALE && x == maleXAction && y == maleYAction))
+                    chooseActionWorker(x, y);
+                else {
+                    if (answerSex == Sex.MALE)
+                        answerToSend = new AnswerAction(answerSex, Directions.offsetToDirection(x - maleXAction, y - maleYAction));
+                    else if (answerSex == Sex.FEMALE)
+                        answerToSend = new AnswerAction(answerSex, Directions.offsetToDirection(x - femaleXAction, y - femaleYAction));
+                }
                 break;
         }
-        if (answerToSend != null)
+        if (answerToSend != null){
+            disableAll();
             GUIRequestHub.getInstance().sendAnswer(answerToSend); //TODO gestire errore click su disable
+        }
+
+    }
+
+    private void chooseActionWorker(int x, int y){
+        disableAll();
+        Directions[] chosenDirections = null;
+        if (x == maleXAction && y == maleYAction){
+            answerSex = Sex.MALE;
+            chosenDirections = maleDirections;
+            if(femaleDirections.length > 0)
+                enableTile(femaleXAction, femaleYAction);
+        }
+        else if (x == femaleXAction && y == femaleYAction){
+            answerSex = Sex.FEMALE;
+            chosenDirections = femaleDirections;
+            if(maleDirections.length > 0)
+                enableTile(maleXAction, maleYAction);
+        }
+        highlightPossibleTiles(x, y, chosenDirections);
     }
 
     public Node getTileByIndex (final int x, final int y, GridPane gridPane) {
@@ -192,9 +221,17 @@ public class TableController implements GUIController{
         getTileByIndex(x, y, gridTable).setId("enabledTile");
     }
 
-    public void disableTile(int x, int y){
+    private void disableTile(int x, int y){
         canSend[x][y] = false;
         getTileByIndex(x, y, gridTable).setId("disabledTile");
+    }
+
+    private void disableAll(){
+        for (int i = 0; i < Constant.DIM; i++){
+            for (int j = 0; j < Constant.DIM; j++){
+                disableTile(i, j);
+            }
+        }
     }
 
     private int[][] savedBuildings = new int[Constant.DIM][Constant.DIM];
@@ -225,16 +262,48 @@ public class TableController implements GUIController{
         }
     }
 
+    private Directions[] maleDirections = null;
+    private Directions[] femaleDirections = null;
+    private int maleXAction;
+    private int maleYAction;
+    private int femaleXAction;
+    private int femaleYAction;
+    private TurnPhase playActionPhase = null;
+
     public void updatePlayAction(RequestAction request){
-        currentPhase = CurrentPhase.PLACE_WORKER;
+        maleDirections = request.getPossibleMaleDirections();
+        femaleDirections = request.getPossibleFemaleDirections();
+        maleXAction = request.getXMale();
+        maleYAction = request.getYMale();
+        femaleXAction = request.getXFemale();
+        femaleYAction = request.getYFemale();
+        playActionPhase = request.getNextPhase();
+
+        currentPhase = CurrentPhase.WORKER_CHOICE;
+
         if (request.getRequiredActions()[0] == RequiredActions.REQUEST_WORKER){
-            enableTile(request.getXMale(), request.getYMale());
-            enableTile(request.getXFemale(), request.getYFemale());
+            if (request.getPossibleMaleDirections().length > 0)
+                enableTile(request.getXMale(), request.getYMale());
+            if (request.getPossibleFemaleDirections().length > 0)
+                enableTile(request.getXFemale(), request.getYFemale());
         }
         else if (request.getRequiredActions()[0] == RequiredActions.REQUIRED_MALE)
             enableTile(request.getXMale(), request.getYMale());
         else if (request.getRequiredActions()[0] == RequiredActions.REQUIRED_FEMALE)
             enableTile(request.getXFemale(), request.getYFemale());
+    }
+
+    private void highlightPossibleTiles(int startX, int startY, Directions[] possibleDirections){
+        if (possibleDirections == null){
+            //throw new GameException("GUI001", "Fatal error");
+            //TODO -- eccezione
+            return;
+        }
+        for (Directions direction: possibleDirections){
+            int xOffset = Directions.directionToXOffset(direction);
+            int yOffset = Directions.directionToYOffset(direction);
+            enableTile(startX + xOffset, startY + yOffset);
+        }
     }
 
     private Image maleRed = new Image("/images/MRed.png", 109.5, 109.5, true, true);

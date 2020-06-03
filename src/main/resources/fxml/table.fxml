@@ -49,7 +49,7 @@
                               <ImageView fx:id="cardOne" fitHeight="280.0" fitWidth="189.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                               <ImageView fx:id="godOne" fitHeight="137.0" fitWidth="79.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="55.0" AnchorPane.topAnchor="40.0" />
                               <ImageView fx:id="powerOne" fitHeight="60.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="199.0" />
-                              <Label fx:id="nameTwo" alignment="CENTER" layoutX="25.0" prefHeight="20.0" prefWidth="140.0" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="13.0" />
+                              <Label fx:id="nameOne" alignment="CENTER" layoutX="25.0" prefHeight="20.0" prefWidth="140.0" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="13.0" />
                            </children>
                         </AnchorPane>
                         <AnchorPane maxHeight="280.0" maxWidth="189.0" prefHeight="280.0" prefWidth="189.0" GridPane.columnIndex="2">
@@ -65,7 +65,7 @@
                               <ImageView fx:id="cardTwo" fitHeight="280.0" fitWidth="189.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                               <ImageView fx:id="godTwo" fitHeight="137.0" fitWidth="79.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="55.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0" />
                               <ImageView fx:id="powerTwo" fitHeight="60.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="199.0" />
-                              <Label fx:id="nameOne" alignment="CENTER" contentDisplay="CENTER" layoutX="12.0" layoutY="14.0" prefHeight="20.0" prefWidth="140.0" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="13.0" />
+                              <Label fx:id="nameTwo" alignment="CENTER" contentDisplay="CENTER" layoutX="12.0" layoutY="14.0" prefHeight="20.0" prefWidth="140.0" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="13.0" />
                            </children>
                            <GridPane.margin>
                               <Insets />
