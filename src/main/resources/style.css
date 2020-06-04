@@ -17,7 +17,7 @@
 }
 
 #boardTitle{
-    -fx-font-size: 24pt;
+    -fx-font-size: 28pt;
     -fx-wrap-text: true;
     -fx-font-weight: bold;
     -fx-text-fill: whitesmoke;
@@ -26,6 +26,7 @@
 #boardSubtitle{
     -fx-wrap-text: true;
     -fx-text-fill: whitesmoke;
+    -fx-font-size: 18pt;
 }
 
 #boardPlayerName{
@@ -35,7 +36,7 @@
 
 .label {
     -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.5, 1);
-    -fx-font-size: 18pt;
+    -fx-font-size: 19pt;
     -fx-font-family: "Agency FB";
     -fx-text-fill: #9b6029;
     -fx-font-weight: bold;

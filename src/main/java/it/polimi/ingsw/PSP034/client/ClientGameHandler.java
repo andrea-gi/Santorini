@@ -103,7 +103,7 @@ public class ClientGameHandler implements Runnable{
                     closeStream();
                     throw new GameException("C002", "Connection error. Could not receive message.");
                 }
-                else if (message != null)
+                if (message != null)
                     requestManager.handleRequest(message);
 
             } catch (InterruptedException e) {

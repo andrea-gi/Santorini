@@ -182,6 +182,10 @@ public class TableController implements GUIController{
         togglePower.setSelected(false);
     }
 
+    public void updateWin(){
+        pane.getChildren().add(new ImageView(new Image("/images/victory.png", 1280, 720, true, true)));
+    }
+
     public void onClickTile(MouseEvent e){
         int y = GridPane.getRowIndex((Node) e.getSource());
         int x = GridPane.getColumnIndex((Node) e.getSource());

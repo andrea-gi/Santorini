@@ -244,7 +244,12 @@ public class GUIRequestHub extends RequestManager {
         }
 
         else if(request instanceof WinnerRequest){
-
+            Platform.runLater(()->{
+                ((TableController) currentController).setMyTitle("");
+                ((TableController) currentController).setMyDescription("");
+                ((TableController) currentController).setVisibleBox(false);
+                ((TableController) currentController).updateWin();
+            });
         }
 
         else if(request instanceof EndByDisconnection){
@@ -278,6 +283,8 @@ public class GUIRequestHub extends RequestManager {
                 ((TableController) currentController).updateAndSaveBoard((SlimBoard) message);
             });
         }
+        else if (message instanceof GameOverRequest)
+            craftGameOverRequest((GameOverRequest) message);
     }
 
     @Override
