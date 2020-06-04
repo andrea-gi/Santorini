@@ -99,7 +99,7 @@ public class ClientGameHandler implements Runnable{
                     queue.clear();
                 }
 
-                if (message instanceof AutoCloseRequest) {
+                else if (message instanceof AutoCloseRequest) {
                     closeStream();
                     throw new GameException("C002", "Connection error. Could not receive message.");
                 }

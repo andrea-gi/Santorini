@@ -69,7 +69,6 @@ public class Server implements Runnable{
      */
     public Server(int port){
         IController temporaryController;
-        this.logger.setPrintStreams(System.out);
         try {
             this.port = port;
             this.serverSocket = new ServerSocket(port);
@@ -214,7 +213,6 @@ public class Server implements Runnable{
     private synchronized void deregisterWaitingList(){
         ArrayList<IClientConnection> waitingCopy = new ArrayList<>(waitingConnections);
         for(IClientConnection deregistered : waitingCopy) {
-            // TODO -- invio messaggio
             deregisterConnection(deregistered);
         }
         waitingConnections.clear();
@@ -244,7 +242,6 @@ public class Server implements Runnable{
             while (true) {
                 try {
                     Socket newSocket = serverSocket.accept();
-                    // TODO -- gestire connessioni in eccesso
                     ClientHandler socketConnection;
                     synchronized (firstConnectionLock) {
                         if (firstConnection) {
