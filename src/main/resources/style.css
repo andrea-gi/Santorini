@@ -34,7 +34,8 @@
 }
 
 .label {
-    -fx-font-size: 17pt;
+    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.5, 1);
+    -fx-font-size: 18pt;
     -fx-font-family: "Agency FB";
     -fx-text-fill: #9b6029;
     -fx-font-weight: bold;
@@ -49,6 +50,7 @@
     -fx-text-fill: rgb(255, 255, 255);
     -fx-font-size: 13pt;
     -fx-font-family: "Agency FB";
+    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.5, 1);
 }
 
 .button:pressed{
@@ -60,6 +62,7 @@
     -fx-text-fill: rgb(255, 255, 255);
     -fx-font-size: 13pt;
     -fx-font-family: "Agency FB";
+    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.5, 1);
 }
 
 #buttonPlay{
@@ -110,6 +113,7 @@
     -fx-font-family: "Agency FB";
     -fx-text-fill: #9b6029;
     -fx-font-weight: bold;
+    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.5, 1);
 }
 
 #redButton{
@@ -190,6 +194,7 @@
     -fx-font-family: "Agency FB";
     -fx-text-fill: #9b6029;
     -fx-font-weight: bold;
+    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.1), 0.3, 0, 0.5, 1);
 }
 
 .tooltip{
@@ -207,6 +212,7 @@
 #dialogLabel {
     -fx-text-alignment: center;
     -fx-wrap-text: true;
+    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.5, 1);
 }
 
 #dialogTitle {
@@ -214,6 +220,7 @@
     -fx-wrap-text: true;
     -fx-text-fill: white;
     -fx-font-size: 20pt;
+    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.5, 1);
 }
 
 #error{
@@ -223,12 +230,13 @@
 
 #godName{
     -fx-font-size: 19pt;
+    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.5, 1);
 }
 
 #enabledTile{
     -fx-border-color: #d69600;
     -fx-background-color: #fff300;
-    -fx-opacity: 0.4;
+    -fx-opacity: 0.5;
 }
 
 #enabledTile:hover{
@@ -239,7 +247,7 @@
 
 #enabledTile:selected{
     -fx-border-color: #d61517;
-    -fx-border-width: 110%;
+    -fx-border-width: 5px;
 }
 
 #disabledTile{

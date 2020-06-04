@@ -98,10 +98,13 @@ public class TableController implements GUIController{
         pane.setId("boardScene");
         title.setId("boardTitle");
         message.setId("boardSubtitle");
+        description.setId("boardSubtitle");
         togglePower.setVisible(false);
         submitPower.setVisible(false);
         togglePower.setId("selectPower");
         submitPower.setDisable(true);
+        usePower.setImage(new Image("images/box.png"));
+        usePower.setVisible(true);
     }
 
     @Override
@@ -115,6 +118,10 @@ public class TableController implements GUIController{
 
     public void setMyDescription(String string){
         description.setText(string);
+    }
+
+    public void setVisibleBox(boolean bool){
+        usePower.setVisible(bool);
     }
 
     public void updateCards(String[] godsList, String[] playersList, PlayerColor[] colorsList){

@@ -6,8 +6,10 @@ import it.polimi.ingsw.PSP034.constants.Sex;
 import it.polimi.ingsw.PSP034.messages.Request;
 import it.polimi.ingsw.PSP034.messages.SlimBoard;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.AnswerIP;
+import it.polimi.ingsw.PSP034.messages.clientConfiguration.AutoCloseAnswer;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.ErrorMessage;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.RequestIP;
+import it.polimi.ingsw.PSP034.messages.gameOverPhase.*;
 import it.polimi.ingsw.PSP034.messages.playPhase.*;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.RequestNameColor;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.RequestServerConfig;
@@ -107,10 +109,13 @@ public class GUIRequestHub extends RequestManager {
         Scene scene = currentController.getPane().getScene();
         if (request instanceof GodLikeInfo){
             setCanHandleRequest(false);
-            GUIController previousController = currentController;
             String godLikePlayer = ((GodLikeInfo) request).getGodLikePlayer();
             Platform.runLater(()->
             {
+                ScenePath.setNextScene(scene, ScenePath.WAITING);
+                ((WaitingController) currentController).setMyTitle("Your choice has been registered.");
+                ((WaitingController) currentController).setMyMessage("Wait for the other players to make their choice");
+                GUIController previousController = currentController;
                 ScenePath.setDialog((Stage)scene.getWindow(),"God like Player",
                     godLikePlayer + " has been chosen as the most god-like player. Such a lucky player!");
                 currentController = previousController;
@@ -155,7 +160,7 @@ public class GUIRequestHub extends RequestManager {
             Platform.runLater(()->{
                 String workerSex = ((RequestPlaceWorker) request).getSex() == Sex.MALE ? "male" : "female";
                 ((TableController) currentController).setMyTitle("Your turn");
-                ((TableController) currentController).setMyDescription("Place your " + workerSex +  " worker.");
+                ((TableController) currentController).setMyDescription("Place your " + workerSex +  " worker");
                 ((TableController) currentController).updatePlaceWorker(((RequestPlaceWorker) request).getSex(), ((RequestPlaceWorker) request).getSlimBoard().getSex());
             });
         }
@@ -175,10 +180,9 @@ public class GUIRequestHub extends RequestManager {
         else if (request instanceof InfoIsPlacing){
             Platform.runLater(()->{
                 ((TableController) currentController).setMyTitle(((InfoIsPlacing) request).getPlayer() + "'s turn");
-                ((TableController) currentController).setMyDescription(((InfoIsPlacing) request).getPlayer() + " is placing workers.");
+                ((TableController) currentController).setMyDescription(((InfoIsPlacing) request).getPlayer() + " is placing workers");
             });
         }
-
         //TODO -- decidere se va bene
     }
 
@@ -188,6 +192,7 @@ public class GUIRequestHub extends RequestManager {
             Platform.runLater(()->{
                 ((TableController) currentController).setMyTitle(((InfoIsStarting) request).getPlayer() + "'s turn");
                 ((TableController) currentController).setMyDescription("");
+                ((TableController) currentController).setVisibleBox(false);
             });
         }
 
@@ -195,6 +200,7 @@ public class GUIRequestHub extends RequestManager {
             Platform.runLater(()->{
                 ((TableController) currentController).setMyTitle("Your turn");
                 ((TableController) currentController).setMyDescription("");
+                ((TableController) currentController).setVisibleBox(true);
                 GUIRequestHub.getInstance().sendAnswer(new AnswerStart());
             });
         }
@@ -226,6 +232,24 @@ public class GUIRequestHub extends RequestManager {
             });
         }
 
+    }
+
+    public void craftGameOverRequest(GameOverRequest request){
+        if(request instanceof PersonalDefeatRequest){
+
+        }
+
+        else if(request instanceof SingleLoserInfo) {
+
+        }
+
+        else if(request instanceof WinnerRequest){
+
+        }
+
+        else if(request instanceof EndByDisconnection){
+
+        }
     }
 
     //TODO -- unificare con cli?
