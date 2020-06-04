@@ -236,11 +236,21 @@ public class GUIRequestHub extends RequestManager {
 
     public void craftGameOverRequest(GameOverRequest request){
         if(request instanceof PersonalDefeatRequest){
-
+            Platform.runLater(()->{
+                ((TableController) currentController).setMyTitle("");
+                ((TableController) currentController).setMyDescription("");
+                ((TableController) currentController).setVisibleBox(false);
+                ((TableController) currentController).updateLose();
+            });
         }
 
         else if(request instanceof SingleLoserInfo) {
-
+            Platform.runLater(()->{
+                ((TableController) currentController).setMyTitle("");
+                ((TableController) currentController).setMyDescription("");
+                ((TableController) currentController).setVisibleBox(false);
+                ((TableController) currentController).updateLose();
+            });
         }
 
         else if(request instanceof WinnerRequest){

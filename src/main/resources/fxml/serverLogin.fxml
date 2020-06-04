@@ -31,10 +31,13 @@
                         <Insets bottom="50.0" left="530.0" right="520.0" />
                     </VBox.margin>
                 </TextField>
-                <Button fx:id="submit" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#setSubmit" prefHeight="33.0" prefWidth="141.0" text="SUBMIT" textAlignment="CENTER">
+                <Button fx:id="submit" alignment="CENTER" contentDisplay="CENTER" maxHeight="33.0" maxWidth="141.0" minHeight="33.0" minWidth="141.0" mnemonicParsing="false" onAction="#setSubmit" prefHeight="33.0" prefWidth="141.0" text="SUBMIT" textAlignment="CENTER">
                     <VBox.margin>
                         <Insets bottom="25.0" top="50.0" />
                     </VBox.margin>
+               <padding>
+                  <Insets bottom="5.0" />
+               </padding>
                 </Button>
             </children>
         </VBox>

@@ -9,18 +9,18 @@
 
 <BorderPane fx:id="pane" prefHeight="500.0" prefWidth="400.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP034.view.GUI.DialogController">
    <top>
-      <Label fx:id="title" prefHeight="18.0" prefWidth="143.0" text="Attention please" BorderPane.alignment="CENTER">
+      <Label fx:id="title" prefHeight="18.0" prefWidth="143.0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
-            <Insets bottom="15.0" top="100.0" />
+            <Insets bottom="15.0" top="90.0" />
          </BorderPane.margin>
       </Label>
    </top>
    <center>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="label" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="152.0" prefWidth="232.0" wrapText="true">
+            <Label fx:id="label" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="284.0" wrapText="true">
                <VBox.margin>
-                  <Insets left="10.0" />
+                  <Insets top="5.0" />
                </VBox.margin>
                <opaqueInsets>
                   <Insets />
@@ -28,19 +28,16 @@
          </children>
       </VBox>
    </center>
-   <left>
-      <VBox prefHeight="129.0" prefWidth="79.0" BorderPane.alignment="CENTER" />
-   </left>
-   <right>
-      <VBox prefHeight="129.0" prefWidth="79.0" BorderPane.alignment="CENTER" />
-   </right>
    <bottom>
       <HBox alignment="CENTER" prefHeight="38.0" prefWidth="300.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="ok" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onOk" prefHeight="33.0" prefWidth="141.0" text="OK">
+            <Button fx:id="ok" alignment="CENTER" contentDisplay="CENTER" maxHeight="33.0" maxWidth="141.0" minHeight="33.0" minWidth="141.0" mnemonicParsing="false" onAction="#onOk" prefHeight="33.0" prefWidth="141.0" text="OK">
                <HBox.margin>
                   <Insets bottom="55.0" />
-               </HBox.margin></Button>
+               </HBox.margin>
+               <padding>
+                  <Insets bottom="5.0" />
+               </padding></Button>
          </children></HBox>
    </bottom>
 </BorderPane>

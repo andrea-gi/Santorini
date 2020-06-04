@@ -12,6 +12,7 @@ import it.polimi.ingsw.PSP034.view.GameException;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -90,6 +91,8 @@ public class TableController implements GUIController{
     @FXML
     private ToggleButton togglePower;
 
+    Label victoryMessage = new Label();
+
     private final boolean[][] canSend = new boolean[Constant.DIM][Constant.DIM];
 
     @FXML
@@ -105,6 +108,7 @@ public class TableController implements GUIController{
         submitPower.setDisable(true);
         usePower.setImage(new Image("images/box.png"));
         usePower.setVisible(true);
+        victoryMessage.setId("victoryLabel");
     }
 
     @Override
@@ -184,6 +188,16 @@ public class TableController implements GUIController{
 
     public void updateWin(){
         pane.getChildren().add(new ImageView(new Image("/images/victory.png", 1280, 720, true, true)));
+        victoryMessage.setText("YOU WIN!");
+        pane.getChildren().add(victoryMessage);
+        StackPane.setAlignment( victoryMessage, Pos.BOTTOM_CENTER );
+    }
+
+    public void updateLose(){
+        pane.getChildren().add(new ImageView(new Image("images/victory.png", 1280, 720, true, true)));
+        victoryMessage.setText("YOU LOST...");
+        pane.getChildren().add(victoryMessage);
+        StackPane.setAlignment( victoryMessage, Pos.BOTTOM_CENTER );
     }
 
     public void onClickTile(MouseEvent e){

@@ -14,7 +14,7 @@
             <children>
                 <Label fx:id="title" alignment="CENTER" contentDisplay="CENTER" prefHeight="151.0" prefWidth="243.0" textAlignment="CENTER" wrapText="true">
                     <VBox.margin>
-                        <Insets bottom="15.0" top="200.0" />
+                        <Insets top="150.0" />
                     </VBox.margin>
                 </Label>
                 <ProgressIndicator minHeight="66.0" minWidth="66.0" prefHeight="90.0" prefWidth="90.0">
@@ -29,7 +29,7 @@
                   </SepiaTone>
                </effect>
                 </ProgressIndicator>
-                <Label fx:id="message" alignment="CENTER" contentDisplay="CENTER" prefHeight="190.0" prefWidth="233.0" textAlignment="CENTER" wrapText="true">
+                <Label fx:id="message" alignment="CENTER" contentDisplay="CENTER" prefHeight="218.0" prefWidth="401.0" textAlignment="CENTER" wrapText="true">
                     <VBox.margin>
                         <Insets bottom="100.0" />
                     </VBox.margin>

@@ -4,7 +4,7 @@
 
 .root{
     -fx-font-size: 17pt;
-    -fx-font-family: "Agency FB";
+    -fx-font-family: "LillyBelle";
     -fx-text-fill: #9b6029;
     -fx-background-image: url("/images/background_setup.png");
     -fx-background-size: cover;
@@ -30,18 +30,19 @@
 #boardSubtitle{
     -fx-wrap-text: true;
     -fx-text-fill: whitesmoke;
-    -fx-font-size: 18pt;
+    -fx-font-size: 16pt;
 }
 
 #boardPlayerName{
     -fx-text-fill: white;
     -fx-font-weight: bold;
+    -fx-font-size: 16pt;
 }
 
 .label {
-    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.5, 1);
-    -fx-font-size: 19pt;
-    -fx-font-family: "Agency FB";
+    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.6, 0.8);
+    -fx-font-size: 18pt;
+    -fx-font-family: "LillyBelle";
     -fx-text-fill: #9b6029;
     -fx-font-weight: bold;
 }
@@ -53,9 +54,9 @@
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
     -fx-text-fill: rgb(255, 255, 255);
-    -fx-font-size: 13pt;
-    -fx-font-family: "Agency FB";
-    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.5, 1);
+    -fx-font-size: 11pt;
+    -fx-font-family: "LillyBelle";
+    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.6, 0.8);
 }
 
 .button:pressed{
@@ -65,9 +66,9 @@
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
     -fx-text-fill: rgb(255, 255, 255);
-    -fx-font-size: 13pt;
-    -fx-font-family: "Agency FB";
-    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.5, 1);
+    -fx-font-size: 11pt;
+    -fx-font-family: "LillyBelle";
+    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.6, 0.8);
 }
 
 #buttonPlay{
@@ -115,10 +116,10 @@
 
 .radio-button{
     -fx-font-size: 17pt;
-    -fx-font-family: "Agency FB";
+    -fx-font-family: "LillyBelle";
     -fx-text-fill: #9b6029;
     -fx-font-weight: bold;
-    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.5, 1);
+    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.6, 0.8);
 }
 
 #redButton{
@@ -195,11 +196,11 @@
 }
 
 .check-box{
-    -fx-font-size: 13pt;
-    -fx-font-family: "Agency FB";
+    -fx-font-size: 11pt;
+    -fx-font-family: "LillyBelle";
     -fx-text-fill: #9b6029;
     -fx-font-weight: bold;
-    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.1), 0.3, 0, 0.5, 1);
+    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.1), 0.3, 0, 0.6, 0.8);
 }
 
 .tooltip{
@@ -216,8 +217,9 @@
 
 #dialogLabel {
     -fx-text-alignment: center;
+    -fx-font-size: 14pt;
     -fx-wrap-text: true;
-    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.5, 1);
+    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.6, 0.8);
 }
 
 #dialogTitle {
@@ -225,7 +227,7 @@
     -fx-wrap-text: true;
     -fx-text-fill: white;
     -fx-font-size: 20pt;
-    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.5, 1);
+    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.6, 0.8);
 }
 
 #error{
@@ -235,7 +237,7 @@
 
 #godName{
     -fx-font-size: 19pt;
-    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.5, 1);
+    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.6, 0.8);
 }
 
 #enabledTile{
@@ -274,4 +276,16 @@
     -fx-background-color: transparent;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
+}
+
+#victoryLabel{
+    -fx-text-fill: #f6ce2c;
+    -fx-font-size: 80pt;
+    -fx-font-family: "LillyBelle";
+    -fx-effect: innershadow(three-pass-box, #8e3700, 0.7, 0.5, 0.7, 1);
+    -fx-background-image: url("/images/podium_gold_glow.png");
+    -fx-background-size: cover;
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: bottom;
 }
