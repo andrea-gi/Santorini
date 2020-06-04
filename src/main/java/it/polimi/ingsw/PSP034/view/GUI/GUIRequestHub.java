@@ -12,6 +12,8 @@ import it.polimi.ingsw.PSP034.messages.playPhase.*;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.RequestNameColor;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.RequestServerConfig;
 import it.polimi.ingsw.PSP034.messages.setupPhase.*;
+import it.polimi.ingsw.PSP034.view.CLI.AnswerComposer;
+import it.polimi.ingsw.PSP034.view.CLI.scenes.playPhase.Table;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -153,7 +155,7 @@ public class GUIRequestHub extends RequestManager {
             Platform.runLater(()->{
                 String workerSex = ((RequestPlaceWorker) request).getSex() == Sex.MALE ? "male" : "female";
                 ((TableController) currentController).setMyTitle("Your turn");
-                ((TableController) currentController).setMyMessage("Place your " + workerSex +  " worker.");
+                ((TableController) currentController).setMyDescription("Place your " + workerSex +  " worker.");
                 ((TableController) currentController).updatePlaceWorker(((RequestPlaceWorker) request).getSex(), ((RequestPlaceWorker) request).getSlimBoard().getSex());
             });
         }
@@ -173,7 +175,7 @@ public class GUIRequestHub extends RequestManager {
         else if (request instanceof InfoIsPlacing){
             Platform.runLater(()->{
                 ((TableController) currentController).setMyTitle(((InfoIsPlacing) request).getPlayer() + "'s turn");
-                ((TableController) currentController).setMyMessage(((InfoIsPlacing) request).getPlayer() + " is placing workers.");
+                ((TableController) currentController).setMyDescription(((InfoIsPlacing) request).getPlayer() + " is placing workers.");
             });
         }
 
@@ -185,12 +187,14 @@ public class GUIRequestHub extends RequestManager {
         if (request instanceof InfoIsStarting){
             Platform.runLater(()->{
                 ((TableController) currentController).setMyTitle(((InfoIsStarting) request).getPlayer() + "'s turn");
+                ((TableController) currentController).setMyDescription("");
             });
         }
 
         else if (request instanceof RequestStart){
             Platform.runLater(()->{
                 ((TableController) currentController).setMyTitle("Your turn");
+                ((TableController) currentController).setMyDescription("");
                 GUIRequestHub.getInstance().sendAnswer(new AnswerStart());
             });
         }
@@ -199,11 +203,25 @@ public class GUIRequestHub extends RequestManager {
             Platform.runLater(()->{
                 switch (request.getNextPhase()) {
                     case MOVE:
-                        ((TableController) currentController).setMyMessage("Choose a worker to move");
+                        ((TableController) currentController).setMyDescription("Choose a worker to move");
                         ((TableController) currentController).updatePlayAction((RequestAction) request);
+                        break;
                     case BUILD:
-                        ((TableController) currentController).setMyMessage("Choose a worker to build with");
+                        ((TableController) currentController).setMyDescription("Choose a worker to build with");
                         ((TableController) currentController).updatePlayAction((RequestAction) request);
+                        break;
+                }
+            });
+        }
+
+        else if (request instanceof RequestBooleanChoice){
+            RequiredActions[] actions = request.getRequiredActions();
+            Platform.runLater(()->{
+                for(RequiredActions action : actions){
+                    if (action == RequiredActions.REQUEST_POWER) {
+                        ((TableController) currentController).setMyDescription("Do you want to use your power?");
+                        ((TableController) currentController).updatePower();
+                    }
                 }
             });
         }

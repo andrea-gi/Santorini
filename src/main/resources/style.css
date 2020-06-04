@@ -239,9 +239,26 @@
 
 #enabledTile:selected{
     -fx-border-color: #d61517;
+    -fx-border-width: 110%;
 }
 
 #disabledTile{
     -fx-background-color: transparent;
     -fx-border-color: transparent;
+}
+
+#selectPower{
+    -fx-background-image: url("/images/powerSliderOff.png");
+    -fx-background-size: cover;
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+#selectPower:selected{
+    -fx-background-image: url("/images/powerSliderOn.png");
+    -fx-background-size: cover;
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
 }

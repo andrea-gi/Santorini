@@ -4,14 +4,18 @@ import it.polimi.ingsw.PSP034.constants.*;
 import it.polimi.ingsw.PSP034.messages.Answer;
 import it.polimi.ingsw.PSP034.messages.SlimBoard;
 import it.polimi.ingsw.PSP034.messages.playPhase.AnswerAction;
+import it.polimi.ingsw.PSP034.messages.playPhase.AnswerBooleanChoice;
 import it.polimi.ingsw.PSP034.messages.playPhase.RequestAction;
 import it.polimi.ingsw.PSP034.messages.playPhase.RequiredActions;
 import it.polimi.ingsw.PSP034.messages.setupPhase.AnswerPlaceWorker;
 import it.polimi.ingsw.PSP034.view.GameException;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -74,6 +78,18 @@ public class TableController implements GUIController{
     @FXML
     private ImageView powerThree;
 
+    @FXML
+    private ImageView usePower;
+
+    @FXML
+    private Label description;
+
+    @FXML
+    private Button submitPower;
+
+    @FXML
+    private ToggleButton togglePower;
+
     private final boolean[][] canSend = new boolean[Constant.DIM][Constant.DIM];
 
     @FXML
@@ -82,6 +98,10 @@ public class TableController implements GUIController{
         pane.setId("boardScene");
         title.setId("boardTitle");
         message.setId("boardSubtitle");
+        togglePower.setVisible(false);
+        submitPower.setVisible(false);
+        togglePower.setId("selectPower");
+        submitPower.setDisable(true);
     }
 
     @Override
@@ -93,8 +113,8 @@ public class TableController implements GUIController{
         title.setText(string);
     }
 
-    public void setMyMessage(String string){
-        message.setText(string);
+    public void setMyDescription(String string){
+        description.setText(string);
     }
 
     public void updateCards(String[] godsList, String[] playersList, PlayerColor[] colorsList){
@@ -147,6 +167,14 @@ public class TableController implements GUIController{
         }
     }
 
+    public void updatePower(){
+        togglePower.setVisible(true);
+        submitPower.setVisible(true);
+        submitPower.setDisable(false);
+        togglePower.setDisable(false);
+        togglePower.setSelected(false);
+    }
+
     public void onClickTile(MouseEvent e){
         int y = GridPane.getRowIndex((Node) e.getSource());
         int x = GridPane.getColumnIndex((Node) e.getSource());
@@ -182,6 +210,14 @@ public class TableController implements GUIController{
             GUIRequestHub.getInstance().sendAnswer(answerToSend); //TODO gestire errore click su disable
         }
 
+    }
+
+    public void onClickSubmitPower(ActionEvent e){
+        GUIRequestHub.getInstance().sendAnswer(new AnswerBooleanChoice(togglePower.isSelected()));
+        submitPower.setDisable(true);
+        togglePower.setDisable(true);
+        submitPower.setVisible(false);
+        togglePower.setVisible(false);
     }
 
     private void chooseActionWorker(int x, int y){
