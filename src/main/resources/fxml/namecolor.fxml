@@ -20,7 +20,7 @@
                 <Insets left="510.0" right="510.0" />
             </VBox.margin>
         </TextField>
-      <Label fx:id="error" prefHeight="50.0" prefWidth="239.0" wrapText="true">
+      <Label fx:id="error" prefHeight="76.0" prefWidth="239.0" wrapText="true">
          <VBox.margin>
             <Insets bottom="20.0" />
          </VBox.margin>

@@ -48,7 +48,7 @@
 }
 
 .button{
-    -fx-background-image: url("/images/btn_blue.png");
+    -fx-background-image: url("/images/buttons/btn_blue.png");
     -fx-background-size: cover;
     -fx-background-color: transparent;
     -fx-background-repeat: no-repeat;
@@ -60,7 +60,7 @@
 }
 
 .button:pressed{
-    -fx-background-image: url("/images/btn_blue_pressed.png");
+    -fx-background-image: url("/images/buttons/btn_blue_pressed.png");
     -fx-background-size: cover;
     -fx-background-color: transparent;
     -fx-background-repeat: no-repeat;
@@ -72,7 +72,7 @@
 }
 
 #buttonPlay{
-    -fx-background-image: url("/images/button_play_normal.png");
+    -fx-background-image: url("/images/buttons/button_play_normal.png");
     -fx-background-size: cover;
     -fx-background-color: transparent;
     -fx-background-repeat: no-repeat;
@@ -86,7 +86,7 @@
 }
 
 #buttonPlay:pressed{
-    -fx-background-image: url("/images/button_play_down.png");
+    -fx-background-image: url("/images/buttons/button_play_down.png");
     -fx-background-size: cover;
     -fx-background-color: transparent;
     -fx-background-repeat: no-repeat;
@@ -263,7 +263,7 @@
 }
 
 #selectPower{
-    -fx-background-image: url("/images/powerSliderOff.png");
+    -fx-background-image: url("/images/buttons/powerSliderOff.png");
     -fx-background-size: cover;
     -fx-background-color: transparent;
     -fx-background-repeat: no-repeat;
@@ -271,7 +271,7 @@
 }
 
 #selectPower:selected{
-    -fx-background-image: url("/images/powerSliderOn.png");
+    -fx-background-image: url("/images/buttons/powerSliderOn.png");
     -fx-background-size: cover;
     -fx-background-color: transparent;
     -fx-background-repeat: no-repeat;
@@ -288,4 +288,65 @@
     -fx-background-color: transparent;
     -fx-background-repeat: no-repeat;
     -fx-background-position: bottom;
+}
+
+#loserLabel{
+    -fx-text-fill: #d69600;
+    -fx-font-size: 40pt;
+    -fx-font-family: "LillyBelle";
+    -fx-effect: innershadow(three-pass-box, #8e3700, 0.7, 0.5, 0.7, 1);
+}
+
+#keepWatching{
+    -fx-background-image: url("/images/buttons/btn_back.png");
+    -fx-background-size: cover;
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-text-alignment: center;
+    -fx-text-fill: rgb(255, 255, 255);
+    -fx-font-size: 11pt;
+    -fx-font-family: "LillyBelle";
+    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.6, 0.8);
+}
+
+#keepWatching:hover{
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+    -fx-scale-z: 1.1;
+}
+
+#keepWatching:pressed{
+    -fx-background-image: url("/images/buttons/btn_back_pressed.png");
+    -fx-background-size: cover;
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+#quit{
+    -fx-background-image: url("/images/buttons/closebtn.png");
+    -fx-background-size: cover;
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-text-alignment: center;
+    -fx-text-fill: rgb(255, 255, 255);
+    -fx-font-size: 11pt;
+    -fx-font-family: "LillyBelle";
+    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.6, 0.8);
+}
+
+#quit:hover{
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+    -fx-scale-z: 1.1;
+}
+
+#quit:pressed{
+    -fx-background-image: url("/images/buttons/closebtn_pressed.png");
+    -fx-background-size: cover;
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
 }

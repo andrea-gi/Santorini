@@ -113,7 +113,7 @@ public class GUIRequestHub extends RequestManager {
             Platform.runLater(()->
             {
                 ScenePath.setNextScene(scene, ScenePath.WAITING);
-                ((WaitingController) currentController).setMyTitle("Your choice has been registered.");
+                ((WaitingController) currentController).setMyTitle("Wait!");
                 ((WaitingController) currentController).setMyMessage("Wait for the other players to make their choice");
                 GUIController previousController = currentController;
                 ScenePath.setDialog((Stage)scene.getWindow(),"God like Player",
@@ -145,16 +145,6 @@ public class GUIRequestHub extends RequestManager {
                 ((FirstPlayerController) currentController).update(requestFP.getPlayers());
             });
         }
-
-        /*else if (request instanceof FirstPlayerInfo){
-            String firstPlayer = ((FirstPlayerInfo) request).getFirstPlayer();
-            GUIController previousController = currentController;
-            Platform.runLater(()->{
-                ScenePath.setDialog((Stage)scene.getWindow(), "First Player",
-                        firstPlayer + " has been chosen as first player! Is this a good strategy? We'll see...");
-                currentController = previousController;
-            });
-        }*/
 
         else if (request instanceof RequestPlaceWorker) {
             Platform.runLater(()->{
@@ -235,21 +225,26 @@ public class GUIRequestHub extends RequestManager {
     }
 
     public void craftGameOverRequest(GameOverRequest request){
+        Scene scene = currentController.getPane().getScene();
         if(request instanceof PersonalDefeatRequest){
             Platform.runLater(()->{
                 ((TableController) currentController).setMyTitle("");
                 ((TableController) currentController).setMyDescription("");
                 ((TableController) currentController).setVisibleBox(false);
-                ((TableController) currentController).updateLose();
+                ((TableController) currentController).updateLose(((PersonalDefeatRequest) request).getWinner());
             });
         }
 
         else if(request instanceof SingleLoserInfo) {
+            setCanHandleRequest(false);
+            GUIController previousController = currentController;
             Platform.runLater(()->{
+                ScenePath.setDialog((Stage)scene.getWindow(),((SingleLoserInfo) request).getLoser()+ " lost!",
+                        "You are one step closer to victory!");
+                currentController = previousController;
                 ((TableController) currentController).setMyTitle("");
                 ((TableController) currentController).setMyDescription("");
                 ((TableController) currentController).setVisibleBox(false);
-                ((TableController) currentController).updateLose();
             });
         }
 
@@ -258,12 +253,16 @@ public class GUIRequestHub extends RequestManager {
                 ((TableController) currentController).setMyTitle("");
                 ((TableController) currentController).setMyDescription("");
                 ((TableController) currentController).setVisibleBox(false);
-                ((TableController) currentController).updateWin();
+                ((TableController) currentController).updateWin(((WinnerRequest) request).getWinner(), ((WinnerRequest) request).getLoser());
             });
         }
 
         else if(request instanceof EndByDisconnection){
-
+            setCanHandleRequest(false);
+            Platform.runLater(()->{
+                ScenePath.setDialog((Stage)scene.getWindow(),"Error",
+                    "Oops, seems like a player has disconnected. The game has ended");
+            });
         }
     }
 

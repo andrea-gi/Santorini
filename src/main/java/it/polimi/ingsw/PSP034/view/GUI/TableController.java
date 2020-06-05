@@ -8,15 +8,13 @@ import it.polimi.ingsw.PSP034.messages.playPhase.AnswerBooleanChoice;
 import it.polimi.ingsw.PSP034.messages.playPhase.RequestAction;
 import it.polimi.ingsw.PSP034.messages.playPhase.RequiredActions;
 import it.polimi.ingsw.PSP034.messages.setupPhase.AnswerPlaceWorker;
-import it.polimi.ingsw.PSP034.view.GameException;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -186,18 +184,71 @@ public class TableController implements GUIController{
         togglePower.setSelected(false);
     }
 
-    public void updateWin(){
+    public void updateWin(String winner, String loser){
         pane.getChildren().add(new ImageView(new Image("/images/victory.png", 1280, 720, true, true)));
         victoryMessage.setText("YOU WIN!");
+        pane.getChildren().add(new ImageView(new Image(GodPath.getPath("Athena"))));
         pane.getChildren().add(victoryMessage);
         StackPane.setAlignment( victoryMessage, Pos.BOTTOM_CENTER );
+        if (!loser.isEmpty()){
+            Label loserMessage = new Label(loser + " lost! That means...");
+            loserMessage.setId("loserLabel");
+            pane.getChildren().add(loserMessage);
+            StackPane.setAlignment(loserMessage, Pos.TOP_CENTER);
+        }
     }
 
-    public void updateLose(){
-        pane.getChildren().add(new ImageView(new Image("images/victory.png", 1280, 720, true, true)));
+    public void updateLose(String winner){
+        ImageView victory = new ImageView(new Image("images/victory.png", 1280, 720, true, true));
+        pane.getChildren().add(victory);
         victoryMessage.setText("YOU LOST...");
-        pane.getChildren().add(victoryMessage);
+        ImageView winnerGod;
+        Label winnerName = new Label();
         StackPane.setAlignment( victoryMessage, Pos.BOTTOM_CENTER );
+        if (!winner.isEmpty()) {
+            winnerGod = new ImageView(new Image(GodPath.getPath("Athena")));
+            pane.getChildren().add(winnerGod);
+            StackPane.setAlignment(winnerGod, Pos.CENTER);
+             winnerName.setText(winner + " won! That means...");
+            winnerName.setId("loserLabel");
+            pane.getChildren().add(winnerName);
+            StackPane.setAlignment(winnerName, Pos.TOP_CENTER);
+        }
+        else{
+            //keep watching or quit
+            winnerGod = new ImageView(new Image(GodPath.getPath("Apollo"), 80, 101.8, true, true));
+            RadioButton keepWatching = new RadioButton();
+            RadioButton quit = new RadioButton();
+            ToggleGroup buttons = new ToggleGroup();
+            keepWatching.setToggleGroup(buttons);
+            keepWatching.getStyleClass().remove("radio-button");
+            quit.getStyleClass().remove("radio-button");
+            keepWatching.setText("Keep Watching");
+            keepWatching.setId("keepWatching");
+            quit.setToggleGroup(buttons);
+            quit.setText("EXIT");
+            quit.setId("quit");
+            quit.setMinSize(55, 53);
+            keepWatching.setMinSize(55, 53);
+            pane.getChildren().add(quit);
+            StackPane.setAlignment(quit, Pos.BOTTOM_LEFT);
+            StackPane.setMargin(quit, new Insets(0,70,0,20));
+            keepWatching.setToggleGroup(buttons);
+            pane.getChildren().add(keepWatching);
+            StackPane.setAlignment(keepWatching, Pos.BOTTOM_LEFT);
+            StackPane.setMargin(keepWatching, new Insets(0, 60,10,10));
+            quit.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> System.exit(0));
+            ImageView finalWinnerGod = winnerGod;
+            keepWatching.addEventHandler(MouseEvent.MOUSE_CLICKED, event->{
+                keepWatching.setVisible(false);
+                quit.setVisible(false);
+                victoryMessage.setVisible(false);
+                finalWinnerGod.setVisible(false);
+                winnerName.setVisible(false);
+                victory.setVisible(false);
+            });
+        }
+        pane.getChildren().add(victoryMessage);
     }
 
     public void onClickTile(MouseEvent e){
@@ -367,18 +418,18 @@ public class TableController implements GUIController{
         }
     }
 
-    private Image maleRed = new Image("/images/MRed.png", 109.5, 109.5, true, true);
-    private Image femaleRed = new Image("/images/FRed.png", 109.5, 109.5, true, true);
-    private Image maleBlue = new Image("/images/MBlue.png", 109.5, 109.5, true, true);
-    private Image femaleBlue = new Image("/images/FBlue.png", 109.5, 109.5, true, true);
-    private Image maleMagenta = new Image("/images/MMagenta.png", 109.5, 109.5, true, true);
-    private Image femaleMagenta = new Image("/images/FMagenta.png", 109.5, 109.5, true, true);
+    private Image maleRed = new Image("/images/workers/maleRed.png", 109.5, 109.5, true, true);
+    private Image femaleRed = new Image("/images/workers/femaleRed.png", 109.5, 109.5, true, true);
+    private Image maleBlue = new Image("/images/workers/maleBlue.png", 109.5, 109.5, true, true);
+    private Image femaleBlue = new Image("/images/workers/femaleBlue.png", 109.5, 109.5, true, true);
+    private Image maleMagenta = new Image("/images/workers/maleMagenta.png", 109.5, 109.5, true, true);
+    private Image femaleMagenta = new Image("/images/workers/femaleMagenta.png", 109.5, 109.5, true, true);
 
-    private Image levelGround = new Image("/images/empty.png", 109.5, 109.5, true, true);
-    private Image levelOne = new Image("/images/level1.png", 109.5, 109.5, true, true);
-    private Image levelTwo = new Image("/images/level2.png", 109.5, 109.5, true, true);
-    private Image levelThree = new Image("/images/level3.png", 109.5, 109.5, true, true);
-    private Image dome = new Image("/images/dome.png", 109.5, 109.5, true, true);
+    private Image levelGround = new Image("/images/buildings/empty.png", 109.5, 109.5, true, true);
+    private Image levelOne = new Image("/images/buildings/level1.png", 109.5, 109.5, true, true);
+    private Image levelTwo = new Image("/images/buildings/level2.png", 109.5, 109.5, true, true);
+    private Image levelThree = new Image("/images/buildings/level3.png", 109.5, 109.5, true, true);
+    private Image dome = new Image("/images/buildings/dome.png", 109.5, 109.5, true, true);
 
     private void printSavedTile(int x, int y){
         StackPane tile = (StackPane) getTileByIndex(x,y, gridTable);
