@@ -226,7 +226,7 @@
     -fx-text-alignment: center;
     -fx-wrap-text: true;
     -fx-text-fill: white;
-    -fx-font-size: 20pt;
+    -fx-font-size: 17pt;
     -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.6, 0.8);
 }
 
@@ -243,23 +243,19 @@
 #enabledTile{
     -fx-border-color: #d69600;
     -fx-background-color: #fff300;
-    -fx-opacity: 0.5;
+    -fx-opacity: 0.3;
 }
 
 #enabledTile:hover{
     -fx-border-color: #d69600;
     -fx-background-color: #fff300;
-    -fx-opacity: 0.7;
-}
-
-#enabledTile:selected{
-    -fx-border-color: #d61517;
-    -fx-border-width: 5px;
+    -fx-opacity: 0.6;
 }
 
 #disabledTile{
     -fx-background-color: transparent;
     -fx-border-color: transparent;
+    -fx-opacity: 0;
 }
 
 #selectPower{

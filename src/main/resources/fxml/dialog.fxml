@@ -9,16 +9,16 @@
 
 <BorderPane fx:id="pane" prefHeight="500.0" prefWidth="400.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP034.view.GUI.DialogController">
    <top>
-      <Label fx:id="title" alignment="CENTER" prefHeight="18.0" prefWidth="134.0" textAlignment="CENTER" BorderPane.alignment="CENTER">
+      <Label fx:id="title" alignment="CENTER" prefHeight="54.0" prefWidth="161.0" textAlignment="CENTER" wrapText="true" BorderPane.alignment="CENTER">
          <BorderPane.margin>
-            <Insets bottom="15.0" top="90.0" />
+            <Insets bottom="15.0" top="75.0" />
          </BorderPane.margin>
       </Label>
    </top>
    <center>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="label" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="284.0" wrapText="true">
+            <Label fx:id="label" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="217.0" prefWidth="271.0" wrapText="true">
                <VBox.margin>
                   <Insets top="5.0" />
                </VBox.margin>

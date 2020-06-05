@@ -46,7 +46,9 @@ public class GUIRequestHub extends RequestManager {
     }
 
     private void craftRequestIP(RequestIP request){
-        Platform.runLater(()->{ScenePath.setNextScene(currentController.getPane().getScene(), ScenePath.SERVER_LOGIN);});
+        Platform.runLater(()->{
+            ScenePath.setNextScene(currentController.getPane().getScene(), ScenePath.SERVER_LOGIN);
+        });
     }//TODO--gestione errore
 
     private void craftRequestServer(RequestServerConfig request){
@@ -231,7 +233,7 @@ public class GUIRequestHub extends RequestManager {
                 ((TableController) currentController).setMyTitle("");
                 ((TableController) currentController).setMyDescription("");
                 ((TableController) currentController).setVisibleBox(false);
-                ((TableController) currentController).updateLose(((PersonalDefeatRequest) request).getWinner());
+                ((TableController) currentController).updateLose(((PersonalDefeatRequest) request).getWinner(), ((PersonalDefeatRequest) request).getLosers());
             });
         }
 
@@ -239,6 +241,7 @@ public class GUIRequestHub extends RequestManager {
             setCanHandleRequest(false);
             GUIController previousController = currentController;
             Platform.runLater(()->{
+                ((TableController) currentController).setCardOpacity(((SingleLoserInfo) request).getLoser(), 0.4);
                 ScenePath.setDialog((Stage)scene.getWindow(),((SingleLoserInfo) request).getLoser()+ " lost!",
                         "You are one step closer to victory!");
                 currentController = previousController;

@@ -18,9 +18,13 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.TextAlignment;
 
 import java.util.ArrayList;
 
@@ -114,15 +118,15 @@ public class TableController implements GUIController{
         return pane;
     }
 
-    public void setMyTitle(String string){
+    void setMyTitle(String string){
         title.setText(string);
     }
 
-    public void setMyDescription(String string){
+    void setMyDescription(String string){
         description.setText(string);
     }
 
-    public void setVisibleBox(boolean bool){
+    void setVisibleBox(boolean bool){
         usePower.setVisible(bool);
     }
 
@@ -135,16 +139,16 @@ public class TableController implements GUIController{
             names[i].setText(playersList[i]);
             names[i].setId("boardPlayerName");
             if (colorsList[i] == PlayerColor.BLUE) {
-                cards[i].setImage(new Image("/images/cards/CompleteCardBlue.png"));
+                cards[i].setImage(new Image("/images/cards/CompleteCardBlue.png", 189, 280, true, true));
             }
             else if (colorsList[i] == PlayerColor.MAGENTA){
-                cards[i].setImage(new Image("/images/cards/CompleteCardMagenta.png"));
+                cards[i].setImage(new Image("/images/cards/CompleteCardMagenta.png", 189, 280, true, true));
             }
             else if (colorsList[i] == PlayerColor.RED) {
-                cards[i].setImage(new Image("/images/cards/CompleteCardRed.png"));
+                cards[i].setImage(new Image("/images/cards/CompleteCardRed.png", 189, 280, true, true));
             }
             powers[i].setImage(new Image(GodPath.getPower(godsList[i]), 149, 60, true, true));
-            gods[i].setImage(new Image(GodPath.getPath(godsList[i]), 79, 137, true, true));
+            gods[i].setImage(new Image(GodPath.getPath(godsList[i]), 105, 137, true, true));
         }
 
     }
@@ -184,13 +188,20 @@ public class TableController implements GUIController{
         togglePower.setSelected(false);
     }
 
+    Rectangle blackOverlay = new Rectangle(1280,720, Color.rgb(0,0,0,0.6));
+
     public void updateWin(String winner, String loser){
+        Image winnerGod;
+        pane.getChildren().add(blackOverlay);
+        winnerGod = getGodImageByUser(winner);
+        if (winnerGod!=null)
+            pane.getChildren().add(new ImageView(winnerGod));
         pane.getChildren().add(new ImageView(new Image("/images/victory.png", 1280, 720, true, true)));
         victoryMessage.setText("YOU WIN!");
-        pane.getChildren().add(new ImageView(new Image(GodPath.getPath("Athena"))));
         pane.getChildren().add(victoryMessage);
         StackPane.setAlignment( victoryMessage, Pos.BOTTOM_CENTER );
         if (!loser.isEmpty()){
+            setCardOpacity(loser, 0.4);
             Label loserMessage = new Label(loser + " lost! That means...");
             loserMessage.setId("loserLabel");
             pane.getChildren().add(loserMessage);
@@ -198,25 +209,70 @@ public class TableController implements GUIController{
         }
     }
 
-    public void updateLose(String winner){
-        ImageView victory = new ImageView(new Image("images/victory.png", 1280, 720, true, true));
-        pane.getChildren().add(victory);
-        victoryMessage.setText("YOU LOST...");
-        ImageView winnerGod;
+    private AnchorPane getCardByUser(String name){
+        Node card = null;
+        if(name.equals(nameOne.getText()))
+            card = getTileByIndex(0,0, gridCard);
+        else if (name.equals(nameTwo.getText()))
+            card = getTileByIndex(1,0, gridCard);
+        else if (name.equals(nameThree.getText()))
+            card = getTileByIndex(2,0, gridCard);
+
+        if (card instanceof AnchorPane)
+            return (AnchorPane) card;
+        else return null;
+    }
+
+    void setCardOpacity(String name, double opacity){
+        AnchorPane loserCard = getCardByUser(name);
+        if (loserCard != null){
+            loserCard.setOpacity(opacity);
+        }
+    }
+
+    private Image getGodImageByUser(String name){
+        Image image = null;
+        if(name.equals(nameOne.getText())) {
+            if (godOne.getImage() != null)
+                image = new Image(godOne.getImage().getUrl());
+        }
+        else if (name.equals(nameTwo.getText())) {
+            if (godTwo.getImage() != null)
+                image = new Image(godTwo.getImage().getUrl());
+        }
+        else if (name.equals(nameThree.getText())) {
+            if (godThree.getImage() != null)
+                image = new Image(godThree.getImage().getUrl());
+        }
+
+        return image;
+    }
+
+    public void updateLose(String winner, String[] losers){
+        ImageView victory;
+        pane.getChildren().add(blackOverlay);
+        victoryMessage.setText("YOU LOST");
+        Image winnerGod = getGodImageByUser(winner);
+
+        for (String loser : losers) {
+            setCardOpacity(loser, 0.4);
+        }
+
         Label winnerName = new Label();
-        StackPane.setAlignment( victoryMessage, Pos.BOTTOM_CENTER );
         if (!winner.isEmpty()) {
-            winnerGod = new ImageView(new Image(GodPath.getPath("Athena")));
-            pane.getChildren().add(winnerGod);
-            StackPane.setAlignment(winnerGod, Pos.CENTER);
-             winnerName.setText(winner + " won! That means...");
+            victory  = new ImageView(new Image("images/victory.png", 1280, 720, true, true));
+            if (winnerGod!=null)
+                pane.getChildren().add(new ImageView(winnerGod));
+            //StackPane.setAlignment(winnerGod, Pos.CENTER);
+            winnerName.setText(winner + " won! That means...");
             winnerName.setId("loserLabel");
             pane.getChildren().add(winnerName);
             StackPane.setAlignment(winnerName, Pos.TOP_CENTER);
+            StackPane.setAlignment( victoryMessage, Pos.BOTTOM_CENTER );
         }
         else{
             //keep watching or quit
-            winnerGod = new ImageView(new Image(GodPath.getPath("Apollo"), 80, 101.8, true, true));
+            victory = new ImageView(new Image("/images/defeat.png", 1280, 720, true, true));
             RadioButton keepWatching = new RadioButton();
             RadioButton quit = new RadioButton();
             ToggleGroup buttons = new ToggleGroup();
@@ -224,30 +280,35 @@ public class TableController implements GUIController{
             keepWatching.getStyleClass().remove("radio-button");
             quit.getStyleClass().remove("radio-button");
             keepWatching.setText("Keep Watching");
+            keepWatching.setWrapText(true);
             keepWatching.setId("keepWatching");
             quit.setToggleGroup(buttons);
             quit.setText("EXIT");
             quit.setId("quit");
             quit.setMinSize(55, 53);
-            keepWatching.setMinSize(55, 53);
+            quit.setMaxSize(55,53);
+            keepWatching.setMinSize(60, 60);
+            keepWatching.setMaxSize(60, 60);
             pane.getChildren().add(quit);
             StackPane.setAlignment(quit, Pos.BOTTOM_LEFT);
-            StackPane.setMargin(quit, new Insets(0,70,0,20));
+            StackPane.setMargin(quit, new Insets(0,90,90,0));
             keepWatching.setToggleGroup(buttons);
             pane.getChildren().add(keepWatching);
             StackPane.setAlignment(keepWatching, Pos.BOTTOM_LEFT);
-            StackPane.setMargin(keepWatching, new Insets(0, 60,10,10));
+            StackPane.setMargin(keepWatching, new Insets(0, 90,10,0));
             quit.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> System.exit(0));
-            ImageView finalWinnerGod = winnerGod;
+            ImageView finalVictory = victory;
             keepWatching.addEventHandler(MouseEvent.MOUSE_CLICKED, event->{
                 keepWatching.setVisible(false);
                 quit.setVisible(false);
                 victoryMessage.setVisible(false);
-                finalWinnerGod.setVisible(false);
                 winnerName.setVisible(false);
-                victory.setVisible(false);
+                finalVictory.setVisible(false);
+                blackOverlay.setVisible(false);
             });
+            StackPane.setAlignment( victoryMessage, Pos.CENTER );
         }
+        pane.getChildren().add(victory);
         pane.getChildren().add(victoryMessage);
     }
 
@@ -314,7 +375,7 @@ public class TableController implements GUIController{
         highlightPossibleTiles(x, y, chosenDirections);
     }
 
-    public Node getTileByIndex (final int x, final int y, GridPane gridPane) {
+    public Node getTileByIndex (final int x, final int y, GridPane gridPane) { //TODO -- creare due metodi --> valore corretto senza cast in out
         Node myTile = null;
         ObservableList<Node> board = gridPane.getChildren();
 
@@ -330,12 +391,32 @@ public class TableController implements GUIController{
 
     private void enableTile(int x, int y){
         canSend[x][y] = true;
-        getTileByIndex(x, y, gridTable).setId("enabledTile");
+        ObservableList<Node> childrenStack = ((StackPane) getTileByIndex(x, y, gridTable)).getChildren();
+        int stackSize = childrenStack.size();
+        if (stackSize == 0){
+            childrenStack.add(new ImageView(overlay));
+            stackSize = childrenStack.size();
+        }
+
+        if (childrenStack.get(stackSize-1).getId() != null && childrenStack.get(stackSize-1).getId().equals("workerOnBoard"))
+            childrenStack.get(stackSize-2).setId("enabledTile");
+        else
+            childrenStack.get(stackSize-1).setId("enabledTile");
     }
 
     private void disableTile(int x, int y){
         canSend[x][y] = false;
-        getTileByIndex(x, y, gridTable).setId("disabledTile");
+        ObservableList<Node> childrenStack = ((StackPane) getTileByIndex(x, y, gridTable)).getChildren();
+        int stackSize = childrenStack.size();
+        if (stackSize == 0){
+            childrenStack.add(new ImageView(overlay));
+            stackSize = childrenStack.size();
+        }
+
+        if (childrenStack.get(stackSize-1).getId() != null && childrenStack.get(stackSize-1).getId().equals("workerOnBoard"))
+            childrenStack.get(stackSize-2).setId("disabledTile");
+        else
+            childrenStack.get(stackSize-1).setId("disabledTile");
     }
 
     private void disableAll(){
@@ -430,6 +511,7 @@ public class TableController implements GUIController{
     private Image levelTwo = new Image("/images/buildings/level2.png", 109.5, 109.5, true, true);
     private Image levelThree = new Image("/images/buildings/level3.png", 109.5, 109.5, true, true);
     private Image dome = new Image("/images/buildings/dome.png", 109.5, 109.5, true, true);
+    private Image overlay = new Image("/images/buildings/overlay.png", 109.5, 109.5, true, true);
 
     private void printSavedTile(int x, int y){
         StackPane tile = (StackPane) getTileByIndex(x,y, gridTable);
@@ -459,8 +541,13 @@ public class TableController implements GUIController{
         if (savedDomes[x][y])
             buildingImages.add(dome);
 
+        buildingImages.add(overlay);
+
         for (Image image: buildingImages){
-            list.add(new ImageView(image));
+            ImageView imageView = new ImageView(image);
+            list.add(imageView);
+            if (image.equals(overlay))
+                imageView.setId("disabledTile");
         }
 
     }
@@ -501,9 +588,11 @@ public class TableController implements GUIController{
             }
         }
 
-        if (workerImage != null)
-            list.add(new ImageView(workerImage));
-
+        if (workerImage != null) {
+            ImageView imageView = new ImageView(workerImage);
+            list.add(imageView);
+            imageView.setId("workerOnBoard");
+        }
     }
 
 }
