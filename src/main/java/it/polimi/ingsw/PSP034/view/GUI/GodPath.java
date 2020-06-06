@@ -1,5 +1,7 @@
 package it.polimi.ingsw.PSP034.view.GUI;
 
+/** It contains all the paths of the gods and the corresponding power.
+ */
 public enum GodPath {
     APOLLO("/images/gods/Apollo.png", "/images/powers/Apollo.png"),
     ARTEMIS("/images/gods/Artemis.png", "/images/powers/Artemis.png"),
@@ -27,6 +29,10 @@ public enum GodPath {
     public static final GodPath[] paths = new GodPath[]{APOLLO, ARTEMIS, ATHENA, ATLAS, DEMETER, HEPHAESTUS,
             HERA, HESTIA, LIMUS, MINOTAUR, PAN, PROMETHEUS, TRITON, ZEUS};
 
+    /** Is used to get the right path to the image of the god
+     * @param string is the name of the god
+     * @return the complete path to the resource
+     */
     public static String getPath(String string){
         for(GodPath god:paths){ //TODO -- sostituire con values
             if (("/images/gods/" + string + ".png").equalsIgnoreCase(god.normalPath))
@@ -35,6 +41,10 @@ public enum GodPath {
         return "";
     }
 
+    /** Is used to get the right path to the image of the selected god, with the gold podium.
+     * @param string is the name of the god
+     * @return the complete path to the resource
+     */
     public static String getGoldPath(String string){
         String normalPath = getPath(string);
         if (!normalPath.equals("")) {
@@ -43,6 +53,10 @@ public enum GodPath {
         return "";
     }
 
+    /** Is used to get the right path to the image of the power of the god
+     * @param string is the name of the god
+     * @return the complete path to the resource
+     */
     public static String getPower(String string){
         for(GodPath god:paths){
             if (("/images/powers/" + string + ".png").equalsIgnoreCase(god.power))

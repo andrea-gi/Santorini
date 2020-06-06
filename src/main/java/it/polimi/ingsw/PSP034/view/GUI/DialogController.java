@@ -9,6 +9,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+/**It controls the GUI dialogs, blocking all interaction but the click on the Ok button.
+ */
 public class DialogController implements GUIController{
 
     @FXML
@@ -44,6 +46,11 @@ public class DialogController implements GUIController{
         this.title.setId("dialogTitle");
     }
 
+    /**
+     * Dismisses the dialog, unblocking the client and allowing them to handle other messages
+     * If the dialog has an error message, it closes the application.
+     * @param e is the ActionEvent of the mouse click
+     */
     public void onOk(ActionEvent e){
         ScenePath.dismissDialog((Stage) pane.getScene().getWindow());
         GUIRequestHub.getInstance().setCanHandleRequest(true);

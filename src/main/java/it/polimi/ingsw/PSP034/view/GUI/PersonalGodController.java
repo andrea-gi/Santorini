@@ -15,6 +15,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**It controls the GUI scene of the personal god choice between the cards picked by the god like player.
+ */
 public class PersonalGodController implements GUIController {
     private final ToggleGroup gods = new ToggleGroup();
     String chosenGod;
@@ -82,6 +84,11 @@ public class PersonalGodController implements GUIController {
         submit.setDisable(gods.getSelectedToggle() == null);
     }
 
+    /** Sends the chosen god and disables the Submit button and all the other gods.
+     * It changes the Submit button text to "Submitted" to highlight that the message has already
+     * been sent.
+     * @param e is the ActionEvent of the mouse click
+     */
     @FXML
     public void setSubmit(ActionEvent e){
         one.setDisable(true);
@@ -101,6 +108,13 @@ public class PersonalGodController implements GUIController {
     RadioButton previousButton = null;
     String previousGod = null;
 
+
+    /** Sets the god image according to selection. If the god is selected, it shows the god on a gold podium.
+     * Otherwise, the podium is in grey marble.     *
+     * @param radioButton is the selected or unselected god
+     * @param god is the name of the god
+     * @param golden indicates if the podium must be gold
+     */
     private void setGodBackground(RadioButton radioButton, String god, boolean golden){
         String path;
         if (golden){
@@ -122,6 +136,9 @@ public class PersonalGodController implements GUIController {
         )));
     }
 
+    /** Sets the old background on an unselected god.
+     *
+     */
     private void restorePreviousBackground(){
         if (this.previousButton != null && this.previousGod != null) {
             this.previousButton.setBackground(Background.EMPTY);
@@ -129,6 +146,10 @@ public class PersonalGodController implements GUIController {
         }
     }
 
+    /** Updates the scene with the right possible gods and disables the already chosen ones.
+     * @param possibleGods is the list of all the possible cards picked by the god like player
+     * @param chosen are the gods already chosen by other players
+     */
     public void update(String[] possibleGods, String[] chosen){
         myGods.addAll(Arrays.asList(possibleGods));
         RadioButton[] buttons = new RadioButton[]{one, two, three};

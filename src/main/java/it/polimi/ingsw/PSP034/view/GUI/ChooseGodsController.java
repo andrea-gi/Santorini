@@ -19,6 +19,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**It controls the GUI scene of the divinity cards' choice by the god-like player.
+ */
 public class ChooseGodsController implements GUIController{
     ObservableSet<CheckBox> chosenGods = FXCollections.observableSet();
     ObservableSet<CheckBox> remainingGods = FXCollections.observableSet();
@@ -121,6 +123,10 @@ public class ChooseGodsController implements GUIController{
 
     }
 
+    /** Checks if the god is selected: if so, it is added to a list of chosen gods, else it is added
+     * to the list of remaining gods.     *
+     * @param myGod is the selected or unselected god
+     */
     @FXML
     public void setMyGods(CheckBox myGod){
         if (myGod.isSelected()) {
@@ -148,6 +154,11 @@ public class ChooseGodsController implements GUIController{
     }
 
 
+    /** Sends the chosen gods and disables the Submit button and all the gods Checkboxes.
+     * It changes the Submit button text to "Submitted" to highlight that the message has already
+     * been sent.
+     * @param e is the ActionEvent of the mouse click
+     */
     @FXML
     public void setSubmit(ActionEvent e){
         submit.setDisable(true);

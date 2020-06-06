@@ -20,7 +20,8 @@ import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-
+/** Is a singleton that handles all the messages and information between the server and the GUI controllers.
+ */
 public class GUIRequestHub extends RequestManager {
     private GUIController currentController;
     private static GUIRequestHub instance;
@@ -45,12 +46,20 @@ public class GUIRequestHub extends RequestManager {
         return currentController;
     }
 
+    /** Handles a RequestIP message, showing the corresponding scene to the user, in order to establish
+     * the connection
+     * @param request is the message received
+     */
     private void craftRequestIP(RequestIP request){
         Platform.runLater(()->{
             ScenePath.setNextScene(currentController.getPane().getScene(), ScenePath.SERVER_LOGIN);
         });
     }//TODO--gestione errore
 
+    /** Handles a RequestServerConfig message, showing the corresponding scene to the user, in order to
+     * register the player
+     * @param request is the message received
+     */
     private void craftRequestServer(RequestServerConfig request){
         Scene scene = currentController.getPane().getScene();
         switch (request.getInfo()){
@@ -107,6 +116,10 @@ public class GUIRequestHub extends RequestManager {
         }
     }
 
+    /** Handles a SetupRequest message, showing the corresponding scene to the user, order to choose the gods
+     * and position the workers on the Board.
+     * @param request is the message received
+     */
     private void craftRequestSetup(SetupRequest request){
         Scene scene = currentController.getPane().getScene();
         if (request instanceof GodLikeInfo){
@@ -178,6 +191,10 @@ public class GUIRequestHub extends RequestManager {
         //TODO -- decidere se va bene
     }
 
+    /** Handles a PlayRequest message, showing the corresponding scene to the user, depending on the
+     * actual phase of the game
+     * @param request is the message received
+     */
     private void craftPlayRequest(PlayRequest request){
         Scene scene = currentController.getPane().getScene();
         if (request instanceof InfoIsStarting){
@@ -226,6 +243,10 @@ public class GUIRequestHub extends RequestManager {
 
     }
 
+    /** Handles a GameOverRequest message, showing the corresponding scene to the user, in order to close
+     * the game with the right messages to the player
+     * @param request is the message received
+     */
     public void craftGameOverRequest(GameOverRequest request){
         Scene scene = currentController.getPane().getScene();
         if(request instanceof PersonalDefeatRequest){
@@ -270,6 +291,10 @@ public class GUIRequestHub extends RequestManager {
     }
 
     //TODO -- unificare con cli?
+
+    /**Creates the connection between the client and the server
+     * @param answer
+     */
     void createConnection(AnswerIP answer){
         new Thread(() -> {
             Client client = new Client(this, answer.getIp(), answer.getPort());
@@ -280,6 +305,9 @@ public class GUIRequestHub extends RequestManager {
         ).start();
     }
 
+    /** Handles the message received depending on its type
+     * @param message Request to be handled
+     */
     @Override
     public void handleRequest(Request message) {
         if (message instanceof RequestIP)

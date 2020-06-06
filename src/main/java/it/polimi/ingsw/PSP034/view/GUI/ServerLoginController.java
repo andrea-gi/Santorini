@@ -11,6 +11,8 @@ import javafx.scene.layout.Pane;
 
 import java.io.File;
 
+/**It controls the GUI scene of the connection to a server and to a port.
+ */
 public class ServerLoginController implements GUIController{
     @FXML
     private Pane pane;
@@ -42,6 +44,12 @@ public class ServerLoginController implements GUIController{
         GUIRequestHub.getInstance().setCurrentController(this);
     }
 
+    /** Sends the chosen server ip and port and disables the Submit button and all the textfields.
+     * If the server address and port are not filled, they are automatically set to "localhost" and "2020".
+     * It changes the Submit button text to "Submitted" to highlight that the message has already
+     * been sent.
+     * @param e is the ActionEvent of the mouse click
+     */
     public void setSubmit(ActionEvent e){
         if (getEnterServerName().isEmpty())
             serverName = "localhost";
