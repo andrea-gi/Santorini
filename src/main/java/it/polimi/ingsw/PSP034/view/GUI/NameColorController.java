@@ -10,7 +10,8 @@ import javafx.scene.layout.Pane;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-
+/**It controls the GUI scene of the user registration with a name and a color
+ */
 public class NameColorController implements GUIController{
     private final ToggleGroup colors = new ToggleGroup();
 
@@ -88,6 +89,9 @@ public class NameColorController implements GUIController{
         enterName.setDisable(true);
     }
 
+    /**Invoked on key typed, it checks if the user has chosen a possible name and a color.
+     *If so, it shows the Submit button
+     */
     @FXML
     public void filledName(){
         notValid = getEnterName().isEmpty() || colors.getSelectedToggle() == null;
@@ -95,12 +99,21 @@ public class NameColorController implements GUIController{
         submit.setDisable(notValid);
     }
 
+    /**Invoked on the selection of a toggle, it checks if the user has chosen a possible name and a color.
+     * If so, it shows the Submit button
+     */
     @FXML
     public void filledColor(){
-        notValid = getEnterName().isEmpty() || colors.getSelectedToggle() == null || getEnterName().length() > 20 || !getEnterName().matches("^[a-zA-Z0-9_]+$");
+        notValid = getEnterName().isEmpty() || colors.getSelectedToggle() == null;
         submit.setDisable(notValid);
     }
 
+    /** Sends the name and color chosen and disables the Submit button, the name Textfield and
+     * all the colors buttons.
+     * It changes the Submit button text to "Submitted" to highlight that the message has already
+     * been sent.
+     * @param e is the ActionEvent of the mouse click
+     */
     @FXML
     public void setSubmit(ActionEvent e){
         submit.setDisable(true);
@@ -128,6 +141,8 @@ public class NameColorController implements GUIController{
         }
     }
 
+    /** Clears the Textfield and disables the Submit buttons. Invoked after and error in the name input.     *
+     */
     private void reInsert(){
         enterName.clear();
         enterName.setDisable(false);
@@ -135,6 +150,11 @@ public class NameColorController implements GUIController{
         submit.setText("SUBMIT");
     }
 
+    /** Updates the scene, saving the already chosen names, in order to immediately check if the user wants
+     * to choose an unavailable name, and disabling the already chosen colors.     *
+     * @param chosenNames are the names chosen by the other players
+     * @param availableColors are the colors chosen by the other players
+     */
     public void update(String[] chosenNames, PlayerColor[] availableColors){
         this.chosenNames = new ArrayList<>(Arrays.asList(chosenNames));
         enterName.setDisable(false);

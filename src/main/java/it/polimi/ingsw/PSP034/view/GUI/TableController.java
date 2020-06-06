@@ -28,6 +28,8 @@ import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 
+/** It controls the GUI scene of the board
+ */
 public class TableController implements GUIController{
 
     @FXML
@@ -113,6 +115,24 @@ public class TableController implements GUIController{
         victoryMessage.setId("victoryLabel");
     }
 
+    Sex answerSex;
+
+    private CurrentPhase currentPhase;
+
+    Rectangle blackOverlay = new Rectangle(1280,720, Color.rgb(0,0,0,0.6));
+
+    private enum CurrentPhase{
+        PLACE_WORKER,
+        WORKER_CHOICE,
+        MOVE_REQUEST,
+        BUILD_REQUEST,
+    }
+
+    private enum EndGameButtons{
+        PLAY_AGAIN,
+        KEEP_WATCHING;
+    }
+
     @Override
     public Pane getPane() {
         return pane;
@@ -130,6 +150,63 @@ public class TableController implements GUIController{
         usePower.setVisible(bool);
     }
 
+    /** Gets the card using the player's name
+     * @param name is the player's name
+     * @return the anchorPane where it lays the player's card
+     */
+    private AnchorPane getCardByUser(String name){
+        Node card = null;
+        if(name.equals(nameOne.getText()))
+            card = getTileByIndex(0,0, gridCard);
+        else if (name.equals(nameTwo.getText()))
+            card = getTileByIndex(1,0, gridCard);
+        else if (name.equals(nameThree.getText()))
+            card = getTileByIndex(2,0, gridCard);
+
+        if (card instanceof AnchorPane)
+            return (AnchorPane) card;
+        else return null;
+    }
+
+    /** Sets the opacity of the card in case of game over of a single player
+     * @param name is the player's name
+     * @param opacity indicates the level of opacity desired
+     */
+    void setCardOpacity(String name, double opacity){
+        AnchorPane loserCard = getCardByUser(name);
+        if (loserCard != null){
+            loserCard.setOpacity(opacity);
+        }
+    }
+
+    /** Gets the image of the god depending on the player's name
+     * @param name is the name of the player
+     * @return the god image associated to the player
+     */
+    private Image getGodImageByUser(String name){
+        Image image = null;
+        if(name.equals(nameOne.getText())) {
+            if (godOne.getImage() != null)
+                image = new Image(godOne.getImage().getUrl());
+        }
+        else if (name.equals(nameTwo.getText())) {
+            if (godTwo.getImage() != null)
+                image = new Image(godTwo.getImage().getUrl());
+        }
+        else if (name.equals(nameThree.getText())) {
+            if (godThree.getImage() != null)
+                image = new Image(godThree.getImage().getUrl());
+        }
+
+        return image;
+    }
+
+    /** Sets the cards on the left side of the scene depending on the number of players, their names, colors
+     * and gods chosen. The lists given as parameters are in matching corresponding order
+     * @param godsList is the list of gods
+     * @param playersList is the list of players' names
+     * @param colorsList is the list of colors
+     */
     public void updateCards(String[] godsList, String[] playersList, PlayerColor[] colorsList){
         ImageView[] cards = new ImageView[]{cardOne, cardTwo, cardThree};
         Label[] names = new Label[]{nameOne, nameTwo, nameThree};
@@ -153,17 +230,10 @@ public class TableController implements GUIController{
 
     }
 
-    Sex answerSex;
-
-    private enum CurrentPhase{
-        PLACE_WORKER,
-        WORKER_CHOICE,
-        MOVE_REQUEST,
-        BUILD_REQUEST,
-    }
-
-    private CurrentPhase currentPhase;
-
+    /** Enables or disables the tiles depending on the presence of other players.
+     * @param sex is the sex of the worker that the player is positioning on the board
+     * @param alreadyOccupied is the matrix of workers already on the board
+     */
     public void updatePlaceWorker(Sex sex, Sex[][] alreadyOccupied){
         currentPhase = CurrentPhase.PLACE_WORKER;
         this.answerSex = sex;
@@ -179,6 +249,8 @@ public class TableController implements GUIController{
         }
     }
 
+    /** Shows and enables the toggle button for the choice of the power
+     */
     public void updatePower(){
         togglePower.setVisible(true);
         submitPower.setVisible(true);
@@ -187,8 +259,10 @@ public class TableController implements GUIController{
         togglePower.setSelected(false);
     }
 
-    Rectangle blackOverlay = new Rectangle(1280,720, Color.rgb(0,0,0,0.6));
-
+    /** Sets the victory message showing the winner god
+     * @param winner is the winner
+     * @param loser is the loser, if there is any. Otherwise, is an empty string
+     */
     public void updateWin(String winner, String loser){
         Image winnerGod;
         pane.getChildren().add(blackOverlay);
@@ -212,45 +286,12 @@ public class TableController implements GUIController{
         showButtonsEndGame(EndGameButtons.PLAY_AGAIN, winnerGodImageView, loserMessage);
     }
 
-    private AnchorPane getCardByUser(String name){
-        Node card = null;
-        if(name.equals(nameOne.getText()))
-            card = getTileByIndex(0,0, gridCard);
-        else if (name.equals(nameTwo.getText()))
-            card = getTileByIndex(1,0, gridCard);
-        else if (name.equals(nameThree.getText()))
-            card = getTileByIndex(2,0, gridCard);
-
-        if (card instanceof AnchorPane)
-            return (AnchorPane) card;
-        else return null;
-    }
-
-    void setCardOpacity(String name, double opacity){
-        AnchorPane loserCard = getCardByUser(name);
-        if (loserCard != null){
-            loserCard.setOpacity(opacity);
-        }
-    }
-
-    private Image getGodImageByUser(String name){
-        Image image = null;
-        if(name.equals(nameOne.getText())) {
-            if (godOne.getImage() != null)
-                image = new Image(godOne.getImage().getUrl());
-        }
-        else if (name.equals(nameTwo.getText())) {
-            if (godTwo.getImage() != null)
-                image = new Image(godTwo.getImage().getUrl());
-        }
-        else if (name.equals(nameThree.getText())) {
-            if (godThree.getImage() != null)
-                image = new Image(godThree.getImage().getUrl());
-        }
-
-        return image;
-    }
-
+    /** Sets the losing message
+     * @param winner is the winner name, if there is any. In this case, it shows the winner god.
+     *               Otherwise, if there is no winner, it is an empty string
+     * @param losers is the list of all the losers names, whose cards will be set with opacity, in order
+     *               to immediately recognize who is no longer in the game
+     */
     public void updateLose(String winner, String[] losers){
         ImageView victory;
         pane.getChildren().add(blackOverlay);
@@ -285,11 +326,12 @@ public class TableController implements GUIController{
         pane.getChildren().add(victoryMessage);
     }
 
-    private enum EndGameButtons{
-        PLAY_AGAIN,
-        KEEP_WATCHING;
-    }
-
+    /** Shows the play again or keep watching button and the exit button at the end of a specific
+     *  player's game
+     * @param button it specifies if it is a play again or keep watching button
+     * @param victory is the victory image to delete from screen
+     * @param winnerName is the message to delete from screen
+     */
     private void showButtonsEndGame(EndGameButtons button, ImageView victory, Label winnerName){
         Button quit = new Button();
         quit.setText("EXIT");
@@ -335,12 +377,18 @@ public class TableController implements GUIController{
         }
     }
 
+    /**Lets the game restart with the IP request
+     */
     public void restart(){
         pane.getChildren().removeAll();
         Scene scene = GUIRequestHub.getInstance().getCurrentController().getPane().getScene();
         ScenePath.setNextScene(scene, ScenePath.SERVER_LOGIN);
     }
 
+    /** Enables the interaction with a tile, depending on the game phase and the status of the tile
+     *  (enabled or disables)
+     * @param e is the mouse event of the click
+     */
     public void onClickTile(MouseEvent e){
         int y = GridPane.getRowIndex((Node) e.getSource());
         int x = GridPane.getColumnIndex((Node) e.getSource());
@@ -378,6 +426,9 @@ public class TableController implements GUIController{
 
     }
 
+    /** Sends the information about the willingness of using the power
+     * @param e is the action event of the click on the submit button
+     */
     public void onClickSubmitPower(ActionEvent e){
         GUIRequestHub.getInstance().sendAnswer(new AnswerBooleanChoice(togglePower.isSelected()));
         submitPower.setDisable(true);
@@ -386,6 +437,10 @@ public class TableController implements GUIController{
         togglePower.setVisible(false);
     }
 
+    /** Enables or disables only the tiles of the workers who can perform an action
+     * @param x is the column index
+     * @param y is the row index
+     */
     private void chooseActionWorker(int x, int y){
         disableAll();
         Directions[] chosenDirections = null;
@@ -404,6 +459,12 @@ public class TableController implements GUIController{
         highlightPossibleTiles(x, y, chosenDirections);
     }
 
+    /** Gets the tile depending on its column and row indexes.
+     * @param x is the column index
+     * @param y is the row index
+     * @param gridPane is the gridPane selected
+     * @return the right tile
+     */
     public Node getTileByIndex (final int x, final int y, GridPane gridPane) { //TODO -- creare due metodi --> valore corretto senza cast in out
         Node myTile = null;
         ObservableList<Node> board = gridPane.getChildren();
@@ -418,6 +479,28 @@ public class TableController implements GUIController{
         return myTile;
     }
 
+    /** Highlights only the possible tiles where the selected worker can perform an action
+     * @param startX is the column index of the worker
+     * @param startY is the row index of the worker
+     * @param possibleDirections is the array of possible directions
+     */
+    private void highlightPossibleTiles(int startX, int startY, Directions[] possibleDirections){
+        if (possibleDirections == null){
+            //throw new GameException("GUI001", "Fatal error");
+            //TODO -- eccezione
+            return;
+        }
+        for (Directions direction: possibleDirections){
+            int xOffset = Directions.directionToXOffset(direction);
+            int yOffset = Directions.directionToYOffset(direction);
+            enableTile(startX + xOffset, startY + yOffset);
+        }
+    }
+
+    /**Enables the tile, allowing responsiveness on the tile
+     * @param x is the column index
+     * @param y is the row index
+     */
     private void enableTile(int x, int y){
         canSend[x][y] = true;
         ObservableList<Node> childrenStack = ((StackPane) getTileByIndex(x, y, gridTable)).getChildren();
@@ -433,6 +516,10 @@ public class TableController implements GUIController{
             childrenStack.get(stackSize-1).setId("enabledTile");
     }
 
+    /** Disables responsiveness on the tile
+     * @param x is the column index
+     * @param y is the row index
+     */
     private void disableTile(int x, int y){
         canSend[x][y] = false;
         ObservableList<Node> childrenStack = ((StackPane) getTileByIndex(x, y, gridTable)).getChildren();
@@ -461,6 +548,9 @@ public class TableController implements GUIController{
     private boolean[][] savedDomes = new boolean[Constant.DIM][Constant.DIM];
     private PlayerColor[][] savedColors = new PlayerColor[Constant.DIM][Constant.DIM];
 
+    /** Saves and prints the changed tiles of the updated board
+     * @param slimBoard is the slimboard received from the server
+     */
     public void updateAndSaveBoard(SlimBoard slimBoard) {
         int[][] buildings = slimBoard.getBuilding();
         boolean[][] domes = slimBoard.getDome();
@@ -492,6 +582,8 @@ public class TableController implements GUIController{
     private int femaleYAction;
     private TurnPhase playActionPhase = null;
 
+    /**Updates the workers choice depending on the possible actions
+     */
     public void updatePlayAction(RequestAction request){
         maleDirections = request.getPossibleMaleDirections();
         femaleDirections = request.getPossibleFemaleDirections();
@@ -513,19 +605,6 @@ public class TableController implements GUIController{
             enableTile(request.getXMale(), request.getYMale());
         else if (request.getRequiredActions()[0] == RequiredActions.REQUIRED_FEMALE)
             enableTile(request.getXFemale(), request.getYFemale());
-    }
-
-    private void highlightPossibleTiles(int startX, int startY, Directions[] possibleDirections){
-        if (possibleDirections == null){
-            //throw new GameException("GUI001", "Fatal error");
-            //TODO -- eccezione
-            return;
-        }
-        for (Directions direction: possibleDirections){
-            int xOffset = Directions.directionToXOffset(direction);
-            int yOffset = Directions.directionToYOffset(direction);
-            enableTile(startX + xOffset, startY + yOffset);
-        }
     }
 
     private Image maleRed = new Image("/images/workers/maleRed.png", 109.5, 109.5, true, true);

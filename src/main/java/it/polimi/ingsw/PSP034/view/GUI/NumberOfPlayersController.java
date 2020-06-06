@@ -15,6 +15,8 @@ import javafx.scene.layout.Pane;
 
 import java.io.File;
 
+/**It controls the GUI scene of the number of players choice by the first connected player.
+ */
 public class NumberOfPlayersController implements GUIController {
     @FXML
     private Pane pane;
@@ -62,6 +64,11 @@ public class NumberOfPlayersController implements GUIController {
         return number;
     }
 
+    /** Sends the number of players chosen and disables the Submit button and all the numbers buttons.
+     * It changes the Submit button text to "Submitted" to highlight that the message has already
+     * been sent.
+     * @param e is the ActionEvent of the mouse click
+     */
     @FXML
     public void setSubmit(ActionEvent e){
         submit.setDisable(true);

@@ -8,7 +8,8 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.Pane;
 
-
+/**It controls the GUI scene of the first player choice.
+ */
 public class FirstPlayerController implements GUIController {
     private final ToggleGroup playersGroup = new ToggleGroup();
     private String chosenPlayer;
@@ -59,6 +60,10 @@ public class FirstPlayerController implements GUIController {
         return pane;
     }
 
+    /** Shows the right number and the right username of all the players, so that the current player can
+     * choose which one will start the game.
+     * @param names is the array with all the players names
+     */
     public void update(String[] names){
         one.setVisible(true);
         two.setVisible(true);
@@ -70,6 +75,11 @@ public class FirstPlayerController implements GUIController {
         }
     }
 
+    /** Sends the name of the first player chosen and disables the Submit button and all the other options.
+     * It changes the Submit button text to "Submitted" to highlight that the message has already
+     * been sent.
+     * @param e is the ActionEvent of the mouse click
+     */
     @FXML
     public void setSubmit(ActionEvent e){
         submit.setDisable(true);

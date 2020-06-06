@@ -7,6 +7,8 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
+/**It controls the opening GUI scene of the title
+ */
 public class TitleController implements GUIController{
 
     @FXML

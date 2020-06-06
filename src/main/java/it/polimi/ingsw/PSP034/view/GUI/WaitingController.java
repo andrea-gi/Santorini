@@ -8,6 +8,8 @@ import javafx.scene.layout.Pane;
 
 import java.io.File;
 
+/**It controls the GUI scene of the waiting moments during the registration and setup of all the players.
+ */
 public class WaitingController implements GUIController{
 
     @FXML

@@ -9,6 +9,8 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
+/** It contains all the paths of the fxml files that create all the different scenes.
+ */
 public class ScenePath {
     public static final String TITLE = "/fxml/title.fxml";
     public static final String SERVER_LOGIN = "/fxml/serverLogin.fxml";
@@ -21,6 +23,10 @@ public class ScenePath {
 
     public static final String TABLE = "/fxml/table.fxml";
 
+    /** Loads the next scene on the same stage
+     * @param scene is the scene where the new one is loaded
+     * @param path is the path to the right fxml file
+     */
     public static void setNextScene(Scene scene, String path) {
         FXMLLoader loader = new FXMLLoader((ScenePath.class.getResource(path)));
         Pane pane;
@@ -33,6 +39,11 @@ public class ScenePath {
         }
     }
 
+    /** Loads a dialog on top of the previous scene
+     * @param stage is the stage where the dialog is created
+     * @param info is the title of the dialog
+     * @param message is the description of the dialog
+     */
     public static void setDialog(Stage stage, String info, String message){
         FXMLLoader loader = new FXMLLoader((ScenePath.class.getResource("/fxml/dialog.fxml")));
         Scene dialogScene;
