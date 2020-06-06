@@ -4,7 +4,7 @@ package it.polimi.ingsw.PSP034.view.CLI.printables;
 import it.polimi.ingsw.PSP034.constants.Colors;
 import it.polimi.ingsw.PSP034.constants.PlayerColor;
 
-public class WinnerDrawing extends PrintableObject{
+public class WinnerDrawing extends Drawing{
     public WinnerDrawing(PlayerColor color){
         super();
         String buildColor = Colors.BUILDING_BG.get();

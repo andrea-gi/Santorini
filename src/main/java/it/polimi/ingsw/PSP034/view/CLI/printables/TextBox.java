@@ -32,6 +32,7 @@ public class TextBox extends PrintableObject{
                 }
             }
         }while (incorrectInput);
+        ANSI.clearLineInterval(super.getStartLine(), super.getStartColumn(), super.getStartColumn()+lastErrorLength);
         return answer;
     }
 

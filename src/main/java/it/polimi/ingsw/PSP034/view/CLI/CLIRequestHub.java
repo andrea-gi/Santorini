@@ -12,7 +12,6 @@ import it.polimi.ingsw.PSP034.messages.serverConfiguration.RequestNameColor;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.RequestServerConfig;
 import it.polimi.ingsw.PSP034.messages.setupPhase.*;
 import it.polimi.ingsw.PSP034.view.CLI.scenes.*;
-import it.polimi.ingsw.PSP034.view.CLI.scenes.clientConfiguration.ScreenTest;
 import it.polimi.ingsw.PSP034.view.CLI.scenes.clientConfiguration.ServerAddress;
 import it.polimi.ingsw.PSP034.view.CLI.scenes.clientConfiguration.ServerPort;
 import it.polimi.ingsw.PSP034.view.CLI.scenes.clientConfiguration.TitleScene;
@@ -47,7 +46,7 @@ public class CLIRequestHub {
 
         else if(request instanceof SlimBoard){
             SlimBoard slimBoard = (SlimBoard) request;
-            ((Table) currScene).updateBoard(slimBoard.getDome(), slimBoard.getBuilding(), slimBoard.getColor(), slimBoard.getSex(), false, slimBoard.getCurrentPlayer());
+            ((Table) currScene).updateBoard(slimBoard.getDome(), slimBoard.getBuilding(), slimBoard.getColor(), slimBoard.getSex(), false);
             currScene.show();
             return null;
         }
@@ -60,8 +59,6 @@ public class CLIRequestHub {
 
     private Answer newRequestClientConfig(RequestClientConfig request){
         if (request instanceof TitleRequest) {
-            currScene = new ScreenTest();
-            currScene.show();
             currScene = new TitleScene();
             currScene.show();
             return null;
@@ -184,7 +181,7 @@ public class CLIRequestHub {
 
         else if(request instanceof InitializeBoard){
             SlimBoard slimBoard = ((InitializeBoard) request).getSlimBoard();
-            currScene = new Table(slimBoard.getGodsList(), slimBoard.getPlayersList(), slimBoard.getColorsList(), slimBoard.getCurrentPlayer());
+            currScene = new Table(slimBoard.getGodsList(), slimBoard.getPlayersList(), slimBoard.getColorsList());
             currScene.show();
             return null;
         }

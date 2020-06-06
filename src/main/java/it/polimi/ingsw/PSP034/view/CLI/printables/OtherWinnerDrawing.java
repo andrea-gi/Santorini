@@ -2,7 +2,7 @@ package it.polimi.ingsw.PSP034.view.CLI.printables;
 
 import it.polimi.ingsw.PSP034.constants.PlayerColor;
 
-public class OtherWinnerDrawing extends PrintableObject {
+public class OtherWinnerDrawing extends Drawing {
     public OtherWinnerDrawing(PlayerColor winnerColor, PlayerColor[] losersColors){
         super();
 

@@ -27,6 +27,7 @@ public class Table extends Scene{
     PlayerBox[] cards;
     Spacer spaceThirdCard;
 
+    Drawing drawing;
     Dialog question;
     Message message;
     HorizontalArrangement textBoxANDAnswer;
@@ -38,7 +39,7 @@ public class Table extends Scene{
     boolean requiredAnswer;
 
 
-    public Table(String[] gods, String[] players, PlayerColor[] colors, String currentPlayer){
+    public Table(String[] gods, String[] players, PlayerColor[] colors){
         all = new VerticalArrangement();
 
         title = new Font("   ");
@@ -112,7 +113,7 @@ public class Table extends Scene{
         }
     }
 
-    public void updateBoard(boolean[][] dome, int[][] building, PlayerColor[][] color, Sex[][] sex, boolean showNumbers, String currentPlayer){
+    public void updateBoard(boolean[][] dome, int[][] building, PlayerColor[][] color, Sex[][] sex, boolean showNumbers){
         for(int y = 0; y < Constant.DIM; y++){
             for(int x = 0; x < Constant.DIM; x++){
                 board.updateTile(x, y, building[x][y], dome[x][y], color[x][y], sex[x][y]);
@@ -131,7 +132,7 @@ public class Table extends Scene{
     public void updatePlaceWorker(boolean[][] dome, int[][] building, PlayerColor[][] color, Sex[][] sex, Sex worker){
         setTitle("workers setup");
 
-        updateBoard(dome, building, color, sex, true, null);
+        updateBoard(dome, building, color, sex, true);
 
         int freeTiles = 0;
         for(int y = 0; y < Constant.DIM; y++){
@@ -251,8 +252,8 @@ public class Table extends Scene{
                 loserDrawing = new LoserDrawing(loserColor);
             else
                 throw new NullPointerException(losersNames[0] + "can't loose as there's no such player still playing");
-            request.insertObject(request.getObjects().indexOf(message), loserDrawing);
 
+            setDrawing(loserDrawing);
             setMessage(new Message("Oh, no! You lost...", -1));
             setQuestion(new Dialog("Do you want to exit the game or keep watching?", -1, 1, "Exit", "Keep watching"));
 
@@ -269,7 +270,6 @@ public class Table extends Scene{
                     }
                 }
             }
-            OtherWinnerDrawing drawing;
 
             for(int i = 0; i < loserColors.length; i++){
                 if(loserColors[i] == null)
@@ -278,9 +278,8 @@ public class Table extends Scene{
             if(winnerColor == null)
                 throw new NullPointerException(winnerName + "can't win as there's no such player still playing");
 
-            drawing = new OtherWinnerDrawing(winnerColor, loserColors);
 
-            request.insertObject(request.getObjects().indexOf(message), drawing);
+            setDrawing(new OtherWinnerDrawing(winnerColor, loserColors));
             setMessage(new Message("Oh, no! " + winnerName + " won...", -1));
             setQuestion(new Dialog("Do you want to exit the game or play again?", -1, 1, "Exit", "Play again"));
 
@@ -320,8 +319,8 @@ public class Table extends Scene{
         if(winnerColor == null)
             throw new NullPointerException(winnerName + " can't win as there is no such player still playing");
 
-        WinnerDrawing drawing = new WinnerDrawing(winnerColor);
-        request.insertObject(request.getObjects().indexOf(message), drawing);
+
+        setDrawing(new WinnerDrawing(winnerColor));
         setMessage(new Message("YAY! YOU WIN!", -1));
         setQuestion(new Dialog("Do you want to exit the game or play again?", -1, 1, "Exit", "Play again"));
         message.setVisible(true);
@@ -390,6 +389,20 @@ public class Table extends Scene{
         textBoxANDAnswer.setVisible(true);
 
         requiredAnswer = true;
+    }
+
+    private void setDrawing(Drawing newDrawing){
+        int pos;
+        if(drawing == null)
+            pos = request.getObjects().indexOf(message);
+        else {
+            pos = request.getObjects().indexOf(drawing);
+            request.removeObjects(drawing);
+        }
+
+        drawing = newDrawing;
+        drawing.setVisible(true);
+        request.insertObject(pos, drawing);
     }
 
     private String @NotNull [] directionsToOptions(Directions[] possibleDirections, boolean hasChoice) {

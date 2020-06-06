@@ -10,11 +10,55 @@ public class TitleScene extends Scene {
     public String show(){
         ANSI.clearScreen();
 
+        ANSI.moveTo(1,1);
+        System.out.print("╔══");
+        ANSI.moveTo(2,1);
+        System.out.print("║");
+
+        ANSI.moveTo(1, Frame.SCREEN_WIDTH-2);
+        System.out.print("══╗");
+        ANSI.moveTo(2, Frame.SCREEN_WIDTH);
+        System.out.print("║");
+
+        ANSI.moveTo(Frame.SCREEN_HEIGHT-1, 1);
+        System.out.print("║");
+        ANSI.moveTo(Frame.SCREEN_HEIGHT, 1);
+        System.out.print("╚══");
+
+        ANSI.moveTo(Frame.SCREEN_HEIGHT-1, Frame.SCREEN_WIDTH);
+        System.out.print("║");
+        ANSI.moveTo(Frame.SCREEN_HEIGHT, Frame.SCREEN_WIDTH-2);
+        System.out.print("══╝");
+
+        String warning = "Please, make sure you can see the four corners forming a rectangle. If you don't, please try reducing your terminal font size and make sure that your terminal supports ANSI escape sequences and UNICODE characters and restart the application (check the readme file to know more). Press 'Enter' once you are ready.";
+        int start = 0;
+        int end = Frame.SCREEN_WIDTH;
+        int line = 3;
+        do{
+            ANSI.moveTo(line, 1);
+            System.out.print(warning.substring(start, end));
+            start = end;
+            end += Frame.SCREEN_WIDTH;
+            line++;
+        }while(end <= warning.length());
+        if(start < warning.length()) {
+            ANSI.moveTo(line, 1);
+            System.out.print(warning.substring(start));
+        }
+
+        TextBox textBox = new TextBox(1);
+        textBox.print(line + 1, 1);
+        textBox.waitAnswer();
+
+
+
+        ANSI.clearScreen();
+
         Frame frame = new Frame();
 
         Title title = new Title();
         Message pressEnter = new Message("Press enter to continue", -1);
-        TextBox textBox = new TextBox(1);
+        textBox = new TextBox(1);
 
         VerticalArrangement va1 = new VerticalArrangement();
         va1.addObjects(pressEnter, textBox);

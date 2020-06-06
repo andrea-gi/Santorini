@@ -3,7 +3,7 @@ package it.polimi.ingsw.PSP034.view.CLI.printables;
 import it.polimi.ingsw.PSP034.constants.PlayerColor;
 
 
-public class LoserDrawing extends PrintableObject{
+public class LoserDrawing extends Drawing{
     public LoserDrawing(PlayerColor color){
         super();
         String buildColor = ANSI.FG_white;
