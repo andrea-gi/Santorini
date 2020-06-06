@@ -5,8 +5,11 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
+
+import java.io.InputStream;
 
 public class MainGUI extends Application {
 
@@ -17,6 +20,11 @@ public class MainGUI extends Application {
         primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         primaryStage.setTitle("Santorini");
         primaryStage.setResizable(false);
+
+        InputStream icon = MainGUI.class.getClassLoader().getResourceAsStream("images/icon.png");
+        if (icon != null) {
+            primaryStage.getIcons().add(new Image(icon));
+        }
 
         Scene myScene = new Scene(root, 1280, 720);
         primaryStage.setScene(myScene);
