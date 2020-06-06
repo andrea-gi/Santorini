@@ -14,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -24,7 +25,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.TextAlignment;
 
 import java.util.ArrayList;
 
@@ -160,7 +160,6 @@ public class TableController implements GUIController{
         WORKER_CHOICE,
         MOVE_REQUEST,
         BUILD_REQUEST,
-        POWER_REQUEST;
     }
 
     private CurrentPhase currentPhase;
@@ -194,19 +193,23 @@ public class TableController implements GUIController{
         Image winnerGod;
         pane.getChildren().add(blackOverlay);
         winnerGod = getGodImageByUser(winner);
-        if (winnerGod!=null)
-            pane.getChildren().add(new ImageView(winnerGod));
+        ImageView winnerGodImageView = new ImageView(winnerGod);
+        if (winnerGod!=null) {
+            pane.getChildren().add(winnerGodImageView);
+        }
         pane.getChildren().add(new ImageView(new Image("/images/victory.png", 1280, 720, true, true)));
         victoryMessage.setText("YOU WIN!");
         pane.getChildren().add(victoryMessage);
         StackPane.setAlignment( victoryMessage, Pos.BOTTOM_CENTER );
+        Label loserMessage = null;
         if (!loser.isEmpty()){
             setCardOpacity(loser, 0.4);
-            Label loserMessage = new Label(loser + " lost! That means...");
+            loserMessage = new Label(loser + " lost!");
             loserMessage.setId("loserLabel");
             pane.getChildren().add(loserMessage);
             StackPane.setAlignment(loserMessage, Pos.TOP_CENTER);
         }
+        showButtonsEndGame(EndGameButtons.PLAY_AGAIN, winnerGodImageView, loserMessage);
     }
 
     private AnchorPane getCardByUser(String name){
@@ -251,7 +254,6 @@ public class TableController implements GUIController{
     public void updateLose(String winner, String[] losers){
         ImageView victory;
         pane.getChildren().add(blackOverlay);
-        victoryMessage.setText("YOU LOST");
         Image winnerGod = getGodImageByUser(winner);
 
         for (String loser : losers) {
@@ -264,52 +266,79 @@ public class TableController implements GUIController{
             if (winnerGod!=null)
                 pane.getChildren().add(new ImageView(winnerGod));
             //StackPane.setAlignment(winnerGod, Pos.CENTER);
-            winnerName.setText(winner + " won! That means...");
+            winnerName.setText(winner + " won!");
             winnerName.setId("loserLabel");
             pane.getChildren().add(winnerName);
             StackPane.setAlignment(winnerName, Pos.TOP_CENTER);
             StackPane.setAlignment( victoryMessage, Pos.BOTTOM_CENTER );
+            victoryMessage.setText("GAME OVER");
+            showButtonsEndGame(EndGameButtons.PLAY_AGAIN, victory, winnerName);
         }
         else{
             //keep watching or quit
             victory = new ImageView(new Image("/images/defeat.png", 1280, 720, true, true));
-            RadioButton keepWatching = new RadioButton();
-            RadioButton quit = new RadioButton();
-            ToggleGroup buttons = new ToggleGroup();
-            keepWatching.setToggleGroup(buttons);
-            keepWatching.getStyleClass().remove("radio-button");
-            quit.getStyleClass().remove("radio-button");
-            keepWatching.setText("Keep Watching");
-            keepWatching.setWrapText(true);
-            keepWatching.setId("keepWatching");
-            quit.setToggleGroup(buttons);
-            quit.setText("EXIT");
-            quit.setId("quit");
-            quit.setMinSize(55, 53);
-            quit.setMaxSize(55,53);
-            keepWatching.setMinSize(60, 60);
-            keepWatching.setMaxSize(60, 60);
-            pane.getChildren().add(quit);
-            StackPane.setAlignment(quit, Pos.BOTTOM_LEFT);
-            StackPane.setMargin(quit, new Insets(0,90,90,0));
-            keepWatching.setToggleGroup(buttons);
-            pane.getChildren().add(keepWatching);
-            StackPane.setAlignment(keepWatching, Pos.BOTTOM_LEFT);
-            StackPane.setMargin(keepWatching, new Insets(0, 90,10,0));
-            quit.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> System.exit(0));
-            ImageView finalVictory = victory;
-            keepWatching.addEventHandler(MouseEvent.MOUSE_CLICKED, event->{
-                keepWatching.setVisible(false);
-                quit.setVisible(false);
-                victoryMessage.setVisible(false);
-                winnerName.setVisible(false);
-                finalVictory.setVisible(false);
-                blackOverlay.setVisible(false);
-            });
+            showButtonsEndGame(EndGameButtons.KEEP_WATCHING, victory, winnerName);
             StackPane.setAlignment( victoryMessage, Pos.CENTER );
+            victoryMessage.setText("YOU LOST");
         }
         pane.getChildren().add(victory);
         pane.getChildren().add(victoryMessage);
+    }
+
+    private enum EndGameButtons{
+        PLAY_AGAIN,
+        KEEP_WATCHING;
+    }
+
+    private void showButtonsEndGame(EndGameButtons button, ImageView victory, Label winnerName){
+        Button quit = new Button();
+        quit.setText("EXIT");
+        quit.setContentDisplay(ContentDisplay.BOTTOM);
+        quit.setId("quit");
+        quit.setMinSize(70, 67);
+        quit.setMaxSize(70,67);
+        pane.getChildren().add(quit);
+        StackPane.setAlignment(quit, Pos.BOTTOM_LEFT);
+        StackPane.setMargin(quit, new Insets(0,0,15,10));
+        quit.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> System.exit(0));
+
+        Button continueGame = new Button();
+        if(button == EndGameButtons.KEEP_WATCHING)
+            continueGame.setText("Keep Watching");
+        else if(button == EndGameButtons.PLAY_AGAIN)
+            continueGame.setText("Play Again");
+        continueGame.setContentDisplay(ContentDisplay.BOTTOM);
+        continueGame.setWrapText(true);
+        continueGame.setId("keepWatching");
+
+        continueGame.setMinSize(75, 75);
+        continueGame.setMaxSize(75, 75);
+
+        pane.getChildren().add(continueGame);
+        StackPane.setAlignment(continueGame, Pos.BOTTOM_LEFT);
+        StackPane.setMargin(continueGame, new Insets(0, 0,10,110));
+
+        if (button == EndGameButtons.KEEP_WATCHING) {
+            continueGame.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+                pane.getChildren().remove(continueGame);
+                pane.getChildren().remove(quit);
+                pane.getChildren().remove(victoryMessage);
+                pane.getChildren().remove(winnerName);
+                pane.getChildren().remove(victory);
+                pane.getChildren().remove(blackOverlay);
+            });
+        }
+        else if (button == EndGameButtons.PLAY_AGAIN){
+            continueGame.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+                restart();
+            });
+        }
+    }
+
+    public void restart(){
+        pane.getChildren().removeAll();
+        Scene scene = GUIRequestHub.getInstance().getCurrentController().getPane().getScene();
+        ScenePath.setNextScene(scene, ScenePath.SERVER_LOGIN);
     }
 
     public void onClickTile(MouseEvent e){

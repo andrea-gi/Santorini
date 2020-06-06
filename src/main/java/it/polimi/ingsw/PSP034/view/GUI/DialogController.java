@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP034.view.GUI;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -46,7 +47,9 @@ public class DialogController implements GUIController{
     public void onOk(ActionEvent e){
         ScenePath.dismissDialog((Stage) pane.getScene().getWindow());
         GUIRequestHub.getInstance().setCanHandleRequest(true);
-        if (title.getText().equals("Game Started") || title.getText().equals("Error"))
+        if (title.getText().equals("Game Started") || title.getText().equals("Error")) {
+            Platform.exit();
             System.exit(0);
+        }
     }
 }

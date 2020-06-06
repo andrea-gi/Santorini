@@ -11,8 +11,7 @@ public class PersonalDefeatRequest extends GameOverRequest{
     public PersonalDefeatRequest(String winner, String... losers){
         this.winner = Objects.requireNonNullElse(winner, "");
         if (losers != null) {
-            this.losers = new String[losers.length];
-            System.arraycopy(losers, 0, this.losers, 0, losers.length);
+            this.losers = losers.clone();
         }
         else{
             this.losers = new String[0];

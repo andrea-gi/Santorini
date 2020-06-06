@@ -300,8 +300,10 @@
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
     -fx-text-alignment: center;
-    -fx-text-fill: rgb(255, 255, 255);
-    -fx-font-size: 11pt;
+    -fx-text-fill: white;
+    -fx-wrap-text: true;
+    -fx-font-size: 10pt;
+    -fx-font-weight: bold;
     -fx-font-family: "LillyBelle";
     -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.6, 0.8);
 }
@@ -327,8 +329,10 @@
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
     -fx-text-alignment: center;
-    -fx-text-fill: rgb(255, 255, 255);
+    -fx-wrap-text: true;
+    -fx-text-fill: white;
     -fx-font-size: 11pt;
+    -fx-font-weight: bold;
     -fx-font-family: "LillyBelle";
     -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.6, 0.8);
 }
