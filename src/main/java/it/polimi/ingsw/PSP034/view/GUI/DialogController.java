@@ -52,11 +52,12 @@ public class DialogController implements GUIController{
      * @param e is the ActionEvent of the mouse click
      */
     public void onOk(ActionEvent e){
-        ScenePath.dismissDialog((Stage) pane.getScene().getWindow());
-        GUIRequestHub.getInstance().setCanHandleRequest(true);
         if (title.getText().equals("Game Started") || title.getText().equals("Error")) {
             Platform.exit();
             System.exit(0);
+        } else{
+            ScenePath.dismissDialog((Stage) pane.getScene().getWindow());
         }
+        GUIRequestHub.getInstance().setCanHandleRequest(true);
     }
 }

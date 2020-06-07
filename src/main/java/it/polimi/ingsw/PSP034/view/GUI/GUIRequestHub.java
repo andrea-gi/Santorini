@@ -17,8 +17,11 @@ import it.polimi.ingsw.PSP034.messages.setupPhase.*;
 import it.polimi.ingsw.PSP034.view.CLI.AnswerComposer;
 import it.polimi.ingsw.PSP034.view.CLI.scenes.playPhase.Table;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import java.util.concurrent.Future;
 
 /** Is a singleton that handles all the messages and information between the server and the GUI controllers.
  */
@@ -46,14 +49,33 @@ public class GUIRequestHub extends RequestManager {
         return currentController;
     }
 
+    public void setStartedConnection(Future<Boolean> booleanFuture){
+        new Thread(new Task<Void>() {
+            @Override public Void call() {
+                try {
+                    if (!booleanFuture.get()) {
+                        craftRequestIP(new RequestIP(true));
+                    }
+                } catch (Exception e) {
+                    //TODO -- show error (e chiudi app)
+                }
+                return null;
+            }
+        }).start();
+    }
+
     /** Handles a RequestIP message, showing the corresponding scene to the user, in order to establish
      * the connection
      * @param request is the message received
      */
-    private void craftRequestIP(RequestIP request){
-        Platform.runLater(()->{
-            ScenePath.setNextScene(currentController.getPane().getScene(), ScenePath.SERVER_LOGIN);
-        });
+    private void craftRequestIP(RequestIP request){ //TODO -- gestire l'errore già ***PRESENTE NEL MESSAGGIO***
+        if (!request.getError()) {
+            Platform.runLater(() -> {
+                ScenePath.setNextScene(currentController.getPane().getScene(), ScenePath.SERVER_LOGIN);
+            });
+        } else {
+            //TODO -- stampa errore
+        }
     }//TODO--gestione errore
 
     /** Handles a RequestServerConfig message, showing the corresponding scene to the user, in order to
@@ -292,18 +314,6 @@ public class GUIRequestHub extends RequestManager {
 
     //TODO -- unificare con cli?
 
-    /**Creates the connection between the client and the server
-     * @param answer
-     */
-    void createConnection(AnswerIP answer){
-        new Thread(() -> {
-            Client client = new Client(this, answer.getIp(), answer.getPort());
-            client.startConnection(); // TODO -- assicurarsi che la connessione sia stata creata
-            Thread runClient = new Thread(client);
-            runClient.start();
-        }
-        ).start();
-    }
 
     /** Handles the message received depending on its type
      * @param message Request to be handled

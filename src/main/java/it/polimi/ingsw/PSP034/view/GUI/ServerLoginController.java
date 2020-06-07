@@ -63,6 +63,6 @@ public class ServerLoginController implements GUIController{
         submit.setText("SUBMITTED!");
         enterServerName.setDisable(true);
         enterServerPort.setDisable(true);
-        GUIRequestHub.getInstance().createConnection(new AnswerIP(serverName, Integer.parseInt(serverPort)));
+        GUIRequestHub.getInstance().setStartedConnection(GUIRequestHub.getInstance().createConnection(new AnswerIP(serverName, Integer.parseInt(serverPort))));
     }
 }

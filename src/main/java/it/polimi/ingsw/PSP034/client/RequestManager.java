@@ -2,8 +2,14 @@ package it.polimi.ingsw.PSP034.client;
 
 import it.polimi.ingsw.PSP034.messages.Answer;
 import it.polimi.ingsw.PSP034.messages.Request;
+import it.polimi.ingsw.PSP034.messages.clientConfiguration.AnswerIP;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.ErrorMessage;
 import it.polimi.ingsw.PSP034.view.GameException;
+
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * Abstract class extended by each Request Manager (CLI or GUI)
@@ -31,9 +37,11 @@ public abstract class RequestManager {
      * Sends an answer through a previously set {@link ClientGameHandler}.
      * @param answer Answer to be sent.
      */
-    public void sendAnswer(Answer answer){
+    public synchronized void sendAnswer(Answer answer){
         if (sender != null)
-            sender.send(answer);
+            new Thread(() -> {
+                sender.send(answer);
+            }).start();
     }
 
     /**
@@ -41,4 +49,21 @@ public abstract class RequestManager {
      * @return {@code true} if {@link this#handleRequest(Request)} can manage a new request.
      */
     public abstract boolean canHandleRequest();
+
+    private final ExecutorService executorConnection = Executors.newSingleThreadExecutor();
+
+    /**Creates the connection between the client and the server
+     * @param answer Answer containing IP address and port
+     */
+    public Future<Boolean> createConnection(AnswerIP answer){
+        return executorConnection.submit(() ->{
+            Client client = new Client(this, answer.getIp(), answer.getPort());
+            if (client.startConnection()){
+                new Thread(client).start();
+                return true;
+            } else {
+                return false;
+            }
+        });
+    }
 }
