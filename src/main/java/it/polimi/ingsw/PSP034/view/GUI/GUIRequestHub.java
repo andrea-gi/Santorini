@@ -1,12 +1,9 @@
 package it.polimi.ingsw.PSP034.view.GUI;
 
-import it.polimi.ingsw.PSP034.client.Client;
 import it.polimi.ingsw.PSP034.client.RequestManager;
 import it.polimi.ingsw.PSP034.constants.Sex;
 import it.polimi.ingsw.PSP034.messages.Request;
 import it.polimi.ingsw.PSP034.messages.SlimBoard;
-import it.polimi.ingsw.PSP034.messages.clientConfiguration.AnswerIP;
-import it.polimi.ingsw.PSP034.messages.clientConfiguration.AutoCloseAnswer;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.ErrorMessage;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.RequestIP;
 import it.polimi.ingsw.PSP034.messages.gameOverPhase.*;
@@ -14,8 +11,6 @@ import it.polimi.ingsw.PSP034.messages.playPhase.*;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.RequestNameColor;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.RequestServerConfig;
 import it.polimi.ingsw.PSP034.messages.setupPhase.*;
-import it.polimi.ingsw.PSP034.view.CLI.AnswerComposer;
-import it.polimi.ingsw.PSP034.view.CLI.scenes.playPhase.Table;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.scene.Scene;
@@ -74,7 +69,9 @@ public class GUIRequestHub extends RequestManager {
                 ScenePath.setNextScene(currentController.getPane().getScene(), ScenePath.SERVER_LOGIN);
             });
         } else {
-            //TODO -- stampa errore
+            Platform.runLater(()->{
+                ((ServerLoginController) currentController).resetAfterError();
+            });
         }
     }//TODO--gestione errore
 
@@ -305,9 +302,11 @@ public class GUIRequestHub extends RequestManager {
 
         else if(request instanceof EndByDisconnection){
             setCanHandleRequest(false);
+            String disconnectedName = ((EndByDisconnection) request).getDisconnectedPlayer();
             Platform.runLater(()->{
                 ScenePath.setDialog((Stage)scene.getWindow(),"Error",
-                    "Oops, seems like a player has disconnected. The game has ended");
+                    "Oops, seems like "+ ( disconnectedName.equals("An opponent") ? "an opponent" : disconnectedName)
+                            + " has disconnected. The game has ended");
             });
         }
     }

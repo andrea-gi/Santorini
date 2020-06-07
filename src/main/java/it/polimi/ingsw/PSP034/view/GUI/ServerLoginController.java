@@ -4,6 +4,8 @@ import it.polimi.ingsw.PSP034.messages.clientConfiguration.AnswerIP;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -22,6 +24,12 @@ public class ServerLoginController implements GUIController{
     private TextField enterServerPort;
     @FXML
     private Button submit;
+    @FXML
+    private Label error;
+    @FXML
+    private Label connecting;
+    @FXML
+    private ProgressBar bar;
 
     private String serverName;
     private String serverPort;
@@ -31,17 +39,12 @@ public class ServerLoginController implements GUIController{
         return pane;
     }
 
-    public String getEnterServerName() {
-        return enterServerName.getText();
-    }
-
-    public String getEnterServerPort() {
-        return enterServerPort.getText();
-    }
-
     @FXML
     private void initialize(){
         GUIRequestHub.getInstance().setCurrentController(this);
+        error.setId("error");
+        bar.setVisible(false);
+        connecting.setVisible(false);
     }
 
     /** Sends the chosen server ip and port and disables the Submit button and all the textfields.
@@ -51,18 +54,28 @@ public class ServerLoginController implements GUIController{
      * @param e is the ActionEvent of the mouse click
      */
     public void setSubmit(ActionEvent e){
-        if (getEnterServerName().isEmpty())
-            serverName = "localhost";
-        else
-            serverName = getEnterServerName();
-        if (getEnterServerPort().isEmpty())
-            serverPort = "2020";
-        else
-            serverPort = getEnterServerPort();
+        serverName = enterServerName.getText().isEmpty() ? "localhost" : enterServerName.getText();
+        serverPort = enterServerPort.getText().isEmpty() ? "2020" : enterServerPort.getText();
+        bar.setVisible(true);
+        connecting.setVisible(true);
+        error.setVisible(false);
         submit.setDisable(true);
         submit.setText("SUBMITTED!");
         enterServerName.setDisable(true);
         enterServerPort.setDisable(true);
         GUIRequestHub.getInstance().setStartedConnection(GUIRequestHub.getInstance().createConnection(new AnswerIP(serverName, Integer.parseInt(serverPort))));
+    }
+
+    public void resetAfterError(){
+        enterServerName.clear();
+        enterServerPort.clear();
+        enterServerName.setDisable(false);
+        enterServerPort.setDisable(false);
+        submit.setText("SUBMIT");
+        submit.setDisable(false);
+        error.setVisible(true);
+        error.setText("Could not establish connection. Try again!");
+        bar.setVisible(false);
+        connecting.setVisible(false);
     }
 }
