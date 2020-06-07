@@ -26,7 +26,7 @@
                 </Label>
                 <TextField fx:id="enterServerName" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="34.0" prefWidth="227.0" promptText="Default localhost">
                     <VBox.margin>
-                        <Insets bottom="30.0" left="530.0" right="520.0" />
+                        <Insets bottom="20.0" left="530.0" right="520.0" />
                     </VBox.margin>
                 </TextField>
                 <Label alignment="CENTER" contentDisplay="CENTER" layoutX="25.0" layoutY="146.0" prefHeight="29.0" prefWidth="247.0" text="Choose a Server port">
@@ -36,7 +36,7 @@
                 </Label>
                 <TextField fx:id="enterServerPort" layoutX="25.0" layoutY="191.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="34.0" prefWidth="325.0" promptText="Default 2020">
                     <VBox.margin>
-                        <Insets bottom="30.0" left="530.0" right="520.0" />
+                        <Insets bottom="20.0" left="530.0" right="520.0" />
                     </VBox.margin>
                 </TextField>
                 <Button fx:id="submit" alignment="CENTER" contentDisplay="CENTER" maxHeight="33.0" maxWidth="141.0" minHeight="33.0" minWidth="141.0" mnemonicParsing="false" onAction="#setSubmit" prefHeight="33.0" prefWidth="141.0" text="SUBMIT" textAlignment="CENTER">

@@ -4,7 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -16,7 +16,13 @@
     <children>
       <HBox prefHeight="720.0" prefWidth="1280.0">
          <children>
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="430.0" />
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="430.0">
+               <children>
+                  <ImageView fx:id="godImage" fitHeight="356.0" fitWidth="280.0" pickOnBounds="true" preserveRatio="true">
+                     <VBox.margin>
+                        <Insets bottom="70.0" />
+                     </VBox.margin></ImageView>
+               </children></VBox>
               <VBox fx:id="pane" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="430.0" stylesheets="@../style.css">
                   <children>
                         <Label alignment="CENTER" prefHeight="30.0" prefWidth="497.0" text="Choose all the Gods" textFill="WHITE">
@@ -42,92 +48,23 @@
                           </rowConstraints>
                           <children>
                               <CheckBox fx:id="Apollo" mnemonicParsing="false" text="Apollo" textFill="WHITE" wrapText="true">
-                                  <tooltip>
-                                      <Tooltip fx:id="apollotip" prefWidth="280.0" style="-fx-background-color: rgba(30,30,30,0.95);" text="You may move into an opponent's square and trade places with him " wrapText="true">
-                                </Tooltip>
-                                  </tooltip>
                                   <GridPane.margin>
                                       <Insets />
                                   </GridPane.margin>
                               </CheckBox>
-                              <CheckBox fx:id="Artemis" mnemonicParsing="false" text="Artemis" textFill="WHITE" GridPane.columnIndex="1">
-                                  <tooltip>
-                                      <Tooltip fx:id="artemistip" prefWidth="200.0" style="-fx-background-color: rgba(30,30,30,0.95);" text="You may move your worker twice, but not back to the original place" wrapText="true">
-                                </Tooltip>
-                                  </tooltip>
-                              </CheckBox>
-                              <CheckBox fx:id="Athena" mnemonicParsing="false" text="Hera" textFill="WHITE" GridPane.columnIndex="2">
-                           <tooltip>
-                                      <Tooltip fx:id="heratip" prefWidth="300.0" style="-fx-background-color: rgba(30,30,30,0.95);" text="An opponent cannot win by moving into a perimeter space" wrapText="true">
-                                   </Tooltip>
-                           </tooltip>
-                              </CheckBox>
-                              <CheckBox fx:id="Zeus" mnemonicParsing="false" text="Zeus" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                                  <tooltip>
-                                      <Tooltip fx:id="zeustip" prefWidth="150.0" style="-fx-background-color: rgba(30,30,30,0.95);" text="Your worker may build a block under himself" wrapText="true">
-                                    </Tooltip>
-                                  </tooltip>
-                              </CheckBox>
-                              <CheckBox fx:id="Atlas" mnemonicParsing="false" text="Atlas" textFill="WHITE" GridPane.rowIndex="1">
-                                  <tooltip>
-                                      <Tooltip fx:id="atlastip" prefWidth="300.0" style="-fx-background-color: rgba(30,30,30,0.95);" text="Your Worker may build a dome at any level" wrapText="true">
-                                    </Tooltip>
-                                  </tooltip>
-                              </CheckBox>
-                              <CheckBox fx:id="Demeter" mnemonicParsing="false" text="Demeter" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                  <tooltip>
-                                      <Tooltip fx:id="demetertip" prefWidth="200.0" style="-fx-background-color: rgba(30,30,30,0.95);" text="Your Worker may build one additional time, but not on the same space" wrapText="true">
-                                    </Tooltip>
-                                  </tooltip>
-                              </CheckBox>
-                              <CheckBox fx:id="Hestia" mnemonicParsing="false" text="Hestia" textFill="WHITE" GridPane.rowIndex="2">
-                           <tooltip>
-                                      <Tooltip fx:id="hestiatip" prefWidth="200.0" style="-fx-background-color: rgba(30,30,30,0.95);" text="Your worker may build one additional time, but this cannot be on a perimeter space" wrapText="true">
-                                    </Tooltip>
-                           </tooltip>
-                              </CheckBox>
-                              <CheckBox fx:id="Prometheus" mnemonicParsing="false" text="Prometheus" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                           <tooltip>
-                                      <Tooltip fx:id="prometheustip" prefWidth="150.0" style="-fx-background-color: rgba(30,30,30,0.95);" text="If your Worker does not move up, it may build both before and after moving" wrapText="true">
-                                    </Tooltip>
-                           </tooltip>
-                              </CheckBox>
-                              <CheckBox fx:id="Pan" mnemonicParsing="false" text="Pan" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="2">
-                           <tooltip>
-                                      <Tooltip fx:id="pantip" prefWidth="200.0" style="-fx-background-color: rgba(30,30,30,0.95);" text="You also win if your Worker moves down two or more levels" wrapText="true">
-                        </Tooltip>
-                           </tooltip>
-                              </CheckBox>
-                              <CheckBox fx:id="Hera" mnemonicParsing="false" text="Athena" textFill="WHITE" GridPane.rowIndex="3">
-                           <tooltip>
-                                      <Tooltip fx:id="athenatip" prefWidth="150.0" style="-fx-background-color: rgba(30,30,30,0.95);" text="If one of your Workers moved up on your last turn, opponent Workers cannot move up this turn" wrapText="true">
-                        </Tooltip>
-                           </tooltip>
-                              </CheckBox>
-                              <CheckBox fx:id="Minotaur" mnemonicParsing="false" text="Minotaur" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                           <tooltip>
-                                      <Tooltip fx:id="minotaurtip" prefWidth="300.0" style="-fx-background-color: rgba(30,30,30,0.95);" text="Your Worker may move into an opponent Worker's space, if their Worker can be forced one space straight backwards to an unoccupied space at any level" wrapText="true">
-                        </Tooltip>
-                           </tooltip>
-                              </CheckBox>
-                              <CheckBox fx:id="Limus" mnemonicParsing="false" text="Limus" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="3">
-                                  <tooltip>
-                                      <Tooltip fx:id="limustip" prefWidth="150.0" style="-fx-background-color: rgba(30,30,30,0.95);" text="Opponent worker cannot build on spaces neighboring your workers, unless for a dome on a complete tower" wrapText="true">
-                                    </Tooltip>
-                                  </tooltip>
-                              </CheckBox>
-                              <CheckBox fx:id="Triton" mnemonicParsing="false" text="Triton" textFill="WHITE" GridPane.rowIndex="4">
-                                  <tooltip>
-                                      <Tooltip fx:id="tritontip" prefWidth="300.0" style="-fx-background-color: rgba(30,30,30,0.95);" text="Each time your worker moves into a perimeter space, it may immediately move again" wrapText="true">
-                                </Tooltip>
-                                  </tooltip>
-                              </CheckBox>
-                              <CheckBox fx:id="Hephaestus" mnemonicParsing="false" text="Hephaestus" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="4">
-                                  <tooltip>
-                                      <Tooltip fx:id="hephaestustip" prefWidth="200.0" style="-fx-background-color: rgba(30,30,30,0.95);" text="Your Worker may build one additional block (not dome) on top of your first block" wrapText="true">
-                                </Tooltip>
-                                  </tooltip>
-                              </CheckBox>
+                              <CheckBox fx:id="Artemis" mnemonicParsing="false" text="Artemis" textFill="WHITE" GridPane.columnIndex="1" />
+                              <CheckBox fx:id="Athena" mnemonicParsing="false" text="Hera" textFill="WHITE" GridPane.columnIndex="2" />
+                              <CheckBox fx:id="Zeus" mnemonicParsing="false" text="Zeus" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                              <CheckBox fx:id="Atlas" mnemonicParsing="false" text="Atlas" textFill="WHITE" GridPane.rowIndex="1" />
+                              <CheckBox fx:id="Demeter" mnemonicParsing="false" text="Demeter" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <CheckBox fx:id="Hestia" mnemonicParsing="false" text="Hestia" textFill="WHITE" GridPane.rowIndex="2" />
+                              <CheckBox fx:id="Prometheus" mnemonicParsing="false" text="Prometheus" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <CheckBox fx:id="Pan" mnemonicParsing="false" text="Pan" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                              <CheckBox fx:id="Hera" mnemonicParsing="false" text="Athena" textFill="WHITE" GridPane.rowIndex="3" />
+                              <CheckBox fx:id="Minotaur" mnemonicParsing="false" text="Minotaur" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <CheckBox fx:id="Limus" mnemonicParsing="false" text="Limus" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                              <CheckBox fx:id="Triton" mnemonicParsing="false" text="Triton" textFill="WHITE" GridPane.rowIndex="4" />
+                              <CheckBox fx:id="Hephaestus" mnemonicParsing="false" text="Hephaestus" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                           </children>
                           <VBox.margin>
                               <Insets bottom="10.0" />
@@ -143,7 +80,15 @@
                       </Button>
                   </children>
               </VBox>
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="430.0" />
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="430.0">
+               <children>
+                  <ImageView fx:id="powerImage" fitHeight="60.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <Label fx:id="powerDescription" maxWidth="253.0" minWidth="149.0" prefHeight="238.0" prefWidth="253.0" textAlignment="CENTER" wrapText="true" />
+               </children></VBox>
          </children>
       </HBox>
     </children>

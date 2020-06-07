@@ -51,7 +51,7 @@
                               <ImageView fx:id="cardOne" fitHeight="280.0" fitWidth="189.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="40.83333333333334" AnchorPane.topAnchor="0.0" />
                               <ImageView fx:id="godOne" fitHeight="137.0" fitWidth="105.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="41.0" AnchorPane.topAnchor="40.0" />
                               <ImageView fx:id="powerOne" fitHeight="51.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="27.0" AnchorPane.topAnchor="199.0" />
-                              <Label fx:id="nameOne" alignment="CENTER" layoutX="25.0" prefHeight="20.0" prefWidth="140.0" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="2.0" />
+                              <Label fx:id="nameOne" alignment="CENTER" layoutX="25.0" prefHeight="20.0" prefWidth="140.0" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="5.0" />
                            </children>
                         </AnchorPane>
                         <AnchorPane maxHeight="280.0" maxWidth="189.0" prefHeight="280.0" prefWidth="189.0" GridPane.columnIndex="2" GridPane.rowIndex="0">
@@ -59,7 +59,7 @@
                               <ImageView fx:id="cardThree" fitHeight="280.0" fitWidth="189.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                               <ImageView fx:id="godThree" fitHeight="137.0" fitWidth="105.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="41.0" AnchorPane.topAnchor="40.0" />
                               <ImageView fx:id="powerThree" fitHeight="51.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="27.0" AnchorPane.topAnchor="199.0" />
-                              <Label fx:id="nameThree" alignment="CENTER" contentDisplay="CENTER" layoutX="17.0" prefHeight="20.0" prefWidth="140.0" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="2.0" />
+                              <Label fx:id="nameThree" alignment="CENTER" contentDisplay="CENTER" layoutX="17.0" prefHeight="20.0" prefWidth="140.0" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="5.0" />
                            </children>
                         </AnchorPane>
                         <AnchorPane maxHeight="280.0" maxWidth="189.0" prefHeight="280.0" prefWidth="189.0" GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.rowSpan="2147483647">
@@ -67,7 +67,7 @@
                               <ImageView fx:id="cardTwo" fitHeight="280.0" fitWidth="189.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                               <ImageView fx:id="godTwo" fitHeight="137.0" fitWidth="105.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="41.0" AnchorPane.topAnchor="40.0" />
                               <ImageView fx:id="powerTwo" fitHeight="51.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="27.0" AnchorPane.topAnchor="199.0" />
-                              <Label fx:id="nameTwo" alignment="CENTER" contentDisplay="CENTER" layoutX="12.0" layoutY="14.0" prefHeight="20.0" prefWidth="140.0" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="2.0" />
+                              <Label fx:id="nameTwo" alignment="CENTER" contentDisplay="CENTER" layoutX="12.0" layoutY="14.0" prefHeight="20.0" prefWidth="140.0" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="5.0" />
                            </children>
                            <GridPane.margin>
                               <Insets />
@@ -76,7 +76,7 @@
                         <AnchorPane maxHeight="280.0" maxWidth="567.0" minHeight="280.0" minWidth="567.0" prefHeight="280.0" prefWidth="567.0" GridPane.columnSpan="3" GridPane.rowIndex="2" GridPane.rowSpan="2147483647">
                            <children>
                               <ImageView fx:id="usePower" fitHeight="278.0" fitWidth="380.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="75.0" />
-                              <Label fx:id="description" alignment="CENTER" layoutX="117.0" layoutY="15.0" maxHeight="110.0" maxWidth="310.0" minHeight="70.0" minWidth="272.0" prefHeight="110.0" prefWidth="272.0" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="108.0" AnchorPane.topAnchor="15.0" />
+                              <Label fx:id="description" alignment="CENTER" layoutX="117.0" layoutY="15.0" maxHeight="110.0" maxWidth="310.0" minHeight="70.0" minWidth="272.0" prefHeight="110.0" prefWidth="272.0" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="15.0" />
                               <Button fx:id="submitPower" layoutX="10.0" layoutY="10.0" maxHeight="33.0" maxWidth="141.0" minHeight="33.0" minWidth="141.0" mnemonicParsing="false" onAction="#onClickSubmitPower" prefHeight="33.0" prefWidth="141.0" text="SUBMIT" AnchorPane.leftAnchor="190.0" AnchorPane.topAnchor="200.0">
                                  <padding>
                                     <Insets bottom="5.0" />

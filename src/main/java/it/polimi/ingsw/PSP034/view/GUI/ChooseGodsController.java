@@ -1,14 +1,17 @@
 package it.polimi.ingsw.PSP034.view.GUI;
 
 import it.polimi.ingsw.PSP034.messages.setupPhase.AnswerCardsChoice;
+import it.polimi.ingsw.PSP034.view.GodDescription;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.IntegerBinding;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -58,36 +61,14 @@ public class ChooseGodsController implements GUIController{
     private CheckBox Zeus;
 
     @FXML
-    private Button submit;
+    private ImageView godImage;
+    @FXML
+    private ImageView powerImage;
+    @FXML
+    private Label powerDescription;
 
     @FXML
-    private Tooltip apollotip;
-    @FXML
-    private Tooltip artemistip;
-    @FXML
-    private Tooltip athenatip;
-    @FXML
-    private Tooltip atlastip;
-    @FXML
-    private Tooltip demetertip;
-    @FXML
-    private Tooltip hephaestustip;
-    @FXML
-    private Tooltip minotaurtip;
-    @FXML
-    private Tooltip pantip;
-    @FXML
-    private Tooltip prometheustip;
-    @FXML
-    private Tooltip heratip;
-    @FXML
-    private Tooltip hestiatip;
-    @FXML
-    private Tooltip limustip;
-    @FXML
-    private Tooltip tritontip;
-    @FXML
-    private Tooltip zeustip;
+    private Button submit;
 
     private int number;
     private final IntegerBinding numberOfSelectedGods = Bindings.size(chosenGods);
@@ -97,11 +78,9 @@ public class ChooseGodsController implements GUIController{
     private void initialize(){
         GUIRequestHub.getInstance().setCurrentController(this);
         submit.setDisable(true);
-        ArrayList<Tooltip> tp = new ArrayList<>(Arrays.asList(apollotip, artemistip,athenatip, atlastip, demetertip,
-                hephaestustip, heratip, hestiatip, minotaurtip, pantip, prometheustip, limustip, tritontip, zeustip));
-        for (Tooltip t: tp ) {
-            t.setShowDelay(Duration.seconds(0.01));
-        }
+        godImage.setVisible(false);
+        powerImage.setVisible(false);
+        powerDescription.setVisible(false);
         CheckBox[] allPossibleGods = new CheckBox[]{Apollo, Artemis, Athena, Atlas, Demeter, Hephaestus, Hera, Hestia,
             Minotaur, Pan, Prometheus, Limus, Triton, Zeus};
 
@@ -109,6 +88,22 @@ public class ChooseGodsController implements GUIController{
 
         for (CheckBox myGod: remainingGods) {
             setMyGods(myGod);
+            myGod.hoverProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue){
+                    godImage.setImage(new Image(GodPath.getPath(myGod.getText()), 280, 356, true, true));
+                    godImage.setVisible(true);
+                    powerImage.setImage(new Image(GodPath.getPower(myGod.getText()), 149, 60, true, true));
+                    powerImage.setVisible(true);
+                    powerDescription.setText(GodDescription.getPower(myGod.getText()));
+                    powerDescription.setId("powerDescription");
+                    powerDescription.setVisible(true);
+                }
+                else {
+                    godImage.setVisible(false);
+                    powerImage.setVisible(false);
+                    powerDescription.setVisible(false);
+                }
+            });
         }
 
         numberOfSelectedGods.addListener((observer, oldNumber, newNumber) -> {
@@ -124,7 +119,7 @@ public class ChooseGodsController implements GUIController{
     }
 
     /** Checks if the god is selected: if so, it is added to a list of chosen gods, else it is added
-     * to the list of remaining gods.     *
+     * to the list of remaining gods.
      * @param myGod is the selected or unselected god
      */
     @FXML
