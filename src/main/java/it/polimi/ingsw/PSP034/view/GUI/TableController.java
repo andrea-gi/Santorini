@@ -8,6 +8,7 @@ import it.polimi.ingsw.PSP034.messages.playPhase.AnswerBooleanChoice;
 import it.polimi.ingsw.PSP034.messages.playPhase.RequestAction;
 import it.polimi.ingsw.PSP034.messages.playPhase.RequiredActions;
 import it.polimi.ingsw.PSP034.messages.setupPhase.AnswerPlaceWorker;
+import javafx.animation.FadeTransition;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,6 +26,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 
@@ -130,7 +132,7 @@ public class TableController implements GUIController{
 
     private enum EndGameButtons{
         PLAY_AGAIN,
-        KEEP_WATCHING;
+        KEEP_WATCHING
     }
 
     @Override
@@ -265,16 +267,38 @@ public class TableController implements GUIController{
      */
     public void updateWin(String winner, String loser){
         Image winnerGod;
-        pane.getChildren().add(blackOverlay);
+        FadeTransition transOverlay = new FadeTransition(Duration.seconds(2), blackOverlay);
+        transOverlay.setFromValue(.20);
+        transOverlay.setToValue(1);
+        transOverlay.play();
+        pane.getChildren().add(blackOverlay);;
         winnerGod = getGodImageByUser(winner);
         ImageView winnerGodImageView = new ImageView(winnerGod);
         if (winnerGod!=null) {
+            FadeTransition transGod = new FadeTransition(Duration.seconds(2), winnerGodImageView);
+            transGod.setFromValue(0);
+            transGod.setToValue(1);
+            //transGod.setDelay(Duration.seconds(2.1));
+            transGod.play();
+            StackPane.setAlignment(winnerGodImageView, Pos.CENTER);
+            StackPane.setMargin(winnerGodImageView, new Insets(0,0,100,0));
             pane.getChildren().add(winnerGodImageView);
         }
-        pane.getChildren().add(new ImageView(new Image("/images/victory.png", 1280, 720, true, true)));
+        ImageView victory = new ImageView(new Image("/images/victory.png", 1280, 720, true, true));
+        FadeTransition transVictory = new FadeTransition(Duration.seconds(2), victory);
+        transVictory.setFromValue(0);
+        transVictory.setToValue(1);
+        //transVictory.setDelay(Duration.seconds(1.5));
+        transVictory.play();
+        pane.getChildren().add(victory);
         victoryMessage.setText("YOU WIN!");
-        pane.getChildren().add(victoryMessage);
         StackPane.setAlignment( victoryMessage, Pos.BOTTOM_CENTER );
+        FadeTransition transMessage = new FadeTransition(Duration.seconds(2), victoryMessage);
+        transMessage.setFromValue(0);
+        transMessage.setToValue(1);
+        //transMessage.setDelay(Duration.seconds(1.8));
+        transMessage.play();
+        pane.getChildren().add(victoryMessage);
         Label loserMessage = null;
         if (!loser.isEmpty()){
             setCardOpacity(loser, 0.4);
@@ -295,6 +319,10 @@ public class TableController implements GUIController{
     public void updateLose(String winner, String[] losers){
         ImageView victory;
         pane.getChildren().add(blackOverlay);
+        FadeTransition transOverlay = new FadeTransition(Duration.seconds(2), blackOverlay);
+        transOverlay.setFromValue(.20);
+        transOverlay.setToValue(1);
+        transOverlay.play();
         Image winnerGod = getGodImageByUser(winner);
 
         for (String loser : losers) {
@@ -304,9 +332,23 @@ public class TableController implements GUIController{
         Label winnerName = new Label();
         if (!winner.isEmpty()) {
             victory  = new ImageView(new Image("images/victory.png", 1280, 720, true, true));
-            if (winnerGod!=null)
-                pane.getChildren().add(new ImageView(winnerGod));
-            //StackPane.setAlignment(winnerGod, Pos.CENTER);
+            FadeTransition transVictory = new FadeTransition(Duration.seconds(2), victory);
+            transVictory.setFromValue(0);
+            transVictory.setToValue(1);
+            //transVictory.setDelay(Duration.seconds(1.5));
+            transVictory.play();
+            ImageView winnerGodImageView = new ImageView();
+            if (winnerGod!=null) {
+                winnerGodImageView = new ImageView(winnerGod);
+                StackPane.setAlignment(winnerGodImageView, Pos.CENTER);
+                StackPane.setMargin(winnerGodImageView, new Insets(0,0,100,0));
+                pane.getChildren().add(winnerGodImageView);
+                FadeTransition transGod = new FadeTransition(Duration.seconds(2), winnerGodImageView);
+                transGod.setFromValue(0);
+                transGod.setToValue(1);
+                //transGod.setDelay(Duration.seconds(1.8));
+                transGod.play();
+            }
             winnerName.setText(winner + " won!");
             winnerName.setId("loserLabel");
             pane.getChildren().add(winnerName);
@@ -324,6 +366,11 @@ public class TableController implements GUIController{
         }
         pane.getChildren().add(victory);
         pane.getChildren().add(victoryMessage);
+        FadeTransition transMessage = new FadeTransition(Duration.seconds(2), victoryMessage);
+        transMessage.setFromValue(0);
+        transMessage.setToValue(1);
+        //transMessage.setDelay(Duration.seconds(1.8));
+        transMessage.play();
     }
 
     /** Shows the play again or keep watching button and the exit button at the end of a specific
@@ -332,6 +379,7 @@ public class TableController implements GUIController{
      * @param victory is the victory image to delete from screen
      * @param winnerName is the message to delete from screen
      */
+    //TODO -- gestire il keep watching se non pigia il bottone
     private void showButtonsEndGame(EndGameButtons button, ImageView victory, Label winnerName){
         Button quit = new Button();
         quit.setText("EXIT");

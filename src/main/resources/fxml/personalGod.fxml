@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -14,7 +15,7 @@
             <children>
                 <Label alignment="CENTER" layoutX="25.0" layoutY="146.0" prefHeight="30.0" prefWidth="324.0" text="Choose your God">
                     <VBox.margin>
-                        <Insets />
+                        <Insets top="5.0" />
                     </VBox.margin>
                 </Label>
             <HBox alignment="TOP_CENTER" prefHeight="350.0" prefWidth="1200.0">
@@ -22,28 +23,35 @@
                   <VBox alignment="TOP_CENTER" prefHeight="350.0" prefWidth="400.0">
                      <children>
                         <Label fx:id="labelOne" />
-                        <RadioButton fx:id="one" mnemonicParsing="false" onAction="#setChosenGod" prefHeight="254.5" prefWidth="200.0" wrapText="true">
+                        <RadioButton fx:id="one" maxHeight="266.0" maxWidth="177.0" minHeight="226.0" minWidth="177.0" mnemonicParsing="false" onAction="#setChosenGod" prefHeight="226.0" prefWidth="177.0" wrapText="true">
                            <VBox.margin>
-                              <Insets bottom="20.0" top="30.0" />
+                              <Insets bottom="22.0" top="10.0" />
                            </VBox.margin></RadioButton>
+                        <ImageView fx:id="powerOne" fitHeight="48.0" fitWidth="119.2" pickOnBounds="true" preserveRatio="true">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </ImageView>
                      </children>
                   </VBox>
                   <VBox alignment="TOP_CENTER" prefHeight="350.0" prefWidth="400.0">
                      <children>
                         <Label fx:id="labelThree" />
-                        <RadioButton fx:id="three" mnemonicParsing="false" onAction="#setChosenGod" prefHeight="254.5" prefWidth="200.0" wrapText="true">
+                        <RadioButton fx:id="three" maxHeight="226.0" maxWidth="177.0" minHeight="226.0" minWidth="177.0" mnemonicParsing="false" onAction="#setChosenGod" prefHeight="226.0" prefWidth="177.0" wrapText="true">
                            <VBox.margin>
-                              <Insets bottom="20.0" top="30.0" />
+                              <Insets bottom="22.0" top="10.0" />
                            </VBox.margin></RadioButton>
+                        <ImageView fx:id="powerThree" fitHeight="48.0" fitWidth="119.2" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </VBox>
                   <VBox alignment="TOP_CENTER" prefHeight="350.0" prefWidth="400.0">
                      <children>
                         <Label fx:id="labelTwo" />
-                        <RadioButton fx:id="two" mnemonicParsing="false" onAction="#setChosenGod" prefHeight="254.5" prefWidth="200.0" wrapText="true">
+                        <RadioButton fx:id="two" maxHeight="226.0" maxWidth="177.0" minHeight="226.0" minWidth="177.0" mnemonicParsing="false" onAction="#setChosenGod" prefHeight="226.0" prefWidth="177.0" wrapText="true">
                            <VBox.margin>
-                              <Insets bottom="20.0" top="30.0" />
+                              <Insets bottom="22.0" top="10.0" />
                            </VBox.margin></RadioButton>
+                        <ImageView fx:id="powerTwo" fitHeight="48.0" fitWidth="119.2" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </VBox>
                </children>

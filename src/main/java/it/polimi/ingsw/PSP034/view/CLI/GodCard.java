@@ -1,7 +1,8 @@
-package it.polimi.ingsw.PSP034.view.CLI.printables.godcards;
+package it.polimi.ingsw.PSP034.view.CLI;
 
 import it.polimi.ingsw.PSP034.view.CLI.printables.ANSI;
 import it.polimi.ingsw.PSP034.view.CLI.printables.PrintableObject;
+import it.polimi.ingsw.PSP034.view.GodDescription;
 
 import java.util.ArrayList;
 
@@ -21,13 +22,8 @@ public class GodCard extends PrintableObject {
     }
 
     private void construct(){
-        String godPower = "";
-        for(GodDescription god : GodDescription.values()){
-            if (godName.equals(god.getName())){
-                godPower = god.getPower();
-                break;
-            }
-        }
+        String godPower = GodDescription.getPower(godName);
+
         ArrayList<String> constructionArray = new ArrayList<>();
 
         constructionArray.add(frameColor + "╔══════════════════════════════════════╗"+ ANSI.reset);

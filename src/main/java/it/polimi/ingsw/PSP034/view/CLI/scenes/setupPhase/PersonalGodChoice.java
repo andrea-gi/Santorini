@@ -3,7 +3,7 @@ package it.polimi.ingsw.PSP034.view.CLI.scenes.setupPhase;
 import it.polimi.ingsw.PSP034.view.CLI.printables.*;
 import it.polimi.ingsw.PSP034.view.CLI.printables.arrangements.HorizontalArrangement;
 import it.polimi.ingsw.PSP034.view.CLI.printables.arrangements.VerticalArrangement;
-import it.polimi.ingsw.PSP034.view.CLI.printables.godcards.GodCard;
+import it.polimi.ingsw.PSP034.view.CLI.GodCard;
 import it.polimi.ingsw.PSP034.view.CLI.scenes.Scene;
 
 public class PersonalGodChoice extends Scene {

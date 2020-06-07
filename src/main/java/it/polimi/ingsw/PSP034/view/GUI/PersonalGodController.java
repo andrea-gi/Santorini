@@ -1,15 +1,14 @@
 package it.polimi.ingsw.PSP034.view.GUI;
 
 import it.polimi.ingsw.PSP034.messages.setupPhase.AnswerPersonalGod;
+import it.polimi.ingsw.PSP034.view.GodDescription;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.util.Duration;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -47,6 +46,15 @@ public class PersonalGodController implements GUIController {
     private Label labelThree;
 
     @FXML
+    private ImageView powerOne;
+
+    @FXML
+    private ImageView powerTwo;
+
+    @FXML
+    private ImageView powerThree;
+
+    @FXML
     private void initialize() {
         GUIRequestHub.getInstance().setCurrentController(this);
         submit.setDisable(true);
@@ -62,6 +70,9 @@ public class PersonalGodController implements GUIController {
         one.setVisible(false);
         two.setVisible(false);
         three.setVisible(false);
+        powerOne.setVisible(false);
+        powerTwo.setVisible(false);
+        powerThree.setVisible(false);
         gods.selectedToggleProperty().addListener((observable, oldToggle, newToggle) -> {
 
             RadioButton chosen = (RadioButton) gods.getSelectedToggle();
@@ -126,7 +137,7 @@ public class PersonalGodController implements GUIController {
         else{
             path = GodPath.getPath(god);
         }
-        Image godCard = new Image(getClass().getResource(path).toExternalForm(), 200, 254.5, true, true);
+        Image godCard = new Image(getClass().getResource(path).toExternalForm(), 177, 226, true, true);
         radioButton.setBackground(new Background(new BackgroundImage(
                 godCard,
                 BackgroundRepeat.NO_REPEAT,
@@ -154,6 +165,7 @@ public class PersonalGodController implements GUIController {
         myGods.addAll(Arrays.asList(possibleGods));
         RadioButton[] buttons = new RadioButton[]{one, two, three};
         Label[] labels = new Label[]{labelOne, labelTwo, labelThree};
+        ImageView[] powers = new ImageView[]{powerOne, powerTwo, powerThree};
         String name;
         for (int i = 0; i < possibleGods.length+chosen.length; i++){
             if (i < possibleGods.length){
@@ -170,6 +182,12 @@ public class PersonalGodController implements GUIController {
             labels[i].setId("godName");
             buttons[i].setId("godButton");
             buttons[i].setVisible(true);
+            powers[i].setVisible(true);
+            powers[i].setImage(new Image(GodPath.getPower(name), 119.2, 48, true, true));
+            Tooltip powerTooltip = new Tooltip(GodDescription.getPower(name));
+            Tooltip.install(powers[i],powerTooltip);
+            powerTooltip.setShowDelay(Duration.seconds(0.01));
+            powerTooltip.setMaxWidth(200);
         }
 
     }

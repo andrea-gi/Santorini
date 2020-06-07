@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP034.view.CLI.printables.godcards;
+package it.polimi.ingsw.PSP034.view;
 
 public enum GodDescription{
     APOLLO("Apollo", "Your Move: Your Worker may move into an opponent Worker's space (using normal movement rules) and force their Worker to the space yours just vacated (swapping their positions)."),
@@ -31,5 +31,16 @@ public enum GodDescription{
 
     public String getPower() {
         return power;
+    }
+
+    public static String getPower(String godName){
+        String godPower = "";
+        for(GodDescription god : GodDescription.values()){
+            if (godName.equals(god.getName())){
+                godPower = god.getPower();
+                break;
+            }
+        }
+        return godPower;
     }
 }

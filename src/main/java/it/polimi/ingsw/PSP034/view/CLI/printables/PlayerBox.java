@@ -1,7 +1,7 @@
 package it.polimi.ingsw.PSP034.view.CLI.printables;
 
 import it.polimi.ingsw.PSP034.constants.PlayerColor;
-import it.polimi.ingsw.PSP034.view.CLI.printables.godcards.GodDescription;
+import it.polimi.ingsw.PSP034.view.GodDescription;
 
 import java.util.ArrayList;
 
@@ -15,12 +15,7 @@ public class PlayerBox extends PrintableObject{
         super();
         this.playerName = playerName;
         this.godName = godName;
-        for(GodDescription god : GodDescription.values()){
-            if (godName.equals(god.getName())){
-                this.godPower = god.getPower();
-                break;
-            }
-        }
+        this.godPower = GodDescription.getPower(godName);
         this.color = color;
         ArrayList<String> constructionArray = new ArrayList<>();
 

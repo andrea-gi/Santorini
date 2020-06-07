@@ -100,7 +100,7 @@ public class ChooseGodsController implements GUIController{
         ArrayList<Tooltip> tp = new ArrayList<>(Arrays.asList(apollotip, artemistip,athenatip, atlastip, demetertip,
                 hephaestustip, heratip, hestiatip, minotaurtip, pantip, prometheustip, limustip, tritontip, zeustip));
         for (Tooltip t: tp ) {
-            t.setShowDelay(Duration.seconds(0));
+            t.setShowDelay(Duration.seconds(0.01));
         }
         CheckBox[] allPossibleGods = new CheckBox[]{Apollo, Artemis, Athena, Atlas, Demeter, Hephaestus, Hera, Hestia,
             Minotaur, Pan, Prometheus, Limus, Triton, Zeus};

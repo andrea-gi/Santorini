@@ -15,7 +15,7 @@ import it.polimi.ingsw.PSP034.messages.serverConfiguration.AnswerNumber;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.RequestNameColor;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.RequestServerConfig;
 import it.polimi.ingsw.PSP034.messages.setupPhase.*;
-import it.polimi.ingsw.PSP034.view.CLI.printables.godcards.GodDescription;
+import it.polimi.ingsw.PSP034.view.GodDescription;
 
 public class AnswerComposer {
     private final Request request;

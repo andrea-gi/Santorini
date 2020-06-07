@@ -36,7 +36,7 @@
 #boardPlayerName{
     -fx-text-fill: white;
     -fx-font-weight: bold;
-    -fx-font-size: 16pt;
+    -fx-font-size: 15pt;
 }
 
 .label {
@@ -208,6 +208,8 @@
     -fx-font-family: "Agency FB";
     -fx-text-fill: #ffffff;
     -fx-font-weight: normal;
+    -fx-background-color: #010101;
+    -fx-wrap-text: true;
 }
 
 #dialogScene{
@@ -243,13 +245,13 @@
 #enabledTile{
     -fx-border-color: #d69600;
     -fx-background-color: #fff300;
-    -fx-opacity: 0.3;
+    -fx-opacity: 0.5;
 }
 
 #enabledTile:hover{
     -fx-border-color: #d69600;
     -fx-background-color: #fff300;
-    -fx-opacity: 0.6;
+    -fx-opacity: 0.75;
 }
 
 #disabledTile{

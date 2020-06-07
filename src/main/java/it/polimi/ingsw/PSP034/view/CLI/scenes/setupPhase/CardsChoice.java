@@ -4,7 +4,7 @@ package it.polimi.ingsw.PSP034.view.CLI.scenes.setupPhase;
 import it.polimi.ingsw.PSP034.view.CLI.printables.*;
 import it.polimi.ingsw.PSP034.view.CLI.printables.arrangements.HorizontalArrangement;
 import it.polimi.ingsw.PSP034.view.CLI.printables.arrangements.VerticalArrangement;
-import it.polimi.ingsw.PSP034.view.CLI.printables.godcards.GodDescription;
+import it.polimi.ingsw.PSP034.view.GodDescription;
 import it.polimi.ingsw.PSP034.view.CLI.scenes.Scene;
 
 public class CardsChoice extends Scene {
