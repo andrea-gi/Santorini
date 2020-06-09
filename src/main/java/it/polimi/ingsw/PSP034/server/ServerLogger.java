@@ -1,6 +1,7 @@
 package it.polimi.ingsw.PSP034.server;
 
 import it.polimi.ingsw.PSP034.messages.Answer;
+import it.polimi.ingsw.PSP034.messages.HeartBeatRequest;
 import it.polimi.ingsw.PSP034.messages.Request;
 import it.polimi.ingsw.PSP034.messages.gameOverPhase.*;
 import it.polimi.ingsw.PSP034.messages.playPhase.*;
@@ -112,6 +113,8 @@ public class ServerLogger {
      * @param color Color of the message recipient (ANSI)
      */
     public void printRequestMessage(Request message, String playerName, String color){
+        /*if (message instanceof HeartBeatRequest)
+            return;*/ //TODO -- debug
         String messageDetailedInfo = "";
         if (message instanceof PlayRequest)
             messageDetailedInfo = detailedPlayRequest((PlayRequest) message);

@@ -1,13 +1,9 @@
 package it.polimi.ingsw.PSP034.server;
 
 import it.polimi.ingsw.PSP034.constants.PlayerColor;
-import it.polimi.ingsw.PSP034.messages.Answer;
-import it.polimi.ingsw.PSP034.messages.ModelUpdate;
-import it.polimi.ingsw.PSP034.messages.Request;
+import it.polimi.ingsw.PSP034.messages.*;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.AutoCloseRequest;
-import it.polimi.ingsw.PSP034.messages.gameOverPhase.EndByDisconnection;
 import it.polimi.ingsw.PSP034.messages.gameOverPhase.PersonalDefeatRequest;
-import it.polimi.ingsw.PSP034.messages.gameOverPhase.WinnerRequest;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.*;
 import it.polimi.ingsw.PSP034.view.CLI.printables.ANSI;
 
@@ -16,8 +12,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Random;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.*;
 
 /**
  * Manages the server socket connection to a single client.
@@ -116,6 +111,38 @@ class ClientHandler implements IClientConnection, Runnable{
         }
     }
 
+    private final ScheduledThreadPoolExecutor waitingHeartBeat = new ScheduledThreadPoolExecutor(1);
+    private final ExecutorService heartBeatManager = Executors.newSingleThreadExecutor();
+
+    private boolean receivedHeartBeat = false;
+
+    private synchronized boolean hasReceivedHeartBeat(){
+        return receivedHeartBeat;
+    }
+
+    private synchronized void setReceivedHeartBeat(boolean received){
+        this.receivedHeartBeat = received;
+    }
+
+    private void waitHeartBeat(){
+        waitingHeartBeat.schedule(()->
+        {
+            if (!hasReceivedHeartBeat()){
+                if (isActive())
+                    logger.printString(playerName + " heartbeat missing. Disconnecting.");
+                this.close();
+            } else{
+                heartBeatManager.execute(this::sendHeartBeat);
+            }
+        }, 5, TimeUnit.SECONDS);
+    }
+
+    private void sendHeartBeat(){
+        setReceivedHeartBeat(false);
+        asyncSend(new HeartBeatRequest());
+        waitHeartBeat();
+    }
+
     /**
      * Manages a message that causes a disconnection.
      * Used in {@link ClientHandler#send()} method, in order to process the info right after the notification of disconnection
@@ -166,6 +193,7 @@ class ClientHandler implements IClientConnection, Runnable{
             in = new ObjectInputStream(socket.getInputStream());
             out = new ObjectOutputStream(socket.getOutputStream());
             new Thread(this::send).start();
+            heartBeatManager.execute(this::sendHeartBeat);
         } catch (IOException e) {
             logger.printString("Cannot open input/output stream ("+ debugColor + playerName + ANSI.reset + ")");
             close();
@@ -180,7 +208,12 @@ class ClientHandler implements IClientConnection, Runnable{
         while(isActive()){
             try{
                 Answer message = (Answer) in.readObject();
-                server.addMessage(message, this);
+                if (message instanceof HeartBeatAnswer){
+                    setReceivedHeartBeat(true);
+                }
+                else{
+                    server.addMessage(message, this);
+                }
             } catch (IOException e) {
                 logger.printString("IOException in ClientHandler - run() (" + debugColor + playerName + ANSI.reset + "). Normally caused by disconnection.");
                 close();

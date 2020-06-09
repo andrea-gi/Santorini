@@ -1,5 +1,7 @@
 package it.polimi.ingsw.PSP034.client;
 
+import it.polimi.ingsw.PSP034.messages.HeartBeatAnswer;
+import it.polimi.ingsw.PSP034.messages.HeartBeatRequest;
 import it.polimi.ingsw.PSP034.messages.Request;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.AutoCloseRequest;
 import it.polimi.ingsw.PSP034.messages.gameOverPhase.EndByDisconnection;
@@ -74,12 +76,16 @@ public class Client implements Runnable{
             try{
                 Object receivedMessage = in.readObject();
                 if (receivedMessage instanceof Request && canManageMessages){
-                    requestQueue.put((Request) receivedMessage);
-                    if (Request.isSilentCloseRequest((Request) receivedMessage)){
-                        this.silentEnded = true;
-                        clientGameHandler.setSilentEnded(true);
+                    if (receivedMessage instanceof HeartBeatRequest){
+                        clientGameHandler.send(new HeartBeatAnswer());
+                    } else {
+                        requestQueue.put((Request) receivedMessage);
+                        if (Request.isSilentCloseRequest((Request) receivedMessage)) {
+                            this.silentEnded = true;
+                            clientGameHandler.setSilentEnded(true);
+                        }
                     }
-                } //else if PING
+                }
             }
             catch (IOException | ClassNotFoundException | InterruptedException e){
                 //requestQueue.clear();
