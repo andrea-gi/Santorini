@@ -338,7 +338,10 @@ public class GUIRequestHub extends RequestManager {
 
     @Override
     public void showError(ErrorMessage error) {
-        //TODO
+        Scene scene = currentController.getPane().getScene();
+        Platform.runLater(()->{
+            ScenePath.setDialog((Stage)scene.getWindow(),"Error", error.getDescription() + "\n" + error.getCode());
+        });
     }
 
     /**

@@ -40,7 +40,7 @@
 }
 
 .label {
-    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.6, 0.8);
+    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.8, 0.8);
     -fx-font-size: 18pt;
     -fx-font-family: "LillyBelle";
     -fx-text-fill: #9b6029;
@@ -56,7 +56,7 @@
     -fx-text-fill: rgb(255, 255, 255);
     -fx-font-size: 11pt;
     -fx-font-family: "LillyBelle";
-    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.6, 0.8);
+    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.8, 0.8);
 }
 
 .button:pressed{
@@ -68,7 +68,7 @@
     -fx-text-fill: rgb(255, 255, 255);
     -fx-font-size: 11pt;
     -fx-font-family: "LillyBelle";
-    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.6, 0.8);
+    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.8, 0.8);
 }
 
 #buttonPlay{
@@ -119,7 +119,7 @@
     -fx-font-family: "LillyBelle";
     -fx-text-fill: #9b6029;
     -fx-font-weight: bold;
-    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.6, 0.8);
+    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.8, 0.8);
 }
 
 #redButton{
@@ -196,15 +196,15 @@
 }
 
 .check-box{
-    -fx-font-size: 11pt;
+    -fx-font-size: 13pt;
     -fx-font-family: "LillyBelle";
     -fx-text-fill: #9b6029;
     -fx-font-weight: bold;
-    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.1), 0.3, 0, 0.6, 0.8);
+    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.1), 0.3, 0, 0.8, 0.8);
 }
 
 .tooltip{
-    -fx-font-size: 13pt;
+    -fx-font-size: 14pt;
     -fx-font-family: "Agency FB";
     -fx-text-fill: #ffffff;
     -fx-font-weight: normal;
@@ -221,7 +221,7 @@
     -fx-text-alignment: center;
     -fx-font-size: 14pt;
     -fx-wrap-text: true;
-    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.6, 0.8);
+    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.8, 0.8);
 }
 
 #dialogTitle {
@@ -229,7 +229,7 @@
     -fx-wrap-text: true;
     -fx-text-fill: white;
     -fx-font-size: 17pt;
-    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.6, 0.8);
+    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.8, 0.8);
 }
 
 #error{
@@ -239,13 +239,13 @@
 
 #godName{
     -fx-font-size: 19pt;
-    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.6, 0.8);
+    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.8, 0.8);
 }
 
 #enabledTile{
     -fx-border-color: #d69600;
     -fx-background-color: #fff300;
-    -fx-opacity: 0.45;
+    -fx-opacity: 0.4;
 }
 
 #enabledTile:hover{
@@ -307,7 +307,7 @@
     -fx-font-size: 10pt;
     -fx-font-weight: bold;
     -fx-font-family: "LillyBelle";
-    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.6, 0.8);
+    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.8, 0.8);
 }
 
 #keepWatching:hover{
@@ -336,7 +336,7 @@
     -fx-font-size: 11pt;
     -fx-font-weight: bold;
     -fx-font-family: "LillyBelle";
-    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.6, 0.8);
+    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.8, 0.8);
 }
 
 #quit:hover{

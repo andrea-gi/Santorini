@@ -483,6 +483,7 @@ public class TableController implements GUIController{
         togglePower.setDisable(true);
         submitPower.setVisible(false);
         togglePower.setVisible(false);
+        message.setVisible(false);
     }
 
     /** Enables or disables only the tiles of the workers who can perform an action
