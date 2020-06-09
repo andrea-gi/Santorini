@@ -3,7 +3,6 @@ package it.polimi.ingsw.PSP034.client;
 import it.polimi.ingsw.PSP034.messages.Answer;
 import it.polimi.ingsw.PSP034.messages.Request;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.AutoCloseAnswer;
-import it.polimi.ingsw.PSP034.messages.clientConfiguration.AutoCloseRequest;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.ErrorMessage;
 import it.polimi.ingsw.PSP034.view.GameException;
 
@@ -99,21 +98,17 @@ public class ClientGameHandler implements Runnable{
                     queue.clear();
                 }
 
-                else if (message instanceof AutoCloseRequest) {
-                    closeStream();
-                    throw new GameException("C002", "Connection error. Could not receive message.");
-                }
                 if (message != null)
                     requestManager.handleRequest(message);
 
-            } catch (InterruptedException e) {
-                setActive(false);
-                if (!isSilentEnded())
-                    requestManager.showError(new ErrorMessage("C003", "Fatal error."));
             } catch (GameException e){
                 setActive(false);
                 if (!isSilentEnded())
                     requestManager.showError(new ErrorMessage(e.getCode(), e.getMessage()));
+            } catch (Exception e) {
+                setActive(false);
+                if (!isSilentEnded())
+                    requestManager.showError(new ErrorMessage("C003", "Fatal error."));
             }
         }
     }

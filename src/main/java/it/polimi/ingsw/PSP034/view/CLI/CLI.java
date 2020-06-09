@@ -27,6 +27,7 @@ public class CLI extends RequestManager implements Runnable {
     @Override
     public void showError(ErrorMessage error) {
         CLIRequestHub.newRequest(error);
+        System.exit(0);
     }
 
     /**

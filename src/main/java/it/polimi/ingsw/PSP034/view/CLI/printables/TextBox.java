@@ -16,11 +16,12 @@ public class TextBox extends PrintableObject{
         ANSI.moveTo(super.getStartLine()+1, super.getStartColumn());
         Scanner scan = new Scanner(System.in);
         boolean incorrectInput;
-        String answer;
+        String answer = "";
         int lastErrorLength = 0;
         do {
             incorrectInput = false;
-            answer = scan.nextLine();
+            if(scan.hasNextLine())
+                answer = scan.nextLine();
             for (RegexCondition regexCondition : regex) {
                 if (!answer.matches(regexCondition.getRegex())) {
                     incorrectInput = true;

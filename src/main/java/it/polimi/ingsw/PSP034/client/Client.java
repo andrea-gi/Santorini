@@ -3,19 +3,13 @@ package it.polimi.ingsw.PSP034.client;
 import it.polimi.ingsw.PSP034.messages.HeartBeatAnswer;
 import it.polimi.ingsw.PSP034.messages.HeartBeatRequest;
 import it.polimi.ingsw.PSP034.messages.Request;
-import it.polimi.ingsw.PSP034.messages.clientConfiguration.AutoCloseRequest;
-import it.polimi.ingsw.PSP034.messages.gameOverPhase.EndByDisconnection;
-import it.polimi.ingsw.PSP034.messages.gameOverPhase.PersonalDefeatRequest;
-import it.polimi.ingsw.PSP034.messages.gameOverPhase.WinnerRequest;
-import it.polimi.ingsw.PSP034.messages.serverConfiguration.RequestServerConfig;
-import it.polimi.ingsw.PSP034.messages.serverConfiguration.ServerInfo;
+import it.polimi.ingsw.PSP034.messages.clientConfiguration.ErrorMessage;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.*;
 
 public class Client implements Runnable{
     private String address;
@@ -61,13 +55,31 @@ public class Client implements Runnable{
         try {
             clientEnded = true;
             in.close();
+            socket.close();
         } catch (IOException ignored){
         }finally {
+            if (futureHeartBeat != null)
+                futureHeartBeat.cancel(true);
             if (!silentEnded) {
-                requestQueue.offer(new AutoCloseRequest());
+                requestManager.showError(new ErrorMessage("C002", "Connection error. Could not receive message."));
             }
         }
     }
+
+    private final ScheduledThreadPoolExecutor waitingHeartBeat = new ScheduledThreadPoolExecutor(1);
+
+    private ScheduledFuture<Boolean> waitHeartBeat(){
+        return waitingHeartBeat.schedule(()->
+        {
+            silentEnded = true;
+            clientGameHandler.setSilentEnded(true);
+            closeStreams();
+            requestManager.showError(new ErrorMessage("S002", "Server is not responding."));
+            return false;
+        }, 10, TimeUnit.SECONDS);
+    }
+
+    private ScheduledFuture<Boolean> futureHeartBeat;
 
     @Override
     public void run() {
@@ -77,9 +89,12 @@ public class Client implements Runnable{
                 Object receivedMessage = in.readObject();
                 if (receivedMessage instanceof Request && canManageMessages){
                     if (receivedMessage instanceof HeartBeatRequest){
+                        if (futureHeartBeat != null)
+                            futureHeartBeat.cancel(true);
                         clientGameHandler.send(new HeartBeatAnswer());
+                        futureHeartBeat = waitHeartBeat();
                     } else {
-                        requestQueue.put((Request) receivedMessage);
+                        requestQueue.offer((Request) receivedMessage); //TODO -- cosa succede se supero la capacità?
                         if (Request.isSilentCloseRequest((Request) receivedMessage)) {
                             this.silentEnded = true;
                             clientGameHandler.setSilentEnded(true);
@@ -87,7 +102,7 @@ public class Client implements Runnable{
                     }
                 }
             }
-            catch (IOException | ClassNotFoundException | InterruptedException e){
+            catch (IOException | ClassNotFoundException e){
                 //requestQueue.clear();
                 canManageMessages = false;
                 closeStreams();
