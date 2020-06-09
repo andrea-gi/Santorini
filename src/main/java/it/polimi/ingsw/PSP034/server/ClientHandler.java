@@ -215,7 +215,8 @@ class ClientHandler implements IClientConnection, Runnable{
                     server.addMessage(message, this);
                 }
             } catch (IOException e) {
-                logger.printString("IOException in ClientHandler - run() (" + debugColor + playerName + ANSI.reset + "). Normally caused by disconnection.");
+                if (isActive())
+                    logger.printString("IOException in ClientHandler - run() (" + debugColor + playerName + ANSI.reset + "). Normally caused by disconnection.");
                 close();
             } catch (ClassNotFoundException e){
                 logger.printString("ClassNotFoundException in ClientHandler - run() (" + debugColor + playerName + ANSI.reset + ").");
