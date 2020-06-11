@@ -278,7 +278,6 @@ public class TableController implements GUIController{
             FadeTransition transGod = new FadeTransition(Duration.seconds(2), winnerGodImageView);
             transGod.setFromValue(0);
             transGod.setToValue(1);
-            //transGod.setDelay(Duration.seconds(2.1));
             transGod.play();
             StackPane.setAlignment(winnerGodImageView, Pos.CENTER);
             StackPane.setMargin(winnerGodImageView, new Insets(0,0,100,0));
@@ -288,7 +287,6 @@ public class TableController implements GUIController{
         FadeTransition transVictory = new FadeTransition(Duration.seconds(2), victory);
         transVictory.setFromValue(0);
         transVictory.setToValue(1);
-        //transVictory.setDelay(Duration.seconds(1.5));
         transVictory.play();
         pane.getChildren().add(victory);
         victoryMessage.setText("YOU WIN!");
@@ -296,7 +294,6 @@ public class TableController implements GUIController{
         FadeTransition transMessage = new FadeTransition(Duration.seconds(2), victoryMessage);
         transMessage.setFromValue(0);
         transMessage.setToValue(1);
-        //transMessage.setDelay(Duration.seconds(1.8));
         transMessage.play();
         pane.getChildren().add(victoryMessage);
         Label loserMessage = null;
@@ -335,7 +332,6 @@ public class TableController implements GUIController{
             FadeTransition transVictory = new FadeTransition(Duration.seconds(2), victory);
             transVictory.setFromValue(0);
             transVictory.setToValue(1);
-            //transVictory.setDelay(Duration.seconds(1.5));
             transVictory.play();
             ImageView winnerGodImageView = new ImageView();
             if (winnerGod!=null) {
@@ -346,7 +342,6 @@ public class TableController implements GUIController{
                 FadeTransition transGod = new FadeTransition(Duration.seconds(2), winnerGodImageView);
                 transGod.setFromValue(0);
                 transGod.setToValue(1);
-                //transGod.setDelay(Duration.seconds(1.8));
                 transGod.play();
             }
             winnerName.setText(winner + " won!");
@@ -369,7 +364,6 @@ public class TableController implements GUIController{
         FadeTransition transMessage = new FadeTransition(Duration.seconds(2), victoryMessage);
         transMessage.setFromValue(0);
         transMessage.setToValue(1);
-        //transMessage.setDelay(Duration.seconds(1.8));
         transMessage.play();
     }
 
@@ -559,8 +553,11 @@ public class TableController implements GUIController{
             stackSize = childrenStack.size();
         }
 
-        if (childrenStack.get(stackSize-1).getId() != null && childrenStack.get(stackSize-1).getId().equals("workerOnBoard"))
-            childrenStack.get(stackSize-2).setId("enabledTile");
+        if (childrenStack.get(stackSize-1).getId() != null && (childrenStack.get(stackSize-1).getId().equals("workerOnBoard")
+                ||  childrenStack.get(stackSize-1).getId().equals("highlightWorker"))) {
+            childrenStack.get(stackSize - 2).setId("enabledTile");
+            childrenStack.get(stackSize - 1).setId("highlightWorker");
+        }
         else
             childrenStack.get(stackSize-1).setId("enabledTile");
     }
@@ -578,8 +575,11 @@ public class TableController implements GUIController{
             stackSize = childrenStack.size();
         }
 
-        if (childrenStack.get(stackSize-1).getId() != null && childrenStack.get(stackSize-1).getId().equals("workerOnBoard"))
-            childrenStack.get(stackSize-2).setId("disabledTile");
+        if (childrenStack.get(stackSize-1).getId() != null && (childrenStack.get(stackSize-1).getId().equals("workerOnBoard") ||
+                childrenStack.get(stackSize-1).getId().equals("highlightWorker"))) {
+            childrenStack.get(stackSize - 2).setId("disabledTile");
+            childrenStack.get(stackSize - 1).setId("workerOnBoard");
+        }
         else
             childrenStack.get(stackSize-1).setId("disabledTile");
     }

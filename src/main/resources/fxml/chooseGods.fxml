@@ -23,7 +23,7 @@
                         <Insets bottom="70.0" />
                      </VBox.margin></ImageView>
                </children></VBox>
-              <VBox fx:id="pane" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="430.0" stylesheets="@../style.css">
+              <VBox fx:id="pane" alignment="CENTER" maxHeight="720.0" maxWidth="430.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="430.0" stylesheets="@../style.css">
                   <children>
                         <Label alignment="CENTER" prefHeight="30.0" prefWidth="497.0" text="Choose all the Gods" textFill="WHITE">
                             <opaqueInsets>
@@ -33,7 +33,7 @@
                         <Insets bottom="15.0" top="100.0" />
                      </VBox.margin>
                         </Label>
-                      <GridPane alignment="CENTER" maxHeight="400.0" maxWidth="360.0" minHeight="400.0" minWidth="360.0" prefHeight="400.0" prefWidth="360.0">
+                      <GridPane alignment="CENTER" maxHeight="400.0" maxWidth="410.0" minHeight="400.0" minWidth="410.0" prefHeight="400.0" prefWidth="410.0">
                           <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" maxWidth="148.66666666666666" prefWidth="120.0" />
                               <ColumnConstraints hgrow="SOMETIMES" maxWidth="202.33336130777994" prefWidth="120.0" />
@@ -52,19 +52,19 @@
                                       <Insets />
                                   </GridPane.margin>
                               </CheckBox>
-                              <CheckBox fx:id="Artemis" mnemonicParsing="false" text="Artemis" textFill="WHITE" GridPane.columnIndex="1" />
-                              <CheckBox fx:id="Athena" mnemonicParsing="false" text="Hera" textFill="WHITE" GridPane.columnIndex="2" />
-                              <CheckBox fx:id="Zeus" mnemonicParsing="false" text="Zeus" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                              <CheckBox fx:id="Atlas" mnemonicParsing="false" text="Atlas" textFill="WHITE" GridPane.rowIndex="1" />
-                              <CheckBox fx:id="Demeter" mnemonicParsing="false" text="Demeter" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <CheckBox fx:id="Hestia" mnemonicParsing="false" text="Hestia" textFill="WHITE" GridPane.rowIndex="2" />
-                              <CheckBox fx:id="Prometheus" mnemonicParsing="false" text="Prometheus" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                              <CheckBox fx:id="Pan" mnemonicParsing="false" text="Pan" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                              <CheckBox fx:id="Hera" mnemonicParsing="false" text="Athena" textFill="WHITE" GridPane.rowIndex="3" />
-                              <CheckBox fx:id="Minotaur" mnemonicParsing="false" text="Minotaur" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                              <CheckBox fx:id="Limus" mnemonicParsing="false" text="Limus" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                              <CheckBox fx:id="Triton" mnemonicParsing="false" text="Triton" textFill="WHITE" GridPane.rowIndex="4" />
-                              <CheckBox fx:id="Hephaestus" mnemonicParsing="false" text="Hephaestus" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <CheckBox fx:id="Artemis" mnemonicParsing="false" text="Artemis" textFill="WHITE" GridPane.rowIndex="1" />
+                              <CheckBox fx:id="Athena" mnemonicParsing="false" text="Hera" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <CheckBox fx:id="Zeus" mnemonicParsing="false" text="Zeus" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                              <CheckBox fx:id="Atlas" mnemonicParsing="false" text="Atlas" textFill="WHITE" GridPane.rowIndex="3" />
+                              <CheckBox fx:id="Demeter" mnemonicParsing="false" text="Demeter" textFill="WHITE" GridPane.rowIndex="4" />
+                              <CheckBox fx:id="Hestia" mnemonicParsing="false" text="Hestia" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <CheckBox fx:id="Prometheus" mnemonicParsing="false" text="Prometheus" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                              <CheckBox fx:id="Pan" mnemonicParsing="false" text="Pan" textFill="WHITE" GridPane.columnIndex="2" />
+                              <CheckBox fx:id="Hera" mnemonicParsing="false" text="Athena" textFill="WHITE" GridPane.rowIndex="2" />
+                              <CheckBox fx:id="Minotaur" mnemonicParsing="false" text="Minotaur" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <CheckBox fx:id="Limus" mnemonicParsing="false" text="Limus" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <CheckBox fx:id="Triton" mnemonicParsing="false" text="Triton" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                              <CheckBox fx:id="Hephaestus" mnemonicParsing="false" text="Hephaestus" textFill="WHITE" GridPane.columnIndex="1" />
                           </children>
                           <VBox.margin>
                               <Insets bottom="10.0" />
@@ -80,7 +80,7 @@
                       </Button>
                   </children>
               </VBox>
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="430.0">
+            <VBox alignment="CENTER" maxHeight="720.0" maxWidth="430.0" prefHeight="720.0" prefWidth="430.0">
                <children>
                   <ImageView fx:id="powerImage" fitHeight="60.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
                      <VBox.margin>
