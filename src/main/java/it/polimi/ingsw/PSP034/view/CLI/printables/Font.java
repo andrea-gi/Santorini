@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class Font extends PrintableObject{
     private final ArrayList<String[]> formattedString;
     private final String text;
+    private String color;
 
     /**
      *Initializes a Font object
@@ -16,9 +17,16 @@ public class Font extends PrintableObject{
     public Font(String string){
         super();
         text = string;
+        color = ANSI.reset;
         formattedString = new ArrayList<>();
         for(int i = 0; i < string.length(); i++){
-            formatCharacter(string.charAt(i));
+            if(string.charAt(i) == '\033'){
+                int start = i;
+                while(string.charAt(i) != 'm') i++;
+                color = text.substring(start, i+1);
+            }else{
+                formatCharacter(string.charAt(i));
+            }
         }
         super.setObjectSize(3);
         for(int line = 0; line < 3; line++){
@@ -44,205 +52,171 @@ public class Font extends PrintableObject{
             case 'A':
             case 'a':
                 formattedCharacter = new String[]{"╔══╗","╠══╣","╩  ╩"};
-                formattedString.add(formattedCharacter);
                 break;
             case 'B':
             case 'b':
                 formattedCharacter = new String[]{"╔═╗ ","╠═╩╗","╚══╝"};
-                formattedString.add(formattedCharacter);
                 break;
             case 'C':
             case 'c':
                 formattedCharacter = new String[]{"╔══╗","║   ","╚══╝"};
-                formattedString.add(formattedCharacter);
                 break;
             case 'D':
             case 'd':
                 formattedCharacter = new String[]{"╔═ ","║ ║","╚═ "};
-                formattedString.add(formattedCharacter);
                 break;
             case 'E':
             case 'e':
                 formattedCharacter = new String[]{"╔══","╠═ ","╚══"};
-                formattedString.add(formattedCharacter);
                 break;
             case 'F':
             case 'f':
                 formattedCharacter = new String[]{"╔══","╠═ ","╩  "};
-                formattedString.add(formattedCharacter);
                 break;
             case 'G':
             case 'g':
                 formattedCharacter = new String[]{"╔══╗","║  ╦","╚══╝"};
-                formattedString.add(formattedCharacter);
                 break;
             case 'H':
             case 'h':
                 formattedCharacter = new String[]{"╦  ╦","╠══╣","╩  ╩"};
-                formattedString.add(formattedCharacter);
                 break;
             case 'I':
             case 'i':
                 formattedCharacter = new String[]{"╦","║","╩"};
-                formattedString.add(formattedCharacter);
                 break;
             case 'J':
             case 'j':
                 formattedCharacter = new String[]{" ═╦","╦ ║","╚═╝"};
-                formattedString.add(formattedCharacter);
                 break;
             case 'K':
             case 'k':
                 formattedCharacter = new String[]{"╦ ╔","╠╣ ","╩ ╚"};
-                formattedString.add(formattedCharacter);
                 break;
             case 'L':
             case 'l':
                 formattedCharacter = new String[]{"╦  ","║  ","╚══"};
-                formattedString.add(formattedCharacter);
                 break;
             case 'M':
             case 'm':
                 formattedCharacter = new String[]{"╔╗╔╗","║╚╝║","╩  ╩"};
-                formattedString.add(formattedCharacter);
                 break;
             case 'N':
             case 'n':
                 formattedCharacter = new String[]{"╔╗╦","║║║","╩╚╝"};
-                formattedString.add(formattedCharacter);
                 break;
             case 'O':
             case 'o':
                 formattedCharacter = new String[]{"╔══╗","║  ║","╚══╝"};
-                formattedString.add(formattedCharacter);
                 break;
             case 'P':
             case 'p':
                 formattedCharacter = new String[]{"╔══╗","╠══╝","╩   "};
-                formattedString.add(formattedCharacter);
                 break;
             case 'Q':
             case 'q':
                 formattedCharacter = new String[]{"╔══╗","║  ║","╚══╣"};
-                formattedString.add(formattedCharacter);
                 break;
             case 'R':
             case 'r':
                 formattedCharacter = new String[]{"╔══╗","╠═╦╝","╩ ╩ "};
-                formattedString.add(formattedCharacter);
                 break;
             case 'S':
             case 's':
                 formattedCharacter = new String[]{"╔═══","╚══╗","═══╝"};
-                formattedString.add(formattedCharacter);
                 break;
             case 'T':
             case 't':
                 formattedCharacter = new String[]{"═╦═"," ║ "," ╩ "};
-                formattedString.add(formattedCharacter);
                 break;
             case 'U':
             case 'u':
                 formattedCharacter = new String[]{"╦  ╦","║  ║","╚══╝"};
-                formattedString.add(formattedCharacter);
                 break;
             case 'V':
             case 'v':
                 formattedCharacter = new String[]{"╦  ╦","╚╗╔╝"," ╚╝ "};
-                formattedString.add(formattedCharacter);
                 break;
             case 'W':
             case 'w':
                 formattedCharacter = new String[]{"╦   ╦","║ ╦ ║","╚═╩═╝"};
-                formattedString.add(formattedCharacter);
                 break;
             case 'Y':
             case 'y':
                 formattedCharacter = new String[]{"╦ ╦","╚╦╝"," ╩ "};
-                formattedString.add(formattedCharacter);
                 break;
             case 'X':
             case 'x':
                 formattedCharacter = new String[]{"╗ ╔"," ╬ ","╝ ╚"};
-                formattedString.add(formattedCharacter);
                 break;
             case 'Z':
             case 'z':
                 formattedCharacter = new String[]{"═══╗","╔══╝","╚═══"};
-                formattedString.add(formattedCharacter);
                 break;
             case '0':
                 formattedCharacter = new String[]{"╔═╗","║ ║","╚═╝"};
-                formattedString.add(formattedCharacter);
                 break;
             case '1':
                 formattedCharacter = new String[]{"╔╗ "," ║ ","═╩═"};
-                formattedString.add(formattedCharacter);
                 break;
             case '2':
                 formattedCharacter = new String[]{"╔═╗","╔═╝","╚══"};
-                formattedString.add(formattedCharacter);
                 break;
             case '3':
                 formattedCharacter = new String[]{"══╗"," ═╣","══╝"};
-                formattedString.add(formattedCharacter);
                 break;
             case '4':
                 formattedCharacter = new String[]{"╦ ╦","╚═╣","  ╩"};
-                formattedString.add(formattedCharacter);
                 break;
             case '5':
                 formattedCharacter = new String[]{"╔═╗","╚═╗","══╝"};
-                formattedString.add(formattedCharacter);
                 break;
             case '6':
                 formattedCharacter = new String[]{"╔═╗","╠═╗","╚═╝"};
-                formattedString.add(formattedCharacter);
                 break;
             case '7':
                 formattedCharacter = new String[]{"╔═╗","  ║","  ╩"};
-                formattedString.add(formattedCharacter);
                 break;
             case '8':
                 formattedCharacter = new String[]{"╔═╗","╠═╣","╚═╝"};
-                formattedString.add(formattedCharacter);
                 break;
             case '9':
                 formattedCharacter = new String[]{"╔═╗","╚═╣","══╝"};
-                formattedString.add(formattedCharacter);
                 break;
             case '!':
                 formattedCharacter = new String[]{"║","║","╦"};
-                formattedString.add(formattedCharacter);
                 break;
             case '?':
                 formattedCharacter = new String[]{"╔═╗"," ╔╝"," ╦ "};
-                formattedString.add(formattedCharacter);
                 break;
             case '\'':
                 formattedCharacter = new String[]{"╝"," "," "};
-                formattedString.add(formattedCharacter);
                 break;
             case ',':
                 formattedCharacter = new String[]{" "," ","╗"};
-                formattedString.add(formattedCharacter);
                 break;
             case '.':
                 formattedCharacter = new String[]{" "," ","╦"};
-                formattedString.add(formattedCharacter);
                 break;
             case '_':
                 formattedCharacter = new String[]{"  ","  ","══"};
-                formattedString.add(formattedCharacter);
                 break;
             case ' ':
                 formattedCharacter = new String[]{"  ","  ","  "};
-                formattedString.add(formattedCharacter);
+                break;
+            case '$':
+                formattedCharacter = new String[]{"       ","╔═╗╔══╗","╚══╝╚═╝"};
+                break;
+            case '&':
+                formattedCharacter = new String[]{"       ","╔══╗╔═╗","╚═╝╚══╝"};
                 break;
             default:
                 formattedCharacter = new String[]{"####","####","####"};
-                formattedString.add(formattedCharacter);
                 break;
         }
+        formattedCharacter[0] = color + formattedCharacter[0];
+        formattedCharacter[1] = color + formattedCharacter[1];
+        formattedCharacter[2] = color + formattedCharacter[2];
+        formattedString.add(formattedCharacter);
     }
 }

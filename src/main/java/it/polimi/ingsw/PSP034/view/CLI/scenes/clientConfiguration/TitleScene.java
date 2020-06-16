@@ -33,21 +33,18 @@ public class TitleScene extends Scene {
         String warning = "Please, make sure you can see the four corners forming a rectangle. If you don't, please try reducing your terminal font size and make sure that your terminal supports ANSI escape sequences and UNICODE characters and restart the application (check the readme file to know more). Press 'Enter' once you are ready.";
         int start = 0;
         int end = Frame.SCREEN_WIDTH;
-        int line = 3;
+        ANSI.moveTo(3, 1);
         do{
-            ANSI.moveTo(line, 1);
-            System.out.print(warning.substring(start, end));
+            System.out.println(warning.substring(start, end));
             start = end;
             end += Frame.SCREEN_WIDTH;
-            line++;
         }while(end <= warning.length());
         if(start < warning.length()) {
-            ANSI.moveTo(line, 1);
             System.out.print(warning.substring(start));
         }
 
         TextBox textBox = new TextBox(1);
-        textBox.print(line + 1, 1);
+        textBox.print(4 + warning.length()/Frame.SCREEN_WIDTH, 1);
         textBox.waitAnswer();
 
 

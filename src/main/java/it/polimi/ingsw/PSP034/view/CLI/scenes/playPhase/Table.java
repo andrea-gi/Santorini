@@ -227,7 +227,14 @@ public class Table extends Scene{
     }
 
     public void updateOtherStarting(String playerName){
-        setTitle(playerName + "'s turn");
+        PlayerColor playerColor = null;
+        for(PlayerBox card : cards){
+            if(card.getPlayerName().equals(playerName)){
+                playerColor = card.getColor();
+            }
+        }
+
+        setTitle(playerColor.getFG_color() + "$" + ANSI.reset + playerName + "'s turn" + playerColor.getFG_color() + "&" + ANSI.reset);
         setEmptyRequest();
     }
 

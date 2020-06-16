@@ -66,7 +66,7 @@ public class CLIRequestHub {
 
         else if (request instanceof RequestIP){
             String[] answers = new String[2];
-            currScene = new ServerAddress();
+            currScene = new ServerAddress(((RequestIP) request).getError());
             answers[0] = currScene.show();
             currScene = new ServerPort();
             answers[1] = currScene.show();
