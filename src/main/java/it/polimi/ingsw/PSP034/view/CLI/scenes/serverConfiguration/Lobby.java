@@ -6,15 +6,23 @@ import it.polimi.ingsw.PSP034.view.CLI.printables.arrangements.VerticalArrangeme
 import it.polimi.ingsw.PSP034.view.CLI.scenes.Scene;
 
 public class Lobby extends Scene {
+    private final VerticalArrangement va1;
+    private final Font title;
+    private final Message pleaseWait;
+
+    public Lobby(){
+        va1 = new VerticalArrangement();
+
+        title = new Font("lobby");
+        pleaseWait = new Message("A new game is being created. Wait until connection.", -1);
+        va1.addObjects(title, pleaseWait);
+        va1.setCentreAlignment();
+        va1.setBorder(1);
+    }
+
     @Override
     public String show() {
         super.clearFrame();
-
-        Font title = new Font("lobby");
-        Message pleaseWait = new Message("A new game is being created. Wait until connection.", -1);
-
-        VerticalArrangement va1 = new VerticalArrangement();
-        va1.addObjects(title, pleaseWait);
 
         super.printMain(va1);
 
