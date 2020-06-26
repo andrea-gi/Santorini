@@ -19,7 +19,7 @@ import java.util.Arrays;
 public class PersonalGodController implements GUIController {
     private final ToggleGroup gods = new ToggleGroup();
     String chosenGod;
-    private ArrayList<String> myGods = new ArrayList<>();
+    //private ArrayList<String> myGods = new ArrayList<>();
 
     @FXML
     private Pane pane;
@@ -162,7 +162,7 @@ public class PersonalGodController implements GUIController {
      * @param chosen are the gods already chosen by other players
      */
     public void update(String[] possibleGods, String[] chosen){
-        myGods.addAll(Arrays.asList(possibleGods));
+        //myGods.addAll(Arrays.asList(possibleGods));
         RadioButton[] buttons = new RadioButton[]{one, two, three};
         Label[] labels = new Label[]{labelOne, labelTwo, labelThree};
         ImageView[] powers = new ImageView[]{powerOne, powerTwo, powerThree};

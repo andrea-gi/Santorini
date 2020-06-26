@@ -9,7 +9,7 @@
 
 <BorderPane fx:id="pane" prefHeight="500.0" prefWidth="400.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP034.view.GUI.DialogController">
    <top>
-      <Label fx:id="title" alignment="CENTER" prefHeight="54.0" prefWidth="161.0" textAlignment="CENTER" wrapText="true" BorderPane.alignment="CENTER">
+      <Label fx:id="title" alignment="CENTER" contentDisplay="CENTER" prefHeight="81.0" prefWidth="173.0" textAlignment="CENTER" wrapText="true" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets bottom="15.0" top="75.0" />
          </BorderPane.margin>

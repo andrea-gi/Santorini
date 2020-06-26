@@ -228,7 +228,7 @@
     -fx-text-alignment: center;
     -fx-wrap-text: true;
     -fx-text-fill: white;
-    -fx-font-size: 17pt;
+    -fx-font-size: 15pt;
     -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.8, 0.8);
 }
 
@@ -288,6 +288,15 @@
     -fx-background-position: bottom;
 }
 
+#personalDefeat{
+    -fx-text-fill: #f6ce2c;
+    -fx-font-size: 80pt;
+    -fx-font-family: "LillyBelle";
+    -fx-effect: innershadow(three-pass-box, #8e3700, 0.7, 0.5, 0.7, 1);
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+}
+
 #loserLabel{
     -fx-text-fill: #d69600;
     -fx-font-size: 40pt;
@@ -318,6 +327,35 @@
 
 #keepWatching:pressed{
     -fx-background-image: url("/images/buttons/btn_back_pressed.png");
+    -fx-background-size: cover;
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+#playAgain{
+    -fx-background-image: url("/images/buttons/play_again_normal.png");
+    -fx-background-size: cover;
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-text-alignment: center;
+    -fx-text-fill: white;
+    -fx-wrap-text: true;
+    -fx-font-size: 10pt;
+    -fx-font-weight: bold;
+    -fx-font-family: "LillyBelle";
+    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.7), 0.6, 0, 0.8, 0.8);
+}
+
+#playAgain:hover{
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+    -fx-scale-z: 1.1;
+}
+
+#playAgain:pressed{
+    -fx-background-image: url("/images/buttons/play_again_pressed.png");
     -fx-background-size: cover;
     -fx-background-color: transparent;
     -fx-background-repeat: no-repeat;

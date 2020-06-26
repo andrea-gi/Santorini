@@ -24,7 +24,7 @@
                         <Insets bottom="15.0" top="10.0" />
                     </VBox.margin>
                 </Label>
-                <TextField fx:id="enterServerName" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="34.0" prefWidth="227.0" promptText="Default localhost">
+                <TextField fx:id="enterServerName" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="34.0" prefWidth="227.0" promptText="Default localhost">
                     <VBox.margin>
                         <Insets bottom="20.0" left="530.0" right="520.0" />
                     </VBox.margin>
@@ -34,7 +34,7 @@
                         <Insets bottom="15.0" />
                     </VBox.margin>
                 </Label>
-                <TextField fx:id="enterServerPort" layoutX="25.0" layoutY="191.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="34.0" prefWidth="325.0" promptText="Default 2020">
+                <TextField fx:id="enterServerPort" focusTraversable="false" layoutX="25.0" layoutY="191.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="34.0" prefWidth="325.0" promptText="Default 2020">
                     <VBox.margin>
                         <Insets bottom="20.0" left="530.0" right="520.0" />
                     </VBox.margin>

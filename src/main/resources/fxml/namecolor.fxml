@@ -15,7 +15,7 @@
                 <Insets bottom="15.0" top="100.0" />
             </VBox.margin>
         </Label>
-        <TextField fx:id="enterName" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyTyped="#filledName" prefHeight="33.0" prefWidth="285.0" promptText="Name">
+        <TextField fx:id="enterName" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyTyped="#filledName" prefHeight="33.0" prefWidth="285.0" promptText="Name">
             <VBox.margin>
                 <Insets left="510.0" right="510.0" />
             </VBox.margin>

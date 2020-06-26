@@ -189,9 +189,6 @@ public class GUIRequestHub extends RequestManager {
             });
         }
 
-        else if (request instanceof  ReceivedWorkerChoice){
-        }
-
         else if(request instanceof InitializeBoard){
             Platform.runLater(()->{
                 SlimBoard slim = ((InitializeBoard) request).getSlimBoard();

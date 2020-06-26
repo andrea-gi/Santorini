@@ -8,6 +8,7 @@ import it.polimi.ingsw.PSP034.messages.playPhase.AnswerBooleanChoice;
 import it.polimi.ingsw.PSP034.messages.playPhase.RequestAction;
 import it.polimi.ingsw.PSP034.messages.playPhase.RequiredActions;
 import it.polimi.ingsw.PSP034.messages.setupPhase.AnswerPlaceWorker;
+import it.polimi.ingsw.PSP034.view.GodDescription;
 import javafx.animation.FadeTransition;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -228,6 +229,10 @@ public class TableController implements GUIController{
             }
             powers[i].setImage(new Image(GodPath.getPower(godsList[i]), 149, 60, true, true));
             gods[i].setImage(new Image(GodPath.getPath(godsList[i]), 105, 137, true, true));
+            Tooltip powerTooltip = new Tooltip(GodDescription.getPower(godsList[i]));
+            Tooltip.install(powers[i],powerTooltip);
+            powerTooltip.setShowDelay(Duration.seconds(0.01));
+            powerTooltip.setMaxWidth(200);
         }
 
     }
@@ -357,6 +362,7 @@ public class TableController implements GUIController{
             victory = new ImageView(new Image("/images/defeat.png", 1280, 720, true, true));
             showButtonsEndGame(EndGameButtons.KEEP_WATCHING, victory, winnerName);
             StackPane.setAlignment( victoryMessage, Pos.CENTER );
+            victoryMessage.setId("personalDefeat");
             victoryMessage.setText("YOU LOST");
         }
         pane.getChildren().add(victory);
@@ -376,11 +382,10 @@ public class TableController implements GUIController{
     //TODO -- gestire il keep watching se non pigia il bottone
     private void showButtonsEndGame(EndGameButtons button, ImageView victory, Label winnerName){
         Button quit = new Button();
-        quit.setText("EXIT");
         quit.setContentDisplay(ContentDisplay.BOTTOM);
         quit.setId("quit");
-        quit.setMinSize(70, 67);
-        quit.setMaxSize(70,67);
+        quit.setMinSize(70, 110);
+        quit.setMaxSize(70,110);
         pane.getChildren().add(quit);
         StackPane.setAlignment(quit, Pos.BOTTOM_LEFT);
         StackPane.setMargin(quit, new Insets(0,0,15,10));
@@ -388,15 +393,13 @@ public class TableController implements GUIController{
 
         Button continueGame = new Button();
         if(button == EndGameButtons.KEEP_WATCHING)
-            continueGame.setText("Keep Watching");
+            continueGame.setId("keepWatching");
         else if(button == EndGameButtons.PLAY_AGAIN)
-            continueGame.setText("Play Again");
+            continueGame.setId("playAgain");
         continueGame.setContentDisplay(ContentDisplay.BOTTOM);
-        continueGame.setWrapText(true);
-        continueGame.setId("keepWatching");
 
-        continueGame.setMinSize(75, 75);
-        continueGame.setMaxSize(75, 75);
+        continueGame.setMinSize(75, 110);
+        continueGame.setMaxSize(75, 110);
 
         pane.getChildren().add(continueGame);
         StackPane.setAlignment(continueGame, Pos.BOTTOM_LEFT);
