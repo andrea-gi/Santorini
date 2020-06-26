@@ -102,7 +102,7 @@ public class Artemis extends GodsRules {
         if(getPlayer().isOwner(worker)){
             if(!super.getDefaultRules().validMove(worker, destinationTile)){
                 return false;
-            }else if(usePower  &&  destinationTile.equals(super.getPreviousTile())){
+            }else if(usePower  &&  (destinationTile.equals(super.getPreviousTile()) || worker.getSex() != getChosenSex())){
                 return false;
             }
         }

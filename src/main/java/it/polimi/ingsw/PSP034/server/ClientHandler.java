@@ -30,7 +30,7 @@ class ClientHandler implements IClientConnection, Runnable{
     private String playerName;
     private String debugColor = ANSI.reset;
 
-    private final BlockingQueue<Request> sendQueue = new ArrayBlockingQueue<>(60);
+    private final BlockingQueue<Request> sendQueue = new LinkedBlockingQueue<>();
 
     private boolean externalViewer = false;
 

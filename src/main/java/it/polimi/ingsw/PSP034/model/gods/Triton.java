@@ -82,6 +82,8 @@ public class Triton extends GodsRules {
 
     @Override
     public boolean validMove(Worker worker, Tile destinationTile) {
+        if(usePower && worker.getSex() != getChosenSex())
+            return false;
         return super.validMove(worker, destinationTile);
     }
 

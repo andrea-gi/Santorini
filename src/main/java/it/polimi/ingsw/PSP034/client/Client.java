@@ -26,7 +26,7 @@ public class Client implements Runnable{
     private boolean clientEnded = false;
     private boolean silentEnded = false;
 
-    private final BlockingQueue<Request> requestQueue = new ArrayBlockingQueue<>(64);
+    private final BlockingQueue<Request> requestQueue = new LinkedBlockingQueue<>();
 
     public Client(RequestManager requestManager, String address, int socketPort){
         this.requestManager = requestManager;

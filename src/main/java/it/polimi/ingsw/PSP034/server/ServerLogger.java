@@ -113,8 +113,8 @@ public class ServerLogger {
      * @param color Color of the message recipient (ANSI)
      */
     public void printRequestMessage(Request message, String playerName, String color){
-        /*if (message instanceof HeartBeatRequest)
-            return;*/ //TODO -- debug
+        if (message instanceof HeartBeatRequest)
+            return;
         String messageDetailedInfo = "";
         if (message instanceof PlayRequest)
             messageDetailedInfo = detailedPlayRequest((PlayRequest) message);

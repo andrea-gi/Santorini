@@ -17,10 +17,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 /**
  * Class managing the server. Its main thread (started using {@link Server#run()}, creates a new thread
@@ -57,7 +54,7 @@ public class Server implements Runnable{
 
     private IController controller;
 
-    private final BlockingQueue<AnswerEncapsulated> queue = new ArrayBlockingQueue<>(60);
+    private final BlockingQueue<AnswerEncapsulated> queue = new LinkedBlockingQueue<>();
 
     private final Object firstConnectionLock = new Object();
 
