@@ -64,6 +64,11 @@ public abstract class Scene {
     public void printError(String code, String description){
         ErrorPrompt errorPrompt = new ErrorPrompt(code, description);
         errorPrompt.print(FRAME_START_LINE + (FRAME_HEIGHT-errorPrompt.getHeight())/2, FRAME_START_COLUMN + (FRAME_WIDTH-errorPrompt.getWidth())/2);
+        moveToEndScreen();
+    }
+
+    public void moveToEndScreen(){
+        ANSI.moveTo(Frame.SCREEN_HEIGHT+1, 1);
     }
 
     /**

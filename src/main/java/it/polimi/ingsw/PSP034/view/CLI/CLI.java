@@ -14,6 +14,10 @@ public class CLI extends RequestManager implements Runnable {
         //TODO
     }
 
+    /**
+     * Sends the request message to the CLIRequestHub and receives back the answer. If the answer is a RestartClient instance the function the {@code startConnection} function is called, otherwise the ansewr is returned to the caller.
+     * @param request The request message.
+     */
     @Override
     public void handleRequest(Request request) {
         Answer answer = CLIRequestHub.newRequest(request);
@@ -23,6 +27,11 @@ public class CLI extends RequestManager implements Runnable {
             sendAnswer(answer);
         }
     }
+
+    /**
+     * Asks the CLIRequestHub to print an error and then closes the application.
+     * @param error Error to be printed.
+     */
 
     @Override
     public void showError(ErrorMessage error) {

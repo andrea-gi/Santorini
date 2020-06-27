@@ -6,6 +6,7 @@ public enum Colors {
     SEA_BG(ANSI.BG_blue),
     LIGHT_WAVE_FG(ANSI.FG_bright_white),
     DARK_WAVE_FG(ANSI.FG_cyan),
+    SEA_COORDINATES_FG(ANSI.FG_white),
     GRASS_BG(ANSI.BG_green),
     GRID_FG(ANSI.FG_white),
     BUILDING_BG(ANSI.BG_white),

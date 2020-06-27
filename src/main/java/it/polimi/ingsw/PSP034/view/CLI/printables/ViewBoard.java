@@ -12,17 +12,19 @@ public class ViewBoard extends PrintableObject {
     private static final String BG_Sea = Colors.SEA_BG.get();
     private static final String FG_Sea_light = Colors.LIGHT_WAVE_FG.get();
     private static final String FG_Sea_dark = Colors.DARK_WAVE_FG.get();
+    private static final String FG_Coordinates = Colors.SEA_COORDINATES_FG.get();
     private static final String BG_Grass = Colors.GRASS_BG.get();
     private static final String BG_Building = Colors.BUILDING_BG.get();
 
     private static ViewTile[][] viewTiles;
 
+    private final int fragmentLength = 5;
 
     public ViewBoard(){
         super();
-        viewTiles = new ViewTile[5][5];
-        for(int y = 0; y<5; y++){
-            for(int x = 0; x<5; x++){
+        viewTiles = new ViewTile[Constant.DIM][Constant.DIM];
+        for(int y = 0; y<Constant.DIM; y++){
+            for(int x = 0; x<Constant.DIM; x++){
                 viewTiles[x][y] = new ViewTile();
             }
         }
@@ -30,32 +32,47 @@ public class ViewBoard extends PrintableObject {
         ArrayList<String> constructionArray = new ArrayList<>();
 
         super.setObjectSize(25);
-        StringBuilder seaLine = new StringBuilder(BG_Sea);
+
+        StringBuilder bottomSeaLine = new StringBuilder(BG_Sea);
         for(int x = 0; x < 60; x+=2){
             if(x%4 == 0)
-                seaLine.append(FG_Sea_light);
+                bottomSeaLine.append(FG_Sea_light);
             else
-                seaLine.append(FG_Sea_dark);
-            seaLine.append("~ ");
+                bottomSeaLine.append(FG_Sea_dark);
+            bottomSeaLine.append("~ ");
         }
-        seaLine.append(FG_Sea_light).append("~").append(ANSI.reset);
-        String invertedSeaLine = seaLine.toString().replace(" ", "#").replace("~", " ").replace("#", "~");
-
-        int fragmentLength = 5 + BG_Sea.length() + 2 * FG_Sea_light.length() + FG_Sea_dark.length();
-        String seaLineFragment = seaLine.substring(0, fragmentLength);
-        String invertedSeaLineFragment = invertedSeaLine.substring(0, fragmentLength);
+        bottomSeaLine.append(FG_Sea_light).append("~").append(ANSI.reset);
+        String bottomInvertedSeaLine = bottomSeaLine.toString().replace(" ", "#").replace("~", " ").replace("#", "~");
 
 
-        constructionArray.add(seaLine.toString());
-        constructionArray.add(invertedSeaLine);
+        //Coordinates numbers and letters are added in this section
+        StringBuilder topSeaLine = new StringBuilder(bottomSeaLine + "\033[" + (fragmentLength + 10*Constant.DIM + 1) + "D" + BG_Sea + FG_Coordinates);
+        StringBuilder topInvertedSeaLine = new StringBuilder(bottomInvertedSeaLine + "\033[" + (fragmentLength + 10*Constant.DIM + 1) + "D" + BG_Sea + FG_Coordinates);
+        for(int num = 1; num <= Constant.DIM; num++){
+            topSeaLine.append("\033[5C \033[4C");
+            topInvertedSeaLine.append("\033[4C ").append(num).append(" \033[3C");
+        }
+
+
+        int completeFragmentLength = fragmentLength + BG_Sea.length() + 2 * FG_Sea_light.length() + FG_Sea_dark.length();
+        String seaLineFragment = bottomSeaLine.substring(0, completeFragmentLength);
+        String invertedSeaLineFragment = bottomInvertedSeaLine.substring(0, completeFragmentLength);
+
+
+        constructionArray.add(topSeaLine.toString());
+        constructionArray.add(topInvertedSeaLine.toString());
 
         constructionArray.add(seaLineFragment + BG_Grass + ANSI.FG_white + "╔═════════╤═════════╤═════════╤═════════╤═════════╗" + seaLineFragment + ANSI.reset);
+        int coordinateNumber = 0;
         for(int y = 1; y < 20; y++){
             String line = "";
-            if (y%2 == 0)
+            if(y % 4 == 0){
                 line = line + seaLineFragment;
-            else
-                line = line + invertedSeaLineFragment;
+            }else if(y % 2 == 0){
+                coordinateNumber = y/2 - coordinateNumber;
+                line = line + seaLineFragment + "\033[3D " + FG_Coordinates + (char)(coordinateNumber + 64) + " ";
+            }else
+                line = line + invertedSeaLineFragment + "\033[3D   ";
 
             if(y%4 == 0)
                 line = line + ANSI.BG_green + ANSI.FG_white + "╟─────────┼─────────┼─────────┼─────────┼─────────╢";
@@ -71,8 +88,8 @@ public class ViewBoard extends PrintableObject {
         }
         constructionArray.add(seaLineFragment + ANSI.BG_green + ANSI.FG_white + "╚═════════╧═════════╧═════════╧═════════╧═════════╝" + seaLineFragment + ANSI.reset);
 
-        constructionArray.add(invertedSeaLine);
-        constructionArray.add(seaLine.toString());
+        constructionArray.add(bottomInvertedSeaLine);
+        constructionArray.add(bottomSeaLine.toString());
 
 
         for(int i = 0; i < constructionArray.size(); i++){

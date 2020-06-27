@@ -12,4 +12,5 @@ public class Constant {
     public static final int LEVEL_TWO = 2;
     public static final int LEVEL_THREE = 3;
 
+    public static final int MAX_NAME_LENGTH = 10;
  }

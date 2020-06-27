@@ -184,8 +184,8 @@ public class Table extends Scene{
         regex.add(new RegexCondition("^[1-2]$", "Invalid selection."));
     }
 
-    public void updateMove(@NotNull Sex sex, Directions[] possibleDirections, boolean hasChoice){
-        String[] options = directionsToOptions(possibleDirections, hasChoice);
+    public void updateMove(@NotNull Sex sex, int workerX, int workerY, Directions[] possibleDirections, boolean hasChoice){
+        String[] options = directionsToOptions(workerX, workerY,possibleDirections, hasChoice);
 
         setQuestion(new Dialog("Where do you want to move your " + sex.name().toLowerCase() + " (" + sex.toString() + ") Worker?", -1, 3, options));
 
@@ -198,8 +198,8 @@ public class Table extends Scene{
             regex.add(new RegexCondition("^(([1-9])|(1(" + (options.length)%10 + ")))$", "Invalid selection."));
     }
 
-    public void updateBuild(@NotNull Sex sex, Directions[] possibleDirections, boolean hasChoice){
-        String[] options = directionsToOptions(possibleDirections, hasChoice);
+    public void updateBuild(@NotNull Sex sex, int workerX, int workerY, Directions[] possibleDirections, boolean hasChoice){
+        String[] options = directionsToOptions(workerX, workerY, possibleDirections, hasChoice);
 
         setQuestion(new Dialog("Where do you want to build with your " + sex.name().toLowerCase() + " (" + sex.toString() + ") Worker?", -1, 3, options));
 
@@ -227,14 +227,13 @@ public class Table extends Scene{
     }
 
     public void updateOtherStarting(String playerName){
-        PlayerColor playerColor = null;
+        PlayerColor playerColor;
         for(PlayerBox card : cards){
             if(card.getPlayerName().equals(playerName)){
                 playerColor = card.getColor();
+                setTitle(playerColor.getFG_color() + "$" + ANSI.reset + playerName + "'s turn" + playerColor.getFG_color() + "&" + ANSI.reset);
             }
         }
-
-        setTitle(playerColor.getFG_color() + "$" + ANSI.reset + playerName + "'s turn" + playerColor.getFG_color() + "&" + ANSI.reset);
         setEmptyRequest();
     }
 
@@ -412,18 +411,24 @@ public class Table extends Scene{
         request.insertObject(pos, drawing);
     }
 
-    private String @NotNull [] directionsToOptions(Directions[] possibleDirections, boolean hasChoice) {
+    private String @NotNull [] directionsToOptions( int workerX, int workerY, Directions[] possibleDirections, boolean hasChoice) {
         String[] options;
         if(hasChoice) {
             options = new String[possibleDirections.length + 1];
             for (int i = 0; i < possibleDirections.length; i++) {
-                options[i] = possibleDirections[i].name();
+                String option = "(" + (char)(workerY + Directions.directionToYOffset(possibleDirections[i]) + 65);
+                option += "," + (workerX + Directions.directionToXOffset(possibleDirections[i]) + 1) + ")";
+
+                options[i] = option;
             }
             options[options.length - 1] = "Back";
         }else{
             options = new String[possibleDirections.length];
             for (int i = 0; i < possibleDirections.length; i++) {
-                options[i] = possibleDirections[i].name();
+                String option = "(" + (char)(workerY + Directions.directionToYOffset(possibleDirections[i]) + 65);
+                option += "," + (workerX + Directions.directionToXOffset(possibleDirections[i]) + 1) + ")";
+
+                options[i] = option;
             }
         }
         return options;

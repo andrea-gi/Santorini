@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP034.view.CLI.scenes.serverConfiguration;
 
+import it.polimi.ingsw.PSP034.constants.Constant;
 import it.polimi.ingsw.PSP034.view.CLI.printables.*;
 import it.polimi.ingsw.PSP034.view.CLI.printables.arrangements.HorizontalArrangement;
 import it.polimi.ingsw.PSP034.view.CLI.printables.arrangements.VerticalArrangement;
@@ -48,11 +49,13 @@ public class NameChoice extends Scene {
 
         super.printMain(va1);
 
+        int maxLength = Constant.MAX_NAME_LENGTH;
+
         RegexCondition[] regex = new RegexCondition[2+alreadyChosenNames.length];
         regex[0] = new RegexCondition("^[a-zA-Z0-9_]+$", "Your name can only contain letters, numbers and underscores.");
-        regex[1] = new RegexCondition("^([a-zA-Z0-9_]){1,20}$", "Your name must contain 1-20 characters.");
+        regex[1] = new RegexCondition("^([a-zA-Z0-9_]){1,"+maxLength+"}$", "Your name must contain 1-"+maxLength+" characters.");
         for(int i = 0; i < alreadyChosenNames.length; i++){
-            regex[i+2] = new RegexCondition("^(?!" + alreadyChosenNames[i] + ")([a-zA-Z0-9_]){1,20}$", "This name has already been taken.");
+            regex[i+2] = new RegexCondition("^(?!" + alreadyChosenNames[i] + ")([a-zA-Z0-9_]){1,"+maxLength+"}$", "This name has already been taken.");
         }
 
         return namePicker.waitAnswer(regex);

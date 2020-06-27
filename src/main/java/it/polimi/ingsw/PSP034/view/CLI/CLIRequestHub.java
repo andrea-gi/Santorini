@@ -19,6 +19,10 @@ import it.polimi.ingsw.PSP034.view.CLI.scenes.playPhase.Table;
 import it.polimi.ingsw.PSP034.view.CLI.scenes.serverConfiguration.*;
 import it.polimi.ingsw.PSP034.view.CLI.scenes.setupPhase.*;
 
+
+/**
+ * This class handles al the messages that the client receives. For every message the correct scene is initialized with the parameters extracted from the message.
+ */
 public class CLIRequestHub {
     private Scene currScene;
     private AnswerComposer answerComposer;
@@ -27,6 +31,7 @@ public class CLIRequestHub {
         currScene = null;
         answerComposer = null;
     }
+
 
     public Answer newRequest(Request request){
         if(request instanceof RequestClientConfig)
@@ -202,6 +207,8 @@ public class CLIRequestHub {
         if(request instanceof RequestAction){
             RequiredActions[] actions = request.getRequiredActions();
             Sex requiredSex = null;
+            int workerX;
+            int workerY;
             boolean hasChoice = false;
             for (int actionIndex = 0; actionIndex < actions.length; actionIndex++) {
                 switch (actions[actionIndex]) {
@@ -224,10 +231,12 @@ public class CLIRequestHub {
                         break;
                     case REQUEST_MOVE:
                         Directions[] moveDirections = requiredSex == Sex.MALE ? ((RequestAction) request).getPossibleMaleDirections() : ((RequestAction) request).getPossibleFemaleDirections();
+                        workerX = requiredSex == Sex.MALE ? ((RequestAction) request).getXMale() : ((RequestAction) request).getXFemale();
+                        workerY = requiredSex == Sex.MALE ? ((RequestAction) request).getYMale() : ((RequestAction) request).getYFemale();
                         if (requiredSex == null){
                             throw new NullPointerException("No Worker was selected nor imposed.");
                         }
-                        ((Table) currScene).updateMove(requiredSex, moveDirections, hasChoice);
+                        ((Table) currScene).updateMove(requiredSex, workerX, workerY, moveDirections, hasChoice);
                         answers[1] = currScene.show();
                         if(Integer.parseInt(answers[1]) > moveDirections.length) {
                             actionIndex = actionIndex - 2;
@@ -238,10 +247,12 @@ public class CLIRequestHub {
                         }
                     case REQUEST_BUILD:
                         Directions[] buildDirections = requiredSex == Sex.MALE ? ((RequestAction) request).getPossibleMaleDirections() : ((RequestAction) request).getPossibleFemaleDirections();
+                        workerX = requiredSex == Sex.MALE ? ((RequestAction) request).getXMale() : ((RequestAction) request).getXFemale();
+                        workerY = requiredSex == Sex.MALE ? ((RequestAction) request).getYMale() : ((RequestAction) request).getYFemale();
                         if (requiredSex == null){
                             throw new NullPointerException("No Worker was selected nor imposed.");
                         }
-                        ((Table) currScene).updateBuild(requiredSex, buildDirections, hasChoice);
+                        ((Table) currScene).updateBuild(requiredSex, workerX, workerY, buildDirections, hasChoice);
                         answers[1] = currScene.show();
                         if(Integer.parseInt(answers[1]) > buildDirections.length) {
                             actionIndex = actionIndex - 2;
@@ -294,7 +305,11 @@ public class CLIRequestHub {
             ((Table) currScene).updateDefeat(((PersonalDefeatRequest) request).getWinner(), ((PersonalDefeatRequest) request).getLosers());
             answer = currScene.show();
             answerComposer = new AnswerComposer(request);
-            return answerComposer.packetAnswer(answer);
+            Answer answerMessage = answerComposer.packetAnswer(answer);
+            if(answerMessage instanceof AutoCloseAnswer){
+                currScene.moveToEndScreen();
+            }
+            return answerMessage;
         }
 
         else if(request instanceof SingleLoserInfo) {
@@ -307,7 +322,12 @@ public class CLIRequestHub {
             ((Table) currScene).updateWin(((WinnerRequest) request).getWinner());
             answer = currScene.show();
             answerComposer = new AnswerComposer(request);
-            return answerComposer.packetAnswer(answer);
+            Answer answerMessage = answerComposer.packetAnswer(answer);
+            if(answerMessage instanceof AutoCloseAnswer){
+                currScene.moveToEndScreen();
+            }
+            return answerMessage;
+
         }
 
         else if(request instanceof EndByDisconnection){

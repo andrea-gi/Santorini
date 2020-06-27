@@ -46,6 +46,5 @@ public class ErrorPrompt extends PrintableObject{
     @Override
     public void print(int line, int column) {
         super.print(line, column);
-        ANSI.moveTo(Frame.SCREEN_HEIGHT+1, 1);
     }
 }
