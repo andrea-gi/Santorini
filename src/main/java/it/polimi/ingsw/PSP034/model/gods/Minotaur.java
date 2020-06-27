@@ -60,17 +60,17 @@ public class Minotaur extends GodsRules {
     public boolean validMove(Worker worker, Tile destinationTile){
         movingOtherWorker = false;
         if(getPlayer().isOwner(worker)) {
+            //Checks if the tile is different
+            if(worker.getMyTile().getX() == destinationTile.getX()
+                    && worker.getMyTile().getY() == destinationTile.getY())
+                return false;
+
             //Checks valid move up (at most 1 level)
             if (worker.heightDifference(destinationTile) > 1)
                 return false;
 
             //Checks if tile does not have a dome
             if (destinationTile.hasDome())
-                return false;
-
-            //Checks if the tile is different
-            if(worker.getMyTile().getX() == destinationTile.getX()
-                    && worker.getMyTile().getY() == destinationTile.getY())
                 return false;
 
             //Checks if tiles are neighbour

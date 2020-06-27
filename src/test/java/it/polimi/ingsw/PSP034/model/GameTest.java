@@ -51,6 +51,11 @@ public class GameTest {
         assertEquals(firstPlayer.getWorker(Sex.FEMALE), myBoard.getTile(3,3).getWorker());
     }
 
+    @Test
+    public void invalidTile() {
+        assertNull(myBoard.getTile(-1,3));
+    }
+
     @After
     public void tearDown() {
         myGame = null;

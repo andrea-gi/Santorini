@@ -75,8 +75,6 @@ public class ClientGameHandler implements Runnable{
         }
         else if (message != null)
             sendAnswer(message);
-        // if (message instanceof RequestServerConfig) controllo la tipologia di messaggio ed eventualmente chiudo tutto
-
     }
 
     private final Object waitLock = new Object();
@@ -90,7 +88,7 @@ public class ClientGameHandler implements Runnable{
                     message = queue.take();
                 else{
                     synchronized (waitLock) {
-                        waitLock.wait(5);
+                        waitLock.wait(100);
                     }
                 }
 

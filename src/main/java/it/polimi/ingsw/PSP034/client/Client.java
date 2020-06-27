@@ -4,6 +4,8 @@ import it.polimi.ingsw.PSP034.messages.HeartBeatAnswer;
 import it.polimi.ingsw.PSP034.messages.HeartBeatRequest;
 import it.polimi.ingsw.PSP034.messages.Request;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.ErrorMessage;
+import it.polimi.ingsw.PSP034.messages.gameOverPhase.EndByDisconnection;
+import it.polimi.ingsw.PSP034.view.GameException;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -34,7 +36,6 @@ public class Client implements Runnable{
         this.socketPort = socketPort;
     }
 
-    //TODO -- bisogna prima chiamare questo metodo e poi avviare il thread
     public boolean startConnection(){
         try {
             socket = new Socket(address, socketPort);
@@ -93,8 +94,13 @@ public class Client implements Runnable{
                             futureHeartBeat.cancel(true);
                         clientGameHandler.send(new HeartBeatAnswer());
                         futureHeartBeat = waitHeartBeat();
-                    } else {
-                        requestQueue.offer((Request) receivedMessage); //TODO -- cosa succede se supero la capacità?
+                    } else if (receivedMessage instanceof EndByDisconnection) {
+                        requestManager.handleRequest((EndByDisconnection) receivedMessage);
+                        this.silentEnded = true;
+                        clientGameHandler.setSilentEnded(true);
+                    }
+                    else {
+                        requestQueue.offer((Request) receivedMessage);
                         if (Request.isSilentCloseRequest((Request) receivedMessage)) {
                             this.silentEnded = true;
                             clientGameHandler.setSilentEnded(true);
@@ -102,8 +108,7 @@ public class Client implements Runnable{
                     }
                 }
             }
-            catch (IOException | ClassNotFoundException e){
-                //requestQueue.clear();
+            catch (IOException | ClassNotFoundException | GameException e){
                 canManageMessages = false;
                 closeStreams();
             }

@@ -26,10 +26,6 @@ public class Player {
         this.color = color;
     }
 
-    public boolean hasWon() {
-        return hasWon;
-    }
-
     public boolean hasLost() {
         return hasLost;
     }
@@ -38,14 +34,11 @@ public class Player {
         this.hasLost = hasLost;
     }
 
-    public void setHasWon(boolean hasWon) {
-        this.hasWon = hasWon;
-    }
-
     /** Initialises the structure for the Workers associated to the Player, with his name, a color and a sex. It also
      * already places the Workers in their first position
      * @param sex is the sex of the Worker
-     * @param myTile is the tile where the Player places the first time his Worker*/
+     * @param myTile is the tile where the Player places the first time his Worker
+     * */
     public void addWorker(Sex sex, Tile myTile){
         Worker newWorker = new Worker(sex, name, this.color, myTile);
         myWorkers.add(newWorker);
@@ -60,9 +53,11 @@ public class Player {
         return name;
     }
 
-    /**@param sex to select the right Worker
-     * @return the right Worker associated to the Player
-     * The function always satisfies the if condition*/
+    /**
+     * Returns one between player's workers, given a chosen sex.
+     * @param sex Worker's sex.
+     * @return Chosen sex worker, owned by the player
+     * */
     public Worker getWorker(Sex sex) {
         Worker result = null;
         for (Worker myWorker : myWorkers) {
@@ -74,22 +69,21 @@ public class Player {
         return result;
     }
 
+    /**
+     * Returns god associated to player.
+     * @return Class representing god's rules.
+     */
     public GodsRules getMyGod() {
         return myGod;
     }
 
-    /** @param myGod the first turn a God is associated with the Player, for the entire game*/
+    /**
+     * Associates a given god to a player.
+     * @param myGod God to be associated to the player.
+     * */
     public void setMyGod(GodsRules myGod) {
         this.myGod = myGod;
     }
-
-    /*TODO --*/
-    /*
-    public void remove(){
-
-        myWorkers.remove();    //devo toglierli davvero non solo dalla lista
-        myWorkers.remove();
-    }*/
 
     /**
      * Check ownership of worker.
@@ -100,6 +94,10 @@ public class Player {
         return worker.getOwner().equals(name);
     }
 
+    /**
+     * Returns player's color.
+     * @return Player's color.
+     */
     public PlayerColor getColor() {
         return color;
     }

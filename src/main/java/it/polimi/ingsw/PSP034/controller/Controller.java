@@ -19,13 +19,14 @@ import it.polimi.ingsw.PSP034.server.Server;
 
 import java.util.ArrayList;
 
-/**It controls the unfolding of the game, checking the GamePhase, giving control of the TurnPhase to the TurnHandler
- * and decorating the Gods in the right order, choosing their right moves*/
+/**
+ * It controls the unfolding of the game, checking the GamePhase, giving control of the TurnPhase to the TurnHandler
+ * and decorating the Gods in the right order, choosing their right moves
+ * */
 public class Controller implements IController{
     private final Game currentGame;
     private final TurnHandler turnHandler;
     private final SetupHandler setup;
-    private final GameOverPhase gameOver;
     private final MessageManager messageManager;
 
     /**Creates the controller associated to a Game. It builds itself the setupPhase, the TurnHandler and the gameOverPhase
@@ -34,7 +35,6 @@ public class Controller implements IController{
         this.currentGame = new Game(new Board());
         this.turnHandler = new TurnHandler(this);
         this.setup = new SetupHandler(this);
-        this.gameOver = new GameOverPhase(this, false);
         this.messageManager = new MessageManager(this, server);
     }
 
@@ -120,10 +120,6 @@ public class Controller implements IController{
         setup.executeSelectedState(message);
     }
 
-    void executeSelectedState(GameOverAnswer message){
-        gameOver.executeSelectedState(message);
-    }
-
     /**Sets the next game phase, in order
      * Sends the first request message*/
     @Override
@@ -140,10 +136,6 @@ public class Controller implements IController{
                 sendToPlayer(this.getCurrentPlayer().getName(), new RequestStart(new NextStateInfo(TurnPhase.START)));
                 sendToAllExcept(this.getCurrentPlayer().getName(), new InfoIsStarting(this.getCurrentPlayer().getName()), false);
                 break;
-            case GAMEOVER:
-                //Player loser = this.getCurrentPlayer();
-                //sendToPlayer(loser.getName(), new SendGameOver(loser));
-                //sendToOthers(others, new SendGameOver(loser));
         }
     }
 
@@ -176,8 +168,6 @@ public class Controller implements IController{
     Player getCurrentPlayer(){
         return currentGame.getCurrentPlayer();
     }
-
-
 
     boolean isGameOver(){
         Player toBeDeletedPlayer = currentGame.loser();

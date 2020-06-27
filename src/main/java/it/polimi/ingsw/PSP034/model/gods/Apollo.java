@@ -65,12 +65,12 @@ public class Apollo extends GodsRules {
 
     private boolean validForApollo(Worker worker, Tile destinationTile){
         if(destinationTile.getWorker() != null){
+            if(worker.getMyTile().getX() == destinationTile.getX()
+                    && worker.getMyTile().getY() == destinationTile.getY())
+                return false;
             if (getPlayer().isOwner(destinationTile.getWorker()))
                 return false;
             if (!(worker.heightDifference(destinationTile) <= 1))
-                return false;
-            if(worker.getMyTile().getX() == destinationTile.getX()
-                    && worker.getMyTile().getY() == destinationTile.getY())
                 return false;
             return worker.getMyTile().isNeighbouringTile(destinationTile);
         }

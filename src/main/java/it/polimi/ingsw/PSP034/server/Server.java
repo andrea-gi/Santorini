@@ -376,6 +376,7 @@ public class Server implements Runnable{
                 } catch (IOException ignored) {
                     logger.printString("Error closing server socket.");
                 }
+                logger.printString("Server has been shut down.");
             }
         }
     }

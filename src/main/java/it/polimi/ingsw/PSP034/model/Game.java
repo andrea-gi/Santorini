@@ -86,7 +86,8 @@ public class Game extends ModelObservable {
             playersList[i] = players.get(i).getName();
             colorsList[i] = players.get(i).getColor();
             if (remainingGods.size() == 0){
-                finalGodsList[i] = players.get(i).getMyGod().getClass().getSimpleName();
+                if (players.get(i).getMyGod() != null) //Gods must be assigned
+                    finalGodsList[i] = players.get(i).getMyGod().getClass().getSimpleName();
             }
         }
         if (remainingGods.size() > 0)

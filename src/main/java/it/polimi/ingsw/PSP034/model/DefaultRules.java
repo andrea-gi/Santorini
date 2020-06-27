@@ -88,17 +88,17 @@ public class DefaultRules implements IRules {
         if (worker.heightDifference(destinationTile) > 1)
             return false;
 
+        //Checks if moving tile is the same
+        if(worker.getMyTile().getX() == destinationTile.getX()
+                && worker.getMyTile().getY() == destinationTile.getY())
+            return false;
+
         //Checks if tile is unoccupied
         if (destinationTile.getWorker() != null)
             return false;
 
         //Checks if tile does not have a dome
         if (destinationTile.hasDome())
-            return false;
-
-        //Checks if moving tile is the same
-        if(worker.getMyTile().getX() == destinationTile.getX()
-                && worker.getMyTile().getY() == destinationTile.getY())
             return false;
 
         //Checks if tiles are neighbour
