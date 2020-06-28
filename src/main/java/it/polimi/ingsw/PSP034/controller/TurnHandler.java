@@ -113,8 +113,14 @@ public class TurnHandler {
                 if(message instanceof AnswerAction) {
                     AnswerAction action = (AnswerAction) message;
                     Worker myWorker = controller.getCurrentPlayer().getWorker(action.getWorkerSex());
-                    Tile myTile = myWorker.getMyTile().neighbouringTileByDirection(action.getDirection());
-                    validMessage = currentGod.executeState(myTurnPhase, myWorker, myTile, false); // if error, not valid
+                    Tile myTile = null;
+                    if(myWorker != null)
+                        myTile = myWorker.getMyTile().neighbouringTileByDirection(action.getDirection());
+                    if(myTile != null) {
+                        validMessage = currentGod.executeState(myTurnPhase, myWorker, myTile, false); // if error, not valid
+                    } else{
+                        validMessage = false;
+                    }
                 }
                 else
                     validMessage = false;
