@@ -1,11 +1,14 @@
 package it.polimi.ingsw.PSP034.model;
 import it.polimi.ingsw.PSP034.constants.*;
 
+/**
+ * Represents the board of the game. Contains all the tiles and a method to access them.
+ */
 public class Board {
     private final Tile[][] tiles;
 
     /**
-     * Initializes a new board of size 5x5 with tiles that do not have either a worker or a building.
+     * Initializes a new board of size {@link Constant}.DIM with tiles that do not have either a worker or a building.
      */
     public Board(){
         tiles  = new Tile[Constant.DIM][Constant.DIM];

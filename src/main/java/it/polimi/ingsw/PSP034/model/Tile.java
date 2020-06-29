@@ -6,6 +6,10 @@ import java.util.ArrayList;
 
 import static it.polimi.ingsw.PSP034.constants.Constant.*;
 
+/**
+ * Represents a single tile of the game board. Contains information on the state of the tile, such as workers, buildings and domes.
+ * Contains methods that allow tile state changes and methods regarding relative positions between tiles.
+ */
 public class Tile {
     private Worker worker;
     private int building;
@@ -35,7 +39,6 @@ public class Tile {
         return worker;
     }
 
-    //TODO -- sistemare eccezione
     /**
      * Set the worker standing in this tile to newWorker.
      *
@@ -50,7 +53,6 @@ public class Tile {
         return building;
     }
 
-    //TODO -- sistemare eccezione
     /**
      * Sets the height of the building on this tile.
      *
@@ -84,7 +86,7 @@ public class Tile {
      * Checks if two tiles are neighbours (or the same).
      *
      * @param tile Reference to the tile to compare to.
-     * @return true only if the given tile is neighbour.
+     * @return true only if the given tile is neighbour (or the same).
      */
     public boolean isNeighbouringTile(Tile tile) {
         int xDistance = Math.abs(x - tile.getX());
@@ -93,31 +95,29 @@ public class Tile {
     }
 
     /**
-     * Finds neighbouring tiles
+     * Finds neighbouring tiles, including the one the method is invoked on.
      *
-     * @return reference to every neighbouring tile
+     * @return List of references to every neighbouring tile.
      */
     public ArrayList<Tile> getNeighbouringTiles() {
         ArrayList<Tile> neighbouringTiles = new ArrayList<>();
         for (int i = 0; i < DIM; i++) {
             for (int j = 0; j < DIM; j++) {
-                if (isNeighbouringTile(board.getTile(i, j))) {
-                    neighbouringTiles.add(board.getTile(i, j));
+                if (isNeighbouringTile(board.getTile(j, i))) {
+                    neighbouringTiles.add(board.getTile(j, i));
                 }
             }
         }
         return neighbouringTiles;
     }
 
-
-    //TODO--eccezione
     /**
+     * Finds next tile in the same direction of the given one.
      * Using this method requires that each needed check regarding the existence of the next tile has already been performed.
-     * Only finds next tile in the same direction of the given one.
      *
-     * @param tile Reference to the tile to be checked. Must be a neighbouring tile.
-     * @return Reference to the next tile in same direction
-     * @throws IllegalArgumentException if the pre-condition is not met.
+     * @param tile  Reference to the tile to be checked. Must be a neighbouring tile.
+     * @return      Reference to the next tile in same direction
+     * @throws      IllegalArgumentException if the pre-condition is not met.
      */
     public Tile getNextTileSameDirection(Tile tile) {
         if (!existsTileSameDirection(tile))
@@ -132,8 +132,8 @@ public class Tile {
     /**
      * Checks if there is a valid tile next to the given one, in the same direction.
      *
-     * @param tile Reference to the tile to be checked.
-     * @return true if it exists a neighbouring tile in the same direction
+     * @param tile  Reference to the tile to be checked.
+     * @return      {@code true} if it exists a neighbouring tile in the same direction, {@code false} otherwise.
      */
     public boolean existsTileSameDirection(Tile tile) {
         if (!this.isNeighbouringTile(tile))
@@ -149,13 +149,12 @@ public class Tile {
 
     }
 
-    //TODO -- eccezione
     /**
      * Finds the theoretical coordinate (one-dimensional) given a tile coordinate and an offset.
      *
-     * @param distance Integer representing the one-dimensional direction (offset)
-     * @param base     One-dimension coordinate of a tile
-     * @return Theoretical coordinate of the next tile in the direction represented by the offset, starting from the base.
+     * @param distance  Integer representing the one-dimensional direction (offset)
+     * @param base      One-dimension coordinate of a tile
+     * @return          Theoretical coordinate of the next tile in the direction represented by the offset, starting from the base.
      */
     private int sameDirectionCoordinate(int distance, int base) {
         if (distance == 0 || distance == -1 || distance == 1)
@@ -171,28 +170,47 @@ public class Tile {
      *
      * @param x x coordinate
      * @param y y coordinate
-     * @return true if the coordinates are valid
+     * @return  true if the coordinates are valid
      */
     public static boolean validCoordinates(int x, int y) {
         return x >= 0 && x < DIM && y >= 0 && y < DIM;
     }
 
-    //TODO -- JAVADOC ed eccezioni
+    /**
+     * Checks if the selected tile is on the board perimeter.
+     *
+     * @return {@code true} if the tile is on the perimeter, {@code false} otherwise.
+     */
     public boolean isPerimeter() {
         return x == 0 || x == DIM - 1 || y == 0 || y == DIM - 1;
     }
 
-    public Directions directionCalculator(@NotNull Tile tile) {
+    /**
+     * Calculates the relative direction between the tile it is invoked on and a given one.
+     *
+     * @param tile  Destination tile, originating the direction.
+     * @return      Relative direction between the two tiles.
+     */
+    public Directions directionCalculator(Tile tile){
+        if (tile == null)
+            throw new IllegalArgumentException("Tile cannot be null");
         int xOffset = tile.getX() - this.x;
         int yOffset = tile.getY() - this.y;
-
         return Directions.offsetToDirection(xOffset, yOffset);
     }
 
+    /**
+     * Finds the reference to the tile on the given direction.
+     * @param direction Relative direction between the tile the method is invoked on and a destination tile.
+     * @return          The destination tile on the given direction.
+     */
     public Tile neighbouringTileByDirection(Directions direction){
         int xOffset = Directions.directionToXOffset(direction);
         int yOffset = Directions.directionToYOffset(direction);
 
-        return board.getTile(x + xOffset, y + yOffset );
+        Tile returnTile = board.getTile(x + xOffset, y + yOffset );
+        if (returnTile == null)
+            throw new IllegalArgumentException("No tile exists in the given direction");
+        return returnTile;
     }
 }

@@ -634,7 +634,9 @@ public class TableController implements GUIController{
     private int femaleYAction;
     private TurnPhase playActionPhase = null;
 
-    /**Updates the workers choice depending on the possible actions
+    /**
+     * Updates the worker's choice depending on the possible actions.
+     * @param request   Action to be managed.
      */
     public void updatePlayAction(RequestAction request){
         maleDirections = request.getPossibleMaleDirections();

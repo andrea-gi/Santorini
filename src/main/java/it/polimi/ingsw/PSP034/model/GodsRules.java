@@ -7,6 +7,9 @@ import it.polimi.ingsw.PSP034.messages.playPhase.RequiredActions;
 
 import java.util.ArrayList;
 
+/**
+ * Contains the god specific rules, decorating the main core: {@link DefaultRules}.
+ */
 public class GodsRules implements IRules, IStateManager {
     private final Player player;
     private static DefaultRules defaultRules;
@@ -229,7 +232,7 @@ public class GodsRules implements IRules, IStateManager {
     public final boolean anyValidBuild(Worker worker) {
         boolean anyBuild = false;
         for (Tile neighbour : worker.getMyTile().getNeighbouringTiles()) {
-            boolean valid = completeRules.validBuild(worker, neighbour); //ATTENZIONE, REGOLE COMPLETE; USARE QUESTA!!
+            boolean valid = completeRules.validBuild(worker, neighbour); // Complete rules!
             if (valid) {
                 anyBuild = true;
                 break;

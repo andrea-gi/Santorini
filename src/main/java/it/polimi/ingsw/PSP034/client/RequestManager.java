@@ -19,7 +19,8 @@ public abstract class RequestManager {
 
     /**
      * Handles a single request
-     * @param message Request to be handled
+     * @param message           Request to be handled
+     * @throws GameException    Thrown if there has been a client error.
      */
     public abstract void handleRequest(Request message) throws GameException;
 
@@ -46,14 +47,15 @@ public abstract class RequestManager {
 
     /**
      * Returns message handling availability.
-     * @return {@code true} if {@link this#handleRequest(Request)} can manage a new request.
+     * @return {@code true} if this instance of the RequestHub can manage a new request. {@code false} otherwise.
      */
     public abstract boolean canHandleRequest();
 
     private final ExecutorService executorConnection = Executors.newSingleThreadExecutor();
 
-    /**Creates the connection between the client and the server
-     * @param answer Answer containing IP address and port
+    /** Creates the connection between the client and the server.
+     *  @param answer   Answer containing IP address and port.
+     *  @return         {@link Future} representing the result of the connection attempt.
      */
     public Future<Boolean> createConnection(AnswerIP answer){
         return executorConnection.submit(() ->{

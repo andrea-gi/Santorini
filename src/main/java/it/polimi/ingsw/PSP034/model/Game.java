@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
+/**
+ * Contains the needed information on the state of the game. Works as the main entry point for the {@link it.polimi.ingsw.PSP034.controller.Controller}.
+ */
 public class Game extends ModelObservable {
     private final Board board;
     private final ArrayList<Player> players;
@@ -21,8 +24,8 @@ public class Game extends ModelObservable {
     private GamePhase gamePhase;
     private IRules rules;
     private String[] godsList = {""};
-    private ArrayList<String> remainingGods;
-    private ArrayList<String> alreadyChosenGods;
+    private final ArrayList<String> remainingGods;
+    private final ArrayList<String> alreadyChosenGods;
     private String eliminatedPlayerName = "";
 
     private final String[] godsNames = {"Apollo", "Artemis", "Athena", "Atlas", "Demeter", "Hephaestus", "Minotaur",
@@ -31,6 +34,8 @@ public class Game extends ModelObservable {
     /**
      * Creates a new Game class, instantiating a new Board and a structure for Players. 
      * At the time of instantiation, there is no currentPlayer, which has to bet set using {@link Game#setCurrentPlayer(Player)}
+     *
+     * @param board Reference to the board to be used throughout the game.
      */
     public Game(Board board){
         super();
@@ -207,7 +212,9 @@ public class Game extends ModelObservable {
     }
 
     /**Decorates the turn with the gods, already in order
-     * @param name is the name of the god*/
+     * @param name      Name of the god
+     * @param player    Reference to the player the god must be attached to.
+     */
     public void addGod(String name, Player player){
         switch (name){
             //SIMPLE GODS
