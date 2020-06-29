@@ -5,23 +5,34 @@ import it.polimi.ingsw.PSP034.messages.serverConfiguration.RequestServerConfig;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.ServerInfo;
 import it.polimi.ingsw.PSP034.messages.setupPhase.*;
 import it.polimi.ingsw.PSP034.model.Player;
+import it.polimi.ingsw.PSP034.model.Tile;
 
-/**Handles the first phase of the game, initialising the number of Players, their names, their colors and their Gods*/
+/**
+ * Handles the first phase of the game, initialising the number of Players, their names, their colors and their Gods.
+ */
 public class SetupHandler {
     private final Controller controller;
     private SetupPhase currentSetupPhase;
+    private SetupPhase previousSetupPhase;
     private boolean firstWorker = false;
     private int playerNumber = 0;
 
-    /**It creates the class, already associated with the controller
-     * @param controller is the controller that handles this game*/
+    /**
+     * Creates the class, already associated with the controller.
+     * @param controller Controller that handles this game.
+     */
     public SetupHandler(Controller controller){
         this.controller = controller;
         currentSetupPhase = SetupPhase.CARDS_CHOICE;
+        previousSetupPhase = currentSetupPhase;
     }
 
+    /**
+     * Executes a setup action based on the message received, setting the next phase.
+     * @param message Message received.
+     */
     public void executeSelectedState(SetupAnswer message){
-        boolean validMessage = true;
+        boolean validMessage = false;
         switch(currentSetupPhase){
             case CARDS_CHOICE:
                 if (message instanceof AnswerCardsChoice){
@@ -29,28 +40,34 @@ public class SetupHandler {
                     for (String s : choice) {
                         controller.addRemainingGod(s);
                     }
-                    controller.sendToPlayer(controller.getCurrentPlayer().getName(), new RequestServerConfig(ServerInfo.CARDS_CHOICE_WAIT));
-                    controller.setNextPlayer();
+                    if (choice.length == controller.getRemainingGods().size()) {
+                        controller.sendToPlayer(controller.getCurrentPlayer().getName(), new RequestServerConfig(ServerInfo.CARDS_CHOICE_WAIT));
+                        controller.setNextPlayer();
+                        validMessage = true;
+                    }
                 }
                 break;
 
             case PERSONAL_GOD_CHOICE:
                 if (message instanceof AnswerPersonalGod){
+                    int before = controller.getRemainingGods().size();
                     controller.addGod(((AnswerPersonalGod) message).getMyGod());
-                    if (controller.getRemainingGods().size() > 0) {
+                    int after = controller.getRemainingGods().size();
+                    if (controller.getRemainingGods().size() > 0 && before != after) {
                         controller.sendToPlayer(controller.getCurrentPlayer().getName(), new RequestServerConfig(ServerInfo.CARDS_CHOICE_WAIT));
                         controller.setNextPlayer();
+                        validMessage = true;
                     }
                 }
                 break;
 
             case CHOOSE_FIRST_PLAYER:
                 if (message instanceof AnswerFirstPlayer){
-                    controller.firstPlayerSetUp(((AnswerFirstPlayer) message).getFirstPlayer());
-                    controller.sendToAll(new InitializeBoard(controller.getSlimBoard()), false);
-                    //TODO -- da decidere
-                    //String firstPlayer = controller.getCurrentPlayer().getName();
-                    //controller.sendToAllExcept(firstPlayer, new FirstPlayerInfo(firstPlayer));
+                    if(controller.getPlayersName().contains(((AnswerFirstPlayer) message).getFirstPlayer())) {
+                        controller.firstPlayerSetUp(((AnswerFirstPlayer) message).getFirstPlayer());
+                        controller.sendToAll(new InitializeBoard(controller.getSlimBoard()), false);
+                        validMessage = true;
+                    }
                 }
                 break;
 
@@ -59,22 +76,37 @@ public class SetupHandler {
                     int x = ((AnswerPlaceWorker) message).getX();
                     int y = ((AnswerPlaceWorker) message).getY();
                     Sex sex = ((AnswerPlaceWorker) message).getSex();
-                    controller.addWorker(sex, x, y);
-                    if (!firstWorker){
-                        controller.sendToPlayer(controller.getCurrentPlayer().getName(), new ReceivedWorkerChoice());
-                        controller.setNextPlayer();
-                        playerNumber++;
-                        if (playerNumber < controller.getPlayerNumber())
-                            currentSetupPhase = SetupPhase.CHOOSE_FIRST_PLAYER;
+                    if (Tile.validCoordinates(x,y)) {
+                        controller.addWorker(sex, x, y);
+                        if (!firstWorker) {
+                            controller.sendToPlayer(controller.getCurrentPlayer().getName(), new ReceivedWorkerChoice());
+                            controller.setNextPlayer();
+                            playerNumber++;
+                            if (playerNumber < controller.getPlayerNumber())
+                                currentSetupPhase = SetupPhase.CHOOSE_FIRST_PLAYER;
+                        }
+                        validMessage = true;
                     }
                 }
                 break;
         }
+
+        if (!validMessage){
+            if (currentSetupPhase == previousSetupPhase && currentSetupPhase == SetupPhase.CARDS_CHOICE){
+                controller.sendToPlayer(controller.getCurrentPlayer().getName(), new RequestCardsChoice(controller.getPlayerNumber()));
+                return;
+            }
+            currentSetupPhase = previousSetupPhase;
+        }
         manageNextState();
     }
 
-    public void manageNextState(){
+    /**
+     * Sets the next phase, in order, and sends the right message.
+     */
+    private void manageNextState(){
         Player player = controller.getCurrentPlayer();
+        previousSetupPhase = currentSetupPhase;
         switch(currentSetupPhase){
             case CARDS_CHOICE:
                 currentSetupPhase = SetupPhase.PERSONAL_GOD_CHOICE;

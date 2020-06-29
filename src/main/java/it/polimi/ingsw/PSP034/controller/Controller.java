@@ -21,16 +21,19 @@ import java.util.ArrayList;
 
 /**
  * It controls the unfolding of the game, checking the GamePhase, giving control of the TurnPhase to the TurnHandler
- * and decorating the Gods in the right order, choosing their right moves
- * */
+ * and decorating the Gods in the right order, choosing their right moves.
+ */
 public class Controller implements IController{
     private final Game currentGame;
     private final TurnHandler turnHandler;
     private final SetupHandler setup;
     private final MessageManager messageManager;
 
-    /**Creates the controller associated to a Game. It builds itself the setupPhase, the TurnHandler and the gameOverPhase
-     * It creates also the DefaultRules in order to have ready all the Gods cards */
+    /**
+     * Creates the controller associated to a Game. It builds itself the setupHandler, the TurnHandler and
+     * the MessageManager.
+     * @param server Server associated with the controller.
+     */
     public Controller(Server server) {
         this.currentGame = new Game(new Board());
         this.turnHandler = new TurnHandler(this);
@@ -43,10 +46,12 @@ public class Controller implements IController{
         return messageManager;
     }
 
+    @Override
     public void addModelObserver(ModelObserver observer){
         currentGame.addObserver(observer);
     }
 
+    @Override
     public void removeModelObserver(ModelObserver observer){
         currentGame.removeObserver(observer);
     }
@@ -55,6 +60,11 @@ public class Controller implements IController{
         return currentGame.generateSlimBoard();
     }
 
+    /**
+     * Forwards a player add request to the current game.
+     * @param name Name of the player to be added.
+     * @param color Color of the player to be added.
+     */
     @Override
     public void addPlayer(String name, PlayerColor color){
         currentGame.addPlayer(new Player(name, color));
@@ -80,6 +90,10 @@ public class Controller implements IController{
         return this.currentGame.getPlayersName();
     }
 
+    /**
+     * Forwards the setting of the first player to the current game.
+     * @param name Name of the first player.
+     */
     public void firstPlayerSetUp(String name){
         currentGame.setCurrentPlayerByName(name);
     }
@@ -88,22 +102,38 @@ public class Controller implements IController{
         currentGame.addWorker(getCurrentPlayer(), sex, x, y);
     }
 
+    /**
+     * Sends to a single player a given message.
+     * @param player Player recipient of the message.
+     * @param message Message sent to the player.
+     */
     void sendToPlayer(String player, Request message){
         messageManager.sendTo(message, player);
     }
 
+    /**
+     * Sends to all the players a given message.
+     * @param message Message sent to all the players.
+     * @param toEliminatedPlayer Flag to specify if the message should be sent also to the eliminated player.
+     */
     void sendToAll(Request message, boolean toEliminatedPlayer){
         ArrayList<String> playersList = currentGame.getPlayersName();
-        if(toEliminatedPlayer)
+        if(toEliminatedPlayer && currentGame.getEliminatedPlayerName().length() > 0)
             playersList.add(currentGame.getEliminatedPlayerName());
         String[] players = playersList.toArray(new String[0]);
         messageManager.sendTo(message, players);
     }
 
+    /**
+     * Sends to all the players except one a given message.
+     * @param player Player excluded from receiving the message.
+     * @param message Message sent to all due players.
+     * @param toEliminatedPlayer Flag to specify if the message should be sent also to the eliminated player.
+     */
     void sendToAllExcept(String player, Request message, boolean toEliminatedPlayer){
         ArrayList<String> playersList = currentGame.getPlayersName();
         playersList.remove(player);
-        if(toEliminatedPlayer)
+        if(toEliminatedPlayer && currentGame.getEliminatedPlayerName().length() > 0)
             playersList.add(currentGame.getEliminatedPlayerName());
         messageManager.sendTo(message, playersList.toArray(new String[0]));
     }
@@ -120,8 +150,6 @@ public class Controller implements IController{
         setup.executeSelectedState(message);
     }
 
-    /**Sets the next game phase, in order
-     * Sends the first request message*/
     @Override
     public void handleGamePhase(){
         switch (currentGame.getGamePhase()) {
@@ -139,6 +167,9 @@ public class Controller implements IController{
         }
     }
 
+    /**
+     * Sets the god-like player with a random function.
+     */
     private void godLikePlayerChoice(){
         currentGame.setRandomPlayer();
     }
@@ -147,6 +178,9 @@ public class Controller implements IController{
         currentGame.setNextPlayer();
     }
 
+    /**
+     * Sets the next game phase, in order.
+     */
     void setNextGamePhase(){
         GamePhase myPhase = currentGame.getGamePhase();
         switch (myPhase){
@@ -156,8 +190,6 @@ public class Controller implements IController{
             case PLAY:
                 currentGame.setGamePhase(GamePhase.GAMEOVER);
                 break;
-            case GAMEOVER:
-                currentGame.setGamePhase(GamePhase.SETUP);
         }
     }
 
@@ -169,6 +201,10 @@ public class Controller implements IController{
         return currentGame.getCurrentPlayer();
     }
 
+    /**
+     * Checks if a player lost and manages the possible game end.
+     * @return True if the game has ended; false if only one out of three players has lost.
+     */
     boolean isGameOver(){
         Player toBeDeletedPlayer = currentGame.loser();
         if(toBeDeletedPlayer != null) {

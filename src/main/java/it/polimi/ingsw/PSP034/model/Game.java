@@ -11,6 +11,7 @@ import it.polimi.ingsw.PSP034.view.CLI.printables.ANSI;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 public class Game extends ModelObservable {
@@ -23,6 +24,9 @@ public class Game extends ModelObservable {
     private ArrayList<String> remainingGods;
     private ArrayList<String> alreadyChosenGods;
     private String eliminatedPlayerName = "";
+
+    private final String[] godsNames = {"Apollo", "Artemis", "Athena", "Atlas", "Demeter", "Hephaestus", "Minotaur",
+        "Pan", "Prometheus", "Hera", "Hestia", "Zeus", "Triton", "Limus"};
 
     /**
      * Creates a new Game class, instantiating a new Board and a structure for Players. 
@@ -63,9 +67,15 @@ public class Game extends ModelObservable {
     }
 
     public void addRemainingGod(String god){
-        this.remainingGods.add(god);
-        if (remainingGods.size() == players.size()){
-            godsList = remainingGods.toArray(new String[0]);
+        if (god == null || god.length() == 0){
+            return;
+        }
+        ArrayList<String> names = new ArrayList<>(Arrays.asList(godsNames));
+        if (names.contains(god)) {
+            this.remainingGods.add(god);
+            if (remainingGods.size() == players.size()) {
+                godsList = remainingGods.toArray(new String[0]);
+            }
         }
     }
 

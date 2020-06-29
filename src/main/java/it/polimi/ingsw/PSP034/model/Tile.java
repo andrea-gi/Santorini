@@ -173,7 +173,7 @@ public class Tile {
      * @param y y coordinate
      * @return true if the coordinates are valid
      */
-    protected static boolean validCoordinates(int x, int y) {
+    public static boolean validCoordinates(int x, int y) {
         return x >= 0 && x < DIM && y >= 0 && y < DIM;
     }
 

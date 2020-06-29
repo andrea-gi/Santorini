@@ -11,7 +11,9 @@ import it.polimi.ingsw.PSP034.model.Worker;
 
 import java.util.ArrayList;
 
-/**Handles the turn phases for each Player */
+/**
+ * Handles the turn phases for each Player.
+ */
 public class TurnHandler {
     private IStateManager currentGod;
     private final Controller controller;
@@ -24,16 +26,20 @@ public class TurnHandler {
         this.previousTurnPhase = TurnPhase.START;
     }
 
-    /**Sets the current God associated to the Player who is playing right now
-     * @param currentGod is the God associated to the Player*/
+    /**
+     * Sets the current God (the god associated to the Player who is playing now).
+     * @param currentGod God associated to the Player.
+     */
     public void setCurrentGod(IStateManager currentGod) {
         this.currentGod = currentGod;
         myTurnPhase = TurnPhase.START;
         previousTurnPhase = TurnPhase.START;
     }
 
-    /**Sets the right turn phase
-     * @param turnPhase is the turn phase that needs to be executed at the moment*/
+    /**
+     * Sets the right turn phase.
+     * @param turnPhase Turn phase that needs to be executed at the moment.
+     */
     public void setMyTurnPhase(TurnPhase turnPhase){
         this.myTurnPhase = turnPhase;
     }
@@ -46,7 +52,9 @@ public class TurnHandler {
         return myTurnPhase;
     }
 
-    /**Makes the state of the turn change in order, depending on the God associated to the Player */
+    /**
+     * Makes the turn state change in order, depending on the God associated to the Player.
+     */
     private void manageNextState(){
         //myTurnPhase = currentGod.nextState();
         String newCurrentPlayer;
@@ -97,7 +105,9 @@ public class TurnHandler {
 
 
 
-    /**Executes the actions in the actual turn phase*/
+    /**
+     * Executes the actions in the actual turn phase.
+     */
     public void executeSelectedState(PlayAnswer message){
         boolean validMessage = true;
         switch(myTurnPhase){
