@@ -115,6 +115,11 @@ public class DefaultRules implements IRules {
      */
     @Override
     public boolean validBuild(Worker worker, Tile buildingTile) {
+        //Checks if building tile is the same
+        if(worker.getMyTile().getX() == buildingTile.getX()
+                && worker.getMyTile().getY() == buildingTile.getY())
+            return false;
+
         //Checks if worker is the same used during move
         if (worker.getSex() != getChosenSex())
             return false;
@@ -125,11 +130,6 @@ public class DefaultRules implements IRules {
 
         //Checks if tile does not have already a dome
         if (buildingTile.hasDome())
-            return false;
-
-        //Checks if building tile is the same
-        if(worker.getMyTile().getX() == buildingTile.getX()
-                && worker.getMyTile().getY() == buildingTile.getY())
             return false;
 
         //Checks if tiles are neighbour

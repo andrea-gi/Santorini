@@ -20,6 +20,18 @@ public class TileTest {
     }
 
     @Test
+    public void setInvalidBuilding() {
+        boolean exceptionThrown = false;
+        try{
+            board.getTile(0,1).setBuilding(-1);
+        } catch (IllegalArgumentException e){
+            exceptionThrown = true;
+        } finally {
+            assertTrue(exceptionThrown);
+        }
+    }
+
+    @Test
     public void isNeighbouringTileTrue() {
         myTile = board.getTile(2,3);
         destinationTile = board.getTile(3,3);
@@ -70,6 +82,20 @@ public class TileTest {
     }
 
     @Test
+    public void getNextTileSameDirectionInvalid() {
+        boolean exceptionThrown = false;
+        myTile = board.getTile(1,1);
+        destinationTile = board.getTile(0,0);
+        try {
+            myTile.getNextTileSameDirection(destinationTile);
+        } catch (IllegalArgumentException e){
+            exceptionThrown = true;
+        } finally {
+            assertTrue(exceptionThrown);
+        }
+    }
+
+    @Test
     public void existsTileSameDirectionTrue() {
         myTile = board.getTile(0,0);
         destinationTile = board.getTile(1,1);
@@ -80,6 +106,13 @@ public class TileTest {
     public void existsTileSameDirectionFalse() {
         myTile = board.getTile(0,1);
         destinationTile = board.getTile(0,0);
+        assertFalse(myTile.existsTileSameDirection(destinationTile));
+    }
+
+    @Test
+    public void existsTileSameDirectionFalseNotNeighbouring() {
+        myTile = board.getTile(0,1);
+        destinationTile = board.getTile(3,4);
         assertFalse(myTile.existsTileSameDirection(destinationTile));
     }
 
@@ -111,6 +144,19 @@ public class TileTest {
         destinationTile = board.getTile(2,3);
         Directions direction = myTile.directionCalculator(destinationTile);
         assertEquals(direction, Directions.S);
+    }
+
+    @Test
+    public void directionCalculatorNull() {
+        myTile = board.getTile(2,2);
+        boolean exceptionThrown = false;
+        try {
+            myTile.directionCalculator(null);
+        } catch (IllegalArgumentException e){
+            exceptionThrown = true;
+        } finally {
+            assertTrue(exceptionThrown);
+        }
     }
 
     @Test

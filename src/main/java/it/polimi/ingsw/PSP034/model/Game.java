@@ -160,8 +160,9 @@ public class Game extends ModelObservable {
     }
 
     /**
-     * @param name Name of the player to search
-     * @return Reference to the player with that given name
+     * Returns a reference to a player given his name.
+     * @param name Name of the player to search.
+     * @return Reference to the player with that given name, {@code null} if there is no player with that given name.
      */
     private Player getPlayerByName(String name){
         for (Player player : players){
@@ -291,7 +292,10 @@ public class Game extends ModelObservable {
 
         if(godNumber == 0){
             rules = ((GodsRules) rules).getDecoratedRules();
-            GodsRules.setCompleteRules((GodsRules) rules);
+            if (rules instanceof GodsRules)
+                GodsRules.setCompleteRules((GodsRules) rules);
+            else
+                throw new IllegalStateException("Cannot remove the last god from the game.");
         }
         else {
             previous.setDecoratedRules(current.getDecoratedRules());

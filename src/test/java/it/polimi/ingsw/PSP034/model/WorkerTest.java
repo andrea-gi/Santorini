@@ -40,4 +40,16 @@ public class WorkerTest {
         difference = myWorker.heightDifference(board.getTile(2,1));
         assertEquals(difference, -1);
     }
+
+    @Test
+    public void setMyTileNull() {
+        boolean exceptionThrown = false;
+        try{
+            myWorker.setMyTile(null);
+        } catch (IllegalArgumentException e){
+            exceptionThrown = true;
+        } finally {
+             assertTrue(exceptionThrown);
+        }
+    }
 }
