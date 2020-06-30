@@ -4,6 +4,9 @@ import it.polimi.ingsw.PSP034.constants.PlayerColor;
 import it.polimi.ingsw.PSP034.constants.Constant;
 import it.polimi.ingsw.PSP034.constants.Sex;
 import it.polimi.ingsw.PSP034.constants.TurnPhase;
+import it.polimi.ingsw.PSP034.messages.playPhase.NextStateInfo;
+import it.polimi.ingsw.PSP034.messages.playPhase.RequiredActions;
+import it.polimi.ingsw.PSP034.view.GodDescription;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -53,6 +56,35 @@ public class GodsRulesTest {
             for (int j = 0; j < Constant.DIM; j++){
                 myBoard.getTile(i, j).setBuilding(buildings[i][j]);
             }
+        }
+    }
+
+    @Test
+    public void getPlayerSuccessAllGods(){
+        String[][] gods = {{"Apollo", "Artemis", "Athena"},
+                {"Atlas", "Demeter", "Hephaestus"},
+                {"Minotaur", "Pan", "Prometheus"},
+                {"Limus", "Hestia", "Hera"}, //NOTE: for the test to work properly Limus has to be the first god
+                {"Triton", "Zeus", "Apollo"}};
+        for(String[] group : gods){
+            setUp();
+
+            setGods(group[0], group[1], group[2]);
+            Player currentPlayer = myGame.getCurrentPlayer();
+            GodsRules currentGod = currentPlayer.getMyGod();
+            assertEquals(currentPlayer, currentGod.getPlayer());
+
+            myGame.setNextPlayer();
+            currentPlayer = myGame.getCurrentPlayer();
+            currentGod = currentPlayer.getMyGod();
+            assertEquals(currentPlayer, currentGod.getPlayer());
+
+            myGame.setNextPlayer();
+            currentPlayer = myGame.getCurrentPlayer();
+            currentGod = currentPlayer.getMyGod();
+            assertEquals(currentPlayer, currentGod.getPlayer());
+
+            tearDown();
         }
     }
 
@@ -443,6 +475,365 @@ public class GodsRulesTest {
         myBoard.getTile(1,2).setBuilding(3);
         assertFalse(currentGod.checkMoveLost(currentPlayer));
     }
+
+    @Test
+    public void normalMoveSuccessAllGods(){
+        String[][] gods = {{"Apollo", "Artemis", "Athena"},
+                {"Atlas", "Demeter", "Hephaestus"},
+                {"Minotaur", "Pan", "Prometheus"},
+                {"Limus", "Hestia", "Hera"}, //NOTE: for the test to work properly Limus has to be the first god
+                {"Triton", "Zeus", "Apollo"}};
+        for(String[] group : gods){
+            setUp();
+            System.out.println(group[0] + " " + group[1] + " " + group[2]);
+            normalMoveSuccess(group[0], group[1], group[2]);
+            tearDown();
+        }
+    }
+
+    private void normalMoveSuccess(String firstGod, String secondGod, String thirdGod){
+        setGods(firstGod, secondGod, thirdGod);
+
+        Player currentPlayer = myGame.getCurrentPlayer();
+        GodsRules currentGod = currentPlayer.getMyGod();
+        currentGod.getDefaultRules().setChosenSex(currentPlayer.getWorker(Sex.MALE));
+        currentGod.executeState(TurnPhase.MOVE, currentPlayer.getWorker(Sex.MALE), myBoard.getTile(0,1), false);
+        assertEquals(currentPlayer.getWorker(Sex.MALE), myBoard.getTile(0,1).getWorker());
+
+        myGame.setNextPlayer();
+        currentPlayer = myGame.getCurrentPlayer();
+        currentGod = currentPlayer.getMyGod();
+        currentGod.getDefaultRules().setChosenSex(currentPlayer.getWorker(Sex.FEMALE));
+        currentGod.executeState(TurnPhase.MOVE, currentPlayer.getWorker(Sex.FEMALE), myBoard.getTile(2,3), false);
+        assertEquals(currentPlayer.getWorker(Sex.FEMALE), myBoard.getTile(2,3).getWorker());
+
+        myGame.setNextPlayer();
+        currentPlayer = myGame.getCurrentPlayer();
+        currentGod = currentPlayer.getMyGod();
+        currentGod.getDefaultRules().setChosenSex(currentPlayer.getWorker(Sex.MALE));
+        currentGod.executeState(TurnPhase.MOVE, currentPlayer.getWorker(Sex.MALE), myBoard.getTile(4,3), false);
+        assertEquals(currentPlayer.getWorker(Sex.MALE), myBoard.getTile(4,3).getWorker());
+    }
+
+    @Test
+    public void specialMoveApolloSuccess(){
+        setGods("Apollo","Athena","Artemis");
+
+        Player currentPlayer = myGame.getCurrentPlayer();
+        GodsRules currentGod = currentPlayer.getMyGod();
+        currentGod.getDefaultRules().setChosenSex(currentPlayer.getWorker(Sex.FEMALE));
+        currentGod.executeState(TurnPhase.MOVE, currentPlayer.getWorker(Sex.FEMALE), myBoard.getTile(2,2), false);
+        assertEquals(currentPlayer.getWorker(Sex.FEMALE), myBoard.getTile(2,2).getWorker());
+
+        myGame.setNextPlayer();
+        currentPlayer = myGame.getCurrentPlayer();
+        assertEquals(currentPlayer.getWorker(Sex.MALE), myBoard.getTile(1,1).getWorker());
+    }
+
+    @Test
+    public void specialMoveApolloFail(){
+        setGods("Apollo","Athena","Artemis");
+
+        //Trying to swap with own worker
+        Player currentPlayer = myGame.getCurrentPlayer();
+        GodsRules currentGod = currentPlayer.getMyGod();
+        currentGod.getDefaultRules().setChosenSex(currentPlayer.getWorker(Sex.MALE));
+        currentGod.executeState(TurnPhase.MOVE, currentPlayer.getWorker(Sex.MALE), myBoard.getTile(1,1), false);
+        assertEquals(currentPlayer.getWorker(Sex.MALE), myBoard.getTile(0,0).getWorker());
+        assertEquals(currentPlayer.getWorker(Sex.FEMALE), myBoard.getTile(1,1).getWorker());
+    }
+
+
+    @Test
+    public void normalValidBuildSuccessAllGods() {
+        String[][] gods = {{"Apollo", "Artemis", "Athena"},
+                          {"Atlas", "Demeter", "Hephaestus"},
+                          {"Minotaur", "Pan", "Prometheus"},
+                          {"Limus", "Hestia", "Hera"}, //NOTE: for the test to work properly Limus has to be the first god
+                          {"Triton", "Zeus", "Apollo"}};
+        for(String[] group : gods){
+            setUp();
+            System.out.println(group[0] + " " + group[1] + " " + group[2]);
+            normalValidBuildSuccess(group[0], group[1], group[2]);
+            tearDown();
+        }
+    }
+
+    private void normalValidBuildSuccess(String firstGod, String secondGod, String thirdGod) {
+        setGods(firstGod, secondGod, thirdGod);
+        Player currentPlayer = myGame.getCurrentPlayer();
+        GodsRules currentGod = currentPlayer.getMyGod();
+
+        // Valid build requires the correct worker (the one who has moved before)
+        currentGod.getDefaultRules().setChosenSex(currentPlayer.getWorker(Sex.MALE));
+        assertTrue(currentGod.getCompleteRules().validBuild(currentPlayer.getWorker(Sex.MALE), myBoard.getTile(0, 1)));
+        myGame.setNextPlayer();
+
+        currentPlayer = myGame.getCurrentPlayer();
+        currentGod = currentPlayer.getMyGod();
+        currentGod.getDefaultRules().setChosenSex(currentPlayer.getWorker(Sex.FEMALE));
+        assertTrue(currentGod.getCompleteRules().validBuild(currentPlayer.getWorker(Sex.FEMALE), myBoard.getTile(2,3)));
+
+        myGame.setNextPlayer();
+        currentPlayer = myGame.getCurrentPlayer();
+        currentGod = currentPlayer.getMyGod();
+        currentGod.getDefaultRules().setChosenSex(currentPlayer.getWorker(Sex.MALE));
+        assertTrue(currentGod.getCompleteRules().validBuild(currentPlayer.getWorker(Sex.MALE), myBoard.getTile(4,3)));
+    }
+
+    @Test
+    public void normalValidBuildFailAllGods(){
+        String[][] gods = {{"Apollo", "Artemis", "Athena"},
+                {"Atlas", "Demeter", "Hephaestus"},
+                {"Minotaur", "Pan", "Prometheus"},
+                {"Limus", "Hestia", "Hera"}, //NOTE: for the test to work properly Limus has to be the first god
+                {"Triton", "Zeus", "Apollo"}};
+        for(String[] group : gods){
+            setUp();
+            System.out.println(group[0] + " " + group[1] + " " + group[2]);
+            normalValidBuildFail(group[0], group[1], group[2]);
+            tearDown();
+        }
+    }
+
+    private void normalValidBuildFail(String firstGod, String secondGod, String thirdGod) {
+        setGods(firstGod, secondGod, thirdGod);
+        Player currentPlayer = myGame.getCurrentPlayer();
+        GodsRules currentGod = currentPlayer.getMyGod();
+
+        //trying to build with the wrong worker
+        currentGod.getDefaultRules().setChosenSex(currentPlayer.getWorker(Sex.MALE));
+        assertFalse(currentGod.getCompleteRules().validBuild(currentPlayer.getWorker(Sex.FEMALE), myBoard.getTile(0,1)));
+
+        myGame.setNextPlayer();
+        currentPlayer = myGame.getCurrentPlayer();
+        currentGod = currentPlayer.getMyGod();
+        currentGod.getDefaultRules().setChosenSex(currentPlayer.getWorker(Sex.FEMALE));
+        assertFalse(currentGod.getCompleteRules().validBuild(currentPlayer.getWorker(Sex.MALE), myBoard.getTile(2,3)));
+
+        myGame.setNextPlayer();
+        currentPlayer = myGame.getCurrentPlayer();
+        currentGod = currentPlayer.getMyGod();
+        currentGod.getDefaultRules().setChosenSex(currentPlayer.getWorker(Sex.MALE));
+        assertFalse(currentGod.getCompleteRules().validBuild(currentPlayer.getWorker(Sex.FEMALE), myBoard.getTile(4,3)));
+
+        //trying to build on other worker
+        myGame.setNextPlayer();
+        currentGod.getDefaultRules().setChosenSex(currentPlayer.getWorker(Sex.MALE));
+        assertFalse(currentGod.getCompleteRules().validBuild(currentPlayer.getWorker(Sex.MALE), myBoard.getTile(1,1)));
+
+        myGame.setNextPlayer();
+        currentPlayer = myGame.getCurrentPlayer();
+        currentGod = currentPlayer.getMyGod();
+        currentGod.getDefaultRules().setChosenSex(currentPlayer.getWorker(Sex.FEMALE));
+        assertFalse(currentGod.getCompleteRules().validBuild(currentPlayer.getWorker(Sex.FEMALE), myBoard.getTile(4,4)));
+
+        myGame.setNextPlayer();
+        currentPlayer = myGame.getCurrentPlayer();
+        currentGod = currentPlayer.getMyGod();
+        currentGod.getDefaultRules().setChosenSex(currentPlayer.getWorker(Sex.MALE));
+        assertFalse(currentGod.getCompleteRules().validBuild(currentPlayer.getWorker(Sex.MALE), myBoard.getTile(3,3)));
+
+        //trying to build on dome
+        myBoard.getTile(0,1).setBuilding(3);
+        myBoard.getTile(0,1).setDome(true);
+        myBoard.getTile(2,3).setBuilding(2);
+        myBoard.getTile(2,3).setDome(true);
+        myBoard.getTile(4,3).setBuilding(3);
+        myBoard.getTile(4,3).setDome(true);
+
+        myGame.setNextPlayer();
+        currentGod.getDefaultRules().setChosenSex(currentPlayer.getWorker(Sex.MALE));
+        assertFalse(currentGod.getCompleteRules().validBuild(currentPlayer.getWorker(Sex.MALE), myBoard.getTile(0,1)));
+
+        myGame.setNextPlayer();
+        currentPlayer = myGame.getCurrentPlayer();
+        currentGod = currentPlayer.getMyGod();
+        currentGod.getDefaultRules().setChosenSex(currentPlayer.getWorker(Sex.FEMALE));
+        assertFalse(currentGod.getCompleteRules().validBuild(currentPlayer.getWorker(Sex.FEMALE), myBoard.getTile(2,3)));
+
+        myGame.setNextPlayer();
+        currentPlayer = myGame.getCurrentPlayer();
+        currentGod = currentPlayer.getMyGod();
+        currentGod.getDefaultRules().setChosenSex(currentPlayer.getWorker(Sex.MALE));
+        assertFalse(currentGod.getCompleteRules().validBuild(currentPlayer.getWorker(Sex.MALE), myBoard.getTile(4,3)));
+    }
+
+    @Test
+    public void normalBuildSuccessAllGods(){
+        String[][] gods = {{"Apollo", "Artemis", "Athena"},
+                {"Atlas", "Demeter", "Hephaestus"},
+                {"Minotaur", "Pan", "Prometheus"},
+                {"Limus", "Hestia", "Hera"}, //NOTE: for the test to work properly Limus has to be the first god
+                {"Triton", "Zeus", "Apollo"}};
+        for(String[] group : gods){
+            setUp();
+            System.out.println(group[0] + " " + group[1] + " " + group[2]);
+            normalBuildSuccess(group[0], group[1], group[2]);
+            tearDown();
+        }
+    }
+
+    private void normalBuildSuccess(String firstGod, String secondGod, String thirdGod){
+        setGods(firstGod, secondGod, thirdGod);
+
+        Player currentPlayer = myGame.getCurrentPlayer();
+        GodsRules currentGod = currentPlayer.getMyGod();
+        currentGod.getDefaultRules().setChosenSex(currentPlayer.getWorker(Sex.MALE));
+        currentGod.executeState(TurnPhase.BUILD, currentPlayer.getWorker(Sex.MALE), myBoard.getTile(0,1), false);
+        assertEquals(1, myBoard.getTile(0,1).getBuilding());
+
+        currentGod.executeState(TurnPhase.BUILD, currentPlayer.getWorker(Sex.MALE), myBoard.getTile(0,1), false);
+        assertEquals(2, myBoard.getTile(0,1).getBuilding());
+
+        currentGod.executeState(TurnPhase.BUILD, currentPlayer.getWorker(Sex.MALE), myBoard.getTile(0,1), false);
+        assertEquals(3, myBoard.getTile(0,1).getBuilding());
+
+        currentGod.executeState(TurnPhase.BUILD, currentPlayer.getWorker(Sex.MALE), myBoard.getTile(0,1), false);
+        assertEquals(3, myBoard.getTile(0,1).getBuilding());
+        assertTrue(myBoard.getTile(0,1).hasDome());
+    }
+
+    @Test
+    public void specialDomeBuildAtlasSuccess(){
+        setGods("Atlas", "Apollo", "Artemis");
+        Player currentPlayer = myGame.getCurrentPlayer();
+        GodsRules currentGod = currentPlayer.getMyGod();
+        currentGod.getDefaultRules().setChosenSex(currentPlayer.getWorker(Sex.MALE));
+
+        //Building dome on level 0
+        currentGod.executeState(TurnPhase.POWER, currentPlayer.getWorker(Sex.MALE), myBoard.getTile(0,1), true);
+
+        assertTrue(currentGod.getCompleteRules().validBuild(currentPlayer.getWorker(Sex.MALE), myBoard.getTile(0,1)));
+
+        currentGod.executeState(TurnPhase.BUILD, currentPlayer.getWorker(Sex.MALE), myBoard.getTile(0,1), false);
+
+        assertEquals(0, myBoard.getTile(0,1).getBuilding());
+        assertTrue(myBoard.getTile(0,1).hasDome());
+    }
+
+    @Test
+    public void secondBuildDemeterSuccess(){
+        setGods("Demeter", "Apollo", "Artemis");
+        Player currentPlayer = myGame.getCurrentPlayer();
+        GodsRules currentGod = currentPlayer.getMyGod();
+        currentGod.getDefaultRules().setChosenSex(currentPlayer.getWorker(Sex.MALE));
+
+        assertTrue(currentGod.getCompleteRules().validBuild(currentPlayer.getWorker(Sex.MALE), myBoard.getTile(0,1)));
+        currentGod.executeState(TurnPhase.BUILD, currentPlayer.getWorker(Sex.MALE), myBoard.getTile(0,1), false);
+
+        currentGod.executeState(TurnPhase.POWER, currentPlayer.getWorker(Sex.MALE), myBoard.getTile(1,0), true);
+        assertTrue(currentGod.getCompleteRules().validBuild(currentPlayer.getWorker(Sex.MALE), myBoard.getTile(1,0)));
+
+        currentGod.executeState(TurnPhase.BUILD, currentPlayer.getWorker(Sex.MALE), myBoard.getTile(1,0), false);
+
+        assertEquals(1, myBoard.getTile(0,1).getBuilding());
+        assertEquals(1, myBoard.getTile(1,0).getBuilding());
+    }
+
+    @Test
+    public void secondBuildDemeterFail(){
+        setGods("Demeter", "Apollo", "Artemis");
+        Player currentPlayer = myGame.getCurrentPlayer();
+        GodsRules currentGod = currentPlayer.getMyGod();
+        currentGod.getDefaultRules().setChosenSex(currentPlayer.getWorker(Sex.MALE));
+
+        //Trying to build on previous tile
+        assertTrue(currentGod.getCompleteRules().validBuild(currentPlayer.getWorker(Sex.MALE), myBoard.getTile(0,1)));
+        currentGod.executeState(TurnPhase.BUILD, currentPlayer.getWorker(Sex.MALE), myBoard.getTile(0,1), false);
+
+        currentGod.executeState(TurnPhase.POWER, currentPlayer.getWorker(Sex.MALE), myBoard.getTile(0,1), true);
+        assertFalse(currentGod.getCompleteRules().validBuild(currentPlayer.getWorker(Sex.MALE), myBoard.getTile(0,1)));
+
+        assertEquals(1, myBoard.getTile(0,1).getBuilding());
+    }
+
+    @Test
+    public void secondBuildHephaestusSuccess(){
+        setGods("Hephaestus", "Apollo", "Artemis");
+        Player currentPlayer = myGame.getCurrentPlayer();
+        GodsRules currentGod = currentPlayer.getMyGod();
+        currentGod.getDefaultRules().setChosenSex(currentPlayer.getWorker(Sex.MALE));
+
+        assertTrue(currentGod.getCompleteRules().validBuild(currentPlayer.getWorker(Sex.MALE), myBoard.getTile(0,1)));
+        currentGod.executeState(TurnPhase.BUILD, currentPlayer.getWorker(Sex.MALE), myBoard.getTile(0,1), false);
+
+        currentGod.executeState(TurnPhase.POWER, currentPlayer.getWorker(Sex.MALE), myBoard.getTile(0,1), true);
+        assertTrue(currentGod.getCompleteRules().validBuild(currentPlayer.getWorker(Sex.MALE), myBoard.getTile(0,1)));
+
+        currentGod.executeState(TurnPhase.BUILD, currentPlayer.getWorker(Sex.MALE), myBoard.getTile(0,1), false);
+
+        assertEquals(2, myBoard.getTile(0,1).getBuilding());
+    }
+
+    @Test
+    public void secondBuildHephaestusFail(){
+        setGods("Hephaestus", "Apollo", "Artemis");
+        Player currentPlayer = myGame.getCurrentPlayer();
+        GodsRules currentGod = currentPlayer.getMyGod();
+        currentGod.getDefaultRules().setChosenSex(currentPlayer.getWorker(Sex.MALE));
+
+        assertTrue(currentGod.getCompleteRules().validBuild(currentPlayer.getWorker(Sex.MALE), myBoard.getTile(0,1)));
+        currentGod.executeState(TurnPhase.BUILD, currentPlayer.getWorker(Sex.MALE), myBoard.getTile(0,1), false);
+
+        //Trying to build on different tile
+        currentGod.executeState(TurnPhase.POWER, currentPlayer.getWorker(Sex.MALE), myBoard.getTile(1,0), true);
+        assertFalse(currentGod.getCompleteRules().validBuild(currentPlayer.getWorker(Sex.MALE), myBoard.getTile(1,0)));
+        assertEquals(0, myBoard.getTile(1,0).getBuilding());
+
+        //Trying to build a dome
+        myBoard.getTile(0,1).setBuilding(3);
+        currentGod.executeState(TurnPhase.POWER, currentPlayer.getWorker(Sex.MALE), myBoard.getTile(0,1), true);
+        assertFalse(currentGod.getCompleteRules().validBuild(currentPlayer.getWorker(Sex.MALE), myBoard.getTile(0,1)));
+        assertEquals(3, myBoard.getTile(0,1).getBuilding());
+        assertFalse(myBoard.getTile(0,1).hasDome());
+    }
+
+
+
+
+
+
+
+    @Test
+    public void nextStateSuccessArtemisAthena(){
+        setGods( "Apollo", "Artemis", "Athena");
+        Player currentPlayer = myGame.getCurrentPlayer();
+        GodsRules currentGod = currentPlayer.getMyGod();
+
+        //////////
+        //Apollo//
+        //////////
+        //START
+        currentGod.executeState(TurnPhase.START, null, null, false);
+
+        NextStateInfo expected = new NextStateInfo(TurnPhase.MOVE, RequiredActions.REQUEST_WORKER, RequiredActions.REQUEST_MOVE);
+        NextStateInfo actual = currentGod.nextState(TurnPhase.START);
+        assertEquals(expected.getNextPhase(), actual.getNextPhase());
+        assertEquals(expected.getRequiredActions(), actual.getRequiredActions());
+
+
+        //MOVE
+        currentGod.executeState(TurnPhase.MOVE, currentPlayer.getWorker(Sex.MALE), myBoard.getTile(0,1), false);
+
+        currentGod.getDefaultRules().setChosenSex(currentPlayer.getWorker(Sex.MALE));
+        expected = new NextStateInfo(TurnPhase.BUILD, RequiredActions.getRequiredSex(Sex.MALE), RequiredActions.REQUEST_BUILD);
+        actual = currentGod.nextState(TurnPhase.MOVE);
+        assertEquals(expected.getNextPhase(), actual.getNextPhase());
+        assertEquals(expected.getRequiredActions(), actual.getRequiredActions());
+
+
+        //BUILD
+        currentGod.executeState(TurnPhase.BUILD, currentPlayer.getWorker(Sex.MALE), myBoard.getTile(0,2), false);
+
+        expected = new NextStateInfo(TurnPhase.END);
+        actual = currentGod.nextState(TurnPhase.BUILD);
+        assertEquals(expected.getNextPhase(), actual.getNextPhase());
+        assertEquals(expected.getRequiredActions(), actual.getRequiredActions());
+    }
+
+
+
 
     @After
     public void tearDown() {
