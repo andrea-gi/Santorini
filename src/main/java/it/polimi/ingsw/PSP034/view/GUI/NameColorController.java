@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP034.view.GUI;
 
+import it.polimi.ingsw.PSP034.constants.Constant;
 import it.polimi.ingsw.PSP034.constants.PlayerColor;
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.AnswerNameColor;
 import javafx.event.ActionEvent;
@@ -124,8 +125,8 @@ public class NameColorController implements GUIController{
             setError("Only letters, numbers and underscores allowed");
             reInsert();
         }
-        else if (getEnterName().length() > 20){
-            setError("This name is too long (1-20 characters)");
+        else if (getEnterName().length() > Constant.MAX_NAME_LENGTH){
+            setError("This name is too long (1-" + Constant.MAX_NAME_LENGTH + " characters)");
             reInsert();
         }
         else if (chosenNames.contains(enterName.getText())){

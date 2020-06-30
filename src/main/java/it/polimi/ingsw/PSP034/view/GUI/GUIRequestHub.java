@@ -344,7 +344,7 @@ public class GUIRequestHub extends RequestManager {
     /**
      * Returns message handling availability.
      *
-     * @return {@code true} if {@link this#handleRequest(Request)} can manage a new request.
+     * @return {@code true} if this instance of the RequestHub can manage a new request. {@code false} otherwise.
      */
     @Override
     public synchronized boolean canHandleRequest() {

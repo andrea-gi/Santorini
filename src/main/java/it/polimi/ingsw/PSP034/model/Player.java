@@ -3,6 +3,9 @@ import it.polimi.ingsw.PSP034.constants.*;
 
 import java.util.ArrayList;
 
+/**
+ * Represents an active player in a given game.
+ */
 public class Player {
     private final String name;
     private GodsRules myGod;
@@ -11,12 +14,12 @@ public class Player {
     private boolean hasLost;
     private final PlayerColor color;
 
-    /** Creates a new Player class
-     * @param name Player's name
-     * instantiating a structure for Workers, that needs to be initialised using {@link Player#addWorker(Sex, Tile)}
-     * At the time of instantiation, there is no myGod associated, which has to bet set using
-     * {@link Player#setMyGod(GodsRules)}
-     * */
+    /** Creates a new Player class instantiating a structure for Workers (that needs to be initialized using {@link Player#addWorker(Sex, Tile)}).
+     * At the time of instantiation, there is no myGod associated, which has to bet set using {@link Player#setMyGod(GodsRules)}.
+     *
+     * @param name  Player's name.
+     * @param color Player's color.
+     */
     public Player(String name, PlayerColor color) {
         this.name = name;
         myGod = null;
@@ -26,25 +29,41 @@ public class Player {
         this.color = color;
     }
 
+    /**
+     * Returns if a player has lost (and has to be eliminated by class contract).
+     * @return {@code true} if the player has lost, {@code false} otherwise.
+     */
     public boolean hasLost() {
         return hasLost;
     }
 
+    /**
+     * Flags a losing player.
+     * @param hasLost {@code true} if the player has lost, {@code false} otherwise.
+     */
     public void setHasLost(boolean hasLost) {
         this.hasLost = hasLost;
     }
 
-    /** Initialises the structure for the Workers associated to the Player, with his name, a color and a sex. It also
-     * already places the Workers in their first position
-     * @param sex is the sex of the Worker
-     * @param myTile is the tile where the Player places the first time his Worker
+    /**
+     * Creates a new Worker associated to the Player, given color, sex and player name.
+     * Places the Worker in its starting Tile.
+     * @param sex       Worker's sex.
+     * @param myTile    Starting worker tile.
      * */
     public void addWorker(Sex sex, Tile myTile){
+        if (myWorkers.size() >= 2 || (myWorkers.get(0) != null && myWorkers.get(0).getSex() == sex)){
+            throw new IllegalArgumentException("Cannot add the same worker twice.");
+        }
         Worker newWorker = new Worker(sex, name, this.color, myTile);
         myWorkers.add(newWorker);
         myTile.setWorker(newWorker);
     }
 
+    /**
+     * Returns the reference of the two workers.
+     * @return List containing the player's workers.
+     */
     public ArrayList<Worker> getMyWorkers(){
         return myWorkers;
     }
@@ -54,9 +73,9 @@ public class Player {
     }
 
     /**
-     * Returns one between player's workers, given a chosen sex.
-     * @param sex Worker's sex.
-     * @return Chosen sex worker, owned by the player
+     * Returns the player's worker of given sex.
+     * @param sex   Worker's sex.
+     * @return      Chosen sex worker, owned by the player.
      * */
     public Worker getWorker(Sex sex) {
         Worker result = null;
@@ -88,7 +107,7 @@ public class Player {
     /**
      * Check ownership of worker.
      * @param worker Reference to the worker to be checked.
-     * @return Returns true if player is owner of the given worker, false otherwise.
+     * @return Returns {@code true} if player is owner of the given worker, {@code false} otherwise.
      */
     public boolean isOwner(Worker worker){
         return worker.getOwner().equals(name);

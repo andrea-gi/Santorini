@@ -20,10 +20,15 @@ import java.util.ArrayList;
 import java.util.concurrent.*;
 
 /**
- * Class managing the server. Its main thread (started using {@link Server#run()}, creates a new thread
+ * Class managing the server. Its main thread (started using {@link Server#run()}), creates a new thread
  * listening to incoming socket connections. Then, it manages the messages received by clients sequentially.
+ * This class works as an entry point for the game management.
  */
 public class Server implements Runnable{
+
+    /**
+     * Private class that represents an encapsulated Answer, in order to be sorted correctly.
+     */
     private static class AnswerEncapsulated{
         private final Answer message;
         private final IClientConnection connection;
@@ -78,10 +83,11 @@ public class Server implements Runnable{
         controller = temporaryController;
     }
 
-    boolean playerNumberFlag = true;
+    private boolean playerNumberFlag = true;
     /**
      * Sets the number of player synchronously. Can be done only once.
-     * @param chosenPlayerNumber Player number chosen by the selected client (2 or 3).
+     * @param chosenPlayerNumber    Player number chosen by the selected client (2 or 3).
+     * @return                      {@code true} if the player number has been set correctly, {@code false} otherwise.
      */
     protected synchronized boolean setPlayerNumber(int chosenPlayerNumber){
         if (playerNumberFlag) {
@@ -316,7 +322,11 @@ public class Server implements Runnable{
             manageServerConfig((AnswerServerConfig) message, connection);
         }
         else if (message instanceof PlayAnswer || message instanceof SetupAnswer || message instanceof GameOverAnswer){
-            controller.getMessageManager().handleMessage(message, connection.getName());
+            try {
+                controller.getMessageManager().handleMessage(message, connection.getName());
+            } catch (Exception e){
+                // TODO
+            }
         }
     }
 

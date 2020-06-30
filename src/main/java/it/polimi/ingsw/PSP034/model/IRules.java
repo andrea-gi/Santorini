@@ -2,6 +2,9 @@ package it.polimi.ingsw.PSP034.model;
 
 import it.polimi.ingsw.PSP034.constants.Sex;
 
+/**
+ * Interface containing the methods that form the proper game rules.
+ */
 public interface IRules {
 
     Tile getPreviousTile();
