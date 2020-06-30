@@ -137,10 +137,18 @@ public class TurnHandlerTest {
         assertEquals(sendToSingleName.getValue(), firstPlayer.getName());
         assertTrue(sendToSingleRequest.getValue() instanceof RequestAction && ((RequestAction) sendToSingleRequest.getValue()).getNextPhase() == TurnPhase.MOVE);
         assertSame(turnHandler.getMyTurnPhase(), TurnPhase.MOVE);
-        turnHandler.executeSelectedState(new AnswerAction(Sex.MALE, Directions.N)); // Invalid direction
-        assertEquals(sendToSingleName.getValue(), firstPlayer.getName());
-        assertTrue(sendToSingleRequest.getValue() instanceof RequestAction && ((RequestAction) sendToSingleRequest.getValue()).getNextPhase() == TurnPhase.MOVE);
-        assertSame(turnHandler.getMyTurnPhase(), TurnPhase.MOVE);
+        boolean exceptionThrown = false;
+        try{
+            turnHandler.executeSelectedState(new AnswerAction(Sex.MALE, Directions.N)); // Invalid direction
+        } catch (IllegalArgumentException e){
+            exceptionThrown = true;
+        }
+        finally {
+            assertTrue(exceptionThrown);
+            assertEquals(sendToSingleName.getValue(), firstPlayer.getName());
+            assertTrue(sendToSingleRequest.getValue() instanceof RequestAction && ((RequestAction) sendToSingleRequest.getValue()).getNextPhase() == TurnPhase.MOVE);
+            assertSame(turnHandler.getMyTurnPhase(), TurnPhase.MOVE);
+        }
     }
 
     @Test

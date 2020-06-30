@@ -1,5 +1,10 @@
 package it.polimi.ingsw.PSP034.server;
 
+/**
+ * Main class for the Server side. If there are no parameters, it automatically creates a server application
+ * listening on the default port (2020).
+ * If the parameter specifies differently, it launches the application on the required port.
+ */
 public class ServerApp {
     public static void main(String[] args) {
         ServerLogger.getInstance().setPrintStreams(System.out);

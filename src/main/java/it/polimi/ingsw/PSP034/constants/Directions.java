@@ -1,5 +1,8 @@
 package it.polimi.ingsw.PSP034.constants;
 
+/**
+ * Stores all the directions and the correlated operations to convert the directions into offset or vice versa.
+ */
 public enum Directions {
     N,
     S,

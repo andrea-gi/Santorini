@@ -2,6 +2,9 @@ package it.polimi.ingsw.PSP034.constants;
 
 import it.polimi.ingsw.PSP034.view.CLI.printables.ANSI;
 
+/**
+ * Saves the association between an item and its chosen color.
+ */
 public enum Colors {
     SEA_BG(ANSI.BG_blue),
     LIGHT_WAVE_FG(ANSI.FG_bright_white),
