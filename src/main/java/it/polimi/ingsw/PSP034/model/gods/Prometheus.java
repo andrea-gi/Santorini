@@ -24,12 +24,13 @@ public class Prometheus extends GodsRules {
             case START:
                 if(!checkBuildLost(this.getPlayer()))
                     return new NextStateInfo(TurnPhase.POWER, RequiredActions.REQUEST_POWER);
-                else if (!checkMoveLost(this.getPlayer())) {
+                else {
                     usePower = false;
-                    return new NextStateInfo(TurnPhase.MOVE, RequiredActions.REQUEST_WORKER, RequiredActions.REQUEST_MOVE);
+                    if (!checkMoveLost(this.getPlayer())) {
+                        return new NextStateInfo(TurnPhase.MOVE, RequiredActions.REQUEST_WORKER, RequiredActions.REQUEST_MOVE);
+                    } else
+                        return new NextStateInfo(TurnPhase.GAMEOVER);
                 }
-                else
-                    return new NextStateInfo(TurnPhase.GAMEOVER);
             case POWER:
                 if(usePower) {
                     return new NextStateInfo(TurnPhase.BUILD, RequiredActions.REQUEST_WORKER, RequiredActions.REQUEST_BUILD);

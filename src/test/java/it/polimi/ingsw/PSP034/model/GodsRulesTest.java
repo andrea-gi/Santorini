@@ -786,7 +786,20 @@ public class GodsRulesTest {
         assertFalse(myBoard.getTile(0,1).hasDome());
     }
 
+    @Test
+    public void validBuildFailUnderZeus() {
+        setGods("Zeus", "Apollo", "Artemis");
+        Player currentPlayer = myGame.getCurrentPlayer();
+        GodsRules currentGod = currentPlayer.getMyGod();
+        currentGod.setChosenSex(currentPlayer.getWorker(Sex.MALE));
 
+        assertTrue(currentGod.getCompleteRules().validBuild(currentPlayer.getWorker(Sex.MALE), myBoard.getTile(0,0)));
+
+        assertFalse(currentGod.getCompleteRules().validBuild(currentPlayer.getWorker(Sex.FEMALE), myBoard.getTile(0,0)));
+
+        myBoard.getTile(0,0).setBuilding(3);
+        assertFalse(currentGod.getCompleteRules().validBuild(currentPlayer.getWorker(Sex.MALE), myBoard.getTile(0,0)));
+    }
 
 
 
@@ -1222,13 +1235,13 @@ public class GodsRulesTest {
     }
 
     @Test
-    public void nextStateSuccessMinotaurPanPrometheus(){
-        setGods( "Minotaur", "Pan", "Prometheus");
+    public void nextStateSuccessPanMinotaurPrometheus(){
+        setGods( "Pan", "Minotaur", "Prometheus");
         Player currentPlayer = myGame.getCurrentPlayer();
         GodsRules currentGod = currentPlayer.getMyGod();
 
         ////////////
-        //Minotaur//
+        //Pan     //
         ////////////
         //START
         currentGod.executeState(TurnPhase.START, null, null, false);
@@ -1266,9 +1279,9 @@ public class GodsRulesTest {
         currentPlayer = myGame.getCurrentPlayer();
         currentGod = myGame.getCurrentPlayer().getMyGod();
 
-        //////////
-        //Pan   //
-        //////////
+        ////////////
+        //Minotaur//
+        ////////////
         //START
         currentGod.executeState(TurnPhase.START, null, null, false);
 
@@ -1279,7 +1292,7 @@ public class GodsRulesTest {
         assertEquals(RequiredActions.REQUEST_MOVE, actual.getRequiredActions()[1]);
 
         //MOVE
-        currentGod.executeState(TurnPhase.MOVE, currentPlayer.getWorker(Sex.MALE), myBoard.getTile(2,1), false);
+        currentGod.executeState(TurnPhase.MOVE, currentPlayer.getWorker(Sex.MALE), myBoard.getTile(1,1), false);
 
         actual = currentGod.nextState(TurnPhase.MOVE);
         assertEquals(TurnPhase.BUILD, actual.getNextPhase());
@@ -1359,13 +1372,13 @@ public class GodsRulesTest {
     }
 
     @Test
-    public void nextStateSuccessMinotaurTritonZeus(){
-        setGods( "Minotaur", "Triton", "Zeus");
+    public void nextStateSuccessZeusTritonMinotaur(){
+        setGods( "Zeus", "Triton", "Minotaur");
         Player currentPlayer = myGame.getCurrentPlayer();
         GodsRules currentGod = currentPlayer.getMyGod();
 
         ////////////
-        //Minotaur//
+        //Zeus    //
         ////////////
         //START
         currentGod.executeState(TurnPhase.START, null, null, false);
@@ -1387,7 +1400,7 @@ public class GodsRulesTest {
 
 
         //BUILD
-        currentGod.executeState(TurnPhase.BUILD, currentPlayer.getWorker(Sex.MALE), myBoard.getTile(0,2), false);
+        currentGod.executeState(TurnPhase.BUILD, currentPlayer.getWorker(Sex.MALE), myBoard.getTile(0,1), false);
 
         actual = currentGod.nextState(TurnPhase.BUILD);
         assertEquals(TurnPhase.END, actual.getNextPhase());
@@ -1461,9 +1474,9 @@ public class GodsRulesTest {
         currentPlayer = myGame.getCurrentPlayer();
         currentGod = myGame.getCurrentPlayer().getMyGod();
 
-        //////////
-        //Zeus////
-        //////////
+        //////////////
+        //Minotaur////
+        //////////////
         //START
         currentGod.executeState(TurnPhase.START, null, null, false);
 
@@ -1475,7 +1488,7 @@ public class GodsRulesTest {
 
 
         // MOVE
-        currentGod.executeState(TurnPhase.MOVE, currentPlayer.getWorker(Sex.FEMALE), myBoard.getTile(3,1), true);
+        currentGod.executeState(TurnPhase.MOVE, currentPlayer.getWorker(Sex.FEMALE), myBoard.getTile(3,3), true);
 
         actual = currentGod.nextState(TurnPhase.MOVE);
         assertEquals(TurnPhase.BUILD, actual.getNextPhase());
@@ -1484,7 +1497,7 @@ public class GodsRulesTest {
         assertEquals(RequiredActions.REQUEST_BUILD, actual.getRequiredActions()[1]);
 
         //BUILD
-        currentGod.executeState(TurnPhase.BUILD, currentPlayer.getWorker(Sex.FEMALE), myBoard.getTile(3,0), false);
+        currentGod.executeState(TurnPhase.BUILD, currentPlayer.getWorker(Sex.FEMALE), myBoard.getTile(2,3), false);
 
         actual = currentGod.nextState(TurnPhase.BUILD);
         assertEquals(TurnPhase.END, actual.getNextPhase());
@@ -1542,7 +1555,265 @@ public class GodsRulesTest {
         assertEquals(TurnPhase.BUILD, actual.getNextPhase());
     }
 
+    @Test
+    public void winStateArtemis() {
+        setGods("Artemis", "Demeter", "Hera");
+        myBoard.getTile(1, 1).setBuilding(2);
+        myBoard.getTile(2, 1).setBuilding(3);
+        Player currentPlayer = myGame.getCurrentPlayer();
+        GodsRules currentGod = currentPlayer.getMyGod();
+        //START
+        currentGod.executeState(TurnPhase.START, null, null, false);
 
+        //MOVE
+        currentGod.executeState(TurnPhase.MOVE, currentPlayer.getWorker(Sex.FEMALE), myBoard.getTile(2,1), false);
+
+        NextStateInfo actual = currentGod.nextState(TurnPhase.MOVE);
+        assertEquals(TurnPhase.WIN, actual.getNextPhase());
+        assertEquals(actual.getRequiredActions().length, 0);
+    }
+
+    @Test
+    public void winStateAtlas() {
+        setGods("Atlas", "Hephaestus", "Hera");
+        myBoard.getTile(1, 1).setBuilding(2);
+        myBoard.getTile(2, 1).setBuilding(3);
+        Player currentPlayer = myGame.getCurrentPlayer();
+        GodsRules currentGod = currentPlayer.getMyGod();
+        //START
+        currentGod.executeState(TurnPhase.START, null, null, false);
+
+        //MOVE
+        currentGod.executeState(TurnPhase.MOVE, currentPlayer.getWorker(Sex.FEMALE), myBoard.getTile(2,1), false);
+
+        NextStateInfo actual = currentGod.nextState(TurnPhase.MOVE);
+        assertEquals(TurnPhase.WIN, actual.getNextPhase());
+        assertEquals(actual.getRequiredActions().length, 0);
+    }
+
+    @Test
+    public void winStateTriton() {
+        setGods("Triton", "Hephaestus", "Hera");
+        myBoard.getTile(1, 1).setBuilding(2);
+        myBoard.getTile(2, 1).setBuilding(3);
+        Player currentPlayer = myGame.getCurrentPlayer();
+        GodsRules currentGod = currentPlayer.getMyGod();
+        //START
+        currentGod.executeState(TurnPhase.START, null, null, false);
+
+        //MOVE
+        currentGod.executeState(TurnPhase.MOVE, currentPlayer.getWorker(Sex.FEMALE), myBoard.getTile(2,1), false);
+
+        NextStateInfo actual = currentGod.nextState(TurnPhase.MOVE);
+        assertEquals(TurnPhase.WIN, actual.getNextPhase());
+        assertEquals(actual.getRequiredActions().length, 0);
+    }
+
+    @Test
+    public void winStatePrometheus() {
+        setGods("Prometheus", "Hephaestus", "Hera");
+        myBoard.getTile(1, 1).setBuilding(2);
+        myBoard.getTile(2, 1).setBuilding(3);
+        Player currentPlayer = myGame.getCurrentPlayer();
+        GodsRules currentGod = currentPlayer.getMyGod();
+        //START
+        currentGod.executeState(TurnPhase.START, null, null, false);
+
+        //POWER
+        currentGod.executeState(TurnPhase.POWER, null, null, false);
+
+        //MOVE
+        currentGod.executeState(TurnPhase.MOVE, currentPlayer.getWorker(Sex.FEMALE), myBoard.getTile(2,1), false);
+
+        NextStateInfo actual = currentGod.nextState(TurnPhase.MOVE);
+        assertEquals(TurnPhase.WIN, actual.getNextPhase());
+        assertEquals(actual.getRequiredActions().length, 0);
+    }
+
+    @Test
+    public void winStateDemeter() {
+        setGods("Demeter", "Hephaestus", "Hera");
+        myBoard.getTile(1, 1).setBuilding(2);
+        myBoard.getTile(2, 1).setBuilding(3);
+        Player currentPlayer = myGame.getCurrentPlayer();
+        GodsRules currentGod = currentPlayer.getMyGod();
+        //START
+        currentGod.executeState(TurnPhase.START, null, null, false);
+
+        //MOVE
+        currentGod.executeState(TurnPhase.MOVE, currentPlayer.getWorker(Sex.FEMALE), myBoard.getTile(2,1), false);
+
+        NextStateInfo actual = currentGod.nextState(TurnPhase.MOVE);
+        assertEquals(TurnPhase.WIN, actual.getNextPhase());
+        assertEquals(actual.getRequiredActions().length, 0);
+    }
+
+    @Test
+    public void powerRefusedArtemis() {
+        setGods("Artemis", "Demeter", "Hera");
+        Player currentPlayer = myGame.getCurrentPlayer();
+        GodsRules currentGod = currentPlayer.getMyGod();
+        //START
+        currentGod.executeState(TurnPhase.START, null, null, false);
+
+        //MOVE
+        currentGod.executeState(TurnPhase.MOVE, currentPlayer.getWorker(Sex.FEMALE), myBoard.getTile(2,1), false);
+
+        NextStateInfo actual = currentGod.nextState(TurnPhase.MOVE);
+        assertEquals(TurnPhase.POWER, actual.getNextPhase());
+        assertEquals(1, actual.getRequiredActions().length);
+
+        //POWER
+        currentGod.executeState(TurnPhase.POWER, null, null, false);
+
+        actual = currentGod.nextState(TurnPhase.POWER);
+        assertEquals(TurnPhase.BUILD, actual.getNextPhase());
+        assertEquals(actual.getRequiredActions().length, 2);
+        assertEquals(RequiredActions.REQUIRED_FEMALE, actual.getRequiredActions()[0]);
+        assertEquals(RequiredActions.REQUEST_BUILD, actual.getRequiredActions()[1]);
+    }
+
+    @Test
+    public void noSecondMovePossibleArtemis() {
+        setGods("Artemis", "Demeter", "Hera");
+        myBoard.getTile(2, 0).setBuilding(2);
+        myBoard.getTile(2, 1).setBuilding(2);
+        myBoard.getTile(0, 1).setBuilding(2);
+        Player currentPlayer = myGame.getCurrentPlayer();
+        GodsRules currentGod = currentPlayer.getMyGod();
+        //START
+        currentGod.executeState(TurnPhase.START, null, null, false);
+
+        //MOVE
+        currentGod.executeState(TurnPhase.MOVE, currentPlayer.getWorker(Sex.FEMALE), myBoard.getTile(1,0), false);
+
+        NextStateInfo actual = currentGod.nextState(TurnPhase.MOVE);
+        assertEquals(TurnPhase.BUILD, actual.getNextPhase());
+        assertEquals(actual.getRequiredActions().length, 2);
+        assertEquals(RequiredActions.REQUIRED_FEMALE, actual.getRequiredActions()[0]);
+        assertEquals(RequiredActions.REQUEST_BUILD, actual.getRequiredActions()[1]);
+    }
+
+    @Test
+    public void powerRefusedHestia() {
+        setGods("Hestia", "Demeter", "Hera");
+        Player currentPlayer = myGame.getCurrentPlayer();
+        GodsRules currentGod = currentPlayer.getMyGod();
+        //START
+        currentGod.executeState(TurnPhase.START, null, null, false);
+
+        //MOVE
+        currentGod.executeState(TurnPhase.MOVE, currentPlayer.getWorker(Sex.FEMALE), myBoard.getTile(2,1), false);
+
+        NextStateInfo actual = currentGod.nextState(TurnPhase.MOVE);
+        assertEquals(TurnPhase.BUILD, actual.getNextPhase());
+        assertEquals(2, actual.getRequiredActions().length);
+
+        //BUILD
+        currentGod.executeState(TurnPhase.BUILD, currentPlayer.getWorker(Sex.FEMALE), myBoard.getTile(2,0), false);
+
+        actual = currentGod.nextState(TurnPhase.BUILD);
+        assertEquals(TurnPhase.POWER, actual.getNextPhase());
+        assertEquals(1, actual.getRequiredActions().length);
+
+        //POWER
+        currentGod.executeState(TurnPhase.POWER, null, null, false);
+
+        actual = currentGod.nextState(TurnPhase.POWER);
+        assertEquals(TurnPhase.END, actual.getNextPhase());
+        assertEquals(0, actual.getRequiredActions().length);
+    }
+
+    @Test
+    public void powerNotPossiblePrometheus() {
+        setGods("Prometheus", "Limus", "Hera");
+        myBoard.getTile(0, 1).setDome(true);
+        myBoard.getTile(1, 0).setDome(true);
+        myBoard.getTile(0, 2).setDome(true);
+        myBoard.getTile(2, 0).setDome(true);
+        Player currentPlayer = myGame.getCurrentPlayer();
+        GodsRules currentGod = currentPlayer.getMyGod();
+        //START
+        currentGod.executeState(TurnPhase.START, null, null, false);
+
+        NextStateInfo actual = currentGod.nextState(TurnPhase.START);
+        assertEquals(TurnPhase.MOVE, actual.getNextPhase());
+        assertEquals(2, actual.getRequiredActions().length);
+        assertEquals(RequiredActions.REQUEST_WORKER, actual.getRequiredActions()[0]);
+        assertEquals(RequiredActions.REQUEST_MOVE, actual.getRequiredActions()[1]);
+    }
+
+    @Test
+    public void powerNotPossiblePrometheusGameOver() {
+        setGods("Prometheus", "Limus", "Hera");
+        myBoard.getTile(0, 1).setDome(true);
+        myBoard.getTile(1, 0).setDome(true);
+        myBoard.getTile(0, 2).setDome(true);
+        myBoard.getTile(2, 0).setDome(true);
+        myBoard.getTile(2, 1).setBuilding(2);
+        myBoard.getTile(1, 2).setBuilding(2);
+        Player currentPlayer = myGame.getCurrentPlayer();
+        GodsRules currentGod = currentPlayer.getMyGod();
+        //START
+        currentGod.executeState(TurnPhase.START, null, null, false);
+
+        NextStateInfo actual = currentGod.nextState(TurnPhase.START);
+        assertEquals(TurnPhase.GAMEOVER, actual.getNextPhase());
+        assertEquals(0, actual.getRequiredActions().length);
+    }
+
+    @Test
+    public void powerRefusedNotPerimeterTriton() {
+        setGods("Triton", "Limus", "Hera");
+        Player currentPlayer = myGame.getCurrentPlayer();
+        GodsRules currentGod = currentPlayer.getMyGod();
+        //START
+        currentGod.executeState(TurnPhase.START, null, null, false);
+
+        NextStateInfo actual = currentGod.nextState(TurnPhase.START);
+        assertEquals(TurnPhase.MOVE, actual.getNextPhase());
+        assertEquals(actual.getRequiredActions().length, 2);
+        assertEquals(RequiredActions.REQUEST_WORKER, actual.getRequiredActions()[0]);
+        assertEquals(RequiredActions.REQUEST_MOVE, actual.getRequiredActions()[1]);
+
+
+        //MOVE
+        currentGod.executeState(TurnPhase.MOVE, currentPlayer.getWorker(Sex.FEMALE), myBoard.getTile(2,1), false);
+
+        actual = currentGod.nextState(TurnPhase.MOVE);
+        assertEquals(TurnPhase.BUILD, actual.getNextPhase());
+        assertEquals(actual.getRequiredActions().length, 2);
+        assertEquals(RequiredActions.REQUIRED_FEMALE, actual.getRequiredActions()[0]);
+        assertEquals(RequiredActions.REQUEST_BUILD, actual.getRequiredActions()[1]);
+    }
+
+    @Test
+    public void powerRefusedTriton() {
+        setGods("Triton", "Limus", "Hera");
+        Player currentPlayer = myGame.getCurrentPlayer();
+        GodsRules currentGod = currentPlayer.getMyGod();
+        //START
+        currentGod.executeState(TurnPhase.START, null, null, false);
+
+        NextStateInfo actual = currentGod.nextState(TurnPhase.START);
+        assertEquals(TurnPhase.MOVE, actual.getNextPhase());
+        assertEquals(actual.getRequiredActions().length, 2);
+        assertEquals(RequiredActions.REQUEST_WORKER, actual.getRequiredActions()[0]);
+        assertEquals(RequiredActions.REQUEST_MOVE, actual.getRequiredActions()[1]);
+
+
+        //MOVE
+        currentGod.executeState(TurnPhase.MOVE, currentPlayer.getWorker(Sex.FEMALE), myBoard.getTile(1,0), false);
+
+        // POWER
+        currentGod.executeState(TurnPhase.POWER, null, null, false);
+
+        actual = currentGod.nextState(TurnPhase.POWER);
+        assertEquals(TurnPhase.BUILD, actual.getNextPhase());
+        assertEquals(actual.getRequiredActions().length, 2);
+        assertEquals(RequiredActions.REQUIRED_FEMALE, actual.getRequiredActions()[0]);
+        assertEquals(RequiredActions.REQUEST_BUILD, actual.getRequiredActions()[1]);
+    }
 
 
     @After
