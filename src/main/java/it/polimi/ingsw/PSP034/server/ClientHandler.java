@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP034.server;
 
+import it.polimi.ingsw.PSP034.constants.Constant;
 import it.polimi.ingsw.PSP034.constants.PlayerColor;
 import it.polimi.ingsw.PSP034.messages.*;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.AutoCloseRequest;
@@ -134,7 +135,7 @@ class ClientHandler implements IClientConnection, Runnable{
             } else{
                 heartBeatManager.execute(this::sendHeartBeat);
             }
-        }, 5, TimeUnit.SECONDS);
+        }, Constant.HEARTBEAT_PERIOD, TimeUnit.SECONDS);
     }
 
     private void sendHeartBeat(){

@@ -63,10 +63,52 @@ public class ServerLoginController implements GUIController{
         submit.setText("SUBMITTED!");
         enterServerName.setDisable(true);
         enterServerPort.setDisable(true);
+
+        if (!checkIP(serverName)){
+            resetAfterError("Invalid server address.");
+            return;
+        }
+
+        if (!checkPort(serverPort)){
+            resetAfterError("Invalid server port.");
+            return;
+        }
+
         GUIRequestHub.getInstance().setStartedConnection(GUIRequestHub.getInstance().createConnection(new AnswerIP(serverName, Integer.parseInt(serverPort))));
     }
 
-    public void resetAfterError(){
+    private boolean checkPort(String port){
+        int parsedPort = -1;
+        try {
+            parsedPort = Integer.parseInt(port);
+        } catch (NumberFormatException e){
+            return false;
+        }
+        return (parsedPort >= 0 && parsedPort <= 65535);
+    }
+
+    private boolean checkIP(String address){
+        if (address.equals("localhost"))
+            return true;
+        if (address.length() == 0 || address.length() > 15)
+            return false;
+        String[] addressComponents = address.split("\\.");
+        if (addressComponents.length > 4)
+            return false;
+        for (String chunk : addressComponents){
+            int value = -1;
+            try{
+                value = Integer.parseInt(chunk);
+            } catch (NumberFormatException e){
+                return false;
+            }
+            if (value < 0 || value > 255)
+                return false;
+        }
+        return true;
+    }
+
+    public void resetAfterError(String myError){
         enterServerName.clear();
         enterServerPort.clear();
         enterServerName.setDisable(false);
@@ -74,7 +116,7 @@ public class ServerLoginController implements GUIController{
         submit.setText("SUBMIT");
         submit.setDisable(false);
         error.setVisible(true);
-        error.setText("Could not establish connection. Try again!");
+        error.setText(myError);
         bar.setVisible(false);
         connecting.setVisible(false);
     }

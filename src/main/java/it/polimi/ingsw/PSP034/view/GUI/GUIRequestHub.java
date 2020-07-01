@@ -52,7 +52,7 @@ public class GUIRequestHub extends RequestManager {
                         craftRequestIP(new RequestIP(true));
                     }
                 } catch (Exception e) {
-                    //TODO -- show error (e chiudi app)
+                    GUIRequestHub.getInstance().showError(new ErrorMessage("C003", "Fatal connection error."));
                 }
                 return null;
             }
@@ -63,17 +63,17 @@ public class GUIRequestHub extends RequestManager {
      * the connection
      * @param request is the message received
      */
-    private void craftRequestIP(RequestIP request){ //TODO -- gestire l'errore già ***PRESENTE NEL MESSAGGIO***
+    private void craftRequestIP(RequestIP request){
         if (!request.getError()) {
             Platform.runLater(() -> {
                 ScenePath.setNextScene(currentController.getPane().getScene(), ScenePath.SERVER_LOGIN);
             });
         } else {
             Platform.runLater(()->{
-                ((ServerLoginController) currentController).resetAfterError();
+                ((ServerLoginController) currentController).resetAfterError("Could not establish connection. Try again!");
             });
         }
-    }//TODO--gestione errore
+    }
 
     /** Handles a RequestServerConfig message, showing the corresponding scene to the user, in order to
      * register the player
