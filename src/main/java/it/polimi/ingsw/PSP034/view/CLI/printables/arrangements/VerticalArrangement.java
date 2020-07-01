@@ -4,26 +4,46 @@ import it.polimi.ingsw.PSP034.view.CLI.printables.PrintableObject;
 
 import java.util.ArrayList;
 
+/**
+ * <pre>
+ * {@inheritDoc}
+ *
+ * A vertical arrangement aligns the object it contains vertically from top to bottom.
+ * The width of the arrangement is the same as the largest object it contains. The height of the arrangement is the sum of the height of every object it contains and of the spacing (border) between the objects.
+ * </pre>
+ */
 public class VerticalArrangement extends Arrangement {
     public VerticalArrangement() {
         super();
     }
 
+    /**
+     * Sets the alignment of the arrangement to centre, meaning that the centre of each object will be on the same column.
+     */
     public void setCentreAlignment() {
         super.setAlignment(0);
         updateAlignment();
     }
 
+    /**
+     * Sets the alignment of the arrangement to left, meaning that the left side of each object will be on the same column.
+     */
     public void setLeftAlignment() {
         super.setAlignment(1);
         updateAlignment();
     }
 
+    /**
+     * Sets the alignment of the arrangement to right, meaning that the right side of each object will be on the same column.
+     */
     public void setRightAlignment() {
         super.setAlignment(2);
         updateAlignment();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void updateAlignment() {
         ArrayList<String> constructorArray = new ArrayList<>();
@@ -137,6 +157,11 @@ public class VerticalArrangement extends Arrangement {
         super.updateAlignment();
     }
 
+    /**
+     * Prints all th object that the arrangement contains based on the set alignment.
+     * @param line line to start printing from. The value is 1-based.
+     * @param column line to start printing from.  The value is 1-based.
+     */
     @Override
     public void print(int line, int column) {
         if(super.getVisibility()) {

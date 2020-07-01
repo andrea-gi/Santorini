@@ -44,7 +44,7 @@ public class NameChoice extends Scene {
         va2.addObjects(selectName, ha1);
 
         yourName = new Message("Your name :", -1);
-        namePicker = new TextBox(title.getWidth());
+        namePicker = new TextBox(selectName.getWidth()-yourName.getWidth()-ha1.getBorder());
         ha1.addObjects(yourName, namePicker);
         ha1.setBottomAlignment();
         ha1.setBorder(1);

@@ -9,10 +9,9 @@ import java.util.Scanner;
  */
 public class TextBox extends PrintableObject{
     /**
-     * <pre>
      * Creates the TextBox.
+     * <p>
      * NOTE: a TextBox is always two rows high.
-     * </pre>
      * @param width Number of columns of the TextBox.
      */
     public TextBox(int width){

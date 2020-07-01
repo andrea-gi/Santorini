@@ -48,7 +48,7 @@ public class ColorChoice extends Scene {
         va2.addObjects(selectColor, ha1);
 
         color = new Message("Your choice :", -1);
-        colorPicker = new TextBox(title.getWidth());
+        colorPicker = new TextBox(selectColor.getWidth()-color.getWidth()-ha1.getBorder());
         ha1.addObjects(color, colorPicker);
     }
 

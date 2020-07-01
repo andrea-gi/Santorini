@@ -12,33 +12,42 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
+/**
+ * This class creates the scene to be printed when the game table has to be shown.
+ */
 public class Table extends Scene{
-    VerticalArrangement all;
+    private final VerticalArrangement all;
 
-    Font title;
-    HorizontalArrangement boardANDRight;
+    private Font title;
+    private final HorizontalArrangement boardANDRight;
 
-    ViewBoard board;
-    VerticalArrangement rightSide;
+    private final ViewBoard board;
+    private final VerticalArrangement rightSide;
 
-    HorizontalArrangement alignedCards;
-    VerticalArrangement request;
+    private final HorizontalArrangement alignedCards;
+    private final VerticalArrangement request;
 
-    PlayerBox[] cards;
-    Spacer spaceThirdCard;
+    private final PlayerBox[] cards;
+    private final Spacer spaceThirdCard;
 
-    Drawing drawing;
-    Dialog question;
-    Message message;
-    HorizontalArrangement textBoxANDAnswer;
+    private Drawing drawing;
+    private Dialog question;
+    private Message message;
+    private final HorizontalArrangement textBoxANDAnswer;
 
-    Spacer answerIndentation;
-    Message answer;
-    TextBox textBox;
-    ArrayList<RegexCondition> regex;
-    boolean requiredAnswer;
+    private  final Spacer answerIndentation;
+    private  Message answer;
+    private  TextBox textBox;
+    private  ArrayList<RegexCondition> regex;
+    private  boolean requiredAnswer;
 
 
+    /**
+     * Creates the scene and organizes the objects.
+     * @param gods The gods that are being used in the game.
+     * @param players The names of players that are playing.
+     * @param colors The colors of the players. Note that the order of the colors must be the same as the names of the players.
+     */
     public Table(String[] gods, String[] players, PlayerColor[] colors){
         all = new VerticalArrangement();
 
@@ -94,7 +103,10 @@ public class Table extends Scene{
         requiredAnswer = false;
     }
 
-
+    /**
+     * {@inheritDoc}
+     * @return
+     */
     @Override
     public String show() {
         super.clearFrame();
@@ -113,6 +125,14 @@ public class Table extends Scene{
         }
     }
 
+    /**
+     * Updates the board.
+     * @param dome Matrix that indicates whether a tile has a dome or not.
+     * @param building Matrix that indicates the height of the building on each tile.
+     * @param color Matrix that indicates the color of the worker on each tile. If a tile has no worker, the value for that tile must be {@code NULL}.
+     * @param sex Matrix that indicates the sex of the worker on each tile. If a tile has no worker, the value for that tile must be {@code NULL}.
+     * @param showNumbers Whether the number of each tile that has no worker nor dome must be shown or not.
+     */
     public void updateBoard(boolean[][] dome, int[][] building, PlayerColor[][] color, Sex[][] sex, boolean showNumbers){
         for(int y = 0; y < Constant.DIM; y++){
             for(int x = 0; x < Constant.DIM; x++){
@@ -129,6 +149,14 @@ public class Table extends Scene{
 
     }
 
+    /**
+     * Updates the scene asking the user where he/she wants to place a worker.
+     * @param dome Matrix that indicates whether a tile has a dome or not.
+     * @param building Matrix that indicates the height of the building on each tile.
+     * @param color Matrix that indicates the color of the worker on each tile. If a tile has no worker, the value for that tile is {@code NULL}.
+     * @param sex Matrix that indicates the sex of the worker on each tile. If a tile has no worker, the value for that tile is {@code NULL}.
+     * @param worker The sex of the worker to be placed.
+     */
     public void updatePlaceWorker(boolean[][] dome, int[][] building, PlayerColor[][] color, Sex[][] sex, Sex worker){
         setTitle("workers setup");
 
@@ -170,11 +198,19 @@ public class Table extends Scene{
         regex.add(new RegexCondition(rule.toString(), "Invalid selection."));
     }
 
+    /**
+     * Updates the scene communicating to the user that another player is placing workers.
+     * @param playerName Name of the player that is placing workers.
+     */
     public void updateOtherPlacing(String playerName){
         setTitle("Workers setup");
         setMessage(new Message(playerName + " is placing Workers", -1));
     }
 
+    /**
+     * Updates the scene asking to the user which worker he/she wants to select for the next action.
+     * @param action The name of the next action.
+     */
     public void updateSelectWorker(String action) {
         setQuestion(new Dialog("Select which Worker you want to " + action + ":", -1, 1, "Male (" + Sex.MALE.toString() + ")", "Female (" + Sex.FEMALE.toString() + ")"));
 
@@ -184,6 +220,14 @@ public class Table extends Scene{
         regex.add(new RegexCondition("^[1-2]$", "Invalid selection."));
     }
 
+    /**
+     * Updates the scene asking the user where he/she wants to move the selected worker.
+     * @param sex The sex of the worker to be moved.
+     * @param workerX x coordinates of the starting tile.
+     * @param workerY y coordinates of the starting tile.
+     * @param possibleDirections List of the possible direction for the movement.
+     * @param hasChoice Whether the user can change the selected worker or not.
+     */
     public void updateMove(@NotNull Sex sex, int workerX, int workerY, Directions[] possibleDirections, boolean hasChoice){
         String[] options = directionsToOptions(workerX, workerY,possibleDirections, hasChoice);
 
@@ -198,6 +242,14 @@ public class Table extends Scene{
             regex.add(new RegexCondition("^(([1-9])|(1(" + (options.length)%10 + ")))$", "Invalid selection."));
     }
 
+    /**
+     * Updates the scene asking the user where he/she wants to build with the selected worker.
+     * @param sex The sex of the worker to build with.
+     * @param workerX x coordinates of the tile of the worker.
+     * @param workerY y coordinates of the tile of the worker.
+     * @param possibleDirections List of the possible direction for the build.
+     * @param hasChoice Whether the user can change the selected worker or not.
+     */
     public void updateBuild(@NotNull Sex sex, int workerX, int workerY, Directions[] possibleDirections, boolean hasChoice){
         String[] options = directionsToOptions(workerX, workerY, possibleDirections, hasChoice);
 
@@ -212,6 +264,9 @@ public class Table extends Scene{
             regex.add(new RegexCondition("^(([1-9])|(1(" + (options.length)%10 + ")))$", "Invalid selection."));
     }
 
+    /**
+     * Updates the scene asking the user whether he/she wants to use a god power.
+     */
     public void updatePower(){
         setQuestion(new Dialog("Do you want to use your god's power?", -1, 1, "Yes", "No"));
         setAnswer(new Message("Your choice :", -1));
@@ -220,12 +275,19 @@ public class Table extends Scene{
         regex.add(new RegexCondition("^[1-2]$", "Invalid selection."));
     }
 
+    /**
+     * Updates the scene changing the title to "your turn" and clearing any request shown.
+     */
     public void updateStart(){
         setTitle("your turn");
 
         setEmptyRequest();
     }
 
+    /**
+     * Updates the scene communicating to the user that another player's turn is starting.
+     * @param playerName Name of the player whose turn is starting.
+     */
     public void updateOtherStarting(String playerName){
         PlayerColor playerColor;
         for(PlayerBox card : cards){
@@ -237,11 +299,20 @@ public class Table extends Scene{
         setEmptyRequest();
     }
 
+    /**
+     * Updates the scene changing the title to "your turn ended" and clearing any request shown.
+     */
     public void updateEnd(){
         setTitle("Your turn ended");
         setEmptyRequest();
     }
 
+    /**
+     * Updates the scene communicating to the user that he/she lost. If another player won the winning player's name is communicate too.
+     * @param winnerName Name of the winning player. If there is no winner this value must be {@code NULL}.
+     * @param losersNames Name of the losing players.
+     * @throws NullPointerException If the losing player or the winning player cannot be found an exception is thrown.
+     */
     public void updateDefeat(@NotNull String winnerName, @NotNull String[] losersNames) throws NullPointerException{
         if(winnerName.equals("")){
             PlayerColor loserColor = null;
@@ -296,6 +367,11 @@ public class Table extends Scene{
         regex.add(new RegexCondition("^[1-2]$", "Invalid selection"));
     }
 
+    /**
+     * Updates the scene communicating to the user that another player lost and removing the color from the losing player card.
+     * @param loser Name of the losing player.
+     * @throws NullPointerException If the losing player cannot be found an exception is thrown.
+     */
     public void updateRemovePlayer(String loser) throws NullPointerException{
         boolean loserExists = false;
         for(PlayerBox card : cards){
@@ -315,6 +391,11 @@ public class Table extends Scene{
         regex = null;
     }
 
+    /**
+     * Updates the scene communicating to the user that he/she won.
+     * @param winnerName Name of the winning player.
+     * @throws NullPointerException If the winning player cannot be found an exception is thrown.
+     */
     public void updateWin(String winnerName) throws NullPointerException{
         PlayerColor winnerColor = null;
         for(PlayerBox card : cards){
@@ -336,6 +417,9 @@ public class Table extends Scene{
         regex.add(new RegexCondition("^[1-2]$", "Invalid selection"));
     }
 
+    /**
+     * Updates the scene clearing any request shown.
+     */
     public void updateClearRequest(){
         setEmptyRequest();
     }

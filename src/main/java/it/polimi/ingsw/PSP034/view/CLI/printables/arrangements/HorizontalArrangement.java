@@ -5,27 +5,47 @@ import it.polimi.ingsw.PSP034.view.CLI.printables.PrintableObject;
 
 import java.util.ArrayList;
 
+/**
+ * <pre>
+ * {@inheritDoc}
+ *
+ * A horizontal arrangement aligns the object it contains horizontally from left to right.
+ * The height of the arrangement is the same as the highest object it contains. The width of the arrangement is the sum of the width of every object it contains and of the spacing (border) between the objects.
+ * </pre>
+ */
 public class HorizontalArrangement extends Arrangement{
 
     public HorizontalArrangement(){
         super();
     }
 
+    /**
+     * Sets the alignment of the arrangement to centre, meaning that the centre of each object will be at the same height.
+     */
     public void setCentreAlignment(){
         super.setAlignment(0);
         updateAlignment();
     }
 
+    /**
+     * Sets the alignment of the arrangement to top, meaning that the top of each object will be at the same height.
+     */
     public void setTopAlignment(){
         super.setAlignment(1);
         updateAlignment();
     }
 
+    /**
+     * Sets the alignment of the arrangement to bottom, meaning that the bottom of each object will be at the same height.
+     */
     public void setBottomAlignment(){
         super.setAlignment(2);
         updateAlignment();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void updateAlignment(){
         ArrayList<String> constructorArray = new ArrayList<>();
@@ -121,6 +141,11 @@ public class HorizontalArrangement extends Arrangement{
         super.updateAlignment();
     }
 
+    /**
+     * Prints all th object that the arrangement contains based on the set alignment.
+     * @param line line to start printing from. The value is 1-based.
+     * @param column line to start printing from.  The value is 1-based.
+     */
     @Override
     public void print(int line, int column) {
         if(super.getVisibility()) {
