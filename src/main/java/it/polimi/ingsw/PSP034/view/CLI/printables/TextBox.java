@@ -59,6 +59,7 @@ public class TextBox extends PrintableObject{
     public void waitAnswer(){
         ANSI.moveTo(super.getStartLine()+1, super.getStartColumn());
         Scanner scan = new Scanner(System.in);
-        scan.nextLine();
+        if (scan.hasNextLine())
+            scan.nextLine();
     }
 }
