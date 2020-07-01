@@ -2,8 +2,14 @@ package it.polimi.ingsw.PSP034.view.CLI.printables;
 
 import it.polimi.ingsw.PSP034.constants.PlayerColor;
 
-
+/**
+ * Represents the drawing that has to be displayed when the first player in a three player game loses.
+ */
 public class LoserDrawing extends Drawing{
+    /**
+     * Creates the drawing.
+     * @param color The color of the player that lost.
+     */
     public LoserDrawing(PlayerColor color){
         super();
         String buildColor = ANSI.FG_white;

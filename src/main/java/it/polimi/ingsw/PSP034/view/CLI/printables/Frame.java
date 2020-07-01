@@ -1,5 +1,8 @@
 package it.polimi.ingsw.PSP034.view.CLI.printables;
 
+/**
+ * This class creates and prints the frame of the CLI and also defines the dimension of the screen that will be used.
+ */
 public class Frame extends PrintableObject{
     public static final int SCREEN_WIDTH = 229;
     public static final int SCREEN_HEIGHT = 50;
@@ -8,6 +11,9 @@ public class Frame extends PrintableObject{
     public static final int FRAME_START_LINE = 6;
     public static final int FRAME_START_COLUMN = 16;
 
+    /**
+     * Creates the frame representing two lateral greek columns in ASCII art.
+     */
     public Frame(){
         super.setObjectSize(SCREEN_HEIGHT);
 
@@ -30,18 +36,3 @@ public class Frame extends PrintableObject{
         super.setObjectLine(FRAME_HEIGHT+9, "|______________|" + emptyFrameLine.replace(' ', '_') + "|______________|");
     }
 }
-//  ___________________________________
-// (@^,^,^,^,^,@)         (@^,^,^,^,^,@)
-//   )`){o}(`(              )`){o}(`(
-//   ,`,`,`,`,`             ,`,`,`,`,`
-//   ==========             ==========
-//    ||||||||    #######    ||||||||
-//    ||||||||    #######    ||||||||
-//    ||||||||    #######    ||||||||
-//    ||||||||    #######    ||||||||
-//    ||||||||    #######    ||||||||
-//   ,________,             ,________,
-//     )    (                 )    (
-//   ,       `              ,       `
-// _/__________\_         _/__________\_
-//|______________|_______|______________|

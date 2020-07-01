@@ -17,6 +17,9 @@ import it.polimi.ingsw.PSP034.messages.serverConfiguration.RequestServerConfig;
 import it.polimi.ingsw.PSP034.messages.setupPhase.*;
 import it.polimi.ingsw.PSP034.view.GodDescription;
 
+/**
+ * This class Creates the correct Answer message starting from the user input.
+ */
 public class AnswerComposer {
     private final Request request;
     private Answer answer;
@@ -25,6 +28,11 @@ public class AnswerComposer {
         this.request = request;
     }
 
+    /**
+     * Take the user input and creates the Answer to be sent to the server.
+     * @param params List of the inputs from the user.
+     * @return The Answer message that represents the user input.
+     */
     public Answer packetAnswer(String...params){
         if(request != null) {
             if(request instanceof RequestClientConfig) {

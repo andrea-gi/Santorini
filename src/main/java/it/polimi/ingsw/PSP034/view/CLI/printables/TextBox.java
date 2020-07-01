@@ -4,7 +4,17 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Scanner;
 
+/**
+ * This class is responsible for the interaction with the user.
+ */
 public class TextBox extends PrintableObject{
+    /**
+     * <pre>
+     * Creates the TextBox.
+     * NOTE: a TextBox is always two rows high.
+     * </pre>
+     * @param width Number of columns of the TextBox.
+     */
     public TextBox(int width){
         super();
         super.setObjectSize(2);
@@ -12,6 +22,11 @@ public class TextBox extends PrintableObject{
         super.setObjectLine(1, new String(new char[width]).replace('\u0000', ' '));
     }
 
+    /**
+     * This function waits for an input from the user then checks if the input string matches all the given regex. If it doesn't, an error is shown and the functions waits for another input.
+     * @param regex List of RegexConditions that the string must match. The conditions are checked from first to last.
+     * @return The first input string that matches all the given regex.
+     */
     public String waitAnswer(@NotNull RegexCondition...regex){
         ANSI.moveTo(super.getStartLine()+1, super.getStartColumn());
         Scanner scan = new Scanner(System.in);
@@ -38,6 +53,9 @@ public class TextBox extends PrintableObject{
         return answer;
     }
 
+    /**
+     * This function waits for the user to insert a new line character, ignoring any other previous character.
+     */
     public void waitAnswer(){
         ANSI.moveTo(super.getStartLine()+1, super.getStartColumn());
         Scanner scan = new Scanner(System.in);

@@ -6,6 +6,9 @@ import it.polimi.ingsw.PSP034.view.CLI.printables.arrangements.HorizontalArrange
 import it.polimi.ingsw.PSP034.view.CLI.printables.arrangements.VerticalArrangement;
 import it.polimi.ingsw.PSP034.view.CLI.scenes.Scene;
 
+/**
+ * This class creates the scene to be printed when the user has to choose the color he/she wants to play with.
+ */
 public class ColorChoice extends Scene {
     private final VerticalArrangement va1;
 
@@ -18,6 +21,10 @@ public class ColorChoice extends Scene {
     private final Message color;
     private final TextBox colorPicker;
 
+    /**
+     * Creates the scene and organizes the objects.
+     * @param availableColors The colors that the user can choose.
+     */
     public ColorChoice(PlayerColor[] availableColors){
         va1 = new VerticalArrangement();
         va1.setCentreAlignment();
@@ -45,6 +52,9 @@ public class ColorChoice extends Scene {
         ha1.addObjects(color, colorPicker);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String show(){
         super.clearFrame();

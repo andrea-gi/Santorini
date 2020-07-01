@@ -2,7 +2,15 @@ package it.polimi.ingsw.PSP034.view.CLI.printables;
 
 import it.polimi.ingsw.PSP034.constants.PlayerColor;
 
+/**
+ * Represents the drawing that has to be displayed to the user when another player wins.
+ */
 public class OtherWinnerDrawing extends Drawing {
+    /**
+     * Creates the drawing.
+     * @param winnerColor Color of the winning player.
+     * @param losersColors Colors of the losing players.
+     */
     public OtherWinnerDrawing(PlayerColor winnerColor, PlayerColor[] losersColors){
         super();
 

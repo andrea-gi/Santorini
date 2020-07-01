@@ -5,6 +5,9 @@ import it.polimi.ingsw.PSP034.view.CLI.printables.arrangements.HorizontalArrange
 import it.polimi.ingsw.PSP034.view.CLI.printables.arrangements.VerticalArrangement;
 import it.polimi.ingsw.PSP034.view.CLI.scenes.Scene;
 
+/**
+ * This class creates the scene to be printed when the user has to input the port of the server to connect to.
+ */
 public class ServerPort extends Scene {
     private final VerticalArrangement va1;
 
@@ -17,6 +20,9 @@ public class ServerPort extends Scene {
     private final Message port;
     private final TextBox portPicker;
 
+    /**
+     * Creates the scene and organizes the objects.
+     */
     public ServerPort(){
         va1 = new VerticalArrangement();
         va1.setCentreAlignment();
@@ -39,6 +45,9 @@ public class ServerPort extends Scene {
         ha1.setBorder(1);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String show() {
         super.clearFrame();

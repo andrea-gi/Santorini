@@ -6,12 +6,18 @@ import it.polimi.ingsw.PSP034.view.CLI.printables.Spacer;
 import it.polimi.ingsw.PSP034.view.CLI.printables.arrangements.VerticalArrangement;
 import it.polimi.ingsw.PSP034.view.CLI.scenes.Scene;
 
+/**
+ * This class creates the scene to be printed when the user has been added to the game after choosing name and color.
+ */
 public class SuccessfullyAdded extends Scene {
     private final VerticalArrangement va1;
 
     private final Font title;
     private final Message correct;
 
+    /**
+     * Creates the scene and organizes the objects.
+     */
     public SuccessfullyAdded(){
         va1 = new VerticalArrangement();
         va1.setCentreAlignment();
@@ -22,6 +28,9 @@ public class SuccessfullyAdded extends Scene {
         va1.addObjects(title, correct);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String show() {
         super.clearFrame();

@@ -11,8 +11,8 @@ public class Font extends PrintableObject{
     private String color;
 
     /**
-     *Initializes a Font object
-     * @param string The string to be converted in the new font.
+     *Initializes a Font object.
+     * @param string The string to be converted in the new font. In an ANSI escape sequence representing a color command is present in the string, it will be processed and the following letters will be coloured.
      */
     public Font(String string){
         super();

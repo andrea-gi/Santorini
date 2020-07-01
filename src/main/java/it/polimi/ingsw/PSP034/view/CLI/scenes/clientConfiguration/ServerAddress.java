@@ -23,7 +23,10 @@ public class ServerAddress extends Scene {
     private final TextBox addressPicker;
 
 
-
+    /**
+     * Creates the scene and organizes the objects.
+     * @param error Whether there was an error last time the client tried to connect to the server.
+     */
     public ServerAddress(boolean error){
         va1 = new VerticalArrangement();
         va1.setCentreAlignment();
@@ -49,13 +52,16 @@ public class ServerAddress extends Scene {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String show() {
         super.clearFrame();
 
         super.printMain(va1);
 
-        RegexCondition regex = new RegexCondition("^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))?$", "Invalid IP address.");
+        RegexCondition regex = new RegexCondition("^((localhost)|((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])))?$", "Invalid IP address.");
 
         return addressPicker.waitAnswer(regex);
     }

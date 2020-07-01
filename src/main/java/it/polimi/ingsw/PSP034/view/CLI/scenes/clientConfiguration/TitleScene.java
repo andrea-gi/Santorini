@@ -4,8 +4,15 @@ import it.polimi.ingsw.PSP034.view.CLI.printables.*;
 import it.polimi.ingsw.PSP034.view.CLI.printables.arrangements.VerticalArrangement;
 import it.polimi.ingsw.PSP034.view.CLI.scenes.Scene;
 
+/**
+ * This class creates the scene to be printed when the game is launched. It includes a scene that helps the user verifying whether the console settings are correct.
+ */
 public class TitleScene extends Scene {
 
+    /**
+     * Shows the screen test and wait for confirm from the user, then shows the title scene.
+     * @return {@code NULL}.
+     */
     @Override
     public String show(){
         ANSI.clearScreen();

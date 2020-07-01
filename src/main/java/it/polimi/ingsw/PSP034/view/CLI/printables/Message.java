@@ -2,9 +2,17 @@ package it.polimi.ingsw.PSP034.view.CLI.printables;
 
 import java.util.ArrayList;
 
+/**
+ * This class represents a message that can be printed in a Scene.
+ */
 public class Message extends PrintableObject{
     private final String text;
 
+    /**
+     * Creates the message.
+     * @param text text of the message to be printed.
+     * @param maxMessageWidth Maximum length of a line of the question after which a new line is started. If this è parameter is -1 the max length is set to the length of the string.
+     */
     public Message(String text, int maxMessageWidth){
         super();
         this.text = text;

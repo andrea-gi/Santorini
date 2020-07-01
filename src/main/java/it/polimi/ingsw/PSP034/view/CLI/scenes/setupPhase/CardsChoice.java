@@ -7,13 +7,23 @@ import it.polimi.ingsw.PSP034.view.CLI.printables.arrangements.VerticalArrangeme
 import it.polimi.ingsw.PSP034.view.GodDescription;
 import it.polimi.ingsw.PSP034.view.CLI.scenes.Scene;
 
+/**
+ * This class creates the scene to be printed when the user has to choose the gods that will be used in the game.
+ */
 public class CardsChoice extends Scene {
-    private int playersNumber;
+    private final int playersNumber;
 
+    /**
+     * Creates the scene and organizes the objects.
+     * @param playersNumber The number of player that take part to the game.
+     */
     public CardsChoice(int playersNumber){
         this.playersNumber = playersNumber;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String show() {
         super.clearFrame();
@@ -48,19 +58,14 @@ public class CardsChoice extends Scene {
         VerticalArrangement va2 = new VerticalArrangement();
         va2.addObjects(title, va1);
 
-        Spacer spacerUP = new Spacer(super.getFrameWidth(), (super.getFrameHeight()-va2.getHeight())/2);
-        Spacer spacerDOWN = new Spacer(super.getFrameWidth(), super.getFrameHeight()-va2.getHeight()- spacerUP.getHeight());
-        VerticalArrangement mainVA = new VerticalArrangement();
-        mainVA.addObjects(spacerUP, va2, spacerDOWN);
-
-        mainVA.print(super.getFrameStartLine(), super.getFrameStartColumn());
+        super.printMain(va2);
 
         //TODO -- valutare se fare più regex per i diversi errori
-        RegexCondition regex;
+        RegexCondition regexCondition;
         if(playersNumber == 2)
-            regex = new RegexCondition("^(([1-9])|1([0-4])),((?!\\2)[1-9]|1((?!\\3)[0-4]))$", "Invalid selection");
+            regexCondition = new RegexCondition("^(([1-9])|1([0-4])),((?!\\2)[1-9]|1((?!\\3)[0-4]))$", "Invalid selection");
         else
-            regex = new RegexCondition("^(([1-9])|1([0-4])),(((?!\\2)[1-9])|(1((?!\\3)[0-4]))),((?!\\2)(?!\\5)[1-9]|1((?!\\3)(?!\\7)[0-4]))$", "Invalid selection");
-        return choice.waitAnswer(regex);
+            regexCondition = new RegexCondition("^(([1-9])|1([0-4])),(((?!\\2)[1-9])|(1((?!\\3)[0-4]))),((?!\\2)(?!\\5)[1-9]|1((?!\\3)(?!\\7)[0-4]))$", "Invalid selection");
+        return choice.waitAnswer(regexCondition);
     }
 }

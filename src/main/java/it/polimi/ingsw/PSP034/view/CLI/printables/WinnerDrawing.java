@@ -4,7 +4,14 @@ package it.polimi.ingsw.PSP034.view.CLI.printables;
 import it.polimi.ingsw.PSP034.constants.Colors;
 import it.polimi.ingsw.PSP034.constants.PlayerColor;
 
+/**
+ * Represents the drawing that has to be displayed to the user he/she wins.
+ */
 public class WinnerDrawing extends Drawing{
+    /**
+     * Creates the drawing.
+     * @param color Color of the player.
+     */
     public WinnerDrawing(PlayerColor color){
         super();
         String buildColor = Colors.BUILDING_BG.get();

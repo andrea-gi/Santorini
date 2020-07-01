@@ -1,5 +1,8 @@
 package it.polimi.ingsw.PSP034.view;
 
+/**
+ * Enum that contains every implemented god and its description.
+ */
 public enum GodDescription{
     APOLLO("Apollo", "Your Move: Your Worker may move into an opponent Worker's space (using normal movement rules) and force their Worker to the space yours just vacated (swapping their positions)."),
     ARTEMIS("Artemis", "Your Move: Your Worker may move one additional time, but not back to the space it started on."),
@@ -33,6 +36,11 @@ public enum GodDescription{
         return power;
     }
 
+    /**
+     * Finds the description of a god starting from its name.
+     * @param godName The name of the god of which the descrption is needed.
+     * @return The description of the god.
+     */
     public static String getPower(String godName){
         String godPower = "";
         for(GodDescription god : GodDescription.values()){

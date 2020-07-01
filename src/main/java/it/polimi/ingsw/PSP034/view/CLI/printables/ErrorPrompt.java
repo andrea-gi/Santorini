@@ -2,8 +2,16 @@ package it.polimi.ingsw.PSP034.view.CLI.printables;
 
 import java.util.ArrayList;
 
+/**
+ * This class handles how the error messages are presented to the user.
+ */
 public class ErrorPrompt extends PrintableObject{
 
+    /**
+     * Creates the prompt message. This is a Rectangle tha appears over any object and contains the message of the error and the respective error code.
+     * @param errorCode Code of the error to be printed.
+     * @param description Description of the error to be printed.
+     */
     public ErrorPrompt(String errorCode, String description){
         int borderSpace = 3;
         int maxLength = 37;
@@ -41,10 +49,5 @@ public class ErrorPrompt extends PrintableObject{
             super.setObjectLine(i, constructionArray.get(i));
         }
 
-    }
-
-    @Override
-    public void print(int line, int column) {
-        super.print(line, column);
     }
 }

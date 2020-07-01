@@ -1,6 +1,12 @@
 package it.polimi.ingsw.PSP034.view.CLI.printables;
 
+/**
+ * Represents the title of the game.
+ */
 public class Title extends PrintableObject{
+    /**
+     * Creates the title in ASCII art.
+     */
     public Title(){
         super();
         super.setObjectSize(16);

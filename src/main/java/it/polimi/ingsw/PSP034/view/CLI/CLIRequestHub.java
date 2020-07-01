@@ -33,6 +33,11 @@ public class CLIRequestHub {
     }
 
 
+    /**
+     * Handles the request message creating or updating the correct scene and return the Answer message with the user input to be sent to the Server.
+     * @param request Request to be handled.
+     * @return Answer to be sent to the server.
+     */
     public Answer newRequest(Request request){
         if(request instanceof RequestClientConfig)
             return newRequestClientConfig((RequestClientConfig) request);

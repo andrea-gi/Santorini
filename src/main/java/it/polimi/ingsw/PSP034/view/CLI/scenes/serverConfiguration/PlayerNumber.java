@@ -5,6 +5,9 @@ import it.polimi.ingsw.PSP034.view.CLI.printables.arrangements.HorizontalArrange
 import it.polimi.ingsw.PSP034.view.CLI.printables.arrangements.VerticalArrangement;
 import it.polimi.ingsw.PSP034.view.CLI.scenes.Scene;
 
+/**
+ * This class creates the scene to be printed when the user has to choose how many players the game will have.
+ */
 public class PlayerNumber extends Scene {
     private final VerticalArrangement va1;
 
@@ -17,6 +20,9 @@ public class PlayerNumber extends Scene {
     private final Message players;
     private final TextBox choice;
 
+    /**
+     * Creates the scene and organizes the objects.
+     */
     public PlayerNumber(){
         va1 = new VerticalArrangement();
         va1.setCentreAlignment();
@@ -35,10 +41,13 @@ public class PlayerNumber extends Scene {
         va2.addObjects(playerNumber, ha1);
 
         players = new Message("Players :", -1);
-        choice = new TextBox(playerNumber.getWidth()-players.getWidth()-ha1.getBorder());
+        choice = new TextBox(title.getWidth()-players.getWidth()-ha1.getBorder());
         ha1.addObjects(players, choice);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String show() {
         super.clearFrame();

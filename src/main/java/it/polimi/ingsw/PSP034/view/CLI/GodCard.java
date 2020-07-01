@@ -6,15 +6,28 @@ import it.polimi.ingsw.PSP034.view.GodDescription;
 
 import java.util.ArrayList;
 
+/**
+ * Represents a card containing the information about a god.
+ */
 public class GodCard extends PrintableObject {
     private final String frameColor;
     private final String godName;
+
+    /**
+     * Creates a card with default color.
+     * @param godName Name of the god to be represented in the card.
+     */
     public GodCard(String godName){
         this.godName = godName;
         this.frameColor = ANSI.reset;
         construct();
     }
 
+    /**
+     * Creates a card with a coloured frame.
+     * @param godName Name of the god to be represented in the card.
+     * @param frameColor Color of the frame of the card.
+     */
     public GodCard(String godName, String frameColor){
         this.godName = godName;
         this.frameColor = frameColor;

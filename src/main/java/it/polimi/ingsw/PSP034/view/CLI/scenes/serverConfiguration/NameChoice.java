@@ -6,6 +6,9 @@ import it.polimi.ingsw.PSP034.view.CLI.printables.arrangements.HorizontalArrange
 import it.polimi.ingsw.PSP034.view.CLI.printables.arrangements.VerticalArrangement;
 import it.polimi.ingsw.PSP034.view.CLI.scenes.Scene;
 
+/**
+ * This class creates the scene to be printed when the user has choose the name he/she will be using during the game.
+ */
 public class NameChoice extends Scene {
     private final VerticalArrangement va1;
 
@@ -19,6 +22,10 @@ public class NameChoice extends Scene {
     private final Message yourName;
     private final TextBox namePicker;
 
+    /**
+     * Creates the scene and organizes the objects.
+     * @param alreadyChosenNames The list of name that have already been chosen by other players and therefore cannot be chosen by the user.
+     */
     public NameChoice(String[] alreadyChosenNames){
         this.alreadyChosenNames = alreadyChosenNames;
 
@@ -43,6 +50,9 @@ public class NameChoice extends Scene {
         ha1.setBorder(1);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String show(){
         super.clearFrame();

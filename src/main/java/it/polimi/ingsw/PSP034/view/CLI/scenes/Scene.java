@@ -28,6 +28,9 @@ public abstract class Scene {
         return FRAME_START_COLUMN;
     }
 
+    /**
+     * Clears the frame erasing every object that is shown.
+     */
     public void clearFrame(){
         ANSI.clearArea(FRAME_START_LINE, FRAME_START_COLUMN, FRAME_HEIGHT+FRAME_START_LINE, FRAME_WIDTH+FRAME_START_COLUMN);
     }
@@ -73,7 +76,7 @@ public abstract class Scene {
     }
 
     /**
-     * Abstract method that has to be implemented in every scene. Initializes and organizes the elements of the scene and then prints the whole scene using the printMain method.
+     * Initializes and organizes the elements of the scene and then prints the whole scene using the printMain method. If the scene needs an input from the user, the regex that check the input are defined in this method.
      * @return The string of the answer of the user. If the scene requires no answer, the method is forced to return null;
      */
     public abstract String show();

@@ -5,11 +5,17 @@ import it.polimi.ingsw.PSP034.view.CLI.printables.Message;
 import it.polimi.ingsw.PSP034.view.CLI.printables.arrangements.VerticalArrangement;
 import it.polimi.ingsw.PSP034.view.CLI.scenes.Scene;
 
+/**
+ * This class creates the scene to be printed when the user has connected to the server but a game has already started.
+ */
 public class AlreadyStarted extends Scene {
     private final VerticalArrangement va1;
     private final Font title;
     private final Message sorry;
 
+    /**
+     * Creates the scene and organizes the objects.
+     */
     public AlreadyStarted(){
         va1 = new VerticalArrangement();
 
@@ -20,6 +26,9 @@ public class AlreadyStarted extends Scene {
         va1.setBorder(1);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String show() {
         super.clearFrame();

@@ -6,12 +6,18 @@ import it.polimi.ingsw.PSP034.view.CLI.printables.Spacer;
 import it.polimi.ingsw.PSP034.view.CLI.printables.arrangements.VerticalArrangement;
 import it.polimi.ingsw.PSP034.view.CLI.scenes.Scene;
 
+/**
+ * This class creates the scene to be printed when the user has been added to the game after having been in the lobby.
+ */
 public class WelcomeWait extends Scene {
     private final VerticalArrangement va1;
 
     private final Font title;
     private final Message welcomeWait;
 
+    /**
+     * Creates the scene and organizes the objects.
+     */
     public WelcomeWait(){
         va1 = new VerticalArrangement();
         va1.setCentreAlignment();
@@ -22,6 +28,9 @@ public class WelcomeWait extends Scene {
         va1.addObjects(title, welcomeWait);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String show() {
         super.clearFrame();
