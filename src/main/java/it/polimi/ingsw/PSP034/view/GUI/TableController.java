@@ -118,11 +118,11 @@ public class TableController implements GUIController{
         victoryMessage.setId("victoryLabel");
     }
 
-    Sex answerSex;
+    private Sex answerSex;
 
     private CurrentPhase currentPhase;
 
-    Rectangle blackOverlay = new Rectangle(1280,720, Color.rgb(0,0,0,0.6));
+    private Rectangle blackOverlay = new Rectangle(1280,720, Color.rgb(0,0,0,0.6));
 
     private enum CurrentPhase{
         PLACE_WORKER,
@@ -379,7 +379,6 @@ public class TableController implements GUIController{
      * @param victory is the victory image to delete from screen
      * @param winnerName is the message to delete from screen
      */
-    //TODO -- gestire il keep watching se non pigia il bottone
     private void showButtonsEndGame(EndGameButtons button, ImageView victory, Label winnerName){
         Button quit = new Button();
         quit.setContentDisplay(ContentDisplay.BOTTOM);
@@ -413,16 +412,19 @@ public class TableController implements GUIController{
                 pane.getChildren().remove(winnerName);
                 pane.getChildren().remove(victory);
                 pane.getChildren().remove(blackOverlay);
+                GUIRequestHub.getInstance().setCanHandleRequest(true);
             });
         }
         else if (button == EndGameButtons.PLAY_AGAIN){
             continueGame.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+                GUIRequestHub.getInstance().setCanHandleRequest(true);
                 restart();
             });
         }
     }
 
-    /**Lets the game restart with the IP request
+    /**
+     * Lets the game restart with the IP request.
      */
     public void restart(){
         pane.getChildren().removeAll();
@@ -439,7 +441,7 @@ public class TableController implements GUIController{
         int x = GridPane.getColumnIndex((Node) e.getSource());
 
         if (!canSend[x][y]) {
-            return; //TODO -- gestione input errato
+            return;
         }
 
         Answer answerToSend = null;

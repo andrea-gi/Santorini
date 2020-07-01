@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP034.client;
 
+import it.polimi.ingsw.PSP034.constants.Constant;
 import it.polimi.ingsw.PSP034.messages.HeartBeatAnswer;
 import it.polimi.ingsw.PSP034.messages.HeartBeatRequest;
 import it.polimi.ingsw.PSP034.messages.Request;
@@ -77,7 +78,7 @@ public class Client implements Runnable{
             closeStreams();
             requestManager.showError(new ErrorMessage("S002", "Server is not responding."));
             return false;
-        }, 10, TimeUnit.SECONDS);
+        }, 2* Constant.HEARTBEAT_PERIOD, TimeUnit.SECONDS);
     }
 
     private ScheduledFuture<Boolean> futureHeartBeat;

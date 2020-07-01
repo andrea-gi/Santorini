@@ -34,7 +34,7 @@ public enum GodPath {
      * @return the complete path to the resource
      */
     public static String getPath(String string){
-        for(GodPath god:paths){ //TODO -- sostituire con values
+        for(GodPath god:paths){
             if (("/images/gods/" + string + ".png").equalsIgnoreCase(god.normalPath))
                 return god.normalPath;
         }

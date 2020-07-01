@@ -21,4 +21,9 @@ public class Constant {
      * Is the maximum name length accepted due to graphical reasons.
      */
     public static final int MAX_NAME_LENGTH = 10;
+
+    /**
+     * Period of heartbeat (seconds), used to check if client-server connection is active.
+     */
+    public static final int HEARTBEAT_PERIOD = 5;
  }

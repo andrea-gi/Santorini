@@ -18,7 +18,8 @@ import javafx.stage.Stage;
 
 import java.util.concurrent.Future;
 
-/** Is a singleton that handles all the messages and information between the server and the GUI controllers.
+/**
+ * Is a singleton that handles all the messages and information between the server and the GUI controllers.
  */
 public class GUIRequestHub extends RequestManager {
     private GUIController currentController;
@@ -52,28 +53,29 @@ public class GUIRequestHub extends RequestManager {
                         craftRequestIP(new RequestIP(true));
                     }
                 } catch (Exception e) {
-                    //TODO -- show error (e chiudi app)
+                    GUIRequestHub.getInstance().showError(new ErrorMessage("C003", "Fatal connection error."));
                 }
                 return null;
             }
         }).start();
     }
 
-    /** Handles a RequestIP message, showing the corresponding scene to the user, in order to establish
-     * the connection
-     * @param request is the message received
+    /**
+     * Handles a RequestIP message, showing the corresponding scene to the user, in order to establish
+     * the connection.
+     * @param request is the message received.
      */
-    private void craftRequestIP(RequestIP request){ //TODO -- gestire l'errore già ***PRESENTE NEL MESSAGGIO***
+    private void craftRequestIP(RequestIP request){
         if (!request.getError()) {
             Platform.runLater(() -> {
                 ScenePath.setNextScene(currentController.getPane().getScene(), ScenePath.SERVER_LOGIN);
             });
         } else {
             Platform.runLater(()->{
-                ((ServerLoginController) currentController).resetAfterError();
+                ((ServerLoginController) currentController).resetAfterError("Could not establish connection. Try again!");
             });
         }
-    }//TODO--gestione errore
+    }
 
     /** Handles a RequestServerConfig message, showing the corresponding scene to the user, in order to
      * register the player
@@ -204,7 +206,6 @@ public class GUIRequestHub extends RequestManager {
                 ((TableController) currentController).setMyDescription(((InfoIsPlacing) request).getPlayer() + " is placing workers");
             });
         }
-        //TODO -- decidere se va bene
     }
 
     /** Handles a PlayRequest message, showing the corresponding scene to the user, depending on the
@@ -265,6 +266,7 @@ public class GUIRequestHub extends RequestManager {
      */
     public void craftGameOverRequest(GameOverRequest request){
         Scene scene = currentController.getPane().getScene();
+        setCanHandleRequest(false);
         if(request instanceof PersonalDefeatRequest){
             Platform.runLater(()->{
                 ((TableController) currentController).setMyTitle("");
@@ -275,7 +277,6 @@ public class GUIRequestHub extends RequestManager {
         }
 
         else if(request instanceof SingleLoserInfo) {
-            setCanHandleRequest(false);
             GUIController previousController = currentController;
             Platform.runLater(()->{
                 ((TableController) currentController).setCardOpacity(((SingleLoserInfo) request).getLoser(), 0.4);
@@ -298,7 +299,6 @@ public class GUIRequestHub extends RequestManager {
         }
 
         else if(request instanceof EndByDisconnection){
-            setCanHandleRequest(false);
             String disconnectedName = ((EndByDisconnection) request).getDisconnectedPlayer();
             Platform.runLater(()->{
                 ScenePath.setDialog((Stage)scene.getWindow(),"Error",
@@ -307,9 +307,6 @@ public class GUIRequestHub extends RequestManager {
             });
         }
     }
-
-    //TODO -- unificare con cli?
-
 
     /** Handles the message received depending on its type
      * @param message Request to be handled
