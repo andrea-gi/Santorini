@@ -4,6 +4,7 @@ import it.polimi.ingsw.PSP034.constants.Constant;
 import it.polimi.ingsw.PSP034.messages.HeartBeatAnswer;
 import it.polimi.ingsw.PSP034.messages.HeartBeatRequest;
 import it.polimi.ingsw.PSP034.messages.Request;
+import it.polimi.ingsw.PSP034.messages.SevereError;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.ErrorMessage;
 import it.polimi.ingsw.PSP034.messages.gameOverPhase.EndByDisconnection;
 import it.polimi.ingsw.PSP034.view.GameException;
@@ -99,9 +100,15 @@ public class Client implements Runnable{
                         requestManager.handleRequest((EndByDisconnection) receivedMessage);
                         this.silentEnded = true;
                         clientGameHandler.setSilentEnded(true);
+                    } else if (receivedMessage instanceof SevereError) {
+                        requestManager.showError(new ErrorMessage("S003", "Severe server error. Disconnecting."));
+                        this.silentEnded = true;
+                        clientGameHandler.setSilentEnded(true);
                     }
                     else {
-                        requestQueue.offer((Request) receivedMessage);
+                        try {
+                            requestQueue.offer((Request) receivedMessage);
+                        } catch (ClassCastException | NullPointerException | IllegalArgumentException ignored){}
                         if (Request.isSilentCloseRequest((Request) receivedMessage)) {
                             this.silentEnded = true;
                             clientGameHandler.setSilentEnded(true);

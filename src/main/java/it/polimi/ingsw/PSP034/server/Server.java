@@ -6,6 +6,7 @@ import it.polimi.ingsw.PSP034.controller.Controller;
 import it.polimi.ingsw.PSP034.controller.IController;
 import it.polimi.ingsw.PSP034.messages.Answer;
 import it.polimi.ingsw.PSP034.messages.Request;
+import it.polimi.ingsw.PSP034.messages.SevereError;
 import it.polimi.ingsw.PSP034.messages.gameOverPhase.EndByDisconnection;
 import it.polimi.ingsw.PSP034.messages.gameOverPhase.GameOverAnswer;
 import it.polimi.ingsw.PSP034.messages.playPhase.PlayAnswer;
@@ -90,11 +91,13 @@ public class Server implements Runnable{
      * @return                      {@code true} if the player number has been set correctly, {@code false} otherwise.
      */
     protected synchronized boolean setPlayerNumber(int chosenPlayerNumber){
-        if (playerNumberFlag) {
-            playerNumberFlag = false;
-            this.chosenPlayerNumber = chosenPlayerNumber;
-            setCanStartSetup(true);
-            checkAndBeginSetup();
+        if (chosenPlayerNumber == 2 || chosenPlayerNumber == 3) {
+            if(playerNumberFlag) {
+                playerNumberFlag = false;
+                this.chosenPlayerNumber = chosenPlayerNumber;
+                setCanStartSetup(true);
+                checkAndBeginSetup();
+            }
             return true;
         }
         return false;
@@ -272,7 +275,9 @@ public class Server implements Runnable{
      * @param connection Connection that added the message
      */
     protected synchronized void addMessage(Answer message, IClientConnection connection){
-        queue.offer(new AnswerEncapsulated(message, connection));
+        try {
+            queue.offer(new AnswerEncapsulated(message, connection));
+        } catch (ClassCastException | NullPointerException | IllegalArgumentException ignored){}
     }
 
     /**
@@ -325,7 +330,9 @@ public class Server implements Runnable{
             try {
                 controller.getMessageManager().handleMessage(message, connection.getName());
             } catch (Exception e){
-                // TODO
+                for (IClientConnection active : activeConnections){
+                    active.asyncSend(new SevereError());
+                }
             }
         }
     }
@@ -336,17 +343,16 @@ public class Server implements Runnable{
         if (message instanceof AnswerNumber) {
             if(setPlayerNumber(((AnswerNumber) message).getPlayerNumber())){
                 if (canStartSetup() && !isGameStarted()){
-                    connection.asyncSend(new RequestServerConfig(ServerInfo.LOBBY)); //TODO -- messaggio di attesa altri giocatori
+                    connection.asyncSend(new RequestServerConfig(ServerInfo.LOBBY));
                 }
             } else{
-                // TODO -- gestire messaggio player number errato (?) vedi setPlayerNumber
+                connection.asyncSend(new RequestServerConfig(ServerInfo.REQUEST_PLAYER_NUMBER));;
             }
         }
         else if (message instanceof AnswerNameColor) {
             AnswerNameColor answerNameColor = (AnswerNameColor) message;
             validMessage = registerPlayer(connection, answerNameColor.getName(), answerNameColor.getColor());
             if (!validMessage){
-                // TODO -- come gestisco l'errore? dovrei inviare una notifica di errore
                 PlayerColor[] alreadyChosenColors = chosenColors.toArray(new PlayerColor[0]);
                 connection.asyncSend(new RequestNameColor(chosenNames.toArray(new String[0]),
                         PlayerColor.getRemainingColors(alreadyChosenColors), alreadyChosenColors));
