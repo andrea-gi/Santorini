@@ -27,8 +27,8 @@ public class GodLikeChosen extends Scene {
         va1.setCentreAlignment();
         va1.setBorder(1);
 
-        title = new Font("wait");
-        godlikeMessage = new Message("Your choice has been registered. Wait for the other players to make their choice", title.getWidth());
+        title = new Font("god like player");
+        godlikeMessage = new Message(godLikePlayer + " has been chosen as the most god-like player! Such a lucky player, but do not worry, you will have better luck next time!", title.getWidth());
         va1.addObjects(title, godlikeMessage);
     }
 
