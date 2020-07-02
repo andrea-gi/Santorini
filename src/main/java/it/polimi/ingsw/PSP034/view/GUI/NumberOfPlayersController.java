@@ -1,19 +1,12 @@
 package it.polimi.ingsw.PSP034.view.GUI;
 
 import it.polimi.ingsw.PSP034.messages.serverConfiguration.AnswerNumber;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-
-import java.io.File;
 
 /**It controls the GUI scene of the number of players choice by the first connected player.
  */

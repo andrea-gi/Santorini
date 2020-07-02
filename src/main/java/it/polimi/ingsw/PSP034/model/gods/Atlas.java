@@ -59,15 +59,13 @@ public class Atlas extends GodsRules {
                 if(getCompleteRules().validBuild(worker, tile)) {
                     if (usePower) {
                         buildDome(tile);
-                        executed = true;
-                        break;
                     } else {
                         super.build(tile);
-                        executed = true;
-                        break;
                     }
+                    executed = true;
+                }else{
+                    executed = false;
                 }
-                executed = false;
                 break;
             case END:
                 executed = true;

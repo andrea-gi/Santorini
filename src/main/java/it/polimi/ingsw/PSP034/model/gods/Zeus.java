@@ -48,7 +48,6 @@ public class Zeus extends GodsRules {
 
     @Override
     public boolean validBuild(Worker worker, Tile buildingTile) {
-        builtUnderMe = false;
         if(getPlayer().isOwner(worker)){
             if (!buildingTile.equals(worker.getMyTile())){
                 if(!super.getDefaultRules().validBuild(worker, buildingTile)){

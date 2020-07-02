@@ -7,11 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-
-import java.io.File;
 
 /**It controls the GUI scene of the connection to a server and to a port.
  */
@@ -78,7 +74,7 @@ public class ServerLoginController implements GUIController{
     }
 
     private boolean checkPort(String port){
-        int parsedPort = -1;
+        int parsedPort;
         try {
             parsedPort = Integer.parseInt(port);
         } catch (NumberFormatException e){
@@ -96,7 +92,7 @@ public class ServerLoginController implements GUIController{
         if (addressComponents.length > 4)
             return false;
         for (String chunk : addressComponents){
-            int value = -1;
+            int value;
             try{
                 value = Integer.parseInt(chunk);
             } catch (NumberFormatException e){

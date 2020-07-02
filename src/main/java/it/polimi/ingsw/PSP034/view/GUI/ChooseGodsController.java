@@ -4,7 +4,6 @@ import it.polimi.ingsw.PSP034.messages.setupPhase.AnswerCardsChoice;
 import it.polimi.ingsw.PSP034.view.GodDescription;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.IntegerBinding;
-import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
 import javafx.event.ActionEvent;
@@ -12,13 +11,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.util.Duration;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 

@@ -9,7 +9,7 @@ import it.polimi.ingsw.PSP034.constants.Sex;
 public class DefaultRules implements IRules {
     private Sex chosenSex;
     private Tile previousTile;
-    private Game game;
+    private final Game game;
 
     public DefaultRules(Game game){
         this.game = game;

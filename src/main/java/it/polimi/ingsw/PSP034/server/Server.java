@@ -52,7 +52,6 @@ public class Server implements Runnable{
     private final ArrayList<String> chosenNames = new ArrayList<>();
 
     private boolean gameStarted = false;
-    private boolean gameEnded = false; // true if game ended correctly (with a winner)
     private boolean firstConnection = true;
     private boolean canStartSetup = false;
     private int chosenPlayerNumber = Constant.MAXPLAYERS;

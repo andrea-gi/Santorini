@@ -6,7 +6,6 @@ import it.polimi.ingsw.PSP034.messages.clientConfiguration.AnswerIP;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.ErrorMessage;
 import it.polimi.ingsw.PSP034.view.GameException;
 
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;

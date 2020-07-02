@@ -72,11 +72,10 @@ public class Hephaestus extends GodsRules {
                     super.build(tile);
                     myFirstBuilding = tile;
                     executed = true;
-                    break;
                 }else {
                     executed = false;
-                    break;
                 }
+                break;
             case POWER:
                 usePower = choice;
                 executed = true;

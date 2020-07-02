@@ -11,7 +11,6 @@ import it.polimi.ingsw.PSP034.messages.playPhase.RequiredActions;
 import it.polimi.ingsw.PSP034.messages.setupPhase.AnswerPlaceWorker;
 import it.polimi.ingsw.PSP034.view.GodDescription;
 import javafx.animation.FadeTransition;
-import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -340,7 +339,7 @@ public class TableController implements GUIController{
             transVictory.setFromValue(0);
             transVictory.setToValue(1);
             transVictory.play();
-            ImageView winnerGodImageView = new ImageView();
+            ImageView winnerGodImageView;
             if (winnerGod!=null) {
                 winnerGodImageView = new ImageView(winnerGod);
                 StackPane.setAlignment(winnerGodImageView, Pos.CENTER);
@@ -664,19 +663,19 @@ public class TableController implements GUIController{
             enableTile(request.getXFemale(), request.getYFemale());
     }
 
-    private Image maleRed = new Image("/images/workers/maleRed.png", 109.5, 109.5, true, true);
-    private Image femaleRed = new Image("/images/workers/femaleRed.png", 109.5, 109.5, true, true);
-    private Image maleBlue = new Image("/images/workers/maleBlue.png", 109.5, 109.5, true, true);
-    private Image femaleBlue = new Image("/images/workers/femaleBlue.png", 109.5, 109.5, true, true);
-    private Image maleMagenta = new Image("/images/workers/maleMagenta.png", 109.5, 109.5, true, true);
-    private Image femaleMagenta = new Image("/images/workers/femaleMagenta.png", 109.5, 109.5, true, true);
+    private final Image maleRed = new Image("/images/workers/maleRed.png", 109.5, 109.5, true, true);
+    private final Image femaleRed = new Image("/images/workers/femaleRed.png", 109.5, 109.5, true, true);
+    private final Image maleBlue = new Image("/images/workers/maleBlue.png", 109.5, 109.5, true, true);
+    private final Image femaleBlue = new Image("/images/workers/femaleBlue.png", 109.5, 109.5, true, true);
+    private final Image maleMagenta = new Image("/images/workers/maleMagenta.png", 109.5, 109.5, true, true);
+    private final Image femaleMagenta = new Image("/images/workers/femaleMagenta.png", 109.5, 109.5, true, true);
 
-    private Image levelGround = new Image("/images/buildings/empty.png", 109.5, 109.5, true, true);
-    private Image levelOne = new Image("/images/buildings/level1.png", 109.5, 109.5, true, true);
-    private Image levelTwo = new Image("/images/buildings/level2.png", 109.5, 109.5, true, true);
-    private Image levelThree = new Image("/images/buildings/level3.png", 109.5, 109.5, true, true);
-    private Image dome = new Image("/images/buildings/dome.png", 109.5, 109.5, true, true);
-    private Image overlay = new Image("/images/buildings/overlay.png", 109.5, 109.5, true, true);
+    private final Image levelGround = new Image("/images/buildings/empty.png", 109.5, 109.5, true, true);
+    private final Image levelOne = new Image("/images/buildings/level1.png", 109.5, 109.5, true, true);
+    private final Image levelTwo = new Image("/images/buildings/level2.png", 109.5, 109.5, true, true);
+    private final Image levelThree = new Image("/images/buildings/level3.png", 109.5, 109.5, true, true);
+    private final Image dome = new Image("/images/buildings/dome.png", 109.5, 109.5, true, true);
+    private final Image overlay = new Image("/images/buildings/overlay.png", 109.5, 109.5, true, true);
 
     private void printSavedTile(int x, int y){
         StackPane tile = (StackPane) getTileByIndex(x,y, gridTable);

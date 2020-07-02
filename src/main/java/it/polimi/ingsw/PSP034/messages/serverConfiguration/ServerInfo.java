@@ -1,7 +1,5 @@
 package it.polimi.ingsw.PSP034.messages.serverConfiguration;
 
-import java.io.Serializable;
-
 public enum ServerInfo{
     REQUEST_NAME_COLOR,
     REQUEST_PLAYER_NUMBER,

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.PSP034.model;
 import it.polimi.ingsw.PSP034.constants.*;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 

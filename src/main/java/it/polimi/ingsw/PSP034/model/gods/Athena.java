@@ -35,15 +35,17 @@ public class Athena extends GodsRules {
                 executed = true;
                 break;
             case MOVE:
-                super.move(worker, tile);
-                if(worker.heightDifference(super.getPreviousTile()) == -1)
-                    movedUp = true;
-                executed = true;
+                if (super.getCompleteRules().validMove(worker, tile)) {
+                    super.move(worker, tile);
+                    if (worker.heightDifference(super.getPreviousTile()) == -1)
+                        movedUp = true;
+                    executed = true;
+                } else {
+                    executed = false;
+                }
                 break;
             case BUILD:
-                super.build(tile);
-                executed = true;
-                break;
+                return super.executeState(TurnPhase.BUILD, worker, tile, choice);
             case END:
                 executed = true;
                 break;

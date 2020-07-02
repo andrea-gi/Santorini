@@ -22,6 +22,7 @@ public class Prometheus extends GodsRules {
         Worker myWorker = this.getPlayer().getWorker(super.getChosenSex());
         switch(currentPhase){
             case START:
+                usePower = true; // correct checkBuildLost even after error
                 if(!checkBuildLost(this.getPlayer()))
                     return new NextStateInfo(TurnPhase.POWER, RequiredActions.REQUEST_POWER);
                 else {
@@ -85,12 +86,11 @@ public class Prometheus extends GodsRules {
                 if(getCompleteRules().validBuild(worker, tile)){
                     build(tile);
                     executed = true;
-                    break;
                 }
                 else{
                     executed = false;
-                    break;
                 }
+                break;
             case END:
                 executed = true;
                 break;
@@ -119,28 +119,28 @@ public class Prometheus extends GodsRules {
 
     @Override
     public boolean validBuild(Worker worker, Tile buildingTile){
-        if(usePower){
-            //Checks if tile is unoccupied
-            if (buildingTile.getWorker() != null)
-                return false;
+        if (getPlayer().isOwner(worker)) {
+            if (usePower) {
+                //Checks if tile is unoccupied
+                if (buildingTile.getWorker() != null)
+                    return false;
 
-            //Checks if tile does not have already a dome
-            if (buildingTile.hasDome())
-                return false;
+                //Checks if tile does not have already a dome
+                if (buildingTile.hasDome())
+                    return false;
 
-            //Checks if the tile is different
-            if(worker.getMyTile().getX() == buildingTile.getX()
-                    && worker.getMyTile().getY() == buildingTile.getY())
-                return false;
+                //Checks if the tile is different
+                if (worker.getMyTile().getX() == buildingTile.getX()
+                        && worker.getMyTile().getY() == buildingTile.getY())
+                    return false;
 
-            //Checks if tiles are neighbour
-            if (!worker.getMyTile().isNeighbouringTile(buildingTile))
-                return false;
+                //Checks if tiles are neighbour
+                if (!worker.getMyTile().isNeighbouringTile(buildingTile))
+                    return false;
 
-            return super.validBuildRecursive(worker, buildingTile);
+                return super.validBuildRecursive(worker, buildingTile);
+            }
         }
-        else {
-            return super.validBuild(worker, buildingTile);
-        }
+        return super.validBuild(worker, buildingTile);
     }
 }

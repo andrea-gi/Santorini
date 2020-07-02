@@ -10,10 +10,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-
 /**It controls the GUI scene of the personal god choice between the cards picked by the god like player.
  */
 public class PersonalGodController implements GUIController {

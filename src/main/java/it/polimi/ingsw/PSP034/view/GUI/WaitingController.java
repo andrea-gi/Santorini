@@ -2,11 +2,7 @@ package it.polimi.ingsw.PSP034.view.GUI;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-
-import java.io.File;
 
 /**It controls the GUI scene of the waiting moments during the registration and setup of all the players.
  */

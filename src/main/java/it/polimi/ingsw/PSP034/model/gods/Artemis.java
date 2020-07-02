@@ -40,7 +40,7 @@ public class Artemis extends GodsRules {
                         else
                             return new NextStateInfo(TurnPhase.GAMEOVER);
                     } else {
-                        usePower = true; // in order to have a correct validBuild check
+                        usePower = true; // in order to have a correct validMove check
                         if (super.anyValidMove(this.getPlayer().getWorker(super.getChosenSex())))
                             return new NextStateInfo(TurnPhase.POWER, RequiredActions.REQUEST_POWER);
                         else if (super.anyValidBuild(this.getPlayer().getWorker(super.getChosenSex())))
