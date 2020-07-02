@@ -165,7 +165,7 @@ public class AnswerComposer {
             if(params[0].equals("1")) {
                 answer = new AutoCloseAnswer();
             }else if(((PersonalDefeatRequest) request).getWinner().equals("")) {
-                //TODO -- risposta che genera un messaggio interno per cancellare la domanda?
+                answer = null;
             }else{
                 answer = new RestartClient();
             }

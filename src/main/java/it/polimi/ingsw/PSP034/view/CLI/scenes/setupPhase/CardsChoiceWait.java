@@ -29,6 +29,7 @@ public class CardsChoiceWait extends Scene {
 
     /**
      * {@inheritDoc}
+     * @return {@code null}
      */
     @Override
     public String show() {

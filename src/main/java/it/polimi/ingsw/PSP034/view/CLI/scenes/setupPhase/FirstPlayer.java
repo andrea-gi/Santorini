@@ -45,6 +45,7 @@ public class FirstPlayer extends Scene {
 
     /**
      * {@inheritDoc}
+     * @return A number between 1 and 3 representing the position in the array of the player that will be the first player. The input of the user is 1-based.
      */
     @Override
     public String show() {

@@ -47,6 +47,7 @@ public class ServerPort extends Scene {
 
     /**
      * {@inheritDoc}
+     * @return The server port entered by the user.
      */
     @Override
     public String show() {

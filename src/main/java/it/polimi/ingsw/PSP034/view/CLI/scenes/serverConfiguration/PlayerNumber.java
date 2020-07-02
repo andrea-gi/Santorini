@@ -47,6 +47,7 @@ public class PlayerNumber extends Scene {
 
     /**
      * {@inheritDoc}
+     * @return The number of players chosen by the user.
      */
     @Override
     public String show() {

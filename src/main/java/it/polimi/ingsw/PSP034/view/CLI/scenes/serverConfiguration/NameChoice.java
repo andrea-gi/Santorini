@@ -52,6 +52,7 @@ public class NameChoice extends Scene {
 
     /**
      * {@inheritDoc}
+     * @return The name chosen by the user.
      */
     @Override
     public String show(){

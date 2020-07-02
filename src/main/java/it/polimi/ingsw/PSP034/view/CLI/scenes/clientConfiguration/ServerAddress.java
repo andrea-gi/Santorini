@@ -54,6 +54,7 @@ public class ServerAddress extends Scene {
 
     /**
      * {@inheritDoc}
+     * @return The IP address entered by the use.
      */
     @Override
     public String show() {

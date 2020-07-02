@@ -28,6 +28,7 @@ public class AlreadyStarted extends Scene {
 
     /**
      * {@inheritDoc}
+     * @return {@code null}
      */
     @Override
     public String show() {

@@ -29,6 +29,7 @@ public class WelcomeWait extends Scene {
 
     /**
      * {@inheritDoc}
+     * @return {@code null}
      */
     @Override
     public String show() {

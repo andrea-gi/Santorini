@@ -54,6 +54,7 @@ public class ColorChoice extends Scene {
 
     /**
      * {@inheritDoc}
+     * @return The position of chosen color in the array. The user input is 1-based.
      */
     @Override
     public String show(){

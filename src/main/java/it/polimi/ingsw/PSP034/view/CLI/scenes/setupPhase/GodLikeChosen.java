@@ -33,6 +33,7 @@ public class GodLikeChosen extends Scene {
 
     /**
      * {@inheritDoc}
+     * @return {@code null}
      */
     @Override
     public String show() {

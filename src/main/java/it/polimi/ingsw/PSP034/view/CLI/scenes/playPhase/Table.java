@@ -105,7 +105,7 @@ public class Table extends Scene{
 
     /**
      * {@inheritDoc}
-     * @return
+     * @return The input of the user. What these input represents depends on the last update function called.
      */
     @Override
     public String show() {

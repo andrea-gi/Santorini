@@ -72,6 +72,7 @@ public class CardsChoice extends Scene {
 
     /**
      * {@inheritDoc}
+     * @return Two or three numbers (based on how many players are playing) divided by a comma, representing the positions in tha array of the chosen gods. The user input is 1-based.
      */
     @Override
     public String show() {

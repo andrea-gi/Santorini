@@ -65,6 +65,10 @@ public class PersonalGodChoice extends Scene {
         ha1.addObjects(yourChoice, godPicker);
     }
 
+    /**
+     * {@inheritDoc}
+     * @return A number between 1 and the number of available gods representing the position in the array of the god chosen by the user. The input of the user is 1-based.
+     */
     @Override
     public String show() {
         super.clearFrame();
