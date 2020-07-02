@@ -5,12 +5,11 @@ import it.polimi.ingsw.PSP034.view.CLI.printables.PrintableObject;
 import java.util.ArrayList;
 
 /**
- * <pre>
  * {@inheritDoc}
- *
+ * <p>
  * A vertical arrangement aligns the object it contains vertically from top to bottom.
+ * <p>
  * The width of the arrangement is the same as the largest object it contains. The height of the arrangement is the sum of the height of every object it contains and of the spacing (border) between the objects.
- * </pre>
  */
 public class VerticalArrangement extends Arrangement {
     public VerticalArrangement() {

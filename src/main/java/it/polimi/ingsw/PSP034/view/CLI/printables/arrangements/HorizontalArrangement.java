@@ -6,12 +6,12 @@ import it.polimi.ingsw.PSP034.view.CLI.printables.PrintableObject;
 import java.util.ArrayList;
 
 /**
- * <pre>
  * {@inheritDoc}
- *
+ * <p>
  * A horizontal arrangement aligns the object it contains horizontally from left to right.
+ * <p>
  * The height of the arrangement is the same as the highest object it contains. The width of the arrangement is the sum of the width of every object it contains and of the spacing (border) between the objects.
- * </pre>
+ *
  */
 public class HorizontalArrangement extends Arrangement{
 

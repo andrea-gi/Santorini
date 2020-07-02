@@ -11,7 +11,6 @@ public class CLI extends RequestManager implements Runnable {
 
     public CLI(){
         CLIRequestHub = new CLIRequestHub();
-        //TODO
     }
 
     /**

@@ -44,10 +44,9 @@ public class Arrangement extends PrintableObject {
     }
 
     /**
-     * <pre>
      * Remove any number of objects from the arrangement.
+     * <p>
      * NOTE: the functions compare the addresses of the objects, not the values.
-     * </pre>
      *
      * @param objects List of objects to be removed.
      */

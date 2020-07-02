@@ -62,7 +62,6 @@ public class CLIRequestHub {
         }
 
         else{
-            //TODO -- decidere se va bene
             return null;
         }
     }
@@ -88,7 +87,6 @@ public class CLIRequestHub {
             currScene.printError(((ErrorMessage) request).getCode(), ((ErrorMessage) request).getDescription());
             return null;
         }
-        //TODO -- decidere se va bene
         return null;
     }
 
@@ -135,7 +133,6 @@ public class CLIRequestHub {
                 currScene.show();
                 return new AutoCloseAnswer();
         }
-        //TODO -- decidere se va bene
         return null;
     }
 
@@ -201,8 +198,6 @@ public class CLIRequestHub {
             currScene.show();
             return null;
         }
-
-        //TODO -- decidere se va bene
         return null;
     }
 
@@ -299,8 +294,6 @@ public class CLIRequestHub {
             currScene.show();
             return null;
         }
-
-        //TODO -- decidere se va bene
         return null;
     }
 
@@ -341,7 +334,6 @@ public class CLIRequestHub {
         }
 
         else{
-        //TODO -- decidere se va bene
             return null;
         }
 
