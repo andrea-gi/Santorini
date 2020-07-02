@@ -16,6 +16,11 @@ public class MessageManager {
     private final Controller controller;
     private final Server server;
 
+    /**
+     * Creates a message manager and links it to {@link Server} and {@link Controller} to work as an adapter.
+     * @param controller    Controller that manages messages during the current game.
+     * @param server        Server that receives and sends message during the current game.
+     */
     protected MessageManager(Controller controller, Server server){
         this.controller = controller;
         this.server = server;
