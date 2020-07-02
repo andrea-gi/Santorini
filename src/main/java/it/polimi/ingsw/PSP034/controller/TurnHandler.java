@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class TurnHandler {
     private IStateManager currentGod;
     private final Controller controller;
-    private TurnPhase myTurnPhase; //DA SALVARE NEL MODEL ??
+    private TurnPhase myTurnPhase;
     private TurnPhase previousTurnPhase;
 
     public TurnHandler(Controller controller){

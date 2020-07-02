@@ -18,6 +18,8 @@ public class FirstPlayerChosen extends Scene {
 
     /**
      * Creates the scene and organizes the objects.
+     *
+     * @param player First player name.
      */
     public FirstPlayerChosen(String player){
         this.firstPlayerChosen = player;

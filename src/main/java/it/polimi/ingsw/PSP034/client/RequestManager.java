@@ -17,16 +17,22 @@ public abstract class RequestManager {
     private ClientGameHandler sender;
 
     /**
-     * Handles a single request
-     * @param message           Request to be handled
+     * Handles a single request (synchronously).
+     * @param message           Request to be handled.
      * @throws GameException    Thrown if there has been a client error.
      */
     public abstract void handleRequest(Request message) throws GameException;
 
+    /**
+     * Displays an error. Can be called asynchronously.
+     *
+     * @param error Error to be shown.
+     */
     public abstract void showError(ErrorMessage error);
 
     /**
      * Sets instance used to send answers.
+     *
      * @param sender Reference to ClientGameHandler used by a client
      */
     public void setSender(ClientGameHandler sender) {
@@ -46,13 +52,16 @@ public abstract class RequestManager {
 
     /**
      * Returns message handling availability.
-     * @return {@code true} if this instance of the RequestHub can manage a new request. {@code false} otherwise.
+     *
+     * @return {@code true} if this instance of the RequestHub can manage a new request
+     * ({@link RequestManager#handleRequest(Request)}), {@code false} otherwise.
      */
     public abstract boolean canHandleRequest();
 
     private final ExecutorService executorConnection = Executors.newSingleThreadExecutor();
 
     /** Creates the connection between the client and the server.
+     *
      *  @param answer   Answer containing IP address and port.
      *  @return         {@link Future} representing the result of the connection attempt.
      */

@@ -15,6 +15,9 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.concurrent.*;
 
+/**
+ * Represents the client. Allows the creation of a socket connection and the received messages sorting.
+ */
 public class Client implements Runnable{
     private String address;
     private int socketPort;
@@ -32,12 +35,25 @@ public class Client implements Runnable{
 
     private final BlockingQueue<Request> requestQueue = new LinkedBlockingQueue<>();
 
+    /**
+     * Assigns Client class necessary parameters.
+     * @param requestManager Request Manager (CLI or GUI) used to handle messages.
+     * @param address Server IP address.
+     * @param socketPort Socket port.
+     */
     public Client(RequestManager requestManager, String address, int socketPort){
         this.requestManager = requestManager;
         this.address = address;
         this.socketPort = socketPort;
     }
 
+    /**
+     * Attempts the creation of a socket connection, given the constructor parameters in {@link Client(RequestManager, String, int)}.
+     * If the socket has been opened correctly, InputStream and OutputStream are created and assigned,
+     * a new {@link ClientGameHandler} is created and started.
+     *
+     * @return {@code true} if connection has been started successfully, {@code false} otherwise.
+     */
     public boolean startConnection(){
         try {
             socket = new Socket(address, socketPort);
@@ -84,6 +100,12 @@ public class Client implements Runnable{
 
     private ScheduledFuture<Boolean> futureHeartBeat;
 
+    /**
+     * Runs an input object reader. This method (and therefore the thread) must be used only if
+     * the connection has been started beforehand using {@link Client#startConnection()}.
+     * This method sorts the messages depending on their scope (actual play messages, heartbeats...),
+     * adding them to a managing queue (in {@link ClientGameHandler} if needed.
+     */
     @Override
     public void run() {
         boolean canManageMessages = true;

@@ -535,7 +535,7 @@ public class TableController implements GUIController{
      */
     private void highlightPossibleTiles(int startX, int startY, Directions[] possibleDirections){
         if (possibleDirections == null){
-            GUIRequestHub.getInstance().showError(new ErrorMessage("C005", "Fatal error."));
+            GUIRequestHub.getInstance().showError(new ErrorMessage("C003", "Fatal error."));
             return;
         }
         for (Directions direction: possibleDirections){

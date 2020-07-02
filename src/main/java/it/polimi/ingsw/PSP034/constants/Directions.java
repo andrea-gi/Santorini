@@ -14,6 +14,15 @@ public enum Directions {
     SW,
     O; //ORIGIN
 
+    /**
+     * Calculates the direction corresponding to a given offset.
+     *
+     * @param x x offset.
+     * @param y y offset.
+     * @return Direction corresponding to a given offset.
+     *
+     * @throws IllegalArgumentException if either one between x and y is not equal to -1, 0 or 1.
+     */
     public static Directions offsetToDirection(int x, int y){
         switch (x){
             case -1:
@@ -50,6 +59,13 @@ public enum Directions {
         throw new IllegalArgumentException("Invalid offset. Both x and y must be -1 or 0 or 1");
     }
 
+    /**
+     * Calculates the x offset corresponding to a given direction.
+     *
+     * @param direction Direction used to calculate x offset.
+     * @return x offset.
+     *
+     */
     public static int directionToXOffset(Directions direction){
         switch (direction){
             case NW:
@@ -71,6 +87,13 @@ public enum Directions {
         return 9;
     }
 
+    /**
+     * Calculates the y offset corresponding to a given direction.
+     *
+     * @param direction Direction used to calculate y offset.
+     * @return y offset.
+     *
+     */
     public static int directionToYOffset(Directions direction){
         switch (direction){
             case SW:

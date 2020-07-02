@@ -1,7 +1,7 @@
 package it.polimi.ingsw.PSP034.constants;
 
 /**
- * Stores the sex of the workers.
+ * Stores the possible sexes of the workers.
  */
 public enum Sex {
     MALE,
@@ -18,6 +18,10 @@ public enum Sex {
             return MALE;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public String toString(){
         if (this == MALE)
             return "M";

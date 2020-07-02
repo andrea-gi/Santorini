@@ -30,9 +30,10 @@ public enum PlayerColor {
     }
 
     /**
-     * Calculates the remaining possible colors to choose.
-     * @param args Colors already chosen.
-     * @return Available colors to choose.
+     * Calculates the remaining possible colors to choose from.
+     *
+     * @param args  Colors already chosen.
+     * @return      Available colors to choose from.
      */
     public static PlayerColor[] getRemainingColors(PlayerColor... args){
         PlayerColor[] remainingColors = new PlayerColor[3 - args.length];

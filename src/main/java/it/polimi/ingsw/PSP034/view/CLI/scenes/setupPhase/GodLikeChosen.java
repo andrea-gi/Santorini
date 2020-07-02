@@ -18,6 +18,8 @@ public class GodLikeChosen extends Scene {
 
     /**
      * Creates the scene and organizes the objects.
+     *
+     * @param player God-like player name.
      */
     public GodLikeChosen(String player){
         this.godLikePlayer = player;

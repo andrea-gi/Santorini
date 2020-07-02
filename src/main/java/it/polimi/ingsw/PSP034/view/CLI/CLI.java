@@ -6,15 +6,23 @@ import it.polimi.ingsw.PSP034.messages.Answer;
 import it.polimi.ingsw.PSP034.messages.Request;
 import it.polimi.ingsw.PSP034.messages.clientConfiguration.*;
 
+/**
+ * CLI entry point. Starts the CLI interface and works as a proxy for messages or error to be handled.
+ */
 public class CLI extends RequestManager implements Runnable {
     private final CLIRequestHub CLIRequestHub;
 
+    /**
+     * Creates a new {@link CLIRequestHub}.
+     */
     public CLI(){
         CLIRequestHub = new CLIRequestHub();
     }
 
     /**
-     * Sends the request message to the CLIRequestHub and receives back the answer. If the answer is a RestartClient instance the function the {@code startConnection} function is called, otherwise the ansewr is returned to the caller.
+     * Forwards the request message to the CLIRequestHub and receives the answer back. If the answer is a {@link RestartClient} instance,
+     * the {@link Client} is created again, otherwise the correct answer is sent to the game server.
+     *
      * @param request The request message.
      */
     @Override
@@ -28,10 +36,10 @@ public class CLI extends RequestManager implements Runnable {
     }
 
     /**
-     * Asks the CLIRequestHub to print an error and then closes the application.
+     * Asks the {@link CLIRequestHub} to print an error and then closes the application.
+     *
      * @param error Error to be printed.
      */
-
     @Override
     public void showError(ErrorMessage error) {
         CLIRequestHub.newRequest(error);
