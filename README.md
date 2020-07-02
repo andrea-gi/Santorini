@@ -93,7 +93,45 @@ If you would rather create your own JARs, you can use the included Maven profile
 1. Run Santorini → Lifecycle → Package
 1. Repeat for each desired profile
 
-### Made by:
+## Miscellaneous
+### Error codes
+
+Error Code | Description
+---------- | -------------
+**CXXX** | **Client Errors**
+C001 | IOException while client is sending a message. Usually caused by server unreachable.
+C002 | IOException while client is waiting for a message. Usually caused by server unreachable.
+C003 | Fatal error in client. Game cannot continue.
+C004 | Client could not establish a connection to the server.
+**SXXX** | **Server Errors**
+S001 | Another client has disconnected. Game has ended.
+S002 | Server is not responding. Heartbeat timeout expired.
+S003 | Severe server error. A message received by the game server was irreparably corrupted.
+
+### Server Log
+The best way to run the server is via terminal interface (with ANSI colors support), since it features a detailed log, useful for debug reasons (e.g. it contains messages exchanged, along with their content).
+The implemented colors are:
+
+![Send](https://via.placeholder.com/15/00ff00/000000?text=+) when a message is sent by the server
+
+![Receive](https://via.placeholder.com/15/0000ff/000000?text=+) when a message is received by the server
+
+![Red](https://via.placeholder.com/15/ff0000/000000?text=+) or <ins>underline</ins> when an important state change occurs (e.g. current player changes or server restarts)
+
+Clients are assigned a temporary random numeric ID as soon as they connect to the server. They are identified by their ID until name and color are chosen.
+Message sender or recipient can be easily recognised by the player color chosen during the registration to the server, possible colors are:
+
+![Red](https://via.placeholder.com/15/ff0000/000000?text=+) Red
+
+![Blue](https://via.placeholder.com/15/0000ff/000000?text=+) Blue
+
+![Magenta](https://via.placeholder.com/15/ff00ff/000000?text=+) Magenta
+
+Headless server works continuously in background (not suggested, as it cannot be shut down without killing JVM process and there is no visible log).
+
+
+
+## Made by:
 * [Giarduz Andrea](https://github.com/andrea-gi/)
 * [Grosso Veronica](https://github.com/Veronica-gg/)
 * [Guerrieri Lorenzo](https://github.com/Lorenzo-Guerrieri-98)
