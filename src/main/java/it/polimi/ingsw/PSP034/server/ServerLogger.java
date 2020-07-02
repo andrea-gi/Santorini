@@ -19,7 +19,6 @@ import java.util.Arrays;
  * This class does not close any {@link PrintStream}.
  */
 public class ServerLogger {
-    //TODO -- AGGIUNGERE ANCHE MESSAGGI DI ERRORE
     private static ServerLogger singleton;
     private final ArrayList<PrintStream> out = new ArrayList<>();
 

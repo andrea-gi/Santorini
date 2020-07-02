@@ -1,4 +1,6 @@
-![Santorini](/src/main/resources/images/santorini.jpg)
+<p align="center">
+  <img src="/src/main/resources/images/santorini.jpg" />
+</p>
 
 # Software Engineering - Final Examination 2019-2020
 **Group PSP034**
@@ -58,7 +60,7 @@ java -jar server.jar PORT
 Download `client.jar` from FOLDER. TODO
 
 #### CLI
-:warning: Make sure that the terminal font is monospaced and that the terminal size is at least 230x50.
+:warning: Make sure that the terminal font is monospaced and that the terminal size is **at least 230x50**.
 
 In order to start a Command Line Interface (CLI) client run:
 ```
@@ -92,6 +94,6 @@ If you would rather create your own JARs, you can use the included Maven profile
 1. Repeat for each desired profile
 
 ### Made by:
-* ![Giarduz Andrea](https://github.com/andrea-gi/)
-* ![Grosso Veronica](https://github.com/Veronica-gg/)
-* ![Guerrieri Lorenzo](https://github.com/Lorenzo-Guerrieri-98)
+* [Giarduz Andrea](https://github.com/andrea-gi/)
+* [Grosso Veronica](https://github.com/Veronica-gg/)
+* [Guerrieri Lorenzo](https://github.com/Lorenzo-Guerrieri-98)

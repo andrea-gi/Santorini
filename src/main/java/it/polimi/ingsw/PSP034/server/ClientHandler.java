@@ -106,7 +106,6 @@ class ClientHandler implements IClientConnection, Runnable{
                 logger.printRequestMessage(message, this.playerName, this.debugColor);
                 manageClosingInfo(message);
             } catch (IOException | InterruptedException e) {
-                // TODO -- disconnetto
                 close();
             }
         }
@@ -180,7 +179,9 @@ class ClientHandler implements IClientConnection, Runnable{
     @Override
     public void asyncSend(Request request){
         manageStatusInfo(request);
-        sendQueue.offer(request);
+        try{
+            sendQueue.offer(request);
+        } catch (ClassCastException | NullPointerException | IllegalArgumentException ignored){}
     }
 
     /**
@@ -200,10 +201,15 @@ class ClientHandler implements IClientConnection, Runnable{
             close();
             return;
         }
-        if (firstConnected)
-            sendQueue.offer(new RequestServerConfig(ServerInfo.REQUEST_PLAYER_NUMBER));
+        if (firstConnected) {
+            try {
+                sendQueue.offer(new RequestServerConfig(ServerInfo.REQUEST_PLAYER_NUMBER));
+            } catch (ClassCastException | NullPointerException | IllegalArgumentException ignored){}
+        }
         else {
-            sendQueue.offer(new RequestServerConfig(ServerInfo.LOBBY));
+            try {
+                sendQueue.offer(new RequestServerConfig(ServerInfo.LOBBY));
+            } catch (ClassCastException | NullPointerException | IllegalArgumentException ignored){}
             server.checkAndBeginSetup();
         }
         while(isActive()){
@@ -249,7 +255,9 @@ class ClientHandler implements IClientConnection, Runnable{
     private void close(){
         if (isActive()) {
             closeConnection();
-            sendQueue.add(new AutoCloseRequest());
+            try{
+                sendQueue.offer(new AutoCloseRequest());
+            } catch (ClassCastException | NullPointerException | IllegalArgumentException ignored){}
             logger.printString("Deregistering: " + debugColor + playerName + ANSI.reset);
             server.deregisterConnection(this);
             logger.printString(debugColor + playerName + ANSI.reset + " deregistered successfully.");
