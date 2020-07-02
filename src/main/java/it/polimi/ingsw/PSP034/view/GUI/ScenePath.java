@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP034.view.GUI;
 
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -34,8 +35,10 @@ public class ScenePath {
             pane = loader.load();
             scene.setRoot(pane);
             scene.getStylesheets().add("/style.css");
-        } catch (IOException ignored) {
-            //TODO -- schermata di errore
+        } catch (IOException e) {
+            Platform.exit();
+            System.out.println("Could not load properly the scene.");
+            System.exit(-1);
         }
     }
 
@@ -51,7 +54,10 @@ public class ScenePath {
             dialogScene = new Scene(loader.load(), 420, 430);
             dialogScene.getStylesheets().add("/style.css");
         } catch (IOException e) {
-            return;
+            dialogScene = null;
+            Platform.exit();
+            System.out.println("Could not load properly the dialog.");
+            System.exit(-1);
         }
 
         Stage dialog = new Stage();

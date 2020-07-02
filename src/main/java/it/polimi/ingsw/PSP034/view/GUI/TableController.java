@@ -3,6 +3,7 @@ package it.polimi.ingsw.PSP034.view.GUI;
 import it.polimi.ingsw.PSP034.constants.*;
 import it.polimi.ingsw.PSP034.messages.Answer;
 import it.polimi.ingsw.PSP034.messages.SlimBoard;
+import it.polimi.ingsw.PSP034.messages.clientConfiguration.ErrorMessage;
 import it.polimi.ingsw.PSP034.messages.playPhase.AnswerAction;
 import it.polimi.ingsw.PSP034.messages.playPhase.AnswerBooleanChoice;
 import it.polimi.ingsw.PSP034.messages.playPhase.RequestAction;
@@ -10,6 +11,7 @@ import it.polimi.ingsw.PSP034.messages.playPhase.RequiredActions;
 import it.polimi.ingsw.PSP034.messages.setupPhase.AnswerPlaceWorker;
 import it.polimi.ingsw.PSP034.view.GodDescription;
 import javafx.animation.FadeTransition;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -468,7 +470,7 @@ public class TableController implements GUIController{
         }
         if (answerToSend != null){
             disableAll();
-            GUIRequestHub.getInstance().sendAnswer(answerToSend); //TODO gestire errore click su disable
+            GUIRequestHub.getInstance().sendAnswer(answerToSend);
         }
 
     }
@@ -513,7 +515,7 @@ public class TableController implements GUIController{
      * @param gridPane is the gridPane selected
      * @return the right tile
      */
-    public Node getTileByIndex (final int x, final int y, GridPane gridPane) { //TODO -- creare due metodi --> valore corretto senza cast in out
+    public Node getTileByIndex (final int x, final int y, GridPane gridPane) {
         Node myTile = null;
         ObservableList<Node> board = gridPane.getChildren();
 
@@ -534,8 +536,7 @@ public class TableController implements GUIController{
      */
     private void highlightPossibleTiles(int startX, int startY, Directions[] possibleDirections){
         if (possibleDirections == null){
-            //throw new GameException("GUI001", "Fatal error");
-            //TODO -- eccezione
+            GUIRequestHub.getInstance().showError(new ErrorMessage("C005", "Fatal error."));
             return;
         }
         for (Directions direction: possibleDirections){

@@ -53,7 +53,7 @@ public class GUIRequestHub extends RequestManager {
                         craftRequestIP(new RequestIP(true));
                     }
                 } catch (Exception e) {
-                    GUIRequestHub.getInstance().showError(new ErrorMessage("C003", "Fatal connection error."));
+                    GUIRequestHub.getInstance().showError(new ErrorMessage("C004", "Fatal connection error."));
                 }
                 return null;
             }

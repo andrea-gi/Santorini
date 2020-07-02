@@ -11,15 +11,15 @@
    <children>
       <VBox fx:id="pane" alignment="CENTER" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../style.css">
          <children>
-            <Label alignment="CENTER" layoutX="25.0" layoutY="146.0" prefHeight="107.0" prefWidth="330.0" text="Choose the First Player" textAlignment="CENTER">
+            <Label alignment="CENTER" layoutX="25.0" layoutY="146.0" prefHeight="30.0" prefWidth="330.0" text="Choose the First Player" textAlignment="CENTER">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
                <VBox.margin>
-                  <Insets bottom="10.0" top="100.0" />
+                  <Insets top="100.0" />
                </VBox.margin>
             </Label>
-            <VBox alignment="CENTER" prefHeight="250.0" prefWidth="100.0">
+            <VBox alignment="CENTER" prefHeight="300.0" prefWidth="100.0">
                <children>
                   <RadioButton fx:id="one" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="80.0" prefWidth="250.0" wrapText="true" />
                   <RadioButton fx:id="two" mnemonicParsing="false" prefHeight="80.0" prefWidth="250.0" wrapText="true" />
@@ -31,7 +31,7 @@
             </VBox>
             <Button fx:id="submit" alignment="CENTER" contentDisplay="CENTER" maxHeight="33.0" maxWidth="141.0" minHeight="33.0" minWidth="141.0" mnemonicParsing="false" onAction="#setSubmit" prefHeight="33.0" prefWidth="141.0" stylesheets="@../style.css" text="SUBMIT" textAlignment="CENTER">
                <VBox.margin>
-                  <Insets bottom="25.0" top="30.0" />
+                  <Insets bottom="25.0" right="20.0" top="30.0" />
                </VBox.margin>
                <padding>
                   <Insets bottom="5.0" />
