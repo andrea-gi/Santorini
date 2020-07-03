@@ -2,6 +2,9 @@ package it.polimi.ingsw.PSP034.messages.playPhase;
 
 import it.polimi.ingsw.PSP034.constants.Sex;
 
+/**
+ * This enum represents al the possible action that can be required during a turn phase.
+ */
 public enum RequiredActions{
     REQUIRED_MALE, // you can only use your MALE worker
     REQUIRED_FEMALE, // you can only use your FEMALE worker
@@ -10,6 +13,7 @@ public enum RequiredActions{
     REQUEST_BUILD,
     REQUEST_POWER;
 
+    //TODO
     public static RequiredActions getRequiredSex(Sex sex){
         if(sex == Sex.MALE)
             return REQUIRED_MALE;

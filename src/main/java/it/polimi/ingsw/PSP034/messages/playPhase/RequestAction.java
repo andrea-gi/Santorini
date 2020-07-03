@@ -10,6 +10,7 @@ import it.polimi.ingsw.PSP034.model.Worker;
 
 import java.util.ArrayList;
 
+//TODO
 public class RequestAction extends PlayRequest {
     static final long serialVersionUID = 760277991L;
 
