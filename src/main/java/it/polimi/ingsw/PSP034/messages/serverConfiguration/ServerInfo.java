@@ -1,5 +1,8 @@
 package it.polimi.ingsw.PSP034.messages.serverConfiguration;
 
+/**
+ * List of the states of the server configuration phase.
+ */
 public enum ServerInfo{
     REQUEST_NAME_COLOR,
     REQUEST_PLAYER_NUMBER,
