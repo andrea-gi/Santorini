@@ -8,7 +8,9 @@ import it.polimi.ingsw.PSP034.model.Player;
 import it.polimi.ingsw.PSP034.model.Tile;
 import it.polimi.ingsw.PSP034.model.Worker;
 
-
+/**
+ * Class representing Zeus's rules and power.
+ */
 public class Zeus extends GodsRules {
     private boolean builtUnderMe = false;
 

@@ -9,7 +9,9 @@ import it.polimi.ingsw.PSP034.model.Player;
 import it.polimi.ingsw.PSP034.model.Tile;
 import it.polimi.ingsw.PSP034.model.Worker;
 
-
+/**
+ * Class representing Triton's rules and power.
+ */
 public class Triton extends GodsRules {
     private boolean usePower;
 

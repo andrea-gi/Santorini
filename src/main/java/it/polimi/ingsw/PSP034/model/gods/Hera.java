@@ -8,6 +8,9 @@ import it.polimi.ingsw.PSP034.model.Player;
 import it.polimi.ingsw.PSP034.model.Tile;
 import it.polimi.ingsw.PSP034.model.Worker;
 
+/**
+ * Class representing Hera's rules and power.
+ */
 public class Hera extends GodsRules {
 
     public Hera(IRules decoratedRules, Player player){

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.PSP034.model.gods;
 
-
 import it.polimi.ingsw.PSP034.constants.TurnPhase;
 import it.polimi.ingsw.PSP034.messages.playPhase.NextStateInfo;
 import it.polimi.ingsw.PSP034.messages.playPhase.RequiredActions;
@@ -10,6 +9,9 @@ import it.polimi.ingsw.PSP034.model.Player;
 import it.polimi.ingsw.PSP034.model.Tile;
 import it.polimi.ingsw.PSP034.model.Worker;
 
+/**
+ * Class representing Artemis's rules and power.
+ */
 public class Artemis extends GodsRules {
     private boolean usePower;
     private boolean secondMove;

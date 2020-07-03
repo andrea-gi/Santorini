@@ -8,6 +8,9 @@ import it.polimi.ingsw.PSP034.model.Player;
 import it.polimi.ingsw.PSP034.model.Tile;
 import it.polimi.ingsw.PSP034.model.Worker;
 
+/**
+ * Class representing Athena's rules and power.
+ */
 public class Athena extends GodsRules {
     private boolean movedUp;
 

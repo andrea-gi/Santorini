@@ -8,6 +8,9 @@ import it.polimi.ingsw.PSP034.model.Player;
 import it.polimi.ingsw.PSP034.model.Tile;
 import it.polimi.ingsw.PSP034.model.Worker;
 
+/**
+ * Class representing Minotaur's rules and power.
+ */
 public class Minotaur extends GodsRules {
     private boolean movingOtherWorker;
 

@@ -8,6 +8,9 @@ import it.polimi.ingsw.PSP034.model.Tile;
 import it.polimi.ingsw.PSP034.model.Worker;
 import it.polimi.ingsw.PSP034.constants.*;
 
+/**
+ * Class representing Limus's rules and power.
+ */
 public class Limus extends GodsRules {
     public Limus(IRules decoratedRules, Player player){
         super(decoratedRules, player);

@@ -8,6 +8,9 @@ import it.polimi.ingsw.PSP034.model.Player;
 import it.polimi.ingsw.PSP034.model.Tile;
 import it.polimi.ingsw.PSP034.model.Worker;
 
+/**
+ * Class representing Apollo's rules and power.
+ */
 public class Apollo extends GodsRules {
 
     public Apollo(IRules decoratedRules, Player player){

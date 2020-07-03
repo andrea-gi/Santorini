@@ -8,7 +8,9 @@ import it.polimi.ingsw.PSP034.model.Player;
 import it.polimi.ingsw.PSP034.model.Tile;
 import it.polimi.ingsw.PSP034.model.Worker;
 
-
+/**
+ * Class representing Pan's rules and power.
+ */
 public class Pan extends GodsRules {
     public Pan(IRules decoratedRules, Player player){
         super(decoratedRules, player);

@@ -9,6 +9,9 @@ import it.polimi.ingsw.PSP034.model.Player;
 import it.polimi.ingsw.PSP034.model.Tile;
 import it.polimi.ingsw.PSP034.model.Worker;
 
+/**
+ * Class representing Hephaestus's rules and power.
+ */
 public class Hephaestus extends GodsRules {
     private boolean usePower;
     private Tile myFirstBuilding;

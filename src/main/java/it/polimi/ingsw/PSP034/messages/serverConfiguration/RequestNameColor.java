@@ -3,7 +3,7 @@ package it.polimi.ingsw.PSP034.messages.serverConfiguration;
 import it.polimi.ingsw.PSP034.constants.PlayerColor;
 
 /**
- * Massage from the server to the client that asks to the user to pick a name and a color.
+ * Message from the server to the client that asks to the user to pick a name and a color.
  */
 public class RequestNameColor extends RequestServerConfig{
     static final long serialVersionUID = 67577775623L;

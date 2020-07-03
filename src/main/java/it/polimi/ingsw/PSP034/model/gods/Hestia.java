@@ -9,6 +9,9 @@ import it.polimi.ingsw.PSP034.model.Player;
 import it.polimi.ingsw.PSP034.model.Tile;
 import it.polimi.ingsw.PSP034.model.Worker;
 
+/**
+ * Class representing Hestia's rules and power.
+ */
 public class Hestia extends GodsRules {
 
     private boolean usePower;
