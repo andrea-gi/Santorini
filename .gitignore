@@ -26,3 +26,7 @@ hs_err_pid*
 *.iml
 /.idea/*
 /target/*
+
+# allowed final JARs
+!/deliveries/final/jar/client.jar
+!/deliveries/final/jar/server.jar

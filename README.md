@@ -51,7 +51,7 @@ Meanwhile, the latter consists in multiple diagrams, each one with a specific sc
   * [Server application classes relationships](/deliveries/final/uml/Detailed/Server/ServerClassesRelationships.svg).
   * [Expanded gods hierarchy](/deliveries/final/uml/Detailed/Server/GodsHierarchy.svg). Gods classes in model package are expanded and clarified.
   * [Expanded gods-model relationships](/deliveries/final/uml/Detailed/Server/ExpandedGodsModelRelationships.svg).
-  
+
 
 ### JavaDoc
 TODO
@@ -67,7 +67,7 @@ TODO
 Both `client.jar` and `server.jar` contain all the necessary dependencies (JavaFX) for Windows, Linux and MacOS.
 
 ### Run Server
-Download `server.jar` from FOLDER. TODO
+Download `server.jar` [here](/deliveries/final/jar/server.jar).
 
 In order to start server listening to socket connections on the default port (`2020`)  run:
 ```
@@ -80,7 +80,7 @@ java -jar server.jar PORT
 ```
 
 ### Run Client
-Download `client.jar` from FOLDER. TODO
+Download `client.jar` [here](/deliveries/final/jar/client.jar)
 
 #### CLI
 :warning: Make sure that the terminal font is monospaced and that the terminal size is **at least 230x50**.
