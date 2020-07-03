@@ -13,6 +13,9 @@ public class Arrangement extends PrintableObject {
     private int alignment;
     private int border;
 
+    /**
+     * Initializes an empty Arrangement.
+     */
     public Arrangement(){
         super();
         this.objects = new ArrayList<>();

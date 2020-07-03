@@ -12,6 +12,10 @@ import java.util.ArrayList;
  * The width of the arrangement is the same as the largest object it contains. The height of the arrangement is the sum of the height of every object it contains and of the spacing (border) between the objects.
  */
 public class VerticalArrangement extends Arrangement {
+
+    /**
+     * Initializes an empty vertical arrangement. Border is set to 1 and alignment is set to centre.
+     */
     public VerticalArrangement() {
         super();
     }

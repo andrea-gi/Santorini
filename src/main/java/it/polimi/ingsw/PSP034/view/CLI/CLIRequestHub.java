@@ -27,6 +27,9 @@ public class CLIRequestHub {
     private Scene currScene;
     private AnswerComposer answerComposer;
 
+    /**
+     * Initializes a RequestHub with no current scene nor answer composer associated.
+     */
     public CLIRequestHub(){
         currScene = null;
         answerComposer = null;

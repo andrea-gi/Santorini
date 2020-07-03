@@ -24,6 +24,10 @@ public class AnswerComposer {
     private final Request request;
     private Answer answer;
 
+    /**
+     * Initializes a AnswerComposer relative to a Request
+     * @param request The Request the AnswerComposer has to build di answer for.
+     */
     public AnswerComposer(Request request){
         this.request = request;
     }

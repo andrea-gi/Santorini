@@ -15,6 +15,9 @@ import java.util.ArrayList;
  */
 public class HorizontalArrangement extends Arrangement{
 
+    /**
+     * Initializes an empty horizontal arrangement. Border is set to 1 and alignment is set to centre.
+     */
     public HorizontalArrangement(){
         super();
     }

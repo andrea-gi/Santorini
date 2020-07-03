@@ -4,11 +4,34 @@ package it.polimi.ingsw.PSP034.view.CLI.printables;
  * This class creates and prints the frame of the CLI and also defines the dimension of the screen that will be used.
  */
 public class Frame extends PrintableObject{
+    /**
+     * Number of column the whole CLI screen will use.
+     */
     public static final int SCREEN_WIDTH = 229;
+
+    /**
+     * Number of lines the whole CLI screen will use.
+     */
     public static final int SCREEN_HEIGHT = 50;
+
+    /**
+     * Number of column of the part of the screen that can be used to print object.
+     */
     public static final int FRAME_WIDTH = 198;
+
+    /**
+     * Number of lines of the part of the screen that can be used to print object.
+     */
     public static final int FRAME_HEIGHT = 40;
+
+    /**
+     * Starting line of the part of the screen that can be used to print object.
+     */
     public static final int FRAME_START_LINE = 6;
+
+    /**
+     * Starting column of the part of the screen that can be used to print object.
+     */
     public static final int FRAME_START_COLUMN = 16;
 
     /**

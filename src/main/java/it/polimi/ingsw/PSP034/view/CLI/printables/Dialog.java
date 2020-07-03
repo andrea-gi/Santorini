@@ -60,6 +60,11 @@ public class Dialog extends Message {
         }
     }
 
+    /**
+     * Returns the option corresponding to a certain number.
+     * @param optionNumber Number of the wanted option. This value is 1-based.
+     * @return Option corresponding to {@code optionNumber}.
+     */
     public String getOption(int optionNumber){
         return options.get(optionNumber-1);
     }

@@ -82,10 +82,18 @@ public class PrintableObject{
         return startColumn;
     }
 
+    /**
+     * Returns the width of the object, which is the number of columns the object is made of.
+     * @return Object width.
+     */
     public int getWidth() {
         return width;
     }
 
+    /**
+     * Returns the Height of the object, which is the number of lines the object is made of.
+     * @return Object height.
+     */
     public int getHeight() {
         return height;
     }
