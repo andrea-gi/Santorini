@@ -11,12 +11,20 @@ public class DefaultRules implements IRules {
     private Tile previousTile;
     private final Game game;
 
+    /**
+     * Creates an instance linked to the current game.
+     *
+     * @param game Game to be associated.
+     */
     public DefaultRules(Game game){
         this.game = game;
         this.chosenSex = null;
         this.previousTile = null;
     }
 
+    /**
+     * Notifies the model observers of a change in the board.
+     */
     public void modelUpdated(){
         game.notifyObservers(game.generateSlimBoard());
     }
@@ -79,7 +87,7 @@ public class DefaultRules implements IRules {
      *
      * @param worker          Reference to the worker to be moved.
      * @param destinationTile Reference to the destination tile.
-     * @return true if move is valid, false otherwise.
+     * @return {@code true} if move is valid, {@code false} otherwise.
      */
     @Override
     public boolean validMove(Worker worker, Tile destinationTile) {
@@ -111,7 +119,7 @@ public class DefaultRules implements IRules {
      *
      * @param worker       Reference to the worker who is building.
      * @param buildingTile Reference to the building tile.
-     * @return true if build is valid, false otherwise.
+     * @return {@code true} if build is valid, {@code false} otherwise.
      */
     @Override
     public boolean validBuild(Worker worker, Tile buildingTile) {
@@ -151,9 +159,10 @@ public class DefaultRules implements IRules {
 
 
     /**
-     * Checks if a given worker has any valid move available
-     * @param worker Reference to the worker to be checked
-     * @return true if the given worker has at least one available possible move.
+     * Checks if a given worker has any valid move available.
+     *
+     * @param worker Reference to the worker to be checked.
+     * @return {@code true} if the given worker has at least one available possible move.
      */
     @Override
     public boolean anyValidMove(Worker worker) {
@@ -167,6 +176,13 @@ public class DefaultRules implements IRules {
         return anyMove;
     }
 
+    /**
+     * Method checks if there are any possible moves for a given player, checking both workers.
+     *
+     * @param player Reference to the player checked.
+     * @return {@code true} if there are no moves left so that the player lost, {@code false} if the player
+     * can keep playing, as at least there is one possible move left.
+     */
     @Override
     public boolean checkMoveLost(Player player) {
         boolean keepPlaying = false;
@@ -181,8 +197,9 @@ public class DefaultRules implements IRules {
     }
 
     /**
-     * Checks if a given worker has any valid build available
-     * @param worker Reference to the worker to be checked
+     * Checks if a given worker has any valid build available.
+     *
+     * @param worker Reference to the worker to be checked.
      * @return true if the given worker has at least one available possible build.
      */
     @Override
@@ -197,6 +214,13 @@ public class DefaultRules implements IRules {
         return anyBuild;
     }
 
+    /**
+     * Method checks if there are any possible build actions for a given player, checking both workers.
+     *
+     * @param player Reference to the player checked.
+     * @return {@code true} if there are no build actions left so that the player lost, {@code false} if the player
+     * can keep playing, as at least there is one possible build actions left.
+     */
     @Override
     public boolean checkBuildLost(Player player) {
         boolean keepPlaying = false;

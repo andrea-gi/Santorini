@@ -13,7 +13,8 @@ public class WinnerRequest extends  GameOverRequest{
 
     /**
      * Initializes the message.
-     * @param loser //TODO questo mi sa che non viene usato, come lo chiamo
+     * @param loser Name of the loser (2 players game), empty string if there is not a single loser (3
+     *              players game).
      * @param winner Name of the winner.
      */
     public WinnerRequest(String loser, String winner){

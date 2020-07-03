@@ -48,16 +48,25 @@ public class Game extends ModelObservable {
         this.alreadyChosenGods = new ArrayList<>();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void addObserver(@NotNull ModelObserver observer) {
         super.addObserver(observer);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void notifyObservers(ModelUpdate message) {
         super.notifyObservers(message);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void removeObserver(@NotNull ModelObserver observer) {
         super.removeObserver(observer);
@@ -71,6 +80,11 @@ public class Game extends ModelObservable {
         return new ArrayList<>(this.alreadyChosenGods);
     }
 
+    /**
+     * Adds a given god to the list of possible gods, for the next player to chose from.
+     *
+     * @param god God chosen to play in the current game.
+     */
     public void addRemainingGod(String god){
         if (god == null || god.length() == 0){
             return;
@@ -84,6 +98,11 @@ public class Game extends ModelObservable {
         }
     }
 
+    /**
+     * Checks if there is any player who lost.
+     *
+     * @return Player who lost if there is any, {@code null} if there is not.
+     */
     public Player loser(){
         for(Player player : players){
             if(player.hasLost())
@@ -92,6 +111,11 @@ public class Game extends ModelObservable {
         return null;
     }
 
+    /**
+     * Generates a main model update. Contains a model snapshot at a given moment.
+     *
+     * @return Encapsulated info about the board.
+     */
     public SlimBoard generateSlimBoard(){
         int playersSize = players.size();
         String[] finalGodsList = new String[playersSize];
@@ -113,7 +137,7 @@ public class Game extends ModelObservable {
     }
 
     /**
-     * @return Number of players currently in the game
+     * @return Number of players currently in the game.
      */
     public int getPlayerNumber(){
         return players.size();
@@ -143,6 +167,7 @@ public class Game extends ModelObservable {
 
     /**
      * Adds a Player to the structure of active players.
+     *
      * @param player - Existing player to be added to the game.
      */
     public void addPlayer(Player player){
@@ -161,6 +186,7 @@ public class Game extends ModelObservable {
 
     /**
      * Returns a reference to a player given his name.
+     *
      * @param name Name of the player to search.
      * @return Reference to the player with that given name, {@code null} if there is no player with that given name.
      */
@@ -183,12 +209,21 @@ public class Game extends ModelObservable {
                 currentPlayer.getName() + ANSI.reset);
     }
 
+    /**
+     * Sets a random player as the most god like player, so that he will be starting chosing all the
+     * gods cards.
+     */
     public void setRandomPlayer(){
         Random randomGen = new Random();
         int index = randomGen.nextInt(getPlayerNumber());
         setCurrentPlayer(players.get(index));
     }
 
+    /**
+     * Removes a given player after he lost. All his workers are eliminated from the board.
+     *
+     * @param player Player to be removed.
+     */
     public void removePlayer(Player player){
         if(player == currentPlayer)
             setNextPlayer();
@@ -212,8 +247,9 @@ public class Game extends ModelObservable {
         return gamePhase;
     }
 
-    /**Decorates the turn with the gods, already in order
-     * @param name      Name of the god
+    /**
+     * Decorates the turn with the gods, already in order.
+     * @param name      Name of the god.
      * @param player    Reference to the player the god must be attached to.
      */
     public void addGod(String name, Player player){
@@ -275,6 +311,12 @@ public class Game extends ModelObservable {
         this.alreadyChosenGods.add(name);
     }
 
+    /**
+     * Removes the god associated to a given player from the decorated game rules, so that the god power
+     * does not influence the game rules anymore.
+     *
+     * @param player Player whom god has to be deleted.
+     */
     private void removeGod(Player player){
         GodsRules current = (GodsRules) rules;
         GodsRules previous = current;

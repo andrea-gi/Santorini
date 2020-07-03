@@ -13,7 +13,12 @@ public enum RequiredActions{
     REQUEST_BUILD,
     REQUEST_POWER;
 
-    //TODO
+    /**
+     * Returns a required actions representation, base on the given sex.
+     *
+     * @param sex Worker sex given.
+     * @return Certain required action.
+     */
     public static RequiredActions getRequiredSex(Sex sex){
         if(sex == Sex.MALE)
             return REQUIRED_MALE;

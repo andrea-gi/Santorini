@@ -10,7 +10,9 @@ import it.polimi.ingsw.PSP034.model.Worker;
 
 import java.util.ArrayList;
 
-//TODO
+/**
+ * Move or build message containing all the possible actions for both workers of a given player.
+ */
 public class RequestAction extends PlayRequest {
     static final long serialVersionUID = 760277991L;
 
@@ -22,6 +24,12 @@ public class RequestAction extends PlayRequest {
     private final int xFemale;
     private final int yFemale;
 
+    /**
+     * Initializes the message, calculates possible actions.
+     *
+     * @param info Required game phase info.
+     * @param player Message is been sent to the given player.
+     */
     public RequestAction(NextStateInfo info, Player player){
         super(info);
         Worker male = player.getWorker(Sex.MALE);

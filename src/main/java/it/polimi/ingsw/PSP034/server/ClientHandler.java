@@ -183,9 +183,7 @@ public class ClientHandler implements IClientConnection, Runnable{
     }
 
     /**
-     * Sends an asynchronous {@link Request} message through an {@link java.io.ObjectOutputStream}
-     *
-     * @param request {@link java.io.Serializable} message being sent
+     * {@inheritDoc}
      */
     @Override
     public void asyncSend(Request request){

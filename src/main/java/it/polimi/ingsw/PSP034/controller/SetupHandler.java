@@ -19,6 +19,7 @@ public class SetupHandler {
 
     /**
      * Creates the class, already associated with the controller.
+     *
      * @param controller Controller that handles this game.
      */
     public SetupHandler(Controller controller){
@@ -29,6 +30,7 @@ public class SetupHandler {
 
     /**
      * Executes a setup action based on the message received, setting the next phase.
+     *
      * @param message Message received.
      */
     public void executeSelectedState(SetupAnswer message){
@@ -110,7 +112,7 @@ public class SetupHandler {
         switch(currentSetupPhase){
             case CARDS_CHOICE:
                 currentSetupPhase = SetupPhase.PERSONAL_GOD_CHOICE;
-                controller.sendToPlayer(player.getName(), new RequestPersonalGod(controller.getRemainingGods(), controller.getAlreadyChosenGods())); //new sendto per setup??
+                controller.sendToPlayer(player.getName(), new RequestPersonalGod(controller.getRemainingGods(), controller.getAlreadyChosenGods()));
                 break;
 
             case PERSONAL_GOD_CHOICE:

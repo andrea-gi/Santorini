@@ -20,6 +20,11 @@ public class TurnHandler {
     private TurnPhase myTurnPhase;
     private TurnPhase previousTurnPhase;
 
+    /**
+     * Creates an instance linked to the given controller.
+     *
+     * @param controller Current game controller.
+     */
     public TurnHandler(Controller controller){
         this.controller = controller;
         this.myTurnPhase = TurnPhase.START;
@@ -28,6 +33,7 @@ public class TurnHandler {
 
     /**
      * Sets the current God (the god associated to the Player who is playing now).
+     *
      * @param currentGod God associated to the Player.
      */
     public void setCurrentGod(IStateManager currentGod) {
@@ -38,6 +44,7 @@ public class TurnHandler {
 
     /**
      * Sets the right turn phase.
+     *
      * @param turnPhase Turn phase that needs to be executed at the moment.
      */
     public void setMyTurnPhase(TurnPhase turnPhase){
@@ -56,7 +63,6 @@ public class TurnHandler {
      * Makes the turn state change in order, depending on the God associated to the Player.
      */
     private void manageNextState(){
-        //myTurnPhase = currentGod.nextState();
         String newCurrentPlayer;
         Player player = controller.getCurrentPlayer();
         NextStateInfo nextStateInfo = currentGod.nextState(myTurnPhase);
@@ -107,6 +113,7 @@ public class TurnHandler {
 
     /**
      * Executes the actions in the actual turn phase.
+     *
      * @param message   PlayAnswer to be executed.
      */
     public void executeSelectedState(PlayAnswer message){

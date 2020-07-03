@@ -148,6 +148,14 @@ public class GodsRules implements IRules, IStateManager {
         }
     }
 
+    /**
+     * Checks if a given move action is permitted for the worker, checking if there are any restrictions
+     * or wider allowances due to all the gods powers implicated in the current game.
+     *
+     * @param worker Reference to the worker to be moved
+     * @param destinationTile  Reference to the destination tile.
+     * @return {@code true} if move is valid, {@code false} otherwise.
+     */
     protected final boolean validMoveRecursive(Worker worker, Tile destinationTile){
         if (decoratedRules instanceof DefaultRules) {
             return true;
@@ -165,6 +173,14 @@ public class GodsRules implements IRules, IStateManager {
         }
     }
 
+    /**
+     * Checks if a given build action is permitted for the worker, checking if there are any restrictions
+     * or wider allowances due to all the gods powers implicated in the current game.
+     *
+     * @param worker Reference to the worker to be moved
+     * @param buildingTile  Reference to the destination tile.
+     * @return {@code true} if build is valid, {@code false} otherwise.
+     */
     protected final boolean validBuildRecursive(Worker worker, Tile buildingTile){
         if (decoratedRules instanceof DefaultRules) {
             return true;
@@ -183,6 +199,13 @@ public class GodsRules implements IRules, IStateManager {
         }
     }
 
+    /**
+     * Checks if a given worker has won due to the previous action, checking if there are any
+     * restrictions or wider allowances due to all the gods powers implicated in the current game.
+     *
+     * @param worker Reference to the worker to be checked.
+     * @return {@code true} if player has won, {@code false} otherwise.
+     */
     protected final boolean checkWinRecursive(Worker worker) {
         if (decoratedRules instanceof DefaultRules)
             return true;
@@ -194,7 +217,7 @@ public class GodsRules implements IRules, IStateManager {
     public final boolean anyValidMove(Worker worker) {
         boolean anyMove = false;
         for (Tile neighbour : worker.getMyTile().getNeighbouringTiles()) {
-            boolean valid = completeRules.validMove(worker, neighbour); //ATTENZIONE, REGOLE COMPLETE; USARE QUESTA!
+            boolean valid = completeRules.validMove(worker, neighbour); //Complete rules
             if (valid) {
                 anyMove = true;
                 break;
@@ -203,6 +226,12 @@ public class GodsRules implements IRules, IStateManager {
         return anyMove;
     }
 
+    /**
+     * Checks if there are any available tiles the given worker can move to.
+     *
+     * @param worker Reference to the worker to be moved.
+     * @return ArrayList with all the possible tiles he can move to.
+     */
     public static ArrayList<Tile> availableMovingTiles(Worker worker){
         ArrayList<Tile> resultTiles = new ArrayList<>();
         for (Tile neighbour : worker.getMyTile().getNeighbouringTiles()) {
@@ -240,6 +269,12 @@ public class GodsRules implements IRules, IStateManager {
         return anyBuild;
     }
 
+    /**
+     * Checks if there are any available tiles the given worker can build on.
+     *
+     * @param worker Reference to the worker to be performing the build.
+     * @return ArrayList with all the possible tiles he can build on.
+     */
     public static ArrayList<Tile> availableBuildingTiles(Worker worker){
         ArrayList<Tile> resultTiles = new ArrayList<>();
         for (Tile neighbour : worker.getMyTile().getNeighbouringTiles()) {
