@@ -1,0 +1,232 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Client</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP034.client</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Client (it.polimi.ingsw.PSP034.client)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Client</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 60)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP034.client;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP034.constants.Constant;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP034.messages.HeartBeatAnswer;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP034.messages.HeartBeatRequest;
+<i>6</i>&nbsp;import it.polimi.ingsw.PSP034.messages.Request;
+<i>7</i>&nbsp;import it.polimi.ingsw.PSP034.messages.SevereError;
+<i>8</i>&nbsp;import it.polimi.ingsw.PSP034.messages.clientConfiguration.ErrorMessage;
+<i>9</i>&nbsp;import it.polimi.ingsw.PSP034.messages.gameOverPhase.EndByDisconnection;
+<i>10</i>&nbsp;import it.polimi.ingsw.PSP034.view.GameException;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;import java.io.IOException;
+<i>13</i>&nbsp;import java.io.ObjectInputStream;
+<i>14</i>&nbsp;import java.io.ObjectOutputStream;
+<i>15</i>&nbsp;import java.net.Socket;
+<i>16</i>&nbsp;import java.util.concurrent.*;
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;/**
+<i>19</i>&nbsp; * Represents the client. Allows the creation of a socket connection and the received messages sorting.
+<i>20</i>&nbsp; */
+<i>21</i>&nbsp;public class Client implements Runnable{
+<i>22</i>&nbsp;    private String address;
+<i>23</i>&nbsp;    private int socketPort;
+<i>24</i>&nbsp;    private Socket socket;
+<i>25</i>&nbsp;    private ObjectOutputStream out;
+<i>26</i>&nbsp;    private ObjectInputStream in;
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    private final RequestManager requestManager;
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    private Thread clientGameHandlerThread;
+<i>31</i>&nbsp;    private ClientGameHandler clientGameHandler;
+<i>32</i>&nbsp;
+<b class="nc"><i>33</i>&nbsp;    private boolean clientEnded = false;</b>
+<b class="nc"><i>34</i>&nbsp;    private boolean silentEnded = false;</b>
+<i>35</i>&nbsp;
+<b class="nc"><i>36</i>&nbsp;    private final BlockingQueue&lt;Request&gt; requestQueue = new LinkedBlockingQueue&lt;&gt;();</b>
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    /**
+<i>39</i>&nbsp;     * Assigns Client class necessary parameters.
+<i>40</i>&nbsp;     * @param requestManager Request Manager (CLI or GUI) used to handle messages.
+<i>41</i>&nbsp;     * @param address Server IP address.
+<i>42</i>&nbsp;     * @param socketPort Socket port.
+<i>43</i>&nbsp;     */
+<b class="nc"><i>44</i>&nbsp;    public Client(RequestManager requestManager, String address, int socketPort){</b>
+<b class="nc"><i>45</i>&nbsp;        this.requestManager = requestManager;</b>
+<b class="nc"><i>46</i>&nbsp;        this.address = address;</b>
+<b class="nc"><i>47</i>&nbsp;        this.socketPort = socketPort;</b>
+<i>48</i>&nbsp;    }
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;    /**
+<i>51</i>&nbsp;     * Attempts the creation of a socket connection, given the constructor parameters in {@link Client(RequestManager, String, int)}.
+<i>52</i>&nbsp;     * If the socket has been opened correctly, InputStream and OutputStream are created and assigned,
+<i>53</i>&nbsp;     * a new {@link ClientGameHandler} is created and started.
+<i>54</i>&nbsp;     *
+<i>55</i>&nbsp;     * @return {@code true} if connection has been started successfully, {@code false} otherwise.
+<i>56</i>&nbsp;     */
+<i>57</i>&nbsp;    public boolean startConnection(){
+<i>58</i>&nbsp;        try {
+<b class="nc"><i>59</i>&nbsp;            socket = new Socket(address, socketPort);</b>
+<b class="nc"><i>60</i>&nbsp;            if (!socket.isClosed() &amp;&amp; !socket.isConnected())</b>
+<b class="nc"><i>61</i>&nbsp;                return false;</b>
+<b class="nc"><i>62</i>&nbsp;            out = new ObjectOutputStream(socket.getOutputStream());</b>
+<b class="nc"><i>63</i>&nbsp;            in = new ObjectInputStream(socket.getInputStream());</b>
+<b class="nc"><i>64</i>&nbsp;            clientGameHandler = new ClientGameHandler(requestManager, requestQueue, out);</b>
+<b class="nc"><i>65</i>&nbsp;            clientGameHandlerThread = new Thread(clientGameHandler);</b>
+<b class="nc"><i>66</i>&nbsp;            clientGameHandlerThread.start();</b>
+<b class="nc"><i>67</i>&nbsp;            return true;</b>
+<b class="nc"><i>68</i>&nbsp;        } catch (IOException e){</b>
+<b class="nc"><i>69</i>&nbsp;            return false;</b>
+<i>70</i>&nbsp;        }
+<i>71</i>&nbsp;    }
+<i>72</i>&nbsp;
+<i>73</i>&nbsp;    private void closeStreams(){
+<i>74</i>&nbsp;        try {
+<b class="nc"><i>75</i>&nbsp;            clientEnded = true;</b>
+<b class="nc"><i>76</i>&nbsp;            in.close();</b>
+<b class="nc"><i>77</i>&nbsp;            socket.close();</b>
+<b class="nc"><i>78</i>&nbsp;        } catch (IOException ignored){</b>
+<i>79</i>&nbsp;        }finally {
+<b class="nc"><i>80</i>&nbsp;            if (futureHeartBeat != null)</b>
+<b class="nc"><i>81</i>&nbsp;                futureHeartBeat.cancel(true);</b>
+<b class="nc"><i>82</i>&nbsp;            if (!silentEnded) {</b>
+<b class="nc"><i>83</i>&nbsp;                requestManager.showError(new ErrorMessage(&quot;C002&quot;, &quot;Connection error. Could not receive message.&quot;));</b>
+<i>84</i>&nbsp;            }
+<b class="nc"><i>85</i>&nbsp;        }</b>
+<i>86</i>&nbsp;    }
+<i>87</i>&nbsp;
+<b class="nc"><i>88</i>&nbsp;    private final ScheduledThreadPoolExecutor waitingHeartBeat = new ScheduledThreadPoolExecutor(1);</b>
+<i>89</i>&nbsp;
+<i>90</i>&nbsp;    private ScheduledFuture&lt;Boolean&gt; waitHeartBeat(){
+<b class="nc"><i>91</i>&nbsp;        return waitingHeartBeat.schedule(()-&gt;</b>
+<i>92</i>&nbsp;        {
+<b class="nc"><i>93</i>&nbsp;            silentEnded = true;</b>
+<b class="nc"><i>94</i>&nbsp;            clientGameHandler.setSilentEnded(true);</b>
+<b class="nc"><i>95</i>&nbsp;            closeStreams();</b>
+<b class="nc"><i>96</i>&nbsp;            requestManager.showError(new ErrorMessage(&quot;S002&quot;, &quot;Server is not responding.&quot;));</b>
+<b class="nc"><i>97</i>&nbsp;            return false;</b>
+<i>98</i>&nbsp;        }, 2* Constant.HEARTBEAT_PERIOD, TimeUnit.SECONDS);
+<i>99</i>&nbsp;    }
+<i>100</i>&nbsp;
+<i>101</i>&nbsp;    private ScheduledFuture&lt;Boolean&gt; futureHeartBeat;
+<i>102</i>&nbsp;
+<i>103</i>&nbsp;    /**
+<i>104</i>&nbsp;     * Runs an input object reader. This method (and therefore the thread) must be used only if
+<i>105</i>&nbsp;     * the connection has been started beforehand using {@link Client#startConnection()}.
+<i>106</i>&nbsp;     * This method sorts the messages depending on their scope (actual play messages, heartbeats...),
+<i>107</i>&nbsp;     * adding them to a managing queue (in {@link ClientGameHandler} if needed.
+<i>108</i>&nbsp;     */
+<i>109</i>&nbsp;    @Override
+<i>110</i>&nbsp;    public void run() {
+<b class="nc"><i>111</i>&nbsp;        boolean canManageMessages = true;</b>
+<i>112</i>&nbsp;        while(true){
+<i>113</i>&nbsp;            try{
+<b class="nc"><i>114</i>&nbsp;                Object receivedMessage = in.readObject();</b>
+<b class="nc"><i>115</i>&nbsp;                if (receivedMessage instanceof Request &amp;&amp; canManageMessages){</b>
+<b class="nc"><i>116</i>&nbsp;                    if (receivedMessage instanceof HeartBeatRequest){</b>
+<b class="nc"><i>117</i>&nbsp;                        if (futureHeartBeat != null)</b>
+<b class="nc"><i>118</i>&nbsp;                            futureHeartBeat.cancel(true);</b>
+<b class="nc"><i>119</i>&nbsp;                        clientGameHandler.send(new HeartBeatAnswer());</b>
+<b class="nc"><i>120</i>&nbsp;                        futureHeartBeat = waitHeartBeat();</b>
+<b class="nc"><i>121</i>&nbsp;                    } else if (receivedMessage instanceof EndByDisconnection) {</b>
+<b class="nc"><i>122</i>&nbsp;                        requestManager.handleRequest((EndByDisconnection) receivedMessage);</b>
+<b class="nc"><i>123</i>&nbsp;                        this.silentEnded = true;</b>
+<b class="nc"><i>124</i>&nbsp;                        clientGameHandler.setSilentEnded(true);</b>
+<b class="nc"><i>125</i>&nbsp;                    } else if (receivedMessage instanceof SevereError) {</b>
+<b class="nc"><i>126</i>&nbsp;                        requestManager.showError(new ErrorMessage(&quot;S003&quot;, &quot;Severe server error. Disconnecting.&quot;));</b>
+<b class="nc"><i>127</i>&nbsp;                        this.silentEnded = true;</b>
+<b class="nc"><i>128</i>&nbsp;                        clientGameHandler.setSilentEnded(true);</b>
+<i>129</i>&nbsp;                    }
+<i>130</i>&nbsp;                    else {
+<i>131</i>&nbsp;                        try {
+<b class="nc"><i>132</i>&nbsp;                            requestQueue.offer((Request) receivedMessage);</b>
+<b class="nc"><i>133</i>&nbsp;                        } catch (ClassCastException | NullPointerException | IllegalArgumentException ignored){}</b>
+<b class="nc"><i>134</i>&nbsp;                        if (Request.isSilentCloseRequest((Request) receivedMessage)) {</b>
+<b class="nc"><i>135</i>&nbsp;                            this.silentEnded = true;</b>
+<b class="nc"><i>136</i>&nbsp;                            clientGameHandler.setSilentEnded(true);</b>
+<i>137</i>&nbsp;                        }
+<i>138</i>&nbsp;                    }
+<i>139</i>&nbsp;                }
+<i>140</i>&nbsp;            }
+<b class="nc"><i>141</i>&nbsp;            catch (IOException | ClassNotFoundException | GameException e){</b>
+<b class="nc"><i>142</i>&nbsp;                canManageMessages = false;</b>
+<b class="nc"><i>143</i>&nbsp;                closeStreams();</b>
+<b class="nc"><i>144</i>&nbsp;            }</b>
+<b class="nc"><i>145</i>&nbsp;            if(clientEnded)</b>
+<i>146</i>&nbsp;                return;
+<i>147</i>&nbsp;        }
+<i>148</i>&nbsp;    }
+<i>149</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 15:31</div>
+</div>
+</body>
+</html>

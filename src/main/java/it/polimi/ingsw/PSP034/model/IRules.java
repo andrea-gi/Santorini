@@ -7,8 +7,18 @@ import it.polimi.ingsw.PSP034.constants.Sex;
  */
 public interface IRules {
 
+    /**
+     * Returns the last tile saved while performing an action.
+     *
+     * @return Reference to previous tile.
+     */
     Tile getPreviousTile();
 
+    /**
+     * Returns the last saved worker's sex. Used to keep track of worker used throughout a player's turn.
+     *
+     * @return Saved sex.
+     */
     Sex getChosenSex();
 
     DefaultRules getDefaultRules();
@@ -54,14 +64,24 @@ public interface IRules {
      */
     boolean checkWin(Worker worker);
 
+    /**
+     * Saves a worker's sex. Used to keep track of worker used throughout a player's turn.
+     *
+     * @param chosenWorker Worker used.
+     */
     void setChosenSex(Worker chosenWorker);
 
+    /**
+     * Saves a tile. Used to keep track of tile used throughout a player's turn.
+     *
+     * @param tile Previous tile.
+     */
     void setPreviousTile(Tile tile);
 
     /**
      * Checks if a given worker has any valid move available.
      *
-     * @param worker Reference to the worker to be checked
+     * @param worker Reference to the worker to be checked.
      * @return true if the given worker has at least one available possible move.
      */
     boolean anyValidMove(Worker worker);

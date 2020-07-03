@@ -1,0 +1,162 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: RequestManager</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP034.client</a> ]
+</div>
+
+<h1>Coverage Summary for Class: RequestManager (it.polimi.ingsw.PSP034.client)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RequestManager</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 12)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP034.client;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP034.messages.Answer;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP034.messages.Request;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP034.messages.clientConfiguration.AnswerIP;
+<i>6</i>&nbsp;import it.polimi.ingsw.PSP034.messages.clientConfiguration.ErrorMessage;
+<i>7</i>&nbsp;import it.polimi.ingsw.PSP034.view.GameException;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;import java.util.concurrent.ExecutorService;
+<i>10</i>&nbsp;import java.util.concurrent.Executors;
+<i>11</i>&nbsp;import java.util.concurrent.Future;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;/**
+<i>14</i>&nbsp; * Abstract class extended by each Request Manager (CLI or GUI)
+<i>15</i>&nbsp; */
+<b class="nc"><i>16</i>&nbsp;public abstract class RequestManager {</b>
+<i>17</i>&nbsp;    private ClientGameHandler sender;
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    /**
+<i>20</i>&nbsp;     * Handles a single request (synchronously).
+<i>21</i>&nbsp;     * @param message           Request to be handled.
+<i>22</i>&nbsp;     * @throws GameException    Thrown if there has been a client error.
+<i>23</i>&nbsp;     */
+<i>24</i>&nbsp;    public abstract void handleRequest(Request message) throws GameException;
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    /**
+<i>27</i>&nbsp;     * Displays an error. Can be called asynchronously.
+<i>28</i>&nbsp;     *
+<i>29</i>&nbsp;     * @param error Error to be shown.
+<i>30</i>&nbsp;     */
+<i>31</i>&nbsp;    public abstract void showError(ErrorMessage error);
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    /**
+<i>34</i>&nbsp;     * Sets instance used to send answers.
+<i>35</i>&nbsp;     *
+<i>36</i>&nbsp;     * @param sender Reference to ClientGameHandler used by a client
+<i>37</i>&nbsp;     */
+<i>38</i>&nbsp;    public void setSender(ClientGameHandler sender) {
+<b class="nc"><i>39</i>&nbsp;        this.sender = sender;</b>
+<i>40</i>&nbsp;    }
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;    /**
+<i>43</i>&nbsp;     * Sends an answer through a previously set {@link ClientGameHandler}.
+<i>44</i>&nbsp;     * @param answer Answer to be sent.
+<i>45</i>&nbsp;     */
+<i>46</i>&nbsp;    public synchronized void sendAnswer(Answer answer){
+<b class="nc"><i>47</i>&nbsp;        if (sender != null)</b>
+<b class="nc"><i>48</i>&nbsp;            new Thread(() -&gt; {</b>
+<b class="nc"><i>49</i>&nbsp;                sender.send(answer);</b>
+<i>50</i>&nbsp;            }).start();
+<i>51</i>&nbsp;    }
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;    /**
+<i>54</i>&nbsp;     * Returns message handling availability.
+<i>55</i>&nbsp;     *
+<i>56</i>&nbsp;     * @return {@code true} if this instance of the RequestHub can manage a new request
+<i>57</i>&nbsp;     * ({@link RequestManager#handleRequest(Request)}), {@code false} otherwise.
+<i>58</i>&nbsp;     */
+<i>59</i>&nbsp;    public abstract boolean canHandleRequest();
+<i>60</i>&nbsp;
+<b class="nc"><i>61</i>&nbsp;    private final ExecutorService executorConnection = Executors.newSingleThreadExecutor();</b>
+<i>62</i>&nbsp;
+<i>63</i>&nbsp;    /** Creates the connection between the client and the server.
+<i>64</i>&nbsp;     *
+<i>65</i>&nbsp;     *  @param answer   Answer containing IP address and port.
+<i>66</i>&nbsp;     *  @return         {@link Future} representing the result of the connection attempt.
+<i>67</i>&nbsp;     */
+<i>68</i>&nbsp;    public Future&lt;Boolean&gt; createConnection(AnswerIP answer){
+<b class="nc"><i>69</i>&nbsp;        return executorConnection.submit(() -&gt;{</b>
+<b class="nc"><i>70</i>&nbsp;            Client client = new Client(this, answer.getIp(), answer.getPort());</b>
+<b class="nc"><i>71</i>&nbsp;            if (client.startConnection()){</b>
+<b class="nc"><i>72</i>&nbsp;                new Thread(client).start();</b>
+<b class="nc"><i>73</i>&nbsp;                return true;</b>
+<i>74</i>&nbsp;            } else {
+<b class="nc"><i>75</i>&nbsp;                return false;</b>
+<i>76</i>&nbsp;            }
+<i>77</i>&nbsp;        });
+<i>78</i>&nbsp;    }
+<i>79</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 15:31</div>
+</div>
+</body>
+</html>

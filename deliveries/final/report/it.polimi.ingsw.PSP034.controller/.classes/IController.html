@@ -1,0 +1,87 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: IController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP034.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: IController (it.polimi.ingsw.PSP034.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">IController</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP034.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP034.constants.PlayerColor;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP034.observer.ModelObserver;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;/**
+<i>7</i>&nbsp; * External access to model and controller (server side).
+<i>8</i>&nbsp; */
+<i>9</i>&nbsp;public interface IController {
+<i>10</i>&nbsp;    /**
+<i>11</i>&nbsp;     * Adds a new player to the current game.
+<i>12</i>&nbsp;     * @param name Name of the player to be added.
+<i>13</i>&nbsp;     * @param color Color of the player to be added.
+<i>14</i>&nbsp;     */
+<i>15</i>&nbsp;    void addPlayer(String name, PlayerColor color);
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    /**
+<i>18</i>&nbsp;     * Executes the given game phase.
+<i>19</i>&nbsp;     * Sends the first request message to initialize the current game phase.
+<i>20</i>&nbsp;     */
+<i>21</i>&nbsp;    void handleGamePhase();
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    /**
+<i>24</i>&nbsp;     * Gets the MessageManager reference, which is created by the controller.
+<i>25</i>&nbsp;     * @return The MessageManager reference.
+<i>26</i>&nbsp;     */
+<i>27</i>&nbsp;    MessageManager getMessageManager();
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    /**
+<i>30</i>&nbsp;     * Forwards a model observer add request to the current game.
+<i>31</i>&nbsp;     * @param observer Observer that needs to be added.
+<i>32</i>&nbsp;     */
+<i>33</i>&nbsp;    void addModelObserver(ModelObserver observer);
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    /**
+<i>36</i>&nbsp;     * Forwards a model observer remove request to the current game.
+<i>37</i>&nbsp;     * @param observer Observer that needs to be removed.
+<i>38</i>&nbsp;     */
+<i>39</i>&nbsp;    void removeModelObserver(ModelObserver observer);
+<i>40</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 15:31</div>
+</div>
+</body>
+</html>

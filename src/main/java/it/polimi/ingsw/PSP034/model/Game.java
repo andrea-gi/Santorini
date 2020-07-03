@@ -137,6 +137,8 @@ public class Game extends ModelObservable {
     }
 
     /**
+     * Returns the number of active players.
+     *
      * @return Number of players currently in the game.
      */
     public int getPlayerNumber(){
@@ -179,6 +181,14 @@ public class Game extends ModelObservable {
         }
     }
 
+    /**
+     * Adds a new worker, associated to the given player.
+     *
+     * @param player    Player adding the worker.
+     * @param sex       Worker's sex.
+     * @param x         x coordinate.
+     * @param y         y coordinate.
+     */
     public void addWorker(Player player, Sex sex, int x, int y){
         player.addWorker(sex, board.getTile(x,y));
         notifyObservers(generateSlimBoard());

@@ -1,0 +1,484 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ANSI</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP034.view.CLI.printables</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ANSI (it.polimi.ingsw.PSP034.view.CLI.printables)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ANSI</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 15)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 37)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP034.view.CLI.printables;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;/**
+<i>4</i>&nbsp; * This class makes UNICODE escape characters available through functions and variables that have easy to understand names.
+<i>5</i>&nbsp; */
+<b class="nc"><i>6</i>&nbsp;public class ANSI {</b>
+<i>7</i>&nbsp;    ///////////////////////////////////////////////////////////
+<i>8</i>&nbsp;    //TERMINAL MANAGEMENT FUNCTIONS                          //
+<i>9</i>&nbsp;    ///////////////////////////////////////////////////////////
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;    /**
+<i>12</i>&nbsp;     * Moves the terminal cursor vertically.
+<i>13</i>&nbsp;     * @param lines number of line to move the cursor. Positive numbers will move the cursor downwards, negative numbers wil move the cursor upwards.
+<i>14</i>&nbsp;     */
+<i>15</i>&nbsp;    public static void moveVertical(int lines){
+<b class="nc"><i>16</i>&nbsp;        if(lines &lt; 0) {</b>
+<b class="nc"><i>17</i>&nbsp;            int negLines = -1*lines;</b>
+<b class="nc"><i>18</i>&nbsp;            System.out.print(&quot;\033[&quot; + negLines + &quot;A&quot;);</b>
+<b class="nc"><i>19</i>&nbsp;        }else {</b>
+<b class="nc"><i>20</i>&nbsp;            System.out.print(&quot;\033[&quot; + lines + &quot;B&quot;);</b>
+<i>21</i>&nbsp;        }
+<i>22</i>&nbsp;    }
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    /**
+<i>25</i>&nbsp;     * Moves the terminal cursor horizontally
+<i>26</i>&nbsp;     * @param columns number of columns to move the cursor. Positive numbers will move the cursor rightwards, negative numbers wil move the cursor leftwards.
+<i>27</i>&nbsp;     */
+<i>28</i>&nbsp;    public static void moveHorizontal(int columns){
+<b class="nc"><i>29</i>&nbsp;        if(columns &lt; 0) {</b>
+<b class="nc"><i>30</i>&nbsp;            int negLines = -1*columns;</b>
+<b class="nc"><i>31</i>&nbsp;            System.out.print(&quot;\033[&quot; + negLines + &quot;D&quot;);</b>
+<b class="nc"><i>32</i>&nbsp;        }else {</b>
+<b class="nc"><i>33</i>&nbsp;            System.out.print(&quot;\033[&quot; + columns + &quot;C&quot;);</b>
+<i>34</i>&nbsp;        }
+<i>35</i>&nbsp;    }
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    /**
+<i>39</i>&nbsp;     * Moves the terminal cursor to the given line and column. The values are 1-based.
+<i>40</i>&nbsp;     * @param line Line to move to
+<i>41</i>&nbsp;     * @param column Column to move to
+<i>42</i>&nbsp;     */
+<i>43</i>&nbsp;    public static void moveTo(int line, int column){
+<b class="nc"><i>44</i>&nbsp;        System.out.print(&quot;\033[&quot; + line + &quot;;&quot; + column + &quot;H&quot;);</b>
+<i>45</i>&nbsp;    }
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;    /**
+<i>48</i>&nbsp;     * Clears the screen and moves the terminal cursor to the top left angle (1,1).
+<i>49</i>&nbsp;     */
+<i>50</i>&nbsp;    public static void clearScreen(){
+<b class="nc"><i>51</i>&nbsp;        System.out.print(&quot;\033[2J&quot;);</b>
+<i>52</i>&nbsp;    }
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;    /**
+<i>55</i>&nbsp;     * Hides the terminal cursor.
+<i>56</i>&nbsp;     */
+<i>57</i>&nbsp;    public static void hideCursor(){
+<b class="nc"><i>58</i>&nbsp;        System.out.print(&quot;\033[?5l&quot;);</b>
+<i>59</i>&nbsp;    }
+<i>60</i>&nbsp;
+<i>61</i>&nbsp;    /**
+<i>62</i>&nbsp;     * Shows the terminal cursor.
+<i>63</i>&nbsp;     */
+<i>64</i>&nbsp;    public static void showCursor(){
+<b class="nc"><i>65</i>&nbsp;        System.out.print(&quot;\033[?5h&quot;);</b>
+<i>66</i>&nbsp;    }
+<i>67</i>&nbsp;
+<i>68</i>&nbsp;    /**
+<i>69</i>&nbsp;     * Clears the entire line at which the cursor is. Cursor position doesn&#39;t change.
+<i>70</i>&nbsp;     */
+<i>71</i>&nbsp;    public static void clearLine(){
+<b class="nc"><i>72</i>&nbsp;        System.out.print(&quot;\033[2K&quot;);</b>
+<i>73</i>&nbsp;    }
+<i>74</i>&nbsp;
+<i>75</i>&nbsp;    /**
+<i>76</i>&nbsp;     * Clears characters from column startColumn to column endColumn at given line. After execution the cursor is in position (line, startColumn).
+<i>77</i>&nbsp;     * @param line line to be erased.
+<i>78</i>&nbsp;     * @param startColumn column to startColumn clearing from.
+<i>79</i>&nbsp;     * @param endColumn last column to be cleared.
+<i>80</i>&nbsp;     */
+<i>81</i>&nbsp;    public static void clearLineInterval(int line, int startColumn, int endColumn){
+<b class="nc"><i>82</i>&nbsp;        ANSI.moveTo(line, startColumn);</b>
+<b class="nc"><i>83</i>&nbsp;        StringBuilder spaces = new StringBuilder();</b>
+<b class="nc"><i>84</i>&nbsp;        for(int x = startColumn; x &lt;= endColumn; x++){</b>
+<b class="nc"><i>85</i>&nbsp;            spaces.append(&quot; &quot;);</b>
+<i>86</i>&nbsp;        }
+<b class="nc"><i>87</i>&nbsp;        System.out.print(spaces);</b>
+<b class="nc"><i>88</i>&nbsp;        ANSI.moveTo(line, startColumn);</b>
+<i>89</i>&nbsp;    }
+<i>90</i>&nbsp;
+<i>91</i>&nbsp;    /**
+<i>92</i>&nbsp;     * Clears characters from line startLine to line endLine at given column. After execution the cursor is in position (startLine, column).
+<i>93</i>&nbsp;     * @param column column to be erased.
+<i>94</i>&nbsp;     * @param startLine line to startLine clearing from.
+<i>95</i>&nbsp;     * @param endLine last line to be cleared.
+<i>96</i>&nbsp;     */
+<i>97</i>&nbsp;    public static void clearColumnInterval(int column, int startLine, int endLine){
+<b class="nc"><i>98</i>&nbsp;        for(int y = startLine; y &lt;= endLine; y++){</b>
+<b class="nc"><i>99</i>&nbsp;            ANSI.moveTo(y, column);</b>
+<b class="nc"><i>100</i>&nbsp;            System.out.print(&quot; &quot;);</b>
+<i>101</i>&nbsp;        }
+<b class="nc"><i>102</i>&nbsp;        ANSI.moveTo(startLine, column);</b>
+<i>103</i>&nbsp;    }
+<i>104</i>&nbsp;
+<i>105</i>&nbsp;    /**
+<i>106</i>&nbsp;     * Clears the area of th console defined by given coordinates. After execution the cursor is in position (startLine, startColumn).
+<i>107</i>&nbsp;     * @param startLine Line of the top left character of the area.
+<i>108</i>&nbsp;     * @param startColumn Column of the top left character of the area.
+<i>109</i>&nbsp;     * @param endLine Line of the bottom right character of the area.
+<i>110</i>&nbsp;     * @param endColumn Column of the bottom right character of the area.
+<i>111</i>&nbsp;     */
+<i>112</i>&nbsp;    public static void clearArea(int startLine, int startColumn, int endLine, int endColumn){
+<b class="nc"><i>113</i>&nbsp;        StringBuilder spaces = new StringBuilder();</b>
+<b class="nc"><i>114</i>&nbsp;        for(int x = startColumn; x &lt;= endColumn; x++){</b>
+<b class="nc"><i>115</i>&nbsp;            spaces.append(&quot; &quot;);</b>
+<i>116</i>&nbsp;        }
+<b class="nc"><i>117</i>&nbsp;        for(int y = startLine; y &lt;= endLine; y++){</b>
+<b class="nc"><i>118</i>&nbsp;            ANSI.moveTo(y, startColumn);</b>
+<b class="nc"><i>119</i>&nbsp;            System.out.print(spaces);</b>
+<i>120</i>&nbsp;        }
+<b class="nc"><i>121</i>&nbsp;        ANSI.moveTo(startLine, startColumn);</b>
+<i>122</i>&nbsp;    }
+<i>123</i>&nbsp;
+<i>124</i>&nbsp;
+<i>125</i>&nbsp;    ///////////////////////////////////////////////////////////
+<i>126</i>&nbsp;    //RESET                                                  //
+<i>127</i>&nbsp;    ///////////////////////////////////////////////////////////
+<i>128</i>&nbsp;    /**
+<i>129</i>&nbsp;     * ANSI escape sequence to restore the default options for console text
+<i>130</i>&nbsp;     */
+<i>131</i>&nbsp;    public static final String reset = &quot;\033[0m&quot;;
+<i>132</i>&nbsp;    //This line can be used instead of the actual reset ANSI escape to change the background of the CLI.
+<i>133</i>&nbsp;    //In thi case the default background color would be white and the default foreground color would be black.
+<i>134</i>&nbsp;    //public static final String reset = &quot;\033[38;2;0;0;0;48;2;255;255;255m&quot;;
+<i>135</i>&nbsp;
+<i>136</i>&nbsp;    ///////////////////////////////////////////////////////////
+<i>137</i>&nbsp;    //4-BIT COLORS                                           //
+<i>138</i>&nbsp;    ///////////////////////////////////////////////////////////
+<i>139</i>&nbsp;
+<i>140</i>&nbsp;    //FOREGROUND
+<i>141</i>&nbsp;    /**
+<i>142</i>&nbsp;     * ANSI escape sequence for 3/4-bit foreground color Black
+<i>143</i>&nbsp;     */
+<i>144</i>&nbsp;    public static final String FG_black = &quot;\033[30m&quot;;
+<i>145</i>&nbsp;
+<i>146</i>&nbsp;    /**
+<i>147</i>&nbsp;     * ANSI escape sequence for 3/4-bit foreground color Red
+<i>148</i>&nbsp;     */
+<i>149</i>&nbsp;    public static final String FG_red = &quot;\033[31m&quot;;
+<i>150</i>&nbsp;
+<i>151</i>&nbsp;    /**
+<i>152</i>&nbsp;     * ANSI escape sequence for 3/4-bit foreground color Green
+<i>153</i>&nbsp;     */
+<i>154</i>&nbsp;    public static final String FG_green = &quot;\033[32m&quot;;
+<i>155</i>&nbsp;
+<i>156</i>&nbsp;    /**
+<i>157</i>&nbsp;     * ANSI escape sequence for 3/4-bit foreground color Yellow
+<i>158</i>&nbsp;     */
+<i>159</i>&nbsp;    public static final String FG_yellow = &quot;\033[33m&quot;;
+<i>160</i>&nbsp;
+<i>161</i>&nbsp;    /**
+<i>162</i>&nbsp;     * ANSI escape sequence for 3/4-bit foreground color Blue
+<i>163</i>&nbsp;     */
+<i>164</i>&nbsp;    public static final String FG_blue = &quot;\033[34m&quot;;
+<i>165</i>&nbsp;
+<i>166</i>&nbsp;    /**
+<i>167</i>&nbsp;     * ANSI escape sequence for 3/4-bit foreground color Magenta
+<i>168</i>&nbsp;     */
+<i>169</i>&nbsp;    public static final String FG_magenta = &quot;\033[35m&quot;;
+<i>170</i>&nbsp;
+<i>171</i>&nbsp;    /**
+<i>172</i>&nbsp;     * ANSI escape sequence for 3/4-bit foreground color Cyan
+<i>173</i>&nbsp;     */
+<i>174</i>&nbsp;    public static final String FG_cyan = &quot;\033[36m&quot;;
+<i>175</i>&nbsp;
+<i>176</i>&nbsp;    /**
+<i>177</i>&nbsp;     * ANSI escape sequence for 3/4-bit foreground color White
+<i>178</i>&nbsp;     */
+<i>179</i>&nbsp;    public static final String FG_white = &quot;\033[37m&quot;;
+<i>180</i>&nbsp;
+<i>181</i>&nbsp;    /**
+<i>182</i>&nbsp;     * ANSI escape sequence for 3/4-bit foreground color Bright Black
+<i>183</i>&nbsp;     */
+<i>184</i>&nbsp;    public static final String FG_bright_black = &quot;\033[90m&quot;;
+<i>185</i>&nbsp;
+<i>186</i>&nbsp;    /**
+<i>187</i>&nbsp;     * ANSI escape sequence for 3/4-bit foreground color Bright Red
+<i>188</i>&nbsp;     */
+<i>189</i>&nbsp;    public static final String FG_bright_red = &quot;\033[91m&quot;;
+<i>190</i>&nbsp;
+<i>191</i>&nbsp;    /**
+<i>192</i>&nbsp;     * ANSI escape sequence for 3/4-bit foreground color Bright Green
+<i>193</i>&nbsp;     */
+<i>194</i>&nbsp;    public static final String FG_bright_green = &quot;\033[92m&quot;;
+<i>195</i>&nbsp;
+<i>196</i>&nbsp;    /**
+<i>197</i>&nbsp;     * ANSI escape sequence for 3/4-bit foreground color Bright Yellow
+<i>198</i>&nbsp;     */
+<i>199</i>&nbsp;    public static final String FG_bright_yellow = &quot;\033[93m&quot;;
+<i>200</i>&nbsp;
+<i>201</i>&nbsp;    /**
+<i>202</i>&nbsp;     * ANSI escape sequence for 3/4-bit foreground color Bright Blue
+<i>203</i>&nbsp;     */
+<i>204</i>&nbsp;    public static final String FG_bright_blue = &quot;\033[94m&quot;;
+<i>205</i>&nbsp;
+<i>206</i>&nbsp;    /**
+<i>207</i>&nbsp;     * ANSI escape sequence for 3/4-bit foreground color Bright Magenta
+<i>208</i>&nbsp;     */
+<i>209</i>&nbsp;    public static final String FG_bright_magenta = &quot;\033[95m&quot;;
+<i>210</i>&nbsp;
+<i>211</i>&nbsp;    /**
+<i>212</i>&nbsp;     * ANSI escape sequence for 3/4-bit foreground color Bright Cyan
+<i>213</i>&nbsp;     */
+<i>214</i>&nbsp;    public static final String FG_bright_cyan = &quot;\033[96m&quot;;
+<i>215</i>&nbsp;
+<i>216</i>&nbsp;    /**
+<i>217</i>&nbsp;     * ANSI escape sequence for 3/4-bit foreground color Bright White
+<i>218</i>&nbsp;     */
+<i>219</i>&nbsp;    public static final String FG_bright_white = &quot;\033[97m&quot;;
+<i>220</i>&nbsp;
+<i>221</i>&nbsp;    //BACKGROUND
+<i>222</i>&nbsp;    /**
+<i>223</i>&nbsp;     * ANSI escape sequence for 3/4-bit foreground color Black
+<i>224</i>&nbsp;     */
+<i>225</i>&nbsp;    public static final String BG_black = &quot;\033[40m&quot;;
+<i>226</i>&nbsp;
+<i>227</i>&nbsp;    /**
+<i>228</i>&nbsp;     * ANSI escape sequence for 3/4-bit foreground color Red
+<i>229</i>&nbsp;     */
+<i>230</i>&nbsp;    public static final String BG_red = &quot;\033[41m&quot;;
+<i>231</i>&nbsp;
+<i>232</i>&nbsp;    /**
+<i>233</i>&nbsp;     * ANSI escape sequence for 3/4-bit foreground color Green
+<i>234</i>&nbsp;     */
+<i>235</i>&nbsp;    public static final String BG_green = &quot;\033[42m&quot;;
+<i>236</i>&nbsp;
+<i>237</i>&nbsp;    /**
+<i>238</i>&nbsp;     * ANSI escape sequence for 3/4-bit foreground color Yellow
+<i>239</i>&nbsp;     */
+<i>240</i>&nbsp;    public static final String BG_yellow = &quot;\033[43m&quot;;
+<i>241</i>&nbsp;
+<i>242</i>&nbsp;    /**
+<i>243</i>&nbsp;     * ANSI escape sequence for 3/4-bit foreground color Blue
+<i>244</i>&nbsp;     */
+<i>245</i>&nbsp;    public static final String BG_blue = &quot;\033[44m&quot;;
+<i>246</i>&nbsp;
+<i>247</i>&nbsp;    /**
+<i>248</i>&nbsp;     * ANSI escape sequence for 3/4-bit foreground color Magenta
+<i>249</i>&nbsp;     */
+<i>250</i>&nbsp;    public static final String BG_magenta = &quot;\033[45m&quot;;
+<i>251</i>&nbsp;
+<i>252</i>&nbsp;    /**
+<i>253</i>&nbsp;     * ANSI escape sequence for 3/4-bit foreground color Cyan
+<i>254</i>&nbsp;     */
+<i>255</i>&nbsp;    public static final String BG_cyan = &quot;\033[46m&quot;;
+<i>256</i>&nbsp;
+<i>257</i>&nbsp;    /**
+<i>258</i>&nbsp;     * ANSI escape sequence for 3/4-bit foreground color White
+<i>259</i>&nbsp;     */
+<i>260</i>&nbsp;    public static final String BG_white = &quot;\033[47m&quot;;
+<i>261</i>&nbsp;
+<i>262</i>&nbsp;    /**
+<i>263</i>&nbsp;     * ANSI escape sequence for 3/4-bit foreground color Bright Black
+<i>264</i>&nbsp;     */
+<i>265</i>&nbsp;    public static final String BG_bright_black = &quot;\033[100m&quot;;
+<i>266</i>&nbsp;
+<i>267</i>&nbsp;    /**
+<i>268</i>&nbsp;     * ANSI escape sequence for 3/4-bit foreground color Bright Red
+<i>269</i>&nbsp;     */
+<i>270</i>&nbsp;    public static final String BG_bright_red = &quot;\033[101m&quot;;
+<i>271</i>&nbsp;
+<i>272</i>&nbsp;    /**
+<i>273</i>&nbsp;     * ANSI escape sequence for 3/4-bit foreground color Bright Green
+<i>274</i>&nbsp;     */
+<i>275</i>&nbsp;    public static final String BG_bright_green = &quot;\033[102m&quot;;
+<i>276</i>&nbsp;
+<i>277</i>&nbsp;    /**
+<i>278</i>&nbsp;     * ANSI escape sequence for 3/4-bit foreground color Bright Yellow
+<i>279</i>&nbsp;     */
+<i>280</i>&nbsp;    public static final String BG_bright_yellow = &quot;\033[103m&quot;;
+<i>281</i>&nbsp;
+<i>282</i>&nbsp;    /**
+<i>283</i>&nbsp;     * ANSI escape sequence for 3/4-bit foreground color Bright Blue
+<i>284</i>&nbsp;     */
+<i>285</i>&nbsp;    public static final String BG_bright_blue = &quot;\033[104m&quot;;
+<i>286</i>&nbsp;
+<i>287</i>&nbsp;    /**
+<i>288</i>&nbsp;     * ANSI escape sequence for 3/4-bit foreground color Bright Magenta
+<i>289</i>&nbsp;     */
+<i>290</i>&nbsp;    public static final String BG_bright_magenta = &quot;\033[105m&quot;;
+<i>291</i>&nbsp;
+<i>292</i>&nbsp;    /**
+<i>293</i>&nbsp;     * ANSI escape sequence for 3/4-bit foreground color Bright Cyan
+<i>294</i>&nbsp;     */
+<i>295</i>&nbsp;    public static final String BG_bright_cyan = &quot;\033[106m&quot;;
+<i>296</i>&nbsp;
+<i>297</i>&nbsp;    /**
+<i>298</i>&nbsp;     * ANSI escape sequence for 3/4-bit foreground color Bright White
+<i>299</i>&nbsp;     */
+<i>300</i>&nbsp;    public static final String BG_bright_white = &quot;\033[107m&quot;;
+<i>301</i>&nbsp;
+<i>302</i>&nbsp;
+<i>303</i>&nbsp;
+<i>304</i>&nbsp;
+<i>305</i>&nbsp;    ///////////////////////////////////////////////////////////
+<i>306</i>&nbsp;    //8-BIT COLORS                                           //
+<i>307</i>&nbsp;    ///////////////////////////////////////////////////////////
+<i>308</i>&nbsp;
+<i>309</i>&nbsp;    /**
+<i>310</i>&nbsp;     * Creates the correct ANSI escape sequence for a 8-bit foreground color.
+<i>311</i>&nbsp;     * @param colorCode Code of the 8-bit color.
+<i>312</i>&nbsp;     * @return ANSI escape sequence of the wanted 8-bit color.
+<i>313</i>&nbsp;     */
+<i>314</i>&nbsp;    public static String FG_color(int colorCode){
+<b class="nc"><i>315</i>&nbsp;        return &quot;\033[38;5;&quot;+colorCode+&quot;m&quot;;</b>
+<i>316</i>&nbsp;    }
+<i>317</i>&nbsp;
+<i>318</i>&nbsp;    /**
+<i>319</i>&nbsp;     * Creates the correct ANSI escape sequence for a 8-bit background color.
+<i>320</i>&nbsp;     * @param colorCode Code of the 8-bit color.
+<i>321</i>&nbsp;     * @return ANSI escape sequence of the wanted 8-bit color.
+<i>322</i>&nbsp;     */
+<i>323</i>&nbsp;    public static String BG_color(int colorCode){
+<b class="nc"><i>324</i>&nbsp;        return &quot;\033[48;5;&quot;+colorCode+&quot;m&quot;;</b>
+<i>325</i>&nbsp;    }
+<i>326</i>&nbsp;
+<i>327</i>&nbsp;
+<i>328</i>&nbsp;
+<i>329</i>&nbsp;
+<i>330</i>&nbsp;    ///////////////////////////////////////////////////////////
+<i>331</i>&nbsp;    //24-BIT COLORS                                           //
+<i>332</i>&nbsp;    ///////////////////////////////////////////////////////////
+<i>333</i>&nbsp;
+<i>334</i>&nbsp;    /**
+<i>335</i>&nbsp;     * Creates the correct ANSI escape sequence for a 24-bit foreground color based on its rgb value.
+<i>336</i>&nbsp;     * @param r r value of the color.
+<i>337</i>&nbsp;     * @param g g value of the color.
+<i>338</i>&nbsp;     * @param b b value of the color.
+<i>339</i>&nbsp;     * @return ANSI escape sequence of the wanted 24-bit color.
+<i>340</i>&nbsp;     */
+<i>341</i>&nbsp;    public static String FG_rgbColor(int r, int g, int b){
+<b class="nc"><i>342</i>&nbsp;        return &quot;\033[38;2;&quot; + r + &quot;;&quot; + g + &quot;;&quot; + b + &quot;m&quot;;</b>
+<i>343</i>&nbsp;    }
+<i>344</i>&nbsp;
+<i>345</i>&nbsp;    /**
+<i>346</i>&nbsp;     * Creates the correct ANSI escape sequence for a 24-bit background color based on its rgb value.
+<i>347</i>&nbsp;     * @param r r value of the color.
+<i>348</i>&nbsp;     * @param g g value of the color.
+<i>349</i>&nbsp;     * @param b b value of the color.
+<i>350</i>&nbsp;     * @return ANSI escape sequence of the wanted 24-bit color.
+<i>351</i>&nbsp;     */
+<i>352</i>&nbsp;    public static String BG_rgbColor(int r, int g, int b){
+<b class="nc"><i>353</i>&nbsp;        return &quot;\033[48;2;&quot; + r + &quot;;&quot; + g + &quot;;&quot; + b + &quot;m&quot;;</b>
+<i>354</i>&nbsp;    }
+<i>355</i>&nbsp;
+<i>356</i>&nbsp;
+<i>357</i>&nbsp;
+<i>358</i>&nbsp;
+<i>359</i>&nbsp;    ///////////////////////////////////////////////////////////
+<i>360</i>&nbsp;    //FONT OPTIONS                                           //
+<i>361</i>&nbsp;    ///////////////////////////////////////////////////////////
+<i>362</i>&nbsp;    /**
+<i>363</i>&nbsp;     * ANSI escape sequence to set the font to bold.
+<i>364</i>&nbsp;     */
+<i>365</i>&nbsp;    public static final String bold = &quot;\033[1m&quot;;
+<i>366</i>&nbsp;
+<i>367</i>&nbsp;    /**
+<i>368</i>&nbsp;     * ANSI escape sequence to set the font to italic.
+<i>369</i>&nbsp;     */
+<i>370</i>&nbsp;    public static final String italic = &quot;\033[3m&quot;;
+<i>371</i>&nbsp;
+<i>372</i>&nbsp;    /**
+<i>373</i>&nbsp;     * ANSI escape sequence to set the font to underline.
+<i>374</i>&nbsp;     */
+<i>375</i>&nbsp;    public static final String underline = &quot;\033[4m&quot;;
+<i>376</i>&nbsp;
+<i>377</i>&nbsp;    /**
+<i>378</i>&nbsp;     * ANSI escape sequence to set the font to crossed out.
+<i>379</i>&nbsp;     */
+<i>380</i>&nbsp;    public static final String crossedOut = &quot;\033[9m&quot;;
+<i>381</i>&nbsp;
+<i>382</i>&nbsp;    /**
+<i>383</i>&nbsp;     * ANSI escape sequence to set the font to not bold.
+<i>384</i>&nbsp;     */
+<i>385</i>&nbsp;    public static final String boldOff = &quot;\033[21m&quot;;
+<i>386</i>&nbsp;
+<i>387</i>&nbsp;    /**
+<i>388</i>&nbsp;     * ANSI escape sequence to set the font to not italic.
+<i>389</i>&nbsp;     */
+<i>390</i>&nbsp;    public static final String italicOff = &quot;\033[23m&quot;;
+<i>391</i>&nbsp;
+<i>392</i>&nbsp;    /**
+<i>393</i>&nbsp;     * ANSI escape sequence to set the font to not underline.
+<i>394</i>&nbsp;     */
+<i>395</i>&nbsp;    public static final String underlineOff = &quot;\033[24m&quot;;
+<i>396</i>&nbsp;
+<i>397</i>&nbsp;    /**
+<i>398</i>&nbsp;     * ANSI escape sequence to set the font to not crossed out.
+<i>399</i>&nbsp;     */
+<i>400</i>&nbsp;    public static final String crossedOutOff = &quot;\033[29&quot;;
+<i>401</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 15:31</div>
+</div>
+</body>
+</html>

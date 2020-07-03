@@ -1,0 +1,439 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Game</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP034.model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Game (it.polimi.ingsw.PSP034.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Game</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    92%
+  </span>
+  <span class="absValue">
+    (23/ 25)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    97.3%
+  </span>
+  <span class="absValue">
+    (143/ 147)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP034.model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP034.constants.*;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP034.messages.ModelUpdate;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP034.messages.SlimBoard;
+<i>6</i>&nbsp;import it.polimi.ingsw.PSP034.model.gods.*;
+<i>7</i>&nbsp;import it.polimi.ingsw.PSP034.observer.ModelObservable;
+<i>8</i>&nbsp;import it.polimi.ingsw.PSP034.observer.ModelObserver;
+<i>9</i>&nbsp;import it.polimi.ingsw.PSP034.server.ServerLogger;
+<i>10</i>&nbsp;import it.polimi.ingsw.PSP034.view.CLI.printables.ANSI;
+<i>11</i>&nbsp;import org.jetbrains.annotations.NotNull;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;import java.util.ArrayList;
+<i>14</i>&nbsp;import java.util.Arrays;
+<i>15</i>&nbsp;import java.util.Random;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;/**
+<i>18</i>&nbsp; * Contains the needed information on the state of the game. Works as the main entry point for the {@link it.polimi.ingsw.PSP034.controller.Controller}.
+<i>19</i>&nbsp; */
+<i>20</i>&nbsp;public class Game extends ModelObservable {
+<i>21</i>&nbsp;    private final Board board;
+<i>22</i>&nbsp;    private final ArrayList&lt;Player&gt; players;
+<i>23</i>&nbsp;    private Player currentPlayer;
+<i>24</i>&nbsp;    private GamePhase gamePhase;
+<i>25</i>&nbsp;    private IRules rules;
+<b class="fc"><i>26</i>&nbsp;    private String[] godsList = {&quot;&quot;};</b>
+<i>27</i>&nbsp;    private final ArrayList&lt;String&gt; remainingGods;
+<i>28</i>&nbsp;    private final ArrayList&lt;String&gt; alreadyChosenGods;
+<b class="fc"><i>29</i>&nbsp;    private String eliminatedPlayerName = &quot;&quot;;</b>
+<i>30</i>&nbsp;
+<b class="fc"><i>31</i>&nbsp;    private final String[] godsNames = {&quot;Apollo&quot;, &quot;Artemis&quot;, &quot;Athena&quot;, &quot;Atlas&quot;, &quot;Demeter&quot;, &quot;Hephaestus&quot;, &quot;Minotaur&quot;,</b>
+<i>32</i>&nbsp;        &quot;Pan&quot;, &quot;Prometheus&quot;, &quot;Hera&quot;, &quot;Hestia&quot;, &quot;Zeus&quot;, &quot;Triton&quot;, &quot;Limus&quot;};
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    /**
+<i>35</i>&nbsp;     * Creates a new Game class, instantiating a new Board and a structure for Players. 
+<i>36</i>&nbsp;     * At the time of instantiation, there is no currentPlayer, which has to bet set using {@link Game#setCurrentPlayer(Player)}
+<i>37</i>&nbsp;     *
+<i>38</i>&nbsp;     * @param board Reference to the board to be used throughout the game.
+<i>39</i>&nbsp;     */
+<i>40</i>&nbsp;    public Game(Board board){
+<b class="fc"><i>41</i>&nbsp;        super();</b>
+<b class="fc"><i>42</i>&nbsp;        this.players = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>43</i>&nbsp;        this.board = board;</b>
+<b class="fc"><i>44</i>&nbsp;        this.currentPlayer = null;</b>
+<b class="fc"><i>45</i>&nbsp;        this.gamePhase = GamePhase.SETUP;</b>
+<b class="fc"><i>46</i>&nbsp;        this.rules = new DefaultRules(this);</b>
+<b class="fc"><i>47</i>&nbsp;        this.remainingGods = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>48</i>&nbsp;        this.alreadyChosenGods = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>49</i>&nbsp;    }</b>
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;    /**
+<i>52</i>&nbsp;     * {@inheritDoc}
+<i>53</i>&nbsp;     */
+<i>54</i>&nbsp;    @Override
+<i>55</i>&nbsp;    public void addObserver(@NotNull ModelObserver observer) {
+<b class="nc"><i>56</i>&nbsp;        super.addObserver(observer);</b>
+<b class="nc"><i>57</i>&nbsp;    }</b>
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;    /**
+<i>60</i>&nbsp;     * {@inheritDoc}
+<i>61</i>&nbsp;     */
+<i>62</i>&nbsp;    @Override
+<i>63</i>&nbsp;    public void notifyObservers(ModelUpdate message) {
+<b class="fc"><i>64</i>&nbsp;        super.notifyObservers(message);</b>
+<b class="fc"><i>65</i>&nbsp;    }</b>
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;    /**
+<i>68</i>&nbsp;     * {@inheritDoc}
+<i>69</i>&nbsp;     */
+<i>70</i>&nbsp;    @Override
+<i>71</i>&nbsp;    public void removeObserver(@NotNull ModelObserver observer) {
+<b class="nc"><i>72</i>&nbsp;        super.removeObserver(observer);</b>
+<b class="nc"><i>73</i>&nbsp;    }</b>
+<i>74</i>&nbsp;
+<i>75</i>&nbsp;    public ArrayList&lt;String&gt; getRemainingGods() {
+<b class="fc"><i>76</i>&nbsp;        return new ArrayList&lt;&gt;(this.remainingGods);</b>
+<i>77</i>&nbsp;    }
+<i>78</i>&nbsp;
+<i>79</i>&nbsp;    public ArrayList&lt;String&gt; getAlreadyChosenGods() {
+<b class="fc"><i>80</i>&nbsp;        return new ArrayList&lt;&gt;(this.alreadyChosenGods);</b>
+<i>81</i>&nbsp;    }
+<i>82</i>&nbsp;
+<i>83</i>&nbsp;    /**
+<i>84</i>&nbsp;     * Adds a given god to the list of possible gods, for the next player to chose from.
+<i>85</i>&nbsp;     *
+<i>86</i>&nbsp;     * @param god God chosen to play in the current game.
+<i>87</i>&nbsp;     */
+<i>88</i>&nbsp;    public void addRemainingGod(String god){
+<b class="fc"><i>89</i>&nbsp;        if (god == null || god.length() == 0){</b>
+<b class="fc"><i>90</i>&nbsp;            return;</b>
+<i>91</i>&nbsp;        }
+<b class="fc"><i>92</i>&nbsp;        ArrayList&lt;String&gt; names = new ArrayList&lt;&gt;(Arrays.asList(godsNames));</b>
+<b class="fc"><i>93</i>&nbsp;        if (names.contains(god)) {</b>
+<b class="fc"><i>94</i>&nbsp;            this.remainingGods.add(god);</b>
+<b class="fc"><i>95</i>&nbsp;            if (remainingGods.size() == players.size()) {</b>
+<b class="fc"><i>96</i>&nbsp;                godsList = remainingGods.toArray(new String[0]);</b>
+<i>97</i>&nbsp;            }
+<i>98</i>&nbsp;        }
+<b class="fc"><i>99</i>&nbsp;    }</b>
+<i>100</i>&nbsp;
+<i>101</i>&nbsp;    /**
+<i>102</i>&nbsp;     * Checks if there is any player who lost.
+<i>103</i>&nbsp;     *
+<i>104</i>&nbsp;     * @return Player who lost if there is any, {@code null} if there is not.
+<i>105</i>&nbsp;     */
+<i>106</i>&nbsp;    public Player loser(){
+<b class="fc"><i>107</i>&nbsp;        for(Player player : players){</b>
+<b class="fc"><i>108</i>&nbsp;            if(player.hasLost())</b>
+<b class="fc"><i>109</i>&nbsp;                return player;</b>
+<b class="fc"><i>110</i>&nbsp;        }</b>
+<b class="fc"><i>111</i>&nbsp;        return null;</b>
+<i>112</i>&nbsp;    }
+<i>113</i>&nbsp;
+<i>114</i>&nbsp;    /**
+<i>115</i>&nbsp;     * Generates a main model update. Contains a model snapshot at a given moment.
+<i>116</i>&nbsp;     *
+<i>117</i>&nbsp;     * @return Encapsulated info about the board.
+<i>118</i>&nbsp;     */
+<i>119</i>&nbsp;    public SlimBoard generateSlimBoard(){
+<b class="fc"><i>120</i>&nbsp;        int playersSize = players.size();</b>
+<b class="fc"><i>121</i>&nbsp;        String[] finalGodsList = new String[playersSize];</b>
+<b class="fc"><i>122</i>&nbsp;        String[] playersList = new String[playersSize];</b>
+<b class="fc"><i>123</i>&nbsp;        PlayerColor[] colorsList = new PlayerColor[playersSize];</b>
+<b class="fc"><i>124</i>&nbsp;        for (int i = 0; i &lt; playersSize; i++) {</b>
+<b class="fc"><i>125</i>&nbsp;            playersList[i] = players.get(i).getName();</b>
+<b class="fc"><i>126</i>&nbsp;            colorsList[i] = players.get(i).getColor();</b>
+<b class="fc"><i>127</i>&nbsp;            if (remainingGods.size() == 0){</b>
+<b class="fc"><i>128</i>&nbsp;                if (players.get(i).getMyGod() != null) //Gods must be assigned</b>
+<b class="fc"><i>129</i>&nbsp;                    finalGodsList[i] = players.get(i).getMyGod().getClass().getSimpleName();</b>
+<i>130</i>&nbsp;            }
+<i>131</i>&nbsp;        }
+<b class="fc"><i>132</i>&nbsp;        if (remainingGods.size() &gt; 0)</b>
+<i>133</i>&nbsp;        {
+<b class="fc"><i>134</i>&nbsp;            finalGodsList = godsList.clone();</b>
+<i>135</i>&nbsp;        }
+<b class="fc"><i>136</i>&nbsp;        return new SlimBoard(board, currentPlayer.getName(), finalGodsList, playersList, colorsList);</b>
+<i>137</i>&nbsp;    }
+<i>138</i>&nbsp;
+<i>139</i>&nbsp;    /**
+<i>140</i>&nbsp;     * Returns the number of active players.
+<i>141</i>&nbsp;     *
+<i>142</i>&nbsp;     * @return Number of players currently in the game.
+<i>143</i>&nbsp;     */
+<i>144</i>&nbsp;    public int getPlayerNumber(){
+<b class="fc"><i>145</i>&nbsp;        return players.size();</b>
+<i>146</i>&nbsp;    }
+<i>147</i>&nbsp;
+<i>148</i>&nbsp;    private void setCurrentPlayer(Player player){
+<b class="fc"><i>149</i>&nbsp;        currentPlayer = player;</b>
+<b class="fc"><i>150</i>&nbsp;    }</b>
+<i>151</i>&nbsp;
+<i>152</i>&nbsp;    public void setCurrentPlayerByName(String name){
+<b class="fc"><i>153</i>&nbsp;        Player player = getPlayerByName(name);</b>
+<b class="fc"><i>154</i>&nbsp;        if (player != null)</b>
+<b class="fc"><i>155</i>&nbsp;            setCurrentPlayer(player);</b>
+<b class="fc"><i>156</i>&nbsp;    }</b>
+<i>157</i>&nbsp;
+<i>158</i>&nbsp;    public Player getCurrentPlayer(){
+<b class="fc"><i>159</i>&nbsp;        return currentPlayer;</b>
+<i>160</i>&nbsp;    }
+<i>161</i>&nbsp;
+<i>162</i>&nbsp;    public ArrayList&lt;String&gt; getPlayersName(){
+<b class="fc"><i>163</i>&nbsp;        ArrayList&lt;String&gt; names = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>164</i>&nbsp;        for (Player player : players) {</b>
+<b class="fc"><i>165</i>&nbsp;            names.add(player.getName());</b>
+<b class="fc"><i>166</i>&nbsp;        }</b>
+<b class="fc"><i>167</i>&nbsp;        return names;</b>
+<i>168</i>&nbsp;    }
+<i>169</i>&nbsp;
+<i>170</i>&nbsp;    /**
+<i>171</i>&nbsp;     * Adds a Player to the structure of active players.
+<i>172</i>&nbsp;     *
+<i>173</i>&nbsp;     * @param player - Existing player to be added to the game.
+<i>174</i>&nbsp;     */
+<i>175</i>&nbsp;    public void addPlayer(Player player){
+<b class="fc"><i>176</i>&nbsp;        if(player == null)</b>
+<b class="fc"><i>177</i>&nbsp;            throw new IllegalArgumentException(&quot;Added player cannot be null!&quot;);</b>
+<b class="fc"><i>178</i>&nbsp;        players.add(player);</b>
+<b class="fc"><i>179</i>&nbsp;        if (players.size() == 1){</b>
+<b class="fc"><i>180</i>&nbsp;            setCurrentPlayer(player);</b>
+<i>181</i>&nbsp;        }
+<b class="fc"><i>182</i>&nbsp;    }</b>
+<i>183</i>&nbsp;
+<i>184</i>&nbsp;    /**
+<i>185</i>&nbsp;     * Adds a new worker, associated to the given player.
+<i>186</i>&nbsp;     *
+<i>187</i>&nbsp;     * @param player    Player adding the worker.
+<i>188</i>&nbsp;     * @param sex       Worker&#39;s sex.
+<i>189</i>&nbsp;     * @param x         x coordinate.
+<i>190</i>&nbsp;     * @param y         y coordinate.
+<i>191</i>&nbsp;     */
+<i>192</i>&nbsp;    public void addWorker(Player player, Sex sex, int x, int y){
+<b class="fc"><i>193</i>&nbsp;        player.addWorker(sex, board.getTile(x,y));</b>
+<b class="fc"><i>194</i>&nbsp;        notifyObservers(generateSlimBoard());</b>
+<b class="fc"><i>195</i>&nbsp;    }</b>
+<i>196</i>&nbsp;
+<i>197</i>&nbsp;    /**
+<i>198</i>&nbsp;     * Returns a reference to a player given his name.
+<i>199</i>&nbsp;     *
+<i>200</i>&nbsp;     * @param name Name of the player to search.
+<i>201</i>&nbsp;     * @return Reference to the player with that given name, {@code null} if there is no player with that given name.
+<i>202</i>&nbsp;     */
+<i>203</i>&nbsp;    private Player getPlayerByName(String name){
+<b class="fc"><i>204</i>&nbsp;        for (Player player : players){</b>
+<b class="fc"><i>205</i>&nbsp;            if(player.getName().equals(name))</b>
+<b class="fc"><i>206</i>&nbsp;                return player;</b>
+<b class="fc"><i>207</i>&nbsp;        }</b>
+<b class="fc"><i>208</i>&nbsp;        return null;</b>
+<i>209</i>&nbsp;    }
+<i>210</i>&nbsp;
+<i>211</i>&nbsp;    /**
+<i>212</i>&nbsp;     * Sets the next player among the data structure of players, which is already in the right turn order.
+<i>213</i>&nbsp;     * */
+<i>214</i>&nbsp;    public void setNextPlayer(){
+<b class="fc"><i>215</i>&nbsp;        int index = players.indexOf(currentPlayer);</b>
+<b class="fc"><i>216</i>&nbsp;        int nextIndex = ((index + 1) % players.size());</b>
+<b class="fc"><i>217</i>&nbsp;        setCurrentPlayer(players.get(nextIndex));</b>
+<b class="fc"><i>218</i>&nbsp;        ServerLogger.getInstance().printString(ANSI.underline + &quot;Changed current player to: &quot; + currentPlayer.getColor().getFG_color()+</b>
+<b class="fc"><i>219</i>&nbsp;                currentPlayer.getName() + ANSI.reset);</b>
+<b class="fc"><i>220</i>&nbsp;    }</b>
+<i>221</i>&nbsp;
+<i>222</i>&nbsp;    /**
+<i>223</i>&nbsp;     * Sets a random player as the most god like player, so that he will be starting chosing all the
+<i>224</i>&nbsp;     * gods cards.
+<i>225</i>&nbsp;     */
+<i>226</i>&nbsp;    public void setRandomPlayer(){
+<b class="fc"><i>227</i>&nbsp;        Random randomGen = new Random();</b>
+<b class="fc"><i>228</i>&nbsp;        int index = randomGen.nextInt(getPlayerNumber());</b>
+<b class="fc"><i>229</i>&nbsp;        setCurrentPlayer(players.get(index));</b>
+<b class="fc"><i>230</i>&nbsp;    }</b>
+<i>231</i>&nbsp;
+<i>232</i>&nbsp;    /**
+<i>233</i>&nbsp;     * Removes a given player after he lost. All his workers are eliminated from the board.
+<i>234</i>&nbsp;     *
+<i>235</i>&nbsp;     * @param player Player to be removed.
+<i>236</i>&nbsp;     */
+<i>237</i>&nbsp;    public void removePlayer(Player player){
+<b class="fc"><i>238</i>&nbsp;        if(player == currentPlayer)</b>
+<b class="fc"><i>239</i>&nbsp;            setNextPlayer();</b>
+<b class="fc"><i>240</i>&nbsp;        eliminatedPlayerName = player.getName();</b>
+<b class="fc"><i>241</i>&nbsp;        player.getWorker(Sex.MALE).getMyTile().setWorker(null);</b>
+<b class="fc"><i>242</i>&nbsp;        player.getWorker(Sex.FEMALE).getMyTile().setWorker(null);</b>
+<b class="fc"><i>243</i>&nbsp;        removeGod(player);</b>
+<b class="fc"><i>244</i>&nbsp;        players.remove(player);</b>
+<b class="fc"><i>245</i>&nbsp;        notifyObservers(generateSlimBoard()); // Notify all model observers</b>
+<b class="fc"><i>246</i>&nbsp;    }</b>
+<i>247</i>&nbsp;
+<i>248</i>&nbsp;    public String getEliminatedPlayerName() {
+<b class="fc"><i>249</i>&nbsp;        return eliminatedPlayerName;</b>
+<i>250</i>&nbsp;    }
+<i>251</i>&nbsp;
+<i>252</i>&nbsp;    public void setGamePhase(GamePhase gamePhase){
+<b class="fc"><i>253</i>&nbsp;        this.gamePhase = gamePhase;</b>
+<b class="fc"><i>254</i>&nbsp;    }</b>
+<i>255</i>&nbsp;
+<i>256</i>&nbsp;    public GamePhase getGamePhase(){
+<b class="fc"><i>257</i>&nbsp;        return gamePhase;</b>
+<i>258</i>&nbsp;    }
+<i>259</i>&nbsp;
+<i>260</i>&nbsp;    /**
+<i>261</i>&nbsp;     * Decorates the turn with the gods, already in order.
+<i>262</i>&nbsp;     * @param name      Name of the god.
+<i>263</i>&nbsp;     * @param player    Reference to the player the god must be attached to.
+<i>264</i>&nbsp;     */
+<i>265</i>&nbsp;    public void addGod(String name, Player player){
+<b class="fc"><i>266</i>&nbsp;        switch (name){</b>
+<i>267</i>&nbsp;            //SIMPLE GODS
+<i>268</i>&nbsp;            case &quot;Apollo&quot;:
+<b class="fc"><i>269</i>&nbsp;                rules = new Apollo(rules, player);</b>
+<b class="fc"><i>270</i>&nbsp;                break;</b>
+<i>271</i>&nbsp;            case &quot;Artemis&quot;:
+<b class="fc"><i>272</i>&nbsp;                rules = new Artemis(rules, player);</b>
+<b class="fc"><i>273</i>&nbsp;                break;</b>
+<i>274</i>&nbsp;            case &quot;Athena&quot;:
+<b class="fc"><i>275</i>&nbsp;                rules = new Athena(rules, player);</b>
+<b class="fc"><i>276</i>&nbsp;                break;</b>
+<i>277</i>&nbsp;            case &quot;Atlas&quot;:
+<b class="fc"><i>278</i>&nbsp;                rules = new Atlas(rules, player);</b>
+<b class="fc"><i>279</i>&nbsp;                break;</b>
+<i>280</i>&nbsp;            case &quot;Demeter&quot;:
+<b class="fc"><i>281</i>&nbsp;                rules = new Demeter(rules, player);</b>
+<b class="fc"><i>282</i>&nbsp;                break;</b>
+<i>283</i>&nbsp;            case &quot;Hephaestus&quot;:
+<b class="fc"><i>284</i>&nbsp;                rules = new Hephaestus(rules, player);</b>
+<b class="fc"><i>285</i>&nbsp;                break;</b>
+<i>286</i>&nbsp;            case &quot;Minotaur&quot;:
+<b class="fc"><i>287</i>&nbsp;                rules = new Minotaur(rules, player);</b>
+<b class="fc"><i>288</i>&nbsp;                break;</b>
+<i>289</i>&nbsp;            case &quot;Pan&quot;:
+<b class="fc"><i>290</i>&nbsp;                rules = new Pan(rules, player);</b>
+<b class="fc"><i>291</i>&nbsp;                break;</b>
+<i>292</i>&nbsp;            case &quot;Prometheus&quot;:
+<b class="fc"><i>293</i>&nbsp;                rules = new Prometheus(rules, player);</b>
+<b class="fc"><i>294</i>&nbsp;                break;</b>
+<i>295</i>&nbsp;
+<i>296</i>&nbsp;            //ADVANCED GODS
+<i>297</i>&nbsp;            case &quot;Hera&quot;:
+<b class="fc"><i>298</i>&nbsp;                rules = new Hera(rules, player);</b>
+<b class="fc"><i>299</i>&nbsp;                break;</b>
+<i>300</i>&nbsp;            case &quot;Hestia&quot;:
+<b class="fc"><i>301</i>&nbsp;                rules = new Hestia(rules, player);</b>
+<b class="fc"><i>302</i>&nbsp;                break;</b>
+<i>303</i>&nbsp;            case &quot;Zeus&quot;:
+<b class="fc"><i>304</i>&nbsp;                rules = new Zeus(rules, player);</b>
+<b class="fc"><i>305</i>&nbsp;                break;</b>
+<i>306</i>&nbsp;            case &quot;Triton&quot;:
+<b class="fc"><i>307</i>&nbsp;                rules = new Triton(rules, player);</b>
+<b class="fc"><i>308</i>&nbsp;                break;</b>
+<i>309</i>&nbsp;            case &quot;Limus&quot;:
+<b class="fc"><i>310</i>&nbsp;                rules = new Limus(rules, player);</b>
+<i>311</i>&nbsp;                break;
+<i>312</i>&nbsp;        }
+<b class="fc"><i>313</i>&nbsp;        player.setMyGod((GodsRules) rules);</b>
+<i>314</i>&nbsp;        int index;
+<b class="fc"><i>315</i>&nbsp;        for(index = 0; index &lt; remainingGods.size(); index++) {</b>
+<b class="fc"><i>316</i>&nbsp;            if (name.equals(remainingGods.get(index))){</b>
+<b class="fc"><i>317</i>&nbsp;                break;</b>
+<i>318</i>&nbsp;            }
+<i>319</i>&nbsp;        }
+<b class="fc"><i>320</i>&nbsp;        this.remainingGods.remove(index);</b>
+<b class="fc"><i>321</i>&nbsp;        this.alreadyChosenGods.add(name);</b>
+<b class="fc"><i>322</i>&nbsp;    }</b>
+<i>323</i>&nbsp;
+<i>324</i>&nbsp;    /**
+<i>325</i>&nbsp;     * Removes the god associated to a given player from the decorated game rules, so that the god power
+<i>326</i>&nbsp;     * does not influence the game rules anymore.
+<i>327</i>&nbsp;     *
+<i>328</i>&nbsp;     * @param player Player whom god has to be deleted.
+<i>329</i>&nbsp;     */
+<i>330</i>&nbsp;    private void removeGod(Player player){
+<b class="fc"><i>331</i>&nbsp;        GodsRules current = (GodsRules) rules;</b>
+<b class="fc"><i>332</i>&nbsp;        GodsRules previous = current;</b>
+<b class="fc"><i>333</i>&nbsp;        int godNumber = 0;</b>
+<i>334</i>&nbsp;
+<b class="fc"><i>335</i>&nbsp;        while(godNumber &lt; players.size() - 1) {</b>
+<b class="fc"><i>336</i>&nbsp;            if (current.getPlayer() == player)</b>
+<b class="fc"><i>337</i>&nbsp;                break;</b>
+<i>338</i>&nbsp;            else {
+<b class="fc"><i>339</i>&nbsp;                previous = current;</b>
+<b class="fc"><i>340</i>&nbsp;                current = (GodsRules) current.getDecoratedRules();</b>
+<b class="fc"><i>341</i>&nbsp;                godNumber++;</b>
+<i>342</i>&nbsp;            }
+<i>343</i>&nbsp;        }
+<i>344</i>&nbsp;
+<b class="fc"><i>345</i>&nbsp;        if(godNumber == 0){</b>
+<b class="fc"><i>346</i>&nbsp;            rules = ((GodsRules) rules).getDecoratedRules();</b>
+<b class="fc"><i>347</i>&nbsp;            if (rules instanceof GodsRules)</b>
+<b class="fc"><i>348</i>&nbsp;                GodsRules.setCompleteRules((GodsRules) rules);</b>
+<i>349</i>&nbsp;            else
+<b class="fc"><i>350</i>&nbsp;                throw new IllegalStateException(&quot;Cannot remove the last god from the game.&quot;);</b>
+<i>351</i>&nbsp;        }
+<i>352</i>&nbsp;        else {
+<b class="fc"><i>353</i>&nbsp;            previous.setDecoratedRules(current.getDecoratedRules());</b>
+<i>354</i>&nbsp;        }
+<b class="fc"><i>355</i>&nbsp;    }</b>
+<i>356</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 15:31</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,269 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: TurnHandler</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP034.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: TurnHandler (it.polimi.ingsw.PSP034.controller)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TurnHandler</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    98.6%
+  </span>
+  <span class="absValue">
+    (69/ 70)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">TurnHandler$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/ 8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    98.6%
+  </span>
+  <span class="absValue">
+    (70/ 71)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP034.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP034.constants.*;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP034.messages.gameOverPhase.PersonalDefeatRequest;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP034.messages.gameOverPhase.WinnerRequest;
+<i>6</i>&nbsp;import it.polimi.ingsw.PSP034.messages.playPhase.*;
+<i>7</i>&nbsp;import it.polimi.ingsw.PSP034.model.IStateManager;
+<i>8</i>&nbsp;import it.polimi.ingsw.PSP034.model.Player;
+<i>9</i>&nbsp;import it.polimi.ingsw.PSP034.model.Tile;
+<i>10</i>&nbsp;import it.polimi.ingsw.PSP034.model.Worker;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;import java.util.ArrayList;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;/**
+<i>15</i>&nbsp; * Handles the turn phases for each Player.
+<i>16</i>&nbsp; */
+<i>17</i>&nbsp;public class TurnHandler {
+<i>18</i>&nbsp;    private IStateManager currentGod;
+<i>19</i>&nbsp;    private final Controller controller;
+<i>20</i>&nbsp;    private TurnPhase myTurnPhase;
+<i>21</i>&nbsp;    private TurnPhase previousTurnPhase;
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    /**
+<i>24</i>&nbsp;     * Creates an instance linked to the given controller.
+<i>25</i>&nbsp;     *
+<i>26</i>&nbsp;     * @param controller Current game controller.
+<i>27</i>&nbsp;     */
+<b class="fc"><i>28</i>&nbsp;    public TurnHandler(Controller controller){</b>
+<b class="fc"><i>29</i>&nbsp;        this.controller = controller;</b>
+<b class="fc"><i>30</i>&nbsp;        this.myTurnPhase = TurnPhase.START;</b>
+<b class="fc"><i>31</i>&nbsp;        this.previousTurnPhase = TurnPhase.START;</b>
+<b class="fc"><i>32</i>&nbsp;    }</b>
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    /**
+<i>35</i>&nbsp;     * Sets the current God (the god associated to the Player who is playing now).
+<i>36</i>&nbsp;     *
+<i>37</i>&nbsp;     * @param currentGod God associated to the Player.
+<i>38</i>&nbsp;     */
+<i>39</i>&nbsp;    public void setCurrentGod(IStateManager currentGod) {
+<b class="fc"><i>40</i>&nbsp;        this.currentGod = currentGod;</b>
+<b class="fc"><i>41</i>&nbsp;        myTurnPhase = TurnPhase.START;</b>
+<b class="fc"><i>42</i>&nbsp;        previousTurnPhase = TurnPhase.START;</b>
+<b class="fc"><i>43</i>&nbsp;    }</b>
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    /**
+<i>46</i>&nbsp;     * Sets the right turn phase.
+<i>47</i>&nbsp;     *
+<i>48</i>&nbsp;     * @param turnPhase Turn phase that needs to be executed at the moment.
+<i>49</i>&nbsp;     */
+<i>50</i>&nbsp;    public void setMyTurnPhase(TurnPhase turnPhase){
+<b class="fc"><i>51</i>&nbsp;        this.myTurnPhase = turnPhase;</b>
+<b class="fc"><i>52</i>&nbsp;    }</b>
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;    public void setPreviousTurnPhase(TurnPhase previousTurnPhase) {
+<b class="fc"><i>55</i>&nbsp;        this.previousTurnPhase = previousTurnPhase;</b>
+<b class="fc"><i>56</i>&nbsp;    }</b>
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;    public TurnPhase getMyTurnPhase(){
+<b class="fc"><i>59</i>&nbsp;        return myTurnPhase;</b>
+<i>60</i>&nbsp;    }
+<i>61</i>&nbsp;
+<i>62</i>&nbsp;    /**
+<i>63</i>&nbsp;     * Makes the turn state change in order, depending on the God associated to the Player.
+<i>64</i>&nbsp;     */
+<i>65</i>&nbsp;    private void manageNextState(){
+<i>66</i>&nbsp;        String newCurrentPlayer;
+<b class="fc"><i>67</i>&nbsp;        Player player = controller.getCurrentPlayer();</b>
+<b class="fc"><i>68</i>&nbsp;        NextStateInfo nextStateInfo = currentGod.nextState(myTurnPhase);</b>
+<b class="fc"><i>69</i>&nbsp;        setPreviousTurnPhase(myTurnPhase); // Saving previous phase</b>
+<b class="fc"><i>70</i>&nbsp;        setMyTurnPhase(nextStateInfo.getNextPhase()); // Saving new phase</b>
+<b class="fc"><i>71</i>&nbsp;        switch (nextStateInfo.getNextPhase()){</b>
+<i>72</i>&nbsp;            case BUILD:
+<i>73</i>&nbsp;            case MOVE:
+<b class="fc"><i>74</i>&nbsp;                controller.sendToPlayer(player.getName(), new RequestAction(nextStateInfo, player));</b>
+<b class="fc"><i>75</i>&nbsp;                break;</b>
+<i>76</i>&nbsp;            case POWER:
+<b class="fc"><i>77</i>&nbsp;                controller.sendToPlayer(player.getName(), new RequestBooleanChoice(nextStateInfo));</b>
+<b class="fc"><i>78</i>&nbsp;                break;</b>
+<i>79</i>&nbsp;            case END:
+<b class="fc"><i>80</i>&nbsp;                controller.sendToPlayer(player.getName(), new RequestEnd());</b>
+<b class="fc"><i>81</i>&nbsp;                controller.setNextPlayer();</b>
+<b class="fc"><i>82</i>&nbsp;                setCurrentGod(controller.getCurrentGod());</b>
+<b class="fc"><i>83</i>&nbsp;                newCurrentPlayer = controller.getCurrentPlayer().getName();</b>
+<b class="fc"><i>84</i>&nbsp;                controller.sendToPlayer(newCurrentPlayer, new RequestStart(new NextStateInfo(TurnPhase.START)));</b>
+<b class="fc"><i>85</i>&nbsp;                controller.sendToAllExcept(newCurrentPlayer, new InfoIsStarting(newCurrentPlayer), true);</b>
+<b class="fc"><i>86</i>&nbsp;                break;</b>
+<i>87</i>&nbsp;            case WIN:
+<b class="fc"><i>88</i>&nbsp;                controller.sendToPlayer(player.getName(), new WinnerRequest(&quot;&quot;, player.getName()));</b>
+<b class="fc"><i>89</i>&nbsp;                ArrayList&lt;String&gt; losers = controller.getPlayersName();</b>
+<b class="fc"><i>90</i>&nbsp;                losers.remove(player.getName());</b>
+<b class="fc"><i>91</i>&nbsp;                controller.sendToAllExcept(player.getName(), new PersonalDefeatRequest(player.getName(), losers.toArray(new String[0])), true);</b>
+<b class="fc"><i>92</i>&nbsp;                break;</b>
+<i>93</i>&nbsp;            case GAMEOVER:
+<b class="fc"><i>94</i>&nbsp;                player.setHasLost(true);</b>
+<b class="fc"><i>95</i>&nbsp;                boolean isGameOver = controller.isGameOver();</b>
+<b class="fc"><i>96</i>&nbsp;                if ( !isGameOver ){</b>
+<i>97</i>&nbsp;                    //Next player already set by controller
+<b class="fc"><i>98</i>&nbsp;                    setCurrentGod(controller.getCurrentGod());</b>
+<b class="fc"><i>99</i>&nbsp;                    newCurrentPlayer = controller.getCurrentPlayer().getName();</b>
+<b class="fc"><i>100</i>&nbsp;                    controller.sendToPlayer(newCurrentPlayer, new RequestStart(new NextStateInfo(TurnPhase.START)));</b>
+<b class="fc"><i>101</i>&nbsp;                    controller.sendToAllExcept(newCurrentPlayer, new InfoIsStarting(newCurrentPlayer), true);</b>
+<i>102</i>&nbsp;                }
+<i>103</i>&nbsp;                else{
+<b class="fc"><i>104</i>&nbsp;                    controller.setNextGamePhase();</b>
+<b class="fc"><i>105</i>&nbsp;                    controller.handleGamePhase();</b>
+<i>106</i>&nbsp;                }
+<i>107</i>&nbsp;                break;
+<i>108</i>&nbsp;        }
+<b class="fc"><i>109</i>&nbsp;    }</b>
+<i>110</i>&nbsp;
+<i>111</i>&nbsp;
+<i>112</i>&nbsp;
+<i>113</i>&nbsp;
+<i>114</i>&nbsp;    /**
+<i>115</i>&nbsp;     * Executes the actions in the actual turn phase.
+<i>116</i>&nbsp;     *
+<i>117</i>&nbsp;     * @param message   PlayAnswer to be executed.
+<i>118</i>&nbsp;     */
+<i>119</i>&nbsp;    public void executeSelectedState(PlayAnswer message){
+<b class="fc"><i>120</i>&nbsp;        boolean validMessage = true;</b>
+<b class="fc"><i>121</i>&nbsp;        switch(myTurnPhase){</b>
+<i>122</i>&nbsp;            case START:
+<b class="fc"><i>123</i>&nbsp;                if(message instanceof AnswerStart) {</b>
+<b class="fc"><i>124</i>&nbsp;                    validMessage = currentGod.executeState(TurnPhase.START, null, null, false);</b>
+<i>125</i>&nbsp;                }
+<i>126</i>&nbsp;                else
+<b class="fc"><i>127</i>&nbsp;                    validMessage = false;</b>
+<b class="fc"><i>128</i>&nbsp;                break;</b>
+<i>129</i>&nbsp;            case MOVE:
+<i>130</i>&nbsp;            case BUILD:
+<b class="fc"><i>131</i>&nbsp;                if(message instanceof AnswerAction) {</b>
+<b class="fc"><i>132</i>&nbsp;                    AnswerAction action = (AnswerAction) message;</b>
+<b class="fc"><i>133</i>&nbsp;                    Worker myWorker = controller.getCurrentPlayer().getWorker(action.getWorkerSex());</b>
+<b class="fc"><i>134</i>&nbsp;                    Tile myTile = null;</b>
+<b class="fc"><i>135</i>&nbsp;                    if(myWorker != null)</b>
+<b class="fc"><i>136</i>&nbsp;                        myTile = myWorker.getMyTile().neighbouringTileByDirection(action.getDirection());</b>
+<b class="fc"><i>137</i>&nbsp;                    if(myTile != null) {</b>
+<b class="fc"><i>138</i>&nbsp;                        validMessage = currentGod.executeState(myTurnPhase, myWorker, myTile, false); // if error, not valid</b>
+<i>139</i>&nbsp;                    } else{
+<b class="nc"><i>140</i>&nbsp;                        validMessage = false;</b>
+<i>141</i>&nbsp;                    }
+<b class="fc"><i>142</i>&nbsp;                }</b>
+<i>143</i>&nbsp;                else
+<b class="fc"><i>144</i>&nbsp;                    validMessage = false;</b>
+<b class="fc"><i>145</i>&nbsp;                break;</b>
+<i>146</i>&nbsp;            case POWER:
+<b class="fc"><i>147</i>&nbsp;                if(message instanceof AnswerBooleanChoice){</b>
+<b class="fc"><i>148</i>&nbsp;                    validMessage = currentGod.executeState(TurnPhase.POWER, null, null, ((AnswerBooleanChoice) message).getChoice());</b>
+<i>149</i>&nbsp;                }
+<i>150</i>&nbsp;                else
+<b class="fc"><i>151</i>&nbsp;                    validMessage = false;</b>
+<i>152</i>&nbsp;                break;
+<i>153</i>&nbsp;        }
+<b class="fc"><i>154</i>&nbsp;        if( !validMessage ) {</b>
+<b class="fc"><i>155</i>&nbsp;            setMyTurnPhase(previousTurnPhase);</b>
+<i>156</i>&nbsp;        }
+<i>157</i>&nbsp;
+<b class="fc"><i>158</i>&nbsp;        manageNextState();</b>
+<b class="fc"><i>159</i>&nbsp;    }</b>
+<i>160</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 15:31</div>
+</div>
+</body>
+</html>

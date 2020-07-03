@@ -5,7 +5,7 @@
 # Software Engineering - Final Examination 2019-2020
 **Group PSP034**
 
-> This final examination project consists in an online multiplayer implementation of the board game Santorini, realised using Java.
+> This final examination project consists in an implementation of the board game Santorini, realised using Java. The main pattern used is a distributed MVC (model-view-controller), in order to create an online multiplayer version of the game.
 
 ## Implemented Features
 ### Standard Features
@@ -28,7 +28,7 @@
 The project documentation includes UML diagrams, JavaDoc and JUnit4 test coverage.
 
 ### UML
-Both [high level design](/deliveries/final/uml/Concise) and [detailed design]((/deliveries/final/uml/Detailed)) diagrams were created.
+Both [high level design](/deliveries/final/uml/Concise) and [detailed design](/deliveries/final/uml/Detailed) diagrams were created.
 
 The [first one](/deliveries/final/uml/Concise/GeneralUML.svg) is an updated version of the initial UML, featuring a concise and schematic representation of the model-controller implementation.
 
@@ -49,15 +49,18 @@ Meanwhile, the latter consists in multiple diagrams, each one with a specific sc
   * [Model-controller relationships](/deliveries/final/uml/Detailed/Server/ModelControllerRelationships.svg).
   * [Server-controller relationships](/deliveries/final/uml/Detailed/Server/ServerControllerRelationships.svg).
   * [Server application classes relationships](/deliveries/final/uml/Detailed/Server/ServerClassesRelationships.svg).
-  * [Expanded gods hierarchy](/deliveries/final/uml/Detailed/Server/GodsHierarchy.svg). Gods classes in model package are expanded and clarified.
+  * [Gods hierarchy](/deliveries/final/uml/Detailed/Server/GodsHierarchy.svg). Gods classes in model package are expanded and clarified.
   * [Expanded gods-model relationships](/deliveries/final/uml/Detailed/Server/ExpandedGodsModelRelationships.svg).
 
 
 ### JavaDoc
-TODO
+JavaDoc is available for every project package. Almost every class and method features a brief JavaDoc description, except for a few obvious getters and setters.
+Full JavaDoc is available [here](/deliveries/final/javadoc/).
 
 ### Test Coverage
-TODO
+Model and controller packages have been tested using JUnit4. Code coverage for both packages is over 95%.
+
+Complete coverage documentation can be found [here](/deliveries/final/report/).
 
 ## How to start JARs
 :warning: Java JRE version 9 or higher is required.
@@ -80,7 +83,7 @@ java -jar server.jar PORT
 ```
 
 ### Run Client
-Download `client.jar` [here](/deliveries/final/jar/client.jar)
+Download `client.jar` [here](/deliveries/final/jar/client.jar).
 
 #### CLI
 :warning: Make sure that the terminal font is monospaced and that the terminal size is **at least 230x50**.

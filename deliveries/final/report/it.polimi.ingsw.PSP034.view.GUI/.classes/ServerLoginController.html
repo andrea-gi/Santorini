@@ -1,0 +1,202 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ServerLoginController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP034.view.GUI</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ServerLoginController (it.polimi.ingsw.PSP034.view.GUI)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ServerLoginController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 50)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP034.view.GUI;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP034.messages.clientConfiguration.AnswerIP;
+<i>4</i>&nbsp;import javafx.event.ActionEvent;
+<i>5</i>&nbsp;import javafx.fxml.FXML;
+<i>6</i>&nbsp;import javafx.scene.control.Button;
+<i>7</i>&nbsp;import javafx.scene.control.Label;
+<i>8</i>&nbsp;import javafx.scene.control.ProgressBar;
+<i>9</i>&nbsp;import javafx.scene.control.TextField;
+<i>10</i>&nbsp;import javafx.scene.layout.Pane;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;/**It controls the GUI scene of the connection to a server and to a port.
+<i>13</i>&nbsp; */
+<b class="nc"><i>14</i>&nbsp;public class ServerLoginController implements GUIController{</b>
+<i>15</i>&nbsp;    @FXML
+<i>16</i>&nbsp;    private Pane pane;
+<i>17</i>&nbsp;    @FXML
+<i>18</i>&nbsp;    private TextField enterServerName;
+<i>19</i>&nbsp;    @FXML
+<i>20</i>&nbsp;    private TextField enterServerPort;
+<i>21</i>&nbsp;    @FXML
+<i>22</i>&nbsp;    private Button submit;
+<i>23</i>&nbsp;    @FXML
+<i>24</i>&nbsp;    private Label error;
+<i>25</i>&nbsp;    @FXML
+<i>26</i>&nbsp;    private Label connecting;
+<i>27</i>&nbsp;    @FXML
+<i>28</i>&nbsp;    private ProgressBar bar;
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    private String serverName;
+<i>31</i>&nbsp;    private String serverPort;
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    @Override
+<i>34</i>&nbsp;    public Pane getPane() {
+<b class="nc"><i>35</i>&nbsp;        return pane;</b>
+<i>36</i>&nbsp;    }
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    @FXML
+<i>39</i>&nbsp;    private void initialize(){
+<b class="nc"><i>40</i>&nbsp;        GUIRequestHub.getInstance().setCurrentController(this);</b>
+<b class="nc"><i>41</i>&nbsp;        error.setId(&quot;error&quot;);</b>
+<b class="nc"><i>42</i>&nbsp;        bar.setVisible(false);</b>
+<b class="nc"><i>43</i>&nbsp;        connecting.setVisible(false);</b>
+<i>44</i>&nbsp;    }
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;    /** Sends the chosen server ip and port and disables the Submit button and all the textfields.
+<i>47</i>&nbsp;     * If the server address and port are not filled, they are automatically set to &quot;localhost&quot; and &quot;2020&quot;.
+<i>48</i>&nbsp;     * It changes the Submit button text to &quot;Submitted&quot; to highlight that the message has already
+<i>49</i>&nbsp;     * been sent.
+<i>50</i>&nbsp;     * @param e is the ActionEvent of the mouse click
+<i>51</i>&nbsp;     */
+<i>52</i>&nbsp;    public void setSubmit(ActionEvent e){
+<b class="nc"><i>53</i>&nbsp;        serverName = enterServerName.getText().isEmpty() ? &quot;localhost&quot; : enterServerName.getText();</b>
+<b class="nc"><i>54</i>&nbsp;        serverPort = enterServerPort.getText().isEmpty() ? &quot;2020&quot; : enterServerPort.getText();</b>
+<b class="nc"><i>55</i>&nbsp;        bar.setVisible(true);</b>
+<b class="nc"><i>56</i>&nbsp;        connecting.setVisible(true);</b>
+<b class="nc"><i>57</i>&nbsp;        error.setVisible(false);</b>
+<b class="nc"><i>58</i>&nbsp;        submit.setDisable(true);</b>
+<b class="nc"><i>59</i>&nbsp;        submit.setText(&quot;SUBMITTED!&quot;);</b>
+<b class="nc"><i>60</i>&nbsp;        enterServerName.setDisable(true);</b>
+<b class="nc"><i>61</i>&nbsp;        enterServerPort.setDisable(true);</b>
+<i>62</i>&nbsp;
+<b class="nc"><i>63</i>&nbsp;        if (!checkIP(serverName)){</b>
+<b class="nc"><i>64</i>&nbsp;            resetAfterError(&quot;Invalid server address.&quot;);</b>
+<i>65</i>&nbsp;            return;
+<i>66</i>&nbsp;        }
+<i>67</i>&nbsp;
+<b class="nc"><i>68</i>&nbsp;        if (!checkPort(serverPort)){</b>
+<b class="nc"><i>69</i>&nbsp;            resetAfterError(&quot;Invalid server port.&quot;);</b>
+<i>70</i>&nbsp;            return;
+<i>71</i>&nbsp;        }
+<i>72</i>&nbsp;
+<b class="nc"><i>73</i>&nbsp;        GUIRequestHub.getInstance().setStartedConnection(GUIRequestHub.getInstance().createConnection(new AnswerIP(serverName, Integer.parseInt(serverPort))));</b>
+<i>74</i>&nbsp;    }
+<i>75</i>&nbsp;
+<i>76</i>&nbsp;    private boolean checkPort(String port){
+<i>77</i>&nbsp;        int parsedPort;
+<i>78</i>&nbsp;        try {
+<b class="nc"><i>79</i>&nbsp;            parsedPort = Integer.parseInt(port);</b>
+<b class="nc"><i>80</i>&nbsp;        } catch (NumberFormatException e){</b>
+<b class="nc"><i>81</i>&nbsp;            return false;</b>
+<b class="nc"><i>82</i>&nbsp;        }</b>
+<b class="nc"><i>83</i>&nbsp;        return (parsedPort &gt;= 0 &amp;&amp; parsedPort &lt;= 65535);</b>
+<i>84</i>&nbsp;    }
+<i>85</i>&nbsp;
+<i>86</i>&nbsp;    private boolean checkIP(String address){
+<b class="nc"><i>87</i>&nbsp;        if (address.equals(&quot;localhost&quot;))</b>
+<b class="nc"><i>88</i>&nbsp;            return true;</b>
+<b class="nc"><i>89</i>&nbsp;        if (address.length() == 0 || address.length() &gt; 15)</b>
+<b class="nc"><i>90</i>&nbsp;            return false;</b>
+<b class="nc"><i>91</i>&nbsp;        String[] addressComponents = address.split(&quot;\\.&quot;);</b>
+<b class="nc"><i>92</i>&nbsp;        if (addressComponents.length &gt; 4)</b>
+<b class="nc"><i>93</i>&nbsp;            return false;</b>
+<b class="nc"><i>94</i>&nbsp;        for (String chunk : addressComponents){</b>
+<i>95</i>&nbsp;            int value;
+<i>96</i>&nbsp;            try{
+<b class="nc"><i>97</i>&nbsp;                value = Integer.parseInt(chunk);</b>
+<b class="nc"><i>98</i>&nbsp;            } catch (NumberFormatException e){</b>
+<b class="nc"><i>99</i>&nbsp;                return false;</b>
+<b class="nc"><i>100</i>&nbsp;            }</b>
+<b class="nc"><i>101</i>&nbsp;            if (value &lt; 0 || value &gt; 255)</b>
+<b class="nc"><i>102</i>&nbsp;                return false;</b>
+<i>103</i>&nbsp;        }
+<b class="nc"><i>104</i>&nbsp;        return true;</b>
+<i>105</i>&nbsp;    }
+<i>106</i>&nbsp;
+<i>107</i>&nbsp;    public void resetAfterError(String myError){
+<b class="nc"><i>108</i>&nbsp;        enterServerName.clear();</b>
+<b class="nc"><i>109</i>&nbsp;        enterServerPort.clear();</b>
+<b class="nc"><i>110</i>&nbsp;        enterServerName.setDisable(false);</b>
+<b class="nc"><i>111</i>&nbsp;        enterServerPort.setDisable(false);</b>
+<b class="nc"><i>112</i>&nbsp;        submit.setText(&quot;SUBMIT&quot;);</b>
+<b class="nc"><i>113</i>&nbsp;        submit.setDisable(false);</b>
+<b class="nc"><i>114</i>&nbsp;        error.setVisible(true);</b>
+<b class="nc"><i>115</i>&nbsp;        error.setText(myError);</b>
+<b class="nc"><i>116</i>&nbsp;        bar.setVisible(false);</b>
+<b class="nc"><i>117</i>&nbsp;        connecting.setVisible(false);</b>
+<i>118</i>&nbsp;    }
+<i>119</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 15:31</div>
+</div>
+</body>
+</html>

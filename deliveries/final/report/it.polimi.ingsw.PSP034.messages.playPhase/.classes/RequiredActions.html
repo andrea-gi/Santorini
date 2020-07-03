@@ -1,0 +1,113 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: RequiredActions</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP034.messages.playPhase</a> ]
+</div>
+
+<h1>Coverage Summary for Class: RequiredActions (it.polimi.ingsw.PSP034.messages.playPhase)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RequiredActions</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    91.7%
+  </span>
+  <span class="absValue">
+    (11/ 12)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP034.messages.playPhase;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP034.constants.Sex;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;/**
+<i>6</i>&nbsp; * This enum represents al the possible action that can be required during a turn phase.
+<i>7</i>&nbsp; */
+<b class="fc"><i>8</i>&nbsp;public enum RequiredActions{</b>
+<b class="fc"><i>9</i>&nbsp;    REQUIRED_MALE, // you can only use your MALE worker</b>
+<b class="fc"><i>10</i>&nbsp;    REQUIRED_FEMALE, // you can only use your FEMALE worker</b>
+<b class="fc"><i>11</i>&nbsp;    REQUEST_WORKER, // you get a choice between MALE and FEMALE worker</b>
+<b class="fc"><i>12</i>&nbsp;    REQUEST_MOVE,</b>
+<b class="fc"><i>13</i>&nbsp;    REQUEST_BUILD,</b>
+<b class="fc"><i>14</i>&nbsp;    REQUEST_POWER;</b>
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;    /**
+<i>17</i>&nbsp;     * Returns a required actions representation, base on the given sex.
+<i>18</i>&nbsp;     *
+<i>19</i>&nbsp;     * @param sex Worker sex given.
+<i>20</i>&nbsp;     * @return Certain required action.
+<i>21</i>&nbsp;     */
+<i>22</i>&nbsp;    public static RequiredActions getRequiredSex(Sex sex){
+<b class="fc"><i>23</i>&nbsp;        if(sex == Sex.MALE)</b>
+<b class="fc"><i>24</i>&nbsp;            return REQUIRED_MALE;</b>
+<b class="fc"><i>25</i>&nbsp;        else if (sex == Sex.FEMALE)</b>
+<b class="fc"><i>26</i>&nbsp;            return REQUIRED_FEMALE;</b>
+<i>27</i>&nbsp;        else
+<b class="nc"><i>28</i>&nbsp;            throw new IllegalArgumentException(&quot;Sex must be MALE or FEMALE&quot;);</b>
+<i>29</i>&nbsp;    }
+<i>30</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 15:31</div>
+</div>
+</body>
+</html>

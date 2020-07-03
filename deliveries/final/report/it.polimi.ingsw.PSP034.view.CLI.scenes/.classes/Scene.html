@@ -1,0 +1,166 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Scene</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP034.view.CLI.scenes</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Scene (it.polimi.ingsw.PSP034.view.CLI.scenes)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Scene</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 29)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP034.view.CLI.scenes;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP034.view.CLI.printables.*;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP034.view.CLI.printables.arrangements.VerticalArrangement;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;/**
+<i>7</i>&nbsp; * This class is the prototype that has to be extended by avery scene the composes the game. The variables that contain the dimensions of the frame are defined here.
+<i>8</i>&nbsp; */
+<b class="nc"><i>9</i>&nbsp;public abstract class Scene {</b>
+<b class="nc"><i>10</i>&nbsp;    private final int FRAME_WIDTH = Frame.FRAME_WIDTH;</b>
+<b class="nc"><i>11</i>&nbsp;    private final int FRAME_HEIGHT = Frame.FRAME_HEIGHT;</b>
+<b class="nc"><i>12</i>&nbsp;    private final int FRAME_START_LINE = Frame.FRAME_START_LINE;</b>
+<b class="nc"><i>13</i>&nbsp;    private final int FRAME_START_COLUMN = Frame.FRAME_START_COLUMN;</b>
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    public int getFrameWidth() {
+<b class="nc"><i>16</i>&nbsp;        return FRAME_WIDTH;</b>
+<i>17</i>&nbsp;    }
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    public int getFrameHeight() {
+<b class="nc"><i>20</i>&nbsp;        return FRAME_HEIGHT;</b>
+<i>21</i>&nbsp;    }
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    public int getFrameStartLine() {
+<b class="nc"><i>24</i>&nbsp;        return FRAME_START_LINE;</b>
+<i>25</i>&nbsp;    }
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    public int getFrameStartColumn() {
+<b class="nc"><i>28</i>&nbsp;        return FRAME_START_COLUMN;</b>
+<i>29</i>&nbsp;    }
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    /**
+<i>32</i>&nbsp;     * Clears the frame erasing every object that is shown.
+<i>33</i>&nbsp;     */
+<i>34</i>&nbsp;    public void clearFrame(){
+<b class="nc"><i>35</i>&nbsp;        ANSI.clearArea(FRAME_START_LINE, FRAME_START_COLUMN, FRAME_HEIGHT+FRAME_START_LINE, FRAME_WIDTH+FRAME_START_COLUMN);</b>
+<i>36</i>&nbsp;    }
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    /**
+<i>39</i>&nbsp;     * Organizes all the objects given in input in the mainVA vertical arrangement. To do so, two spacers are created to center vertically the objects.
+<i>40</i>&nbsp;     * @param objects Objects to be organized.
+<i>41</i>&nbsp;     */
+<i>42</i>&nbsp;    protected void printMain(PrintableObject...objects) throws NegativeArraySizeException{
+<b class="nc"><i>43</i>&nbsp;        int totalHeight = 0;</b>
+<b class="nc"><i>44</i>&nbsp;        for(PrintableObject object : objects){</b>
+<b class="nc"><i>45</i>&nbsp;            totalHeight += object.getHeight();</b>
+<i>46</i>&nbsp;        }
+<b class="nc"><i>47</i>&nbsp;        VerticalArrangement mainVA = new VerticalArrangement();</b>
+<b class="nc"><i>48</i>&nbsp;        if(getFrameHeight()-totalHeight &gt;= 0) {</b>
+<b class="nc"><i>49</i>&nbsp;            Spacer spacerUP = new Spacer(getFrameWidth(), (getFrameHeight() - totalHeight) / 2);</b>
+<b class="nc"><i>50</i>&nbsp;            Spacer spacerDOWN = new Spacer(getFrameWidth(), getFrameHeight() - totalHeight - spacerUP.getHeight());</b>
+<b class="nc"><i>51</i>&nbsp;            mainVA.addObjects(spacerUP);</b>
+<b class="nc"><i>52</i>&nbsp;            for(PrintableObject object : objects){</b>
+<b class="nc"><i>53</i>&nbsp;                mainVA.addObjects(object);</b>
+<i>54</i>&nbsp;            }
+<b class="nc"><i>55</i>&nbsp;            mainVA.addObjects(spacerDOWN);</b>
+<b class="nc"><i>56</i>&nbsp;            mainVA.setBorder(0);</b>
+<i>57</i>&nbsp;
+<b class="nc"><i>58</i>&nbsp;            mainVA.print(getFrameStartLine(), getFrameStartColumn());</b>
+<b class="nc"><i>59</i>&nbsp;        }else</b>
+<b class="nc"><i>60</i>&nbsp;            throw new NegativeArraySizeException(&quot;The scene is bigger than the frame.&quot;);</b>
+<i>61</i>&nbsp;    }
+<i>62</i>&nbsp;
+<i>63</i>&nbsp;    /**
+<i>64</i>&nbsp;     * Prints an error prompt in the middle of the screen.
+<i>65</i>&nbsp;     * @param code          The code that determines the kind of error.
+<i>66</i>&nbsp;     * @param description   Error description.
+<i>67</i>&nbsp;     */
+<i>68</i>&nbsp;    public void printError(String code, String description){
+<b class="nc"><i>69</i>&nbsp;        ErrorPrompt errorPrompt = new ErrorPrompt(code, description);</b>
+<b class="nc"><i>70</i>&nbsp;        errorPrompt.print(FRAME_START_LINE + (FRAME_HEIGHT-errorPrompt.getHeight())/2, FRAME_START_COLUMN + (FRAME_WIDTH-errorPrompt.getWidth())/2);</b>
+<b class="nc"><i>71</i>&nbsp;        moveToEndScreen();</b>
+<i>72</i>&nbsp;    }
+<i>73</i>&nbsp;
+<i>74</i>&nbsp;    public void moveToEndScreen(){
+<b class="nc"><i>75</i>&nbsp;        ANSI.moveTo(Frame.SCREEN_HEIGHT+1, 1);</b>
+<i>76</i>&nbsp;    }
+<i>77</i>&nbsp;
+<i>78</i>&nbsp;    /**
+<i>79</i>&nbsp;     * Initializes and organizes the elements of the scene and then prints the whole scene using the printMain method. If the scene needs an input from the user, the regex that check the input are defined in this method.
+<i>80</i>&nbsp;     * @return The string of the answer of the user. If the scene requires no answer, the method is forced to return null;
+<i>81</i>&nbsp;     */
+<i>82</i>&nbsp;    public abstract String show();
+<i>83</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 15:31</div>
+</div>
+</body>
+</html>

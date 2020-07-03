@@ -50,7 +50,7 @@ public class Player {
      * Places the Worker in its starting Tile.
      * @param sex       Worker's sex.
      * @param myTile    Starting worker tile.
-     * */
+     */
     public void addWorker(Sex sex, Tile myTile){
         if (myWorkers.size() >= 2 || (myWorkers.size() > 0 && myWorkers.get(0).getSex() == sex)){
             throw new IllegalArgumentException("Cannot add the same worker twice.");

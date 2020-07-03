@@ -1,0 +1,545 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Server</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP034.server</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Server (it.polimi.ingsw.PSP034.server)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Server</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 193)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Server$AnswerEncapsulated</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 4)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">Server$MockitoMock$973045394</td>
+  </tr>
+  <tr>
+    <td class="name">Server$MockitoMock$973045394$auxiliary$71Nfldgw</td>
+  </tr>
+  <tr>
+    <td class="name">Server$MockitoMock$973045394$auxiliary$9NyClveA</td>
+  </tr>
+  <tr>
+    <td class="name">Server$MockitoMock$973045394$auxiliary$ADoOKE5D</td>
+  </tr>
+  <tr>
+    <td class="name">Server$MockitoMock$973045394$auxiliary$aVdNt100</td>
+  </tr>
+  <tr>
+    <td class="name">Server$MockitoMock$973045394$auxiliary$DYLRbwaA</td>
+  </tr>
+  <tr>
+    <td class="name">Server$MockitoMock$973045394$auxiliary$f5qi2e1M</td>
+  </tr>
+  <tr>
+    <td class="name">Server$MockitoMock$973045394$auxiliary$f88nV1my</td>
+  </tr>
+  <tr>
+    <td class="name">Server$MockitoMock$973045394$auxiliary$iJzJLPmm</td>
+  </tr>
+  <tr>
+    <td class="name">Server$MockitoMock$973045394$auxiliary$P5W7HS3d</td>
+  </tr>
+  <tr>
+    <td class="name">Server$MockitoMock$973045394$auxiliary$WwuuQdNq</td>
+  </tr>
+  <tr>
+    <td class="name">Server$MockitoMock$973045394$auxiliary$WxK1cP5k</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 22)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 197)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP034.server;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP034.constants.PlayerColor;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP034.constants.Constant;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP034.controller.Controller;
+<i>6</i>&nbsp;import it.polimi.ingsw.PSP034.controller.IController;
+<i>7</i>&nbsp;import it.polimi.ingsw.PSP034.messages.Answer;
+<i>8</i>&nbsp;import it.polimi.ingsw.PSP034.messages.Request;
+<i>9</i>&nbsp;import it.polimi.ingsw.PSP034.messages.SevereError;
+<i>10</i>&nbsp;import it.polimi.ingsw.PSP034.messages.gameOverPhase.EndByDisconnection;
+<i>11</i>&nbsp;import it.polimi.ingsw.PSP034.messages.gameOverPhase.GameOverAnswer;
+<i>12</i>&nbsp;import it.polimi.ingsw.PSP034.messages.playPhase.PlayAnswer;
+<i>13</i>&nbsp;import it.polimi.ingsw.PSP034.messages.serverConfiguration.*;
+<i>14</i>&nbsp;import it.polimi.ingsw.PSP034.messages.setupPhase.SetupAnswer;
+<i>15</i>&nbsp;import it.polimi.ingsw.PSP034.view.CLI.printables.ANSI;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;import java.io.IOException;
+<i>18</i>&nbsp;import java.net.ServerSocket;
+<i>19</i>&nbsp;import java.net.Socket;
+<i>20</i>&nbsp;import java.util.ArrayList;
+<i>21</i>&nbsp;import java.util.concurrent.*;
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;/**
+<i>24</i>&nbsp; * Class managing the server. Its main thread (started using {@link Server#run()}), creates a new thread
+<i>25</i>&nbsp; * listening to incoming socket connections. Then, it manages the messages received by clients sequentially.
+<i>26</i>&nbsp; * This class works as an entry point for the game management.
+<i>27</i>&nbsp; */
+<i>28</i>&nbsp;public class Server implements Runnable{
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    /**
+<i>31</i>&nbsp;     * Private class that represents an encapsulated Answer, in order to be sorted correctly.
+<i>32</i>&nbsp;     */
+<b class="nc"><i>33</i>&nbsp;    private static class AnswerEncapsulated{</b>
+<i>34</i>&nbsp;        private final Answer message;
+<i>35</i>&nbsp;        private final IClientConnection connection;
+<i>36</i>&nbsp;
+<b class="nc"><i>37</i>&nbsp;        AnswerEncapsulated(Answer message, IClientConnection connection) {</b>
+<b class="nc"><i>38</i>&nbsp;            this.message = message;</b>
+<b class="nc"><i>39</i>&nbsp;            this.connection = connection;</b>
+<i>40</i>&nbsp;        }
+<i>41</i>&nbsp;    }
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;    private ServerSocket serverSocket;
+<b class="nc"><i>44</i>&nbsp;    private final ExecutorService executor = Executors.newFixedThreadPool(12);</b>
+<i>45</i>&nbsp;
+<b class="nc"><i>46</i>&nbsp;    private final ArrayList&lt;IClientConnection&gt; waitingConnections = new ArrayList&lt;&gt;();</b>
+<i>47</i>&nbsp;    private IClientConnection firstPlayerConnected;
+<i>48</i>&nbsp;
+<b class="nc"><i>49</i>&nbsp;    private final ArrayList&lt;IClientConnection&gt; activeConnections = new ArrayList&lt;&gt;();</b>
+<i>50</i>&nbsp;
+<b class="nc"><i>51</i>&nbsp;    private final ArrayList&lt;PlayerColor&gt; chosenColors = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>52</i>&nbsp;    private final ArrayList&lt;String&gt; chosenNames = new ArrayList&lt;&gt;();</b>
+<i>53</i>&nbsp;
+<b class="nc"><i>54</i>&nbsp;    private boolean gameStarted = false;</b>
+<b class="nc"><i>55</i>&nbsp;    private boolean firstConnection = true;</b>
+<b class="nc"><i>56</i>&nbsp;    private boolean canStartSetup = false;</b>
+<b class="nc"><i>57</i>&nbsp;    private int chosenPlayerNumber = Constant.MAXPLAYERS;</b>
+<i>58</i>&nbsp;    private int port;
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;    private IController controller;
+<i>61</i>&nbsp;
+<b class="nc"><i>62</i>&nbsp;    private final BlockingQueue&lt;AnswerEncapsulated&gt; queue = new LinkedBlockingQueue&lt;&gt;();</b>
+<i>63</i>&nbsp;
+<b class="nc"><i>64</i>&nbsp;    private final Object firstConnectionLock = new Object();</b>
+<i>65</i>&nbsp;
+<b class="nc"><i>66</i>&nbsp;    private final ServerLogger logger = ServerLogger.getInstance();</b>
+<i>67</i>&nbsp;
+<i>68</i>&nbsp;    /**
+<i>69</i>&nbsp;     * Instantiates a new server listening to a given port. It also creates a new {@link IController}.
+<i>70</i>&nbsp;     * @param port A valid port (0 to 65535). For best results, be aware of TCP well-known ports.
+<i>71</i>&nbsp;     */
+<b class="nc"><i>72</i>&nbsp;    public Server(int port){</b>
+<i>73</i>&nbsp;        IController temporaryController;
+<i>74</i>&nbsp;        try {
+<b class="nc"><i>75</i>&nbsp;            this.port = port;</b>
+<b class="nc"><i>76</i>&nbsp;            this.serverSocket = new ServerSocket(port);</b>
+<b class="nc"><i>77</i>&nbsp;            temporaryController = new Controller(this);</b>
+<b class="nc"><i>78</i>&nbsp;        } catch (IOException e){</b>
+<b class="nc"><i>79</i>&nbsp;            temporaryController = null;</b>
+<b class="nc"><i>80</i>&nbsp;            System.err.println(&quot;Cannot open server socket&quot;);</b>
+<b class="nc"><i>81</i>&nbsp;            System.exit(1);</b>
+<b class="nc"><i>82</i>&nbsp;        }</b>
+<b class="nc"><i>83</i>&nbsp;        controller = temporaryController;</b>
+<b class="nc"><i>84</i>&nbsp;    }</b>
+<i>85</i>&nbsp;
+<b class="nc"><i>86</i>&nbsp;    private boolean playerNumberFlag = true;</b>
+<i>87</i>&nbsp;    /**
+<i>88</i>&nbsp;     * Sets the number of player synchronously. Can be done only once.
+<i>89</i>&nbsp;     * @param chosenPlayerNumber    Player number chosen by the selected client (2 or 3).
+<i>90</i>&nbsp;     * @return                      {@code true} if the player number has been set correctly, {@code false} otherwise.
+<i>91</i>&nbsp;     */
+<i>92</i>&nbsp;    protected synchronized boolean setPlayerNumber(int chosenPlayerNumber){
+<b class="nc"><i>93</i>&nbsp;        if (chosenPlayerNumber == 2 || chosenPlayerNumber == 3) {</b>
+<b class="nc"><i>94</i>&nbsp;            if(playerNumberFlag) {</b>
+<b class="nc"><i>95</i>&nbsp;                playerNumberFlag = false;</b>
+<b class="nc"><i>96</i>&nbsp;                this.chosenPlayerNumber = chosenPlayerNumber;</b>
+<b class="nc"><i>97</i>&nbsp;                setCanStartSetup(true);</b>
+<b class="nc"><i>98</i>&nbsp;                checkAndBeginSetup();</b>
+<i>99</i>&nbsp;            }
+<b class="nc"><i>100</i>&nbsp;            return true;</b>
+<i>101</i>&nbsp;        }
+<b class="nc"><i>102</i>&nbsp;        return false;</b>
+<i>103</i>&nbsp;    }
+<i>104</i>&nbsp;
+<i>105</i>&nbsp;    /**
+<i>106</i>&nbsp;     * Synchronously checks if player number has already been set and setup can start
+<i>107</i>&nbsp;     * @return {@code true} if setup can start, {@code false} otherwise.
+<i>108</i>&nbsp;     */
+<i>109</i>&nbsp;    protected synchronized boolean canStartSetup() {
+<b class="nc"><i>110</i>&nbsp;        return canStartSetup;</b>
+<i>111</i>&nbsp;    }
+<i>112</i>&nbsp;
+<i>113</i>&nbsp;    private synchronized int getChosenPlayerNumber(){
+<b class="nc"><i>114</i>&nbsp;        return chosenPlayerNumber;</b>
+<i>115</i>&nbsp;    }
+<i>116</i>&nbsp;
+<i>117</i>&nbsp;    private synchronized void setCanStartSetup(boolean canStartSetup){
+<b class="nc"><i>118</i>&nbsp;        this.canStartSetup = canStartSetup;</b>
+<b class="nc"><i>119</i>&nbsp;    }</b>
+<i>120</i>&nbsp;
+<i>121</i>&nbsp;    private synchronized void setGameStarted(boolean gameStarted) {
+<b class="nc"><i>122</i>&nbsp;        this.gameStarted = gameStarted;</b>
+<b class="nc"><i>123</i>&nbsp;    }</b>
+<i>124</i>&nbsp;
+<i>125</i>&nbsp;    /**
+<i>126</i>&nbsp;     * Synchronously checks if game has already started
+<i>127</i>&nbsp;     * @return {@code true} if game has started, {@code false} otherwise.
+<i>128</i>&nbsp;     */
+<i>129</i>&nbsp;    protected synchronized boolean isGameStarted(){
+<b class="nc"><i>130</i>&nbsp;        return this.gameStarted;</b>
+<i>131</i>&nbsp;    }
+<i>132</i>&nbsp;
+<i>133</i>&nbsp;    /**
+<i>134</i>&nbsp;     * Checks if player number has already been set and, if there are enough players, starts the registration.
+<i>135</i>&nbsp;     */
+<i>136</i>&nbsp;    protected synchronized void checkAndBeginSetup(){
+<b class="nc"><i>137</i>&nbsp;        if (isGameStarted()) {</b>
+<b class="nc"><i>138</i>&nbsp;            deregisterWaitingList();</b>
+<b class="nc"><i>139</i>&nbsp;            return; // in case the function is called more than once</b>
+<i>140</i>&nbsp;        }
+<i>141</i>&nbsp;
+<b class="nc"><i>142</i>&nbsp;        if (waitingConnections.size() &gt;= getChosenPlayerNumber() &amp;&amp; canStartSetup()) {</b>
+<i>143</i>&nbsp;
+<b class="nc"><i>144</i>&nbsp;            setGameStarted(true);</b>
+<i>145</i>&nbsp;
+<b class="nc"><i>146</i>&nbsp;            activeConnections.addAll(waitingConnections.subList(0, chosenPlayerNumber));</b>
+<b class="nc"><i>147</i>&nbsp;            waitingConnections.removeAll(activeConnections);</b>
+<i>148</i>&nbsp;
+<b class="nc"><i>149</i>&nbsp;            for(IClientConnection connection : activeConnections){</b>
+<b class="nc"><i>150</i>&nbsp;                controller.addModelObserver(connection);</b>
+<b class="nc"><i>151</i>&nbsp;                if (connection.equals(activeConnections.get(0))) {</b>
+<b class="nc"><i>152</i>&nbsp;                    PlayerColor[] alreadyChosenColors = chosenColors.toArray(new PlayerColor[0]);</b>
+<b class="nc"><i>153</i>&nbsp;                    connection.asyncSend(new RequestNameColor(chosenNames.toArray(new String[0]),</b>
+<b class="nc"><i>154</i>&nbsp;                            PlayerColor.getRemainingColors(alreadyChosenColors), alreadyChosenColors));</b>
+<b class="nc"><i>155</i>&nbsp;                }</b>
+<i>156</i>&nbsp;                else
+<b class="nc"><i>157</i>&nbsp;                    connection.asyncSend(new RequestServerConfig(ServerInfo.WELCOME_WAIT));</b>
+<b class="nc"><i>158</i>&nbsp;            }</b>
+<i>159</i>&nbsp;
+<b class="nc"><i>160</i>&nbsp;            deregisterWaitingList();</b>
+<i>161</i>&nbsp;        }
+<b class="nc"><i>162</i>&nbsp;    }</b>
+<i>163</i>&nbsp;
+<i>164</i>&nbsp;    /**
+<i>165</i>&nbsp;     * Registers a new connection to the waiting list.
+<i>166</i>&nbsp;     * @param connection Reference to the connection being registered.
+<i>167</i>&nbsp;     */
+<i>168</i>&nbsp;    protected synchronized void registerConnection(IClientConnection connection){
+<b class="nc"><i>169</i>&nbsp;        waitingConnections.add(connection);</b>
+<b class="nc"><i>170</i>&nbsp;    }</b>
+<i>171</i>&nbsp;
+<i>172</i>&nbsp;    /**
+<i>173</i>&nbsp;     * Deregisters a connection previously registered using {@link Server#registerConnection(IClientConnection)}
+<i>174</i>&nbsp;     * @param connection Reference to the connection being deregistered.
+<i>175</i>&nbsp;     */
+<i>176</i>&nbsp;    protected synchronized void deregisterConnection(IClientConnection connection){
+<b class="nc"><i>177</i>&nbsp;        if (connection == null)</b>
+<b class="nc"><i>178</i>&nbsp;            return;</b>
+<b class="nc"><i>179</i>&nbsp;        if (waitingConnections.contains(connection)){</b>
+<b class="nc"><i>180</i>&nbsp;            if (isGameStarted()){</b>
+<b class="nc"><i>181</i>&nbsp;                connection.asyncSend(new RequestServerConfig(ServerInfo.ALREADY_STARTED));</b>
+<b class="nc"><i>182</i>&nbsp;                waitingConnections.remove(connection);</b>
+<i>183</i>&nbsp;            }
+<b class="nc"><i>184</i>&nbsp;            else if (!canStartSetup() &amp;&amp; connection == firstPlayerConnected){</b>
+<b class="nc"><i>185</i>&nbsp;                waitingConnections.remove(connection);</b>
+<b class="nc"><i>186</i>&nbsp;                synchronized (firstConnectionLock) {</b>
+<b class="nc"><i>187</i>&nbsp;                    if (!waitingConnections.isEmpty()) {</b>
+<b class="nc"><i>188</i>&nbsp;                        waitingConnections.get(0).asyncSend(new RequestServerConfig(ServerInfo.REQUEST_PLAYER_NUMBER));</b>
+<b class="nc"><i>189</i>&nbsp;                        firstPlayerConnected = waitingConnections.get(0);</b>
+<i>190</i>&nbsp;                    } else
+<b class="nc"><i>191</i>&nbsp;                        firstConnection = true;</b>
+<b class="nc"><i>192</i>&nbsp;                }</b>
+<i>193</i>&nbsp;            }
+<i>194</i>&nbsp;            else {
+<b class="nc"><i>195</i>&nbsp;                waitingConnections.remove(connection);</b>
+<i>196</i>&nbsp;            }
+<b class="nc"><i>197</i>&nbsp;        } else if (activeConnections.contains(connection)){</b>
+<b class="nc"><i>198</i>&nbsp;            if (connection.isExternalViewer()) {</b>
+<b class="nc"><i>199</i>&nbsp;                connection.closeConnection();</b>
+<b class="nc"><i>200</i>&nbsp;                controller.removeModelObserver(connection);</b>
+<i>201</i>&nbsp;            }
+<i>202</i>&nbsp;            else{
+<i>203</i>&nbsp;                //activeConnections.remove(connection);
+<i>204</i>&nbsp;                String disconnectedName;
+<b class="nc"><i>205</i>&nbsp;                if (connection.getDebugColor().equals(ANSI.reset)) //ANSI.reset is default color prior to registration</b>
+<b class="nc"><i>206</i>&nbsp;                    disconnectedName = &quot;An opponent&quot;;</b>
+<i>207</i>&nbsp;                else
+<b class="nc"><i>208</i>&nbsp;                    disconnectedName = connection.getName();</b>
+<b class="nc"><i>209</i>&nbsp;                for(IClientConnection deregister : activeConnections) {</b>
+<b class="nc"><i>210</i>&nbsp;                    deregister.asyncSend(new EndByDisconnection(disconnectedName));</b>
+<b class="nc"><i>211</i>&nbsp;                    controller.removeModelObserver(connection);</b>
+<b class="nc"><i>212</i>&nbsp;                }</b>
+<b class="nc"><i>213</i>&nbsp;                restart();</b>
+<i>214</i>&nbsp;            }
+<i>215</i>&nbsp;        }
+<b class="nc"><i>216</i>&nbsp;    }</b>
+<i>217</i>&nbsp;
+<i>218</i>&nbsp;    private synchronized void deregisterWaitingList(){
+<b class="nc"><i>219</i>&nbsp;        ArrayList&lt;IClientConnection&gt; waitingCopy = new ArrayList&lt;&gt;(waitingConnections);</b>
+<b class="nc"><i>220</i>&nbsp;        for(IClientConnection deregistered : waitingCopy) {</b>
+<b class="nc"><i>221</i>&nbsp;            deregisterConnection(deregistered);</b>
+<b class="nc"><i>222</i>&nbsp;        }</b>
+<b class="nc"><i>223</i>&nbsp;        waitingConnections.clear();</b>
+<b class="nc"><i>224</i>&nbsp;    }</b>
+<i>225</i>&nbsp;
+<i>226</i>&nbsp;    private synchronized void restart(){
+<b class="nc"><i>227</i>&nbsp;        logger.printString(ANSI.underline + ANSI.FG_red + &quot;Game ended. Preparing server for a new game&quot; + ANSI.reset);</b>
+<b class="nc"><i>228</i>&nbsp;        queue.clear();</b>
+<b class="nc"><i>229</i>&nbsp;        synchronized (firstConnectionLock){</b>
+<b class="nc"><i>230</i>&nbsp;            firstConnection = true;</b>
+<b class="nc"><i>231</i>&nbsp;            firstPlayerConnected = null;</b>
+<b class="nc"><i>232</i>&nbsp;            activeConnections.clear();</b>
+<b class="nc"><i>233</i>&nbsp;            waitingConnections.clear();</b>
+<b class="nc"><i>234</i>&nbsp;        }</b>
+<b class="nc"><i>235</i>&nbsp;        controller = new Controller(this);</b>
+<b class="nc"><i>236</i>&nbsp;        chosenPlayerNumber = Constant.MAXPLAYERS;</b>
+<b class="nc"><i>237</i>&nbsp;        playerNumberFlag = true;</b>
+<b class="nc"><i>238</i>&nbsp;        setGameStarted(false);</b>
+<b class="nc"><i>239</i>&nbsp;        setCanStartSetup(false);</b>
+<b class="nc"><i>240</i>&nbsp;        chosenNames.clear();</b>
+<b class="nc"><i>241</i>&nbsp;        chosenColors.clear();</b>
+<b class="nc"><i>242</i>&nbsp;        logger.printString(ANSI.underline + ANSI.FG_red + &quot;New game ready. Waiting for new client connections.&quot; + ANSI.reset);</b>
+<b class="nc"><i>243</i>&nbsp;    }</b>
+<i>244</i>&nbsp;
+<i>245</i>&nbsp;    private void acceptConnections(){
+<b class="nc"><i>246</i>&nbsp;        executor.execute(() -&gt; {</b>
+<i>247</i>&nbsp;            while (true) {
+<i>248</i>&nbsp;                try {
+<b class="nc"><i>249</i>&nbsp;                    Socket newSocket = serverSocket.accept();</b>
+<i>250</i>&nbsp;                    ClientHandler socketConnection;
+<b class="nc"><i>251</i>&nbsp;                    synchronized (firstConnectionLock) {</b>
+<b class="nc"><i>252</i>&nbsp;                        if (firstConnection) {</b>
+<b class="nc"><i>253</i>&nbsp;                            socketConnection = new ClientHandler(newSocket, this, true);</b>
+<b class="nc"><i>254</i>&nbsp;                            firstPlayerConnected = socketConnection;</b>
+<b class="nc"><i>255</i>&nbsp;                            firstConnection = false;</b>
+<i>256</i>&nbsp;                        } else {
+<b class="nc"><i>257</i>&nbsp;                            socketConnection = new ClientHandler(newSocket, this, false);</b>
+<i>258</i>&nbsp;                        }
+<b class="nc"><i>259</i>&nbsp;                    }</b>
+<b class="nc"><i>260</i>&nbsp;                    executor.submit(socketConnection);</b>
+<b class="nc"><i>261</i>&nbsp;                    logger.printString(&quot;Added new player, temporary ID is: &quot; + socketConnection.getName());</b>
+<b class="nc"><i>262</i>&nbsp;                } catch (IOException e) {</b>
+<b class="nc"><i>263</i>&nbsp;                    System.err.println(&quot;Connection Error!&quot;);</b>
+<b class="nc"><i>264</i>&nbsp;                    e.printStackTrace();</b>
+<b class="nc"><i>265</i>&nbsp;                    break;</b>
+<b class="nc"><i>266</i>&nbsp;                }</b>
+<i>267</i>&nbsp;            }
+<b class="nc"><i>268</i>&nbsp;        });</b>
+<b class="nc"><i>269</i>&nbsp;    }</b>
+<i>270</i>&nbsp;
+<i>271</i>&nbsp;    /**
+<i>272</i>&nbsp;     * Synchronously adds a message to the {@link BlockingQueue}
+<i>273</i>&nbsp;     * @param message Message being added
+<i>274</i>&nbsp;     * @param connection Connection that added the message
+<i>275</i>&nbsp;     */
+<i>276</i>&nbsp;    protected synchronized void addMessage(Answer message, IClientConnection connection){
+<i>277</i>&nbsp;        try {
+<b class="nc"><i>278</i>&nbsp;            queue.offer(new AnswerEncapsulated(message, connection));</b>
+<b class="nc"><i>279</i>&nbsp;        } catch (ClassCastException | NullPointerException | IllegalArgumentException ignored){}</b>
+<b class="nc"><i>280</i>&nbsp;    }</b>
+<i>281</i>&nbsp;
+<i>282</i>&nbsp;    /**
+<i>283</i>&nbsp;     * Tries to register a new player, given unique name and color.
+<i>284</i>&nbsp;     * @param connection Connection to be registered
+<i>285</i>&nbsp;     * @param name Player name
+<i>286</i>&nbsp;     * @param color Player color
+<i>287</i>&nbsp;     * @return {@code true} if registered successfully, {@code false} otherwise (caused by already existing name or color)
+<i>288</i>&nbsp;     */
+<i>289</i>&nbsp;    private synchronized boolean registerPlayer(IClientConnection connection, String name, PlayerColor color){
+<b class="nc"><i>290</i>&nbsp;        logger.printString(connection.getName() + &quot; wants to register as &quot; + name + &quot;, using &quot;</b>
+<b class="nc"><i>291</i>&nbsp;                + connection.getDebugColor() + color + ANSI.reset +&quot; workers.&quot;);</b>
+<b class="nc"><i>292</i>&nbsp;        if (!chosenNames.contains(name) &amp;&amp; !chosenColors.contains(color)) {</b>
+<b class="nc"><i>293</i>&nbsp;            controller.addPlayer(name, color);</b>
+<b class="nc"><i>294</i>&nbsp;            chosenNames.add(name);</b>
+<b class="nc"><i>295</i>&nbsp;            chosenColors.add(color);</b>
+<b class="nc"><i>296</i>&nbsp;            connection.setName(name);</b>
+<b class="nc"><i>297</i>&nbsp;            connection.setDebugColor(color);</b>
+<b class="nc"><i>298</i>&nbsp;            logger.printString(&quot;Successfully registered &quot;+name+&quot;, using &quot;+color+&quot; workers.&quot;);</b>
+<i>299</i>&nbsp;
+<b class="nc"><i>300</i>&nbsp;            int indexPlayer = activeConnections.indexOf(connection);</b>
+<b class="nc"><i>301</i>&nbsp;            if (indexPlayer &lt; getChosenPlayerNumber() - 1) {</b>
+<b class="nc"><i>302</i>&nbsp;                connection.asyncSend(new RequestServerConfig(ServerInfo.SUCCESSFULLY_ADDED));</b>
+<b class="nc"><i>303</i>&nbsp;                PlayerColor[] alreadyChosenColors = chosenColors.toArray(new PlayerColor[0]);</b>
+<b class="nc"><i>304</i>&nbsp;                activeConnections.get(indexPlayer + 1).asyncSend(new RequestNameColor(chosenNames.toArray(new String[0]),</b>
+<b class="nc"><i>305</i>&nbsp;                        PlayerColor.getRemainingColors(alreadyChosenColors), alreadyChosenColors));</b>
+<b class="nc"><i>306</i>&nbsp;            } else {</b>
+<b class="nc"><i>307</i>&nbsp;                controller.handleGamePhase();</b>
+<i>308</i>&nbsp;            }
+<b class="nc"><i>309</i>&nbsp;            return true;</b>
+<i>310</i>&nbsp;        }
+<b class="nc"><i>311</i>&nbsp;        logger.printString(&quot;Either the name or color requested were not available.&quot;);</b>
+<b class="nc"><i>312</i>&nbsp;        return false;</b>
+<i>313</i>&nbsp;    }
+<i>314</i>&nbsp;
+<i>315</i>&nbsp;    /**
+<i>316</i>&nbsp;     * Manages a message received by a client. If the received message is a {@link AnswerServerConfig},
+<i>317</i>&nbsp;     * it will be managed directly in class by {@link Server#manageServerConfig(AnswerServerConfig, IClientConnection)},
+<i>318</i>&nbsp;     * otherwise it will call a controller method.
+<i>319</i>&nbsp;     * @param message Message to be managed
+<i>320</i>&nbsp;     * @param connection Message sender
+<i>321</i>&nbsp;     */
+<i>322</i>&nbsp;    private synchronized void manageMessage(Answer message, IClientConnection connection){
+<b class="nc"><i>323</i>&nbsp;        logger.printAnswerMessage(message, connection);</b>
+<i>324</i>&nbsp;
+<b class="nc"><i>325</i>&nbsp;        if (message instanceof AnswerServerConfig){</b>
+<b class="nc"><i>326</i>&nbsp;            manageServerConfig((AnswerServerConfig) message, connection);</b>
+<i>327</i>&nbsp;        }
+<b class="nc"><i>328</i>&nbsp;        else if (message instanceof PlayAnswer || message instanceof SetupAnswer || message instanceof GameOverAnswer){</b>
+<i>329</i>&nbsp;            try {
+<b class="nc"><i>330</i>&nbsp;                controller.getMessageManager().handleMessage(message, connection.getName());</b>
+<b class="nc"><i>331</i>&nbsp;            } catch (Exception e){</b>
+<b class="nc"><i>332</i>&nbsp;                for (IClientConnection active : activeConnections){</b>
+<b class="nc"><i>333</i>&nbsp;                    active.asyncSend(new SevereError());</b>
+<b class="nc"><i>334</i>&nbsp;                }</b>
+<b class="nc"><i>335</i>&nbsp;            }</b>
+<i>336</i>&nbsp;        }
+<b class="nc"><i>337</i>&nbsp;    }</b>
+<i>338</i>&nbsp;
+<i>339</i>&nbsp;
+<i>340</i>&nbsp;    private synchronized void manageServerConfig(AnswerServerConfig message, IClientConnection connection){
+<i>341</i>&nbsp;        boolean validMessage;
+<b class="nc"><i>342</i>&nbsp;        if (message instanceof AnswerNumber) {</b>
+<b class="nc"><i>343</i>&nbsp;            if(setPlayerNumber(((AnswerNumber) message).getPlayerNumber())){</b>
+<b class="nc"><i>344</i>&nbsp;                if (canStartSetup() &amp;&amp; !isGameStarted()){</b>
+<b class="nc"><i>345</i>&nbsp;                    connection.asyncSend(new RequestServerConfig(ServerInfo.LOBBY));</b>
+<i>346</i>&nbsp;                }
+<i>347</i>&nbsp;            } else{
+<b class="nc"><i>348</i>&nbsp;                connection.asyncSend(new RequestServerConfig(ServerInfo.REQUEST_PLAYER_NUMBER));;</b>
+<i>349</i>&nbsp;            }
+<i>350</i>&nbsp;        }
+<b class="nc"><i>351</i>&nbsp;        else if (message instanceof AnswerNameColor) {</b>
+<b class="nc"><i>352</i>&nbsp;            AnswerNameColor answerNameColor = (AnswerNameColor) message;</b>
+<b class="nc"><i>353</i>&nbsp;            validMessage = registerPlayer(connection, answerNameColor.getName(), answerNameColor.getColor());</b>
+<b class="nc"><i>354</i>&nbsp;            if (!validMessage){</b>
+<b class="nc"><i>355</i>&nbsp;                PlayerColor[] alreadyChosenColors = chosenColors.toArray(new PlayerColor[0]);</b>
+<b class="nc"><i>356</i>&nbsp;                connection.asyncSend(new RequestNameColor(chosenNames.toArray(new String[0]),</b>
+<b class="nc"><i>357</i>&nbsp;                        PlayerColor.getRemainingColors(alreadyChosenColors), alreadyChosenColors));</b>
+<i>358</i>&nbsp;            }
+<i>359</i>&nbsp;        }
+<b class="nc"><i>360</i>&nbsp;    }</b>
+<i>361</i>&nbsp;
+<i>362</i>&nbsp;    /**
+<i>363</i>&nbsp;     * Sends a message to a given player. See {@link IClientConnection#asyncSend(Request)} for further information.
+<i>364</i>&nbsp;     * Should be executed by the same thread that manages the message.
+<i>365</i>&nbsp;     * If either the player does not exists or the message in {@code null}, method does nothing.
+<i>366</i>&nbsp;     * @param player Player name
+<i>367</i>&nbsp;     * @param message Message being sent
+<i>368</i>&nbsp;     */
+<i>369</i>&nbsp;    public synchronized void asyncSendTo(String player, Request message){
+<b class="nc"><i>370</i>&nbsp;        if (message == null)</b>
+<b class="nc"><i>371</i>&nbsp;            return;</b>
+<b class="nc"><i>372</i>&nbsp;        for (IClientConnection connection : activeConnections){</b>
+<b class="nc"><i>373</i>&nbsp;            if(connection.getName().equals(player))</b>
+<b class="nc"><i>374</i>&nbsp;                connection.asyncSend(message);</b>
+<b class="nc"><i>375</i>&nbsp;        }</b>
+<b class="nc"><i>376</i>&nbsp;    }</b>
+<i>377</i>&nbsp;
+<i>378</i>&nbsp;    /**
+<i>379</i>&nbsp;     * Runs a queue message consumer, forwarding {@link Answer} to controller and model.
+<i>380</i>&nbsp;     */
+<i>381</i>&nbsp;    @Override
+<i>382</i>&nbsp;    public void run() {
+<b class="nc"><i>383</i>&nbsp;        acceptConnections();</b>
+<b class="nc"><i>384</i>&nbsp;        logger.printString(&quot;Server started. Listening to socket connections on port: &quot; + port);</b>
+<i>385</i>&nbsp;        AnswerEncapsulated message;
+<i>386</i>&nbsp;        while(true){
+<i>387</i>&nbsp;            try {
+<b class="nc"><i>388</i>&nbsp;                message = queue.take();</b>
+<b class="nc"><i>389</i>&nbsp;                manageMessage(message.message, message.connection);</b>
+<b class="nc"><i>390</i>&nbsp;            } catch (InterruptedException e){</b>
+<i>391</i>&nbsp;                try {
+<b class="nc"><i>392</i>&nbsp;                    serverSocket.close();</b>
+<b class="nc"><i>393</i>&nbsp;                } catch (IOException ignored) {</b>
+<b class="nc"><i>394</i>&nbsp;                    logger.printString(&quot;Error closing server socket.&quot;);</b>
+<b class="nc"><i>395</i>&nbsp;                }</b>
+<b class="nc"><i>396</i>&nbsp;                logger.printString(&quot;Server has been shut down.&quot;);</b>
+<b class="nc"><i>397</i>&nbsp;            }</b>
+<i>398</i>&nbsp;        }
+<i>399</i>&nbsp;    }
+<i>400</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 15:31</div>
+</div>
+</body>
+</html>

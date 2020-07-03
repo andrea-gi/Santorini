@@ -1,0 +1,309 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: AnswerComposer</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP034.view.CLI</a> ]
+</div>
+
+<h1>Coverage Summary for Class: AnswerComposer (it.polimi.ingsw.PSP034.view.CLI)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AnswerComposer</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 91)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">AnswerComposer$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 92)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP034.view.CLI;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP034.constants.PlayerColor;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP034.constants.Constant;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP034.constants.Directions;
+<i>6</i>&nbsp;import it.polimi.ingsw.PSP034.constants.Sex;
+<i>7</i>&nbsp;import it.polimi.ingsw.PSP034.messages.Answer;
+<i>8</i>&nbsp;import it.polimi.ingsw.PSP034.messages.Request;
+<i>9</i>&nbsp;import it.polimi.ingsw.PSP034.messages.SlimBoard;
+<i>10</i>&nbsp;import it.polimi.ingsw.PSP034.messages.clientConfiguration.*;
+<i>11</i>&nbsp;import it.polimi.ingsw.PSP034.messages.gameOverPhase.*;
+<i>12</i>&nbsp;import it.polimi.ingsw.PSP034.messages.playPhase.*;
+<i>13</i>&nbsp;import it.polimi.ingsw.PSP034.messages.serverConfiguration.AnswerNameColor;
+<i>14</i>&nbsp;import it.polimi.ingsw.PSP034.messages.serverConfiguration.AnswerNumber;
+<i>15</i>&nbsp;import it.polimi.ingsw.PSP034.messages.serverConfiguration.RequestNameColor;
+<i>16</i>&nbsp;import it.polimi.ingsw.PSP034.messages.serverConfiguration.RequestServerConfig;
+<i>17</i>&nbsp;import it.polimi.ingsw.PSP034.messages.setupPhase.*;
+<i>18</i>&nbsp;import it.polimi.ingsw.PSP034.view.GodDescription;
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;/**
+<i>21</i>&nbsp; * This class Creates the correct Answer message starting from the user input.
+<i>22</i>&nbsp; */
+<i>23</i>&nbsp;public class AnswerComposer {
+<i>24</i>&nbsp;    private final Request request;
+<i>25</i>&nbsp;    private Answer answer;
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    /**
+<i>28</i>&nbsp;     * Initializes a AnswerComposer relative to a Request
+<i>29</i>&nbsp;     * @param request The Request the AnswerComposer has to build di answer for.
+<i>30</i>&nbsp;     */
+<b class="nc"><i>31</i>&nbsp;    public AnswerComposer(Request request){</b>
+<b class="nc"><i>32</i>&nbsp;        this.request = request;</b>
+<i>33</i>&nbsp;    }
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    /**
+<i>36</i>&nbsp;     * Take the user input and creates the Answer to be sent to the server.
+<i>37</i>&nbsp;     * @param params List of the inputs from the user.
+<i>38</i>&nbsp;     * @return The Answer message that represents the user input.
+<i>39</i>&nbsp;     */
+<i>40</i>&nbsp;    public Answer packetAnswer(String...params){
+<b class="nc"><i>41</i>&nbsp;        if(request != null) {</b>
+<b class="nc"><i>42</i>&nbsp;            if(request instanceof RequestClientConfig) {</b>
+<b class="nc"><i>43</i>&nbsp;                return answerClientConfig(params);</b>
+<i>44</i>&nbsp;            }
+<i>45</i>&nbsp;
+<b class="nc"><i>46</i>&nbsp;            else if (request instanceof RequestServerConfig) {</b>
+<b class="nc"><i>47</i>&nbsp;                return answerServerConfig(params);</b>
+<i>48</i>&nbsp;            }
+<i>49</i>&nbsp;
+<b class="nc"><i>50</i>&nbsp;            else if (request instanceof SetupRequest) {</b>
+<b class="nc"><i>51</i>&nbsp;                return answerSetup(params);</b>
+<i>52</i>&nbsp;            }
+<i>53</i>&nbsp;
+<b class="nc"><i>54</i>&nbsp;            else if (request instanceof PlayRequest) {</b>
+<b class="nc"><i>55</i>&nbsp;                return answerPlay(params);</b>
+<i>56</i>&nbsp;            }
+<i>57</i>&nbsp;
+<b class="nc"><i>58</i>&nbsp;            else if(request instanceof GameOverRequest){</b>
+<b class="nc"><i>59</i>&nbsp;                return answerGameOver(params);</b>
+<i>60</i>&nbsp;            }
+<i>61</i>&nbsp;
+<i>62</i>&nbsp;            else
+<b class="nc"><i>63</i>&nbsp;                throw new IllegalArgumentException(request.getClass().getName() + &quot;is not or doesn&#39;t extend a supported request.&quot;);</b>
+<i>64</i>&nbsp;        }else{
+<b class="nc"><i>65</i>&nbsp;            throw new NullPointerException(&quot;It is not possible to get an answer without a request.&quot;);</b>
+<i>66</i>&nbsp;        }
+<i>67</i>&nbsp;    }
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;    private Answer answerClientConfig(String...params){
+<b class="nc"><i>70</i>&nbsp;        if (request instanceof RequestIP){</b>
+<b class="nc"><i>71</i>&nbsp;            String ip = params[0].equals(&quot;&quot;) ? &quot;localhost&quot; : params[0];</b>
+<b class="nc"><i>72</i>&nbsp;            int port = params[1].equals(&quot;&quot;) ? 2020 : Integer.parseInt(params[1]);</b>
+<b class="nc"><i>73</i>&nbsp;            answer = new AnswerIP(ip, port);</b>
+<b class="nc"><i>74</i>&nbsp;        }else {</b>
+<b class="nc"><i>75</i>&nbsp;            throw new IllegalArgumentException(&quot;There is no answer for &quot; + request.getClass().getName());</b>
+<i>76</i>&nbsp;        }
+<b class="nc"><i>77</i>&nbsp;        return answer;</b>
+<i>78</i>&nbsp;    }
+<i>79</i>&nbsp;
+<i>80</i>&nbsp;    private Answer answerServerConfig(String...params){
+<b class="nc"><i>81</i>&nbsp;        switch (((RequestServerConfig) request).getInfo()) {</b>
+<i>82</i>&nbsp;            case REQUEST_NAME_COLOR:
+<b class="nc"><i>83</i>&nbsp;                RequestNameColor castRequest = (RequestNameColor) request;</b>
+<b class="nc"><i>84</i>&nbsp;                String name = params[0];</b>
+<b class="nc"><i>85</i>&nbsp;                PlayerColor color = castRequest.getAvailableColors()[Integer.parseInt(params[1])-1];</b>
+<b class="nc"><i>86</i>&nbsp;                answer = new AnswerNameColor(name, color);</b>
+<b class="nc"><i>87</i>&nbsp;                break;</b>
+<i>88</i>&nbsp;
+<i>89</i>&nbsp;            case REQUEST_PLAYER_NUMBER:
+<b class="nc"><i>90</i>&nbsp;                answer = new AnswerNumber(Integer.parseInt(params[0]));</b>
+<b class="nc"><i>91</i>&nbsp;                break;</b>
+<i>92</i>&nbsp;
+<i>93</i>&nbsp;            default:
+<b class="nc"><i>94</i>&nbsp;                throw new IllegalArgumentException(&quot;There is no answer for &quot; + request.getClass().getName() + &quot; with ServerInfo &quot; + ((RequestServerConfig) request).getInfo());</b>
+<i>95</i>&nbsp;        }
+<b class="nc"><i>96</i>&nbsp;        return answer;</b>
+<i>97</i>&nbsp;    }
+<i>98</i>&nbsp;
+<i>99</i>&nbsp;    private Answer answerSetup(String...params){
+<b class="nc"><i>100</i>&nbsp;        if (request instanceof RequestCardsChoice) {</b>
+<b class="nc"><i>101</i>&nbsp;            String[] stringNumbers = params[0].split(&quot;,&quot;);</b>
+<b class="nc"><i>102</i>&nbsp;            int[] numbers = new int[((RequestCardsChoice) request).getPlayerNumber()];</b>
+<b class="nc"><i>103</i>&nbsp;            for (int i = 0; i &lt; ((RequestCardsChoice) request).getPlayerNumber(); i++) {</b>
+<b class="nc"><i>104</i>&nbsp;                numbers[i] = Integer.parseInt(stringNumbers[i]);</b>
+<i>105</i>&nbsp;            }
+<b class="nc"><i>106</i>&nbsp;            String[] gods = new String[((RequestCardsChoice) request).getPlayerNumber()];</b>
+<b class="nc"><i>107</i>&nbsp;            for (int i = 0; i &lt; ((RequestCardsChoice) request).getPlayerNumber(); i++) {</b>
+<b class="nc"><i>108</i>&nbsp;                gods[i] = GodDescription.values()[numbers[i]-1].getName();</b>
+<i>109</i>&nbsp;            }
+<b class="nc"><i>110</i>&nbsp;            answer = new AnswerCardsChoice(gods);</b>
+<b class="nc"><i>111</i>&nbsp;        }</b>
+<i>112</i>&nbsp;
+<b class="nc"><i>113</i>&nbsp;        else if (request instanceof RequestFirstPlayer) {</b>
+<b class="nc"><i>114</i>&nbsp;            answer = new AnswerFirstPlayer(((RequestFirstPlayer) request).getPlayers()[Integer.parseInt(params[0])-1]);</b>
+<i>115</i>&nbsp;        }
+<i>116</i>&nbsp;
+<b class="nc"><i>117</i>&nbsp;        else if (request instanceof RequestPersonalGod) {</b>
+<b class="nc"><i>118</i>&nbsp;            answer = new AnswerPersonalGod(((RequestPersonalGod) request).getPossibleGods()[Integer.parseInt(params[0])-1]);</b>
+<i>119</i>&nbsp;        }
+<i>120</i>&nbsp;
+<b class="nc"><i>121</i>&nbsp;        else if(request instanceof RequestPlaceWorker) {</b>
+<b class="nc"><i>122</i>&nbsp;            SlimBoard slimBoard = ((RequestPlaceWorker) request).getSlimBoard();</b>
+<b class="nc"><i>123</i>&nbsp;            int tile = Integer.parseInt(params[0]);</b>
+<b class="nc"><i>124</i>&nbsp;            int x = 0;</b>
+<i>125</i>&nbsp;            int y;
+<b class="nc"><i>126</i>&nbsp;            int counter = 0;</b>
+<i>127</i>&nbsp;            cycle:
+<b class="nc"><i>128</i>&nbsp;            for (y = 0; y &lt; Constant.DIM; y++){</b>
+<b class="nc"><i>129</i>&nbsp;                for (x = 0; x &lt; Constant.DIM; x++){</b>
+<b class="nc"><i>130</i>&nbsp;                    if (!slimBoard.getDome()[x][y] &amp;&amp; slimBoard.getSex()[x][y] == null){</b>
+<b class="nc"><i>131</i>&nbsp;                        counter++;</b>
+<b class="nc"><i>132</i>&nbsp;                        if (counter == tile)</b>
+<b class="nc"><i>133</i>&nbsp;                            break cycle;</b>
+<i>134</i>&nbsp;                    }
+<i>135</i>&nbsp;                }
+<i>136</i>&nbsp;            }
+<b class="nc"><i>137</i>&nbsp;            answer = new AnswerPlaceWorker(((RequestPlaceWorker) request).getSex(), x, y );</b>
+<b class="nc"><i>138</i>&nbsp;        }</b>
+<i>139</i>&nbsp;
+<i>140</i>&nbsp;        else {
+<b class="nc"><i>141</i>&nbsp;            throw new IllegalArgumentException(&quot;There is no answer for &quot; + request.getClass().getName());</b>
+<i>142</i>&nbsp;        }
+<i>143</i>&nbsp;
+<b class="nc"><i>144</i>&nbsp;        return answer;</b>
+<i>145</i>&nbsp;    }
+<i>146</i>&nbsp;
+<i>147</i>&nbsp;    private Answer answerPlay(String...params){
+<b class="nc"><i>148</i>&nbsp;        if(request instanceof RequestAction){</b>
+<b class="nc"><i>149</i>&nbsp;            Sex sex = params[0].equals(&quot;1&quot;) ? Sex.MALE : Sex.FEMALE;</b>
+<b class="nc"><i>150</i>&nbsp;            Directions[] directions = sex == Sex.MALE ? ((RequestAction) request).getPossibleMaleDirections() : ((RequestAction) request).getPossibleFemaleDirections();</b>
+<b class="nc"><i>151</i>&nbsp;            Directions direction = directions[Integer.parseInt(params[1])-1];</b>
+<b class="nc"><i>152</i>&nbsp;            answer = new AnswerAction(sex, direction);</b>
+<b class="nc"><i>153</i>&nbsp;        }</b>
+<i>154</i>&nbsp;
+<b class="nc"><i>155</i>&nbsp;        else if(request instanceof RequestBooleanChoice) {</b>
+<b class="nc"><i>156</i>&nbsp;            boolean choice = params[0].equals(&quot;1&quot;);</b>
+<b class="nc"><i>157</i>&nbsp;            answer = new AnswerBooleanChoice(choice);</b>
+<b class="nc"><i>158</i>&nbsp;        }</b>
+<i>159</i>&nbsp;
+<i>160</i>&nbsp;        else {
+<b class="nc"><i>161</i>&nbsp;            throw new IllegalArgumentException(&quot;There is no answer for &quot; + request.getClass().getName());</b>
+<i>162</i>&nbsp;        }
+<i>163</i>&nbsp;
+<b class="nc"><i>164</i>&nbsp;        return answer;</b>
+<i>165</i>&nbsp;    }
+<i>166</i>&nbsp;
+<i>167</i>&nbsp;    private Answer answerGameOver(String...params){
+<b class="nc"><i>168</i>&nbsp;        if(request instanceof PersonalDefeatRequest){</b>
+<b class="nc"><i>169</i>&nbsp;            if(params[0].equals(&quot;1&quot;)) {</b>
+<b class="nc"><i>170</i>&nbsp;                answer = new AutoCloseAnswer();</b>
+<b class="nc"><i>171</i>&nbsp;            }else if(((PersonalDefeatRequest) request).getWinner().equals(&quot;&quot;)) {</b>
+<b class="nc"><i>172</i>&nbsp;                answer = null;</b>
+<i>173</i>&nbsp;            }else{
+<b class="nc"><i>174</i>&nbsp;                answer = new RestartClient();</b>
+<i>175</i>&nbsp;            }
+<i>176</i>&nbsp;        }
+<i>177</i>&nbsp;
+<b class="nc"><i>178</i>&nbsp;        else if(request instanceof SingleLoserInfo){</b>
+<b class="nc"><i>179</i>&nbsp;            if(params[0].equals(&quot;1&quot;)){</b>
+<b class="nc"><i>180</i>&nbsp;                answer = new AutoCloseAnswer();</b>
+<b class="nc"><i>181</i>&nbsp;            }else if (params[0].equals(&quot;2&quot;)){</b>
+<b class="nc"><i>182</i>&nbsp;                answer = new RestartClient();</b>
+<i>183</i>&nbsp;            }
+<i>184</i>&nbsp;        }
+<i>185</i>&nbsp;
+<b class="nc"><i>186</i>&nbsp;        else if(request instanceof WinnerRequest){</b>
+<b class="nc"><i>187</i>&nbsp;            if(params[0].equals(&quot;1&quot;)){</b>
+<b class="nc"><i>188</i>&nbsp;                answer = new AutoCloseAnswer();</b>
+<b class="nc"><i>189</i>&nbsp;            }else if (params[0].equals(&quot;2&quot;)){</b>
+<b class="nc"><i>190</i>&nbsp;                answer = new RestartClient();</b>
+<i>191</i>&nbsp;            }
+<i>192</i>&nbsp;        }
+<i>193</i>&nbsp;
+<i>194</i>&nbsp;        else {
+<b class="nc"><i>195</i>&nbsp;            throw new IllegalArgumentException(&quot;There is no answer for &quot; + request.getClass().getName());</b>
+<i>196</i>&nbsp;        }
+<i>197</i>&nbsp;
+<b class="nc"><i>198</i>&nbsp;        return answer;</b>
+<i>199</i>&nbsp;    }
+<i>200</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 15:31</div>
+</div>
+</body>
+</html>

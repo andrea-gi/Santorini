@@ -41,16 +41,25 @@ public class Controller implements IController{
         this.messageManager = new MessageManager(this, server);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MessageManager getMessageManager() {
         return messageManager;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void addModelObserver(ModelObserver observer){
         currentGame.addObserver(observer);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void removeModelObserver(ModelObserver observer){
         currentGame.removeObserver(observer);
@@ -78,10 +87,20 @@ public class Controller implements IController{
         return currentGame.getAlreadyChosenGods();
     }
 
+    /**
+     * Adds a given god to the list of possible gods, for the next player to chose from.
+     *
+     * @param god God chosen to play in the current game.
+     */
     public void addRemainingGod(String god){
         this.currentGame.addRemainingGod(god);
     }
 
+    /**
+     * Returns the number of active players.
+     *
+     * @return Number of players currently in the game.
+     */
     public int getPlayerNumber(){
         return this.currentGame.getPlayerNumber();
     }
@@ -92,12 +111,20 @@ public class Controller implements IController{
 
     /**
      * Forwards the setting of the first player to the current game.
+     *
      * @param name Name of the first player.
      */
     public void firstPlayerSetUp(String name){
         currentGame.setCurrentPlayerByName(name);
     }
 
+    /**
+     * Adds a new worker, associated to the current player.
+     *
+     * @param sex       Worker's sex.
+     * @param x         x coordinate.
+     * @param y         y coordinate.
+     */
     void addWorker(Sex sex, int x, int y){
         currentGame.addWorker(getCurrentPlayer(), sex, x, y);
     }
@@ -138,18 +165,36 @@ public class Controller implements IController{
         messageManager.sendTo(message, playersList.toArray(new String[0]));
     }
 
+    /**
+     * Returns the current player's associated god.
+     *
+     * @return Reference to player's god.
+     */
     public IStateManager getCurrentGod() {
         return getCurrentPlayer().getMyGod();
     }
 
+    /**
+     * Executes the content of a given message.
+     *
+     * @param message Play message to be handled.
+     */
     void executeSelectedState(PlayAnswer message){
         turnHandler.executeSelectedState(message);
     }
 
+    /**
+     * Executes the content of a given message.
+     *
+     * @param message Setup message to be handled.
+     */
     void executeSelectedState(SetupAnswer message){
         setup.executeSelectedState(message);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void handleGamePhase(){
         switch (currentGame.getGamePhase()) {
@@ -174,6 +219,9 @@ public class Controller implements IController{
         currentGame.setRandomPlayer();
     }
 
+    /**
+     * Sets the next player, in order.
+     */
     void setNextPlayer(){
         currentGame.setNextPlayer();
     }
@@ -203,7 +251,8 @@ public class Controller implements IController{
 
     /**
      * Checks if a player lost and manages the possible game end.
-     * @return True if the game has ended; false if only one out of three players has lost.
+     *
+     * @return {@code true} if the game has ended; {@code false} if only one out of three players has lost.
      */
     boolean isGameOver(){
         Player toBeDeletedPlayer = currentGame.loser();
@@ -227,6 +276,11 @@ public class Controller implements IController{
         return false;
     }
 
+    /**
+     * Associates a god to the current player.
+     *
+     * @param name Name of the god.
+     */
     void addGod(String name){
         this.currentGame.addGod(name, getCurrentPlayer());
     }

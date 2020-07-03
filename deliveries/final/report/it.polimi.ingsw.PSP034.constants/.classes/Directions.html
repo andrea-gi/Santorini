@@ -1,0 +1,226 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Directions</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP034.constants</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Directions (it.polimi.ingsw.PSP034.constants)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Directions</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    88.2%
+  </span>
+  <span class="absValue">
+    (30/ 34)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Directions$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    88.6%
+  </span>
+  <span class="absValue">
+    (31/ 35)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP034.constants;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;/**
+<i>4</i>&nbsp; * Stores all the directions and the correlated operations to convert the directions into offset or vice versa.
+<i>5</i>&nbsp; */
+<b class="fc"><i>6</i>&nbsp;public enum Directions {</b>
+<b class="fc"><i>7</i>&nbsp;    N,</b>
+<b class="fc"><i>8</i>&nbsp;    S,</b>
+<b class="fc"><i>9</i>&nbsp;    E,</b>
+<b class="fc"><i>10</i>&nbsp;    W,</b>
+<b class="fc"><i>11</i>&nbsp;    NE,</b>
+<b class="fc"><i>12</i>&nbsp;    NW,</b>
+<b class="fc"><i>13</i>&nbsp;    SE,</b>
+<b class="fc"><i>14</i>&nbsp;    SW,</b>
+<b class="fc"><i>15</i>&nbsp;    O; //ORIGIN</b>
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    /**
+<i>18</i>&nbsp;     * Calculates the direction corresponding to a given offset.
+<i>19</i>&nbsp;     *
+<i>20</i>&nbsp;     * @param x x offset.
+<i>21</i>&nbsp;     * @param y y offset.
+<i>22</i>&nbsp;     * @return Direction corresponding to a given offset.
+<i>23</i>&nbsp;     *
+<i>24</i>&nbsp;     * @throws IllegalArgumentException if either one between x and y is not equal to -1, 0 or 1.
+<i>25</i>&nbsp;     */
+<i>26</i>&nbsp;    public static Directions offsetToDirection(int x, int y){
+<b class="fc"><i>27</i>&nbsp;        switch (x){</b>
+<i>28</i>&nbsp;            case -1:
+<b class="fc"><i>29</i>&nbsp;                switch (y){</b>
+<i>30</i>&nbsp;                    case -1:
+<b class="fc"><i>31</i>&nbsp;                        return NW;</b>
+<i>32</i>&nbsp;                    case 0:
+<b class="fc"><i>33</i>&nbsp;                        return W;</b>
+<i>34</i>&nbsp;                    case 1:
+<b class="fc"><i>35</i>&nbsp;                        return SW;</b>
+<i>36</i>&nbsp;                }
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;            case 0:
+<b class="fc"><i>39</i>&nbsp;                switch (y){</b>
+<i>40</i>&nbsp;                    case -1:
+<b class="fc"><i>41</i>&nbsp;                        return N;</b>
+<i>42</i>&nbsp;                    case 0:
+<b class="fc"><i>43</i>&nbsp;                        return O;</b>
+<i>44</i>&nbsp;                    case 1:
+<b class="fc"><i>45</i>&nbsp;                        return S;</b>
+<i>46</i>&nbsp;                }
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;            case 1:
+<b class="fc"><i>49</i>&nbsp;                switch (y){</b>
+<i>50</i>&nbsp;                    case -1:
+<b class="fc"><i>51</i>&nbsp;                        return NE;</b>
+<i>52</i>&nbsp;                    case 0:
+<b class="fc"><i>53</i>&nbsp;                        return E;</b>
+<i>54</i>&nbsp;                    case 1:
+<b class="fc"><i>55</i>&nbsp;                        return SE;</b>
+<i>56</i>&nbsp;                }
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;        }
+<b class="nc"><i>59</i>&nbsp;        throw new IllegalArgumentException(&quot;Invalid offset. Both x and y must be -1 or 0 or 1&quot;);</b>
+<i>60</i>&nbsp;    }
+<i>61</i>&nbsp;
+<i>62</i>&nbsp;    /**
+<i>63</i>&nbsp;     * Calculates the x offset corresponding to a given direction.
+<i>64</i>&nbsp;     *
+<i>65</i>&nbsp;     * @param direction Direction used to calculate x offset.
+<i>66</i>&nbsp;     * @return x offset.
+<i>67</i>&nbsp;     *
+<i>68</i>&nbsp;     */
+<i>69</i>&nbsp;    public static int directionToXOffset(Directions direction){
+<b class="fc"><i>70</i>&nbsp;        switch (direction){</b>
+<i>71</i>&nbsp;            case NW:
+<i>72</i>&nbsp;            case W:
+<i>73</i>&nbsp;            case SW:
+<b class="nc"><i>74</i>&nbsp;                return -1;</b>
+<i>75</i>&nbsp;
+<i>76</i>&nbsp;            case N:
+<i>77</i>&nbsp;            case O:
+<i>78</i>&nbsp;            case S:
+<b class="fc"><i>79</i>&nbsp;                return 0;</b>
+<i>80</i>&nbsp;
+<i>81</i>&nbsp;            case NE:
+<i>82</i>&nbsp;            case E:
+<i>83</i>&nbsp;            case SE:
+<b class="fc"><i>84</i>&nbsp;                return 1;</b>
+<i>85</i>&nbsp;        }
+<i>86</i>&nbsp;
+<b class="nc"><i>87</i>&nbsp;        return 9;</b>
+<i>88</i>&nbsp;    }
+<i>89</i>&nbsp;
+<i>90</i>&nbsp;    /**
+<i>91</i>&nbsp;     * Calculates the y offset corresponding to a given direction.
+<i>92</i>&nbsp;     *
+<i>93</i>&nbsp;     * @param direction Direction used to calculate y offset.
+<i>94</i>&nbsp;     * @return y offset.
+<i>95</i>&nbsp;     *
+<i>96</i>&nbsp;     */
+<i>97</i>&nbsp;    public static int directionToYOffset(Directions direction){
+<b class="fc"><i>98</i>&nbsp;        switch (direction){</b>
+<i>99</i>&nbsp;            case SW:
+<i>100</i>&nbsp;            case S:
+<i>101</i>&nbsp;            case SE:
+<b class="fc"><i>102</i>&nbsp;                return 1;</b>
+<i>103</i>&nbsp;
+<i>104</i>&nbsp;            case W:
+<i>105</i>&nbsp;            case O:
+<i>106</i>&nbsp;            case E:
+<b class="fc"><i>107</i>&nbsp;                return 0;</b>
+<i>108</i>&nbsp;
+<i>109</i>&nbsp;            case NW:
+<i>110</i>&nbsp;            case N:
+<i>111</i>&nbsp;            case NE:
+<b class="fc"><i>112</i>&nbsp;                return -1;</b>
+<i>113</i>&nbsp;        }
+<i>114</i>&nbsp;
+<b class="nc"><i>115</i>&nbsp;        return 9;</b>
+<i>116</i>&nbsp;    }
+<i>117</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 15:31</div>
+</div>
+</body>
+</html>

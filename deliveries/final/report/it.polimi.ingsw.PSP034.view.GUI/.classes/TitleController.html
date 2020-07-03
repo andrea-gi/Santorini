@@ -1,0 +1,117 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: TitleController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP034.view.GUI</a> ]
+</div>
+
+<h1>Coverage Summary for Class: TitleController (it.polimi.ingsw.PSP034.view.GUI)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TitleController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 6)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP034.view.GUI;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP034.messages.clientConfiguration.RequestIP;
+<i>4</i>&nbsp;import javafx.event.ActionEvent;
+<i>5</i>&nbsp;import javafx.fxml.FXML;
+<i>6</i>&nbsp;import javafx.scene.control.Button;
+<i>7</i>&nbsp;import javafx.scene.layout.AnchorPane;
+<i>8</i>&nbsp;import javafx.scene.layout.Pane;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;/**It controls the opening GUI scene of the title
+<i>11</i>&nbsp; */
+<b class="nc"><i>12</i>&nbsp;public class TitleController implements GUIController{</b>
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;    @FXML
+<i>15</i>&nbsp;    private AnchorPane anchorPane;
+<i>16</i>&nbsp;    @FXML
+<i>17</i>&nbsp;    private Button play;
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    @FXML
+<i>20</i>&nbsp;    private void initialize(){
+<b class="nc"><i>21</i>&nbsp;        GUIRequestHub.getInstance().setCurrentController(this);</b>
+<b class="nc"><i>22</i>&nbsp;        anchorPane.setId(&quot;titleScene&quot;);</b>
+<b class="nc"><i>23</i>&nbsp;        play.setId(&quot;buttonPlay&quot;);</b>
+<i>24</i>&nbsp;    }
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    public void setPlay(ActionEvent e) {
+<b class="nc"><i>27</i>&nbsp;        GUIRequestHub.getInstance().handleRequest(new RequestIP(false));</b>
+<i>28</i>&nbsp;    }
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    @Override
+<i>31</i>&nbsp;    public Pane getPane() {
+<b class="nc"><i>32</i>&nbsp;        return anchorPane;</b>
+<i>33</i>&nbsp;    }
+<i>34</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 15:31</div>
+</div>
+</body>
+</html>
