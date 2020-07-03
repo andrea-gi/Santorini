@@ -25,10 +25,33 @@
   * Zeus
 
 ## Documentation
-The project documentation includes UML diagrams (both high level design and detailed design), JavaDoc and JUnit4 test coverage.
+The project documentation includes UML diagrams, JavaDoc and JUnit4 test coverage.
 
 ### UML
-TODO
+Both [high level design](/deliveries/final/uml/Concise) and [detailed design]((/deliveries/final/uml/Detailed)) diagrams were created.
+
+The [first one](/deliveries/final/uml/Concise/GeneralUML.svg) is an updated version of the initial UML, featuring a concise and schematic representation of the model-controller implementation.
+
+Meanwhile, the latter consists in multiple diagrams, each one with a specific scope, collapsing redundant information:
+
+* [General packages structure](/deliveries/final/uml/Detailed/Packages.svg) and [messages implemented](/deliveries/final/uml/Detailed/Messages.svg).
+
+* Client
+  * [Detailed client application](/deliveries/final/uml/Detailed/Client/DetailedClient.svg). CLI and GUI packages collapsed.
+  * [Detailed CLI client](/deliveries/final/uml/Detailed/Client/DetailedCLIClient.svg). Printables and Scenes packages collapsed.
+  * [Expanded CLI hierarchy](/deliveries/final/uml/Detailed/Client/ExpandedCLIHierarchy.svg). Focuses on CLI sub-packages hierarchy.
+  * [Detailed GUI client](/deliveries/final/uml/Detailed/Client/DetailedGUIClient.svg).
+
+* Server
+  * [Detailed controller package](/deliveries/final/uml/Detailed/Server/DetailedController.svg).
+  * [Detailed model package](/deliveries/final/uml/Detailed/Server/DetailedModel.svg). Gods package collapsed.
+  * [Detailed server package](/deliveries/final/uml/Detailed/Server/DetailedServer.svg).
+  * [Model-controller relationships](/deliveries/final/uml/Detailed/Server/ModelControllerRelationships.svg).
+  * [Server-controller relationships](/deliveries/final/uml/Detailed/Server/ServerControllerRelationships.svg).
+  * [Server application classes relationships](/deliveries/final/uml/Detailed/Server/ServerClassesRelationships.svg).
+  * [Expanded gods hierarchy](/deliveries/final/uml/Detailed/Server/GodsHierarchy.svg). Gods classes in model package are expanded and clarified.
+  * [Expanded gods-model relationships](/deliveries/final/uml/Detailed/Server/ExpandedGodsModelRelationships.svg).
+  
 
 ### JavaDoc
 TODO
