@@ -6,6 +6,11 @@ package it.polimi.ingsw.PSP034.server;
  * If the parameter specifies differently, it launches the application on the required port.
  */
 public class ServerApp {
+    /**
+     * Starts the socket server, listening to the specified port (if possible). Default port is {@code 2020}.
+     *
+     * @param args Only single optional parameter: {@code PORT}. If the port is not valid, default {@code 2020} is used.
+     */
     public static void main(String[] args) {
         ServerLogger.getInstance().setPrintStreams(System.out);
         int parsedArgs = -1;

@@ -9,7 +9,7 @@ public class ErrorMessage extends RequestClientConfig {
     private final String description;
 
     /**
-     * Initiaizes the message with the error information.
+     * Initializes the message with the error information.
      * @param code Code of the error.
      * @param description Description of th error.
      */

@@ -39,6 +39,11 @@ public class ServerLogger {
         }
     }
 
+    /**
+     * Returns the singleton instance of the class. If there is none, one is created.
+     *
+     * @return Singleton instance of the class.
+     */
     public static ServerLogger getInstance() {
         if(singleton == null){
             singleton = new ServerLogger();
@@ -49,8 +54,9 @@ public class ServerLogger {
     /**
      * Prints necessary logs about {@link Answer} messages. It includes ANSI color.
      * Details about the content of the message are included too.
-     * @param message Message to be logged
-     * @param connection Sender of the message
+     *
+     * @param message Message to be logged.
+     * @param connection Sender of the message.
      */
     public void printAnswerMessage(Answer message, IClientConnection connection){
         String messageDetailedInfo = "";
@@ -100,6 +106,11 @@ public class ServerLogger {
         return result;
     }
 
+    /**
+     * Prints a formatted string to the console.
+     *
+     * @param string String to be printed.
+     */
     public void printString(String string){
         printInfoConsole(string);
     }
@@ -107,9 +118,10 @@ public class ServerLogger {
     /**
      * Prints necessary logs about {@link Request} messages. It includes ANSI color.
      * Details about the content of the message are included too.
-     * @param message Message to be logged
-     * @param playerName Name of the message recipient
-     * @param color Color of the message recipient (ANSI)
+     *
+     * @param message       Message to be logged.
+     * @param playerName    Name of the message recipient.
+     * @param color         Color of the message recipient (ANSI).
      */
     public void printRequestMessage(Request message, String playerName, String color){
         if (message instanceof HeartBeatRequest)
@@ -173,7 +185,8 @@ public class ServerLogger {
     }
 
     /**
-     * Prints synchronously a debug info in the console.
+     * Prints a debug info to the console.
+     *
      * @param string Info to be printed
      */
     private void printInfoConsole(String string){

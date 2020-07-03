@@ -375,7 +375,9 @@ public class Server implements Runnable{
         }
     }
 
-
+    /**
+     * Runs a queue message consumer, forwarding {@link Answer} to controller and model.
+     */
     @Override
     public void run() {
         acceptConnections();

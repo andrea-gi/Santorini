@@ -12,7 +12,7 @@ public abstract class ModelObservable {
     private final ArrayList<ModelObserver> modelObservers;
 
     /**
-     * Instantiates a new empty ModelObserver
+     * Instantiates a new empty ModelObserver.
      */
     public ModelObservable(){
         modelObservers = new ArrayList<>();
@@ -20,7 +20,8 @@ public abstract class ModelObservable {
 
     /**
      * Adds an observer to the observers set.
-     * @param observer Reference to the observer being added
+     *
+     * @param observer Reference to the observer being added.
      */
     public void addObserver(@NotNull ModelObserver observer){
         modelObservers.add(observer);
@@ -28,7 +29,8 @@ public abstract class ModelObservable {
 
     /**
      * Removes an observer to the observers set.
-     * @param observer Reference to the observer being removed
+     *
+     * @param observer Reference to the observer being removed.
      */
     public void removeObserver(@NotNull ModelObserver observer){
         modelObservers.remove(observer);
@@ -37,7 +39,8 @@ public abstract class ModelObservable {
     /**
      * Calls the method {@link ModelObserver#update(ModelUpdate)} for each {@link ModelObserver} in the observers set,
      * notifying a {@link ModelUpdate} message.
-     * @param message Message notified to observers
+     *
+     * @param message Message notified to observers.
      */
     public void notifyObservers(ModelUpdate message){
         for(ModelObserver observer : modelObservers){

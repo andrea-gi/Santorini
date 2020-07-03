@@ -11,8 +11,13 @@ import javafx.stage.Stage;
 
 import java.io.InputStream;
 
+/**
+ * Starting GUI class. Creates a stage and loads the Title scene.
+ */
 public class MainGUI extends Application {
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource(ScenePath.TITLE));

@@ -18,7 +18,7 @@ import java.util.concurrent.*;
 /**
  * Manages the server socket connection to a single client.
  */
-class ClientHandler implements IClientConnection, Runnable{
+public class ClientHandler implements IClientConnection, Runnable{
     private final Socket socket;
     private final Server server;
     private ObjectInputStream in;
@@ -41,6 +41,7 @@ class ClientHandler implements IClientConnection, Runnable{
     /**
      * Creates a new ClientHandler instance with the given parameters.
      * The method registers the instance in the {@link Server}.
+     *
      * @param socket Reference to the socket
      * @param server Reference to the server which instantiates the class
      * @param firstConnected True if creating the ClientHandler associated to the first player connected.
@@ -57,6 +58,7 @@ class ClientHandler implements IClientConnection, Runnable{
 
     /**
      * Synchronously returns the state of the socket connection.
+     *
      * @return {@code true} if the socket connection is still active and usable, {@code false} otherwise
      */
     private boolean isActive(){
@@ -67,6 +69,7 @@ class ClientHandler implements IClientConnection, Runnable{
 
     /**
      * Synchronously saves the state of the socket connection.
+     *
      * @param active {@code true} if the socket connection is still active and usable, {@code false} otherwise
      */
     private void setActive(boolean active){
@@ -76,7 +79,8 @@ class ClientHandler implements IClientConnection, Runnable{
     }
 
     /**
-     * Synchronously tells if a player is an external viewer of the game (player who has already lost).
+     * Synchronously checks if a player is an external viewer of the game (player who has already lost).
+     *
      * @return {@code true} if player is an external viewer
      */
     @Override
@@ -124,6 +128,10 @@ class ClientHandler implements IClientConnection, Runnable{
         this.receivedHeartBeat = received;
     }
 
+    /**
+     * Schedules a heartbeat timeout, when it expires, checks if a heartbeat message was received in the meantime
+     * and, depending on the result, closes the connection or sends a new heartbeat.
+     */
     private void waitHeartBeat(){
         waitingHeartBeat.schedule(()->
         {
@@ -137,6 +145,9 @@ class ClientHandler implements IClientConnection, Runnable{
         }, Constant.HEARTBEAT_PERIOD, TimeUnit.SECONDS);
     }
 
+    /**
+     * Sends a heartbeat to the client and calls {@link ClientHandler#waitHeartBeat()}
+     */
     private void sendHeartBeat(){
         setReceivedHeartBeat(false);
         asyncSend(new HeartBeatRequest());
@@ -234,7 +245,7 @@ class ClientHandler implements IClientConnection, Runnable{
     }
 
     /**
-     * Closes the socket connection
+     * {@inheritDoc}
      */
     @Override
     public synchronized void closeConnection() {
@@ -265,8 +276,7 @@ class ClientHandler implements IClientConnection, Runnable{
     }
 
     /**
-     * Returns the player name associated to the socket
-     * @return Player name
+     * {@inheritDoc}
      */
     @Override
     public synchronized String getName() {
@@ -274,8 +284,7 @@ class ClientHandler implements IClientConnection, Runnable{
     }
 
     /**
-     * Sets the player name associated to the socket
-     * @param name Player name
+     * {@inheritDoc}
      */
     @Override
     public synchronized void setName(String name){
@@ -283,8 +292,7 @@ class ClientHandler implements IClientConnection, Runnable{
     }
 
     /**
-     * Sets the player's color (ANSI) used for logging
-     * @param color Color chosen
+     * {@inheritDoc}
      */
     @Override
     public void setDebugColor(PlayerColor color) {
@@ -292,14 +300,16 @@ class ClientHandler implements IClientConnection, Runnable{
     }
 
     /**
-     * Returns the player color (ANSI) for logging
-     * @return Player color
+     * {@inheritDoc}
      */
     @Override
     public String getDebugColor() {
         return debugColor;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void update(ModelUpdate message) {
         asyncSend(message);
