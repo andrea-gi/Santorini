@@ -12,6 +12,8 @@ import it.polimi.ingsw.PSP034.model.Worker;
  * Class representing Pan's rules and power.
  */
 public class Pan extends GodsRules {
+    private boolean hasBuilt = false;
+
     public Pan(IRules decoratedRules, Player player){
         super(decoratedRules, player);
     }
@@ -28,7 +30,14 @@ public class Pan extends GodsRules {
 
     @Override
     public boolean executeState(TurnPhase currentPhase, Worker worker, Tile tile, boolean choice) {
-        return super.executeState(currentPhase, worker, tile, choice);
+        boolean completed = super.executeState(currentPhase, worker, tile, choice);
+        if (completed) {
+            if (currentPhase == TurnPhase.START)
+                hasBuilt = false;
+            if (currentPhase == TurnPhase.BUILD)
+                hasBuilt = true;
+        }
+        return completed;
     }
 
     @Override
@@ -44,7 +53,7 @@ public class Pan extends GodsRules {
     @Override
     public boolean checkWin(Worker worker){
         if(getPlayer().isOwner(worker)) {
-            if (!(getDefaultRules().checkWin(worker) ||
+            if (hasBuilt || !(getDefaultRules().checkWin(worker) ||
                     worker.getMyTile().getBuilding() + 2 <= super.getPreviousTile().getBuilding()))
                 return false;
         }

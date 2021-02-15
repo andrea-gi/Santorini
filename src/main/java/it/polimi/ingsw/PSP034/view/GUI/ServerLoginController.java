@@ -89,7 +89,7 @@ public class ServerLoginController implements GUIController{
         if (address.length() == 0 || address.length() > 15)
             return false;
         String[] addressComponents = address.split("\\.");
-        if (addressComponents.length > 4)
+        if (addressComponents.length != 4)
             return false;
         for (String chunk : addressComponents){
             int value;

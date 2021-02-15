@@ -2,10 +2,27 @@
   <img src="/src/main/resources/images/santorini.jpg" />
 </p>
 
-# Software Engineering - Final Examination 2019-2020
+# Software Engineering - Bachelor of Science thesis project 2019-2020
 **Group PSP034**
 
-> This final examination project consists in an implementation of the board game Santorini, realised using Java. The main pattern used is a distributed MVC (model-view-controller), in order to create an online multiplayer version of the game.
+> This final examination project consists in a Java implementation of the board game Santorini. The main pattern used is a distributed MVC (model-view-controller), in order to create an online multiplayer version of the game.
+
+Final score: **30/30** (A).
+
+## Table of Contents
+* [Implemented Features](README.md#implemented-features)
+  * [Standard Features](README.md#standard-features)
+  * [Advanced Features](README.md#advanced-features)
+* [How to start JARs](README.md#how-to-start-jars)
+  * [Server](README.md#run-server)
+  * [Client](README.md#run-client)
+    * [CLI](README.md#cli)
+    * [GUI](README.md#gui)
+* [How to create JARs](README.md#how-to-create-jars)
+* [Miscellaneous](README.md#miscellaneous)
+  * [Error codes](README.md#error-codes)
+  * [Server log](README.md#server-log)
+* [Credits](README.md#made-by)
 
 ## Implemented Features
 ### Standard Features
@@ -23,44 +40,6 @@
   * Limus
   * Triton
   * Zeus
-
-## Documentation
-The project documentation includes UML diagrams, JavaDoc and JUnit4 test coverage.
-
-### UML
-Both [high level design](/deliveries/final/uml/Concise) and [detailed design](/deliveries/final/uml/Detailed) diagrams were created.
-
-The [first one](/deliveries/final/uml/Concise/GeneralUML.svg) is an updated version of the initial UML, featuring a concise and schematic representation of the model-controller implementation.
-
-Meanwhile, the latter consists in multiple diagrams, each one with a specific scope, collapsing redundant information:
-
-* [General packages structure](/deliveries/final/uml/Detailed/Packages.svg) and [messages implemented](/deliveries/final/uml/Detailed/Messages.svg).
-
-* Client
-  * [Detailed client application](/deliveries/final/uml/Detailed/Client/DetailedClient.svg). CLI and GUI packages collapsed.
-  * [Detailed CLI client](/deliveries/final/uml/Detailed/Client/DetailedCLIClient.svg). Printables and Scenes packages collapsed.
-  * [Expanded CLI hierarchy](/deliveries/final/uml/Detailed/Client/ExpandedCLIHierarchy.svg). Focuses on CLI sub-packages hierarchy.
-  * [Detailed GUI client](/deliveries/final/uml/Detailed/Client/DetailedGUIClient.svg).
-
-* Server
-  * [Detailed controller package](/deliveries/final/uml/Detailed/Server/DetailedController.svg).
-  * [Detailed model package](/deliveries/final/uml/Detailed/Server/DetailedModel.svg). Gods package collapsed.
-  * [Detailed server package](/deliveries/final/uml/Detailed/Server/DetailedServer.svg).
-  * [Model-controller relationships](/deliveries/final/uml/Detailed/Server/ModelControllerRelationships.svg).
-  * [Server-controller relationships](/deliveries/final/uml/Detailed/Server/ServerControllerRelationships.svg).
-  * [Server application classes relationships](/deliveries/final/uml/Detailed/Server/ServerClassesRelationships.svg).
-  * [Gods hierarchy](/deliveries/final/uml/Detailed/Server/GodsHierarchy.svg). Gods classes in model package are expanded and clarified.
-  * [Expanded gods-model relationships](/deliveries/final/uml/Detailed/Server/ExpandedGodsModelRelationships.svg).
-
-
-### JavaDoc
-JavaDoc is available for every project package. Almost every class and method features a brief JavaDoc description, except for a few obvious getters and setters.
-Full JavaDoc is available [here](/deliveries/final/javadoc/).
-
-### Test Coverage
-Model and controller packages have been tested using JUnit4. Code coverage for both packages is over 95%.
-
-Complete coverage documentation can be found [here](/deliveries/final/report/).
 
 ## How to start JARs
 :warning: Java JRE version 9 or higher is required.
@@ -119,6 +98,42 @@ If you would rather create your own JARs, you can use the included Maven profile
 1. Run Santorini → Lifecycle → Package
 1. Repeat for each desired profile
 
+
+## Documentation
+The project documentation includes UML diagrams, JavaDoc and JUnit4 test coverage.
+
+### UML
+Both [high level design](/deliveries/final/uml/Concise) and [detailed design](/deliveries/final/uml/Detailed) diagrams were created.
+
+The [first one](/deliveries/final/uml/Concise/GeneralUML.svg) is an updated version of the initial UML, featuring a concise and schematic representation of the model-controller implementation.
+
+Meanwhile, the latter consists in multiple diagrams, each one with a specific scope, collapsing redundant information:
+
+* [General packages structure](/deliveries/final/uml/Detailed/Packages.svg) and [messages implemented](/deliveries/final/uml/Detailed/Messages.svg).
+
+* Client
+  * [Detailed client application](/deliveries/final/uml/Detailed/Client/DetailedClient.svg). CLI and GUI packages collapsed.
+  * [Detailed CLI client](/deliveries/final/uml/Detailed/Client/DetailedCLIClient.svg). Printables and Scenes packages collapsed.
+  * [Expanded CLI hierarchy](/deliveries/final/uml/Detailed/Client/ExpandedCLIHierarchy.svg). Focuses on CLI sub-packages hierarchy.
+  * [Detailed GUI client](/deliveries/final/uml/Detailed/Client/DetailedGUIClient.svg).
+
+* Server
+  * [Detailed controller package](/deliveries/final/uml/Detailed/Server/DetailedController.svg).
+  * [Detailed model package](/deliveries/final/uml/Detailed/Server/DetailedModel.svg). Gods package collapsed.
+  * [Detailed server package](/deliveries/final/uml/Detailed/Server/DetailedServer.svg).
+  * [Model-controller relationships](/deliveries/final/uml/Detailed/Server/ModelControllerRelationships.svg).
+  * [Server-controller relationships](/deliveries/final/uml/Detailed/Server/ServerControllerRelationships.svg).
+  * [Server application classes relationships](/deliveries/final/uml/Detailed/Server/ServerClassesRelationships.svg).
+  * [Gods hierarchy](/deliveries/final/uml/Detailed/Server/GodsHierarchy.svg). Gods classes in model package are expanded and clarified.
+  * [Expanded gods-model relationships](/deliveries/final/uml/Detailed/Server/ExpandedGodsModelRelationships.svg).
+
+
+### JavaDoc
+JavaDoc is available for every project package. Almost every class and method features a brief JavaDoc description, except for a few obvious getters and setters.
+
+### Test Coverage
+Model and controller packages have been tested using JUnit4. Code coverage for both packages is over 95%.
+
 ## Miscellaneous
 ### Error codes
 
@@ -134,7 +149,7 @@ S001 | Another client has disconnected. Game has ended.
 S002 | Server is not responding. Heartbeat timeout expired.
 S003 | Severe server error. A message received by the game server was irreparably corrupted.
 
-### Server Log
+### Server log
 The best way to run the server is via terminal interface (with ANSI colors support), since it features a detailed log, useful for debug reasons (e.g. it contains messages exchanged, along with their content).
 The implemented colors are:
 
